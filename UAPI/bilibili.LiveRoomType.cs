@@ -7,6 +7,16 @@ namespace UAPI
         public class LiveRoomType
         {
             /// <summary>
+            /// 详细信息
+            /// </summary>
+            public string details { get; set; }
+
+            /// <summary>
+            /// 错误代码
+            /// </summary>
+            public string error { get; set; }
+
+            /// <summary>
             /// 主播的用户ID (mid)
             /// </summary>
             public long uid { get; set; }
