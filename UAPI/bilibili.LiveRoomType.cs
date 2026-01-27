@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -94,34 +96,32 @@ namespace UAPI
             /// <summary>
             /// 直播间热词列表，通常用于弹幕互动。
             /// </summary>
-            public string[] hot_words { get; set; }
+            public List<string> hot_words { get; set; }
 
-            public List<Pendants> new_pendants { get; set; }
+            [JsonProperty("new_pendants")] public Pendants new_pendants { get; set; }
 
-            public abstract class Pendants
+            [Serializable]
+            public class Pendants
             {
-                public List<Frame> frame { get; set; }
-                public List<Badge> badge { get; set; }
+                [JsonProperty("frame")] // 显式映射JSON字段
+                public Frame frame { get; set; }
 
-                public abstract class Frame
+                [JsonProperty("badge")] public Badge badge { get; set; }
+
+                [Serializable]
+                public class Frame
                 {
-                    public string name { get; set; }
-                    public string value { get; set; }
-                    public string desc { get; set; }
+                    [JsonProperty("name")] public string name { get; set; }
+                    [JsonProperty("value")] public string value { get; set; }
+                    [JsonProperty("desc")] public string desc { get; set; }
                 }
 
-                public abstract class Badge
+                [Serializable]
+                public class Badge
                 {
-                    public string name { get; set; }
-                    public string desc { get; set; }
+                    [JsonProperty("name")] public string name { get; set; }
+                    [JsonProperty("desc")] public string desc { get; set; }
                 }
-            }
-
-            public class CommonProperties
-            {
-                public string name { get; set; }
-                public string description { get; set; }
-                public string value { get; set; }
             }
         }
     }

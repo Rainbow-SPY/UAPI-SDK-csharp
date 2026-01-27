@@ -5,6 +5,7 @@ namespace UAPI.IException
     public static partial class bilibili
     {
         public const string _Bilibili_Service_Error = "bilibili_Service_Error;HttpClient return 502;";
+
         /// <summary>
         /// bilibili API错误或无法请求
         /// </summary>
