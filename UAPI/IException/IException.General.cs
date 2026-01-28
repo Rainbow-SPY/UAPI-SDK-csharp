@@ -1,3 +1,15 @@
+//  Copyright (C) Rainbow-SPY & AxT-Team & UAPI 2019-2026 , All rights reserved.
+//
+//  build on 2026-1-29 4:38
+//  For .NET Framework 4.7.2, With the list of nuget packages:
+//      - Newtonsoft.Json
+//      - System.Net.Http
+//      - Rox (on Github: https://github.com/Rainbow-SPY/Rox
+//      - System.Buffers
+//      - System.Diagnostics.DiagnosticSource
+//  
+//  This code for catch any exceptions from Bilibili API and itself through a third-party interface.
+//  Now Play:       トゲナシトゲアリ (TOGENASHI TOGEARI) - 空の箱 (井芹仁菜、河原木桃香)
 namespace UAPI.IException
 {
     public class General

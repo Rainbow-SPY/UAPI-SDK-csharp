@@ -1,3 +1,15 @@
+//  Copyright (C) Rainbow-SPY & AxT-Team & UAPI 2019-2026 , All rights reserved.
+//
+//  build on 2026-1-29 4:38
+//  For .NET Framework 4.7.2, With the list of nuget packages:
+//      - Newtonsoft.Json
+//      - System.Net.Http
+//      - Rox (on Github: https://github.com/Rainbow-SPY/Rox
+//      - System.Buffers
+//      - System.Diagnostics.DiagnosticSource
+//  
+//  This code for redirecting Bilibili API through a properties of third-party interface.
+//  Now Play:       Ave Mujica - KiLLKiSS
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;

@@ -1,3 +1,15 @@
+//  Copyright (C) Rainbow-SPY & AxT-Team & UAPI 2019-2026 , All rights reserved.
+//
+//  build on 2026-1-29 4:38
+//  For .NET Framework 4.7.2, With the list of nuget packages:
+//      - Newtonsoft.Json
+//      - System.Net.Http
+//      - Rox (on Github: https://github.com/Rainbow-SPY/Rox
+//      - System.Buffers
+//      - System.Diagnostics.DiagnosticSource
+//  
+//  This code for redirecting Bilibili API through a third-party interface.
+//  Now Play:       MyGO!!!!! - 春日影 (MyGO!!!!! ver.)
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,6 +20,9 @@ using static Rox.Text.Json;
 
 namespace UAPI
 {
+    /// <summary>
+    /// bilibili 系列的接口
+    /// </summary>
     public partial class bilibili
     {
         /// <summary>
@@ -102,7 +117,7 @@ namespace UAPI
                             TypeNameHandling = TypeNameHandling.None
                         };
                         WriteLog.Info(LogKind.Json, "反序列化 Json 对象");
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(compressedJson, jsonSettings);
+                        var result = JsonConvert.DeserializeObject<T>(compressedJson, jsonSettings);
                         return (result, statusCode);
                     }
                 }
