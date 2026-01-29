@@ -93,8 +93,12 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="bilibili.ArchiveType.cs" />
+        <Compile Include="bilibili.GetArchives.cs" />
+        <Compile Include="bilibili.GetUserData.cs" />
         <Compile Include="bilibili.LiveRoomType.cs"/>
         <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
+        <Compile Include="bilibili.UserType.cs" />
         <Compile Include="IException\IException.bilibili.cs"/>
         <Compile Include="IException\IException.General.cs"/>
         <Compile Include="IException\IException.QQ.cs" />

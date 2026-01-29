@@ -45,6 +45,9 @@ namespace UAPI
                 case 403:
                     LogLibraries.WriteLog.Warning(LogLibraries.LogKind.Network, "您已被限制限制请求, 因 请求量过大.");
                     break;
+                case 404:
+                    LogLibraries.WriteLog.Warning("未找到用户");
+                    break;
                 case -1:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
                     break;

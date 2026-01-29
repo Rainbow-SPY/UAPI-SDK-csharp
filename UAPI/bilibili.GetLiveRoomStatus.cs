@@ -11,14 +11,9 @@
 //  This code for redirecting Bilibili API through a third-party interface.
 //  Now Play:       MyGO!!!!! - 春日影 (MyGO!!!!! ver.)
 
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
-using static Rox.Text.Json;
 
 namespace UAPI
 {
@@ -30,7 +25,7 @@ namespace UAPI
         /// <summary>
         /// 请求地址
         /// </summary>
-        public const string requestUrl_Main = @"https://uapis.cn/api/v1/social/bilibili";
+        public const string requestUrl_Main = @"https://uapis.cn/api/v1/social/bilibili/";
 
         public class GetLiveRoomStatus
         {
@@ -54,7 +49,7 @@ namespace UAPI
         {
             var (LiveRoomStatus, statusCode) =
                 await Interface.GetResult<LiveRoomType>(
-                    $@"{requestUrl_Main}/liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
+                    $@"{requestUrl_Main}liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
             var a = IsGetSuccessful(LiveRoomStatus, statusCode);
             if (!a) WriteLog.Error(LogKind.Network, "请求失败, 请重试");
 
@@ -69,22 +64,25 @@ namespace UAPI
             {
                 case 400:
                     WriteLog.Error(LogKind.Network,
-                        $"{_value_Not_Is_NullOrEmpty("mid 或 room_id")}, 错误代码: {_String_NullOrEmpty}, 错误信息: {Type?.error} - {Type?.details}");
+                        $"{_value_Not_Is_NullOrEmpty("mid 或 room_id")}, 错误代码: {_String_NullOrEmpty}, 错误信息: {Type.error} - {Type.details}");
                     break;
                 case 500:
                     WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, 错误代码: {IException.General._UAPI_Server_Down}, 错误信息: {Type?.error} - {Type?.details}");
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, 错误代码: {IException.General._UAPI_Server_Down}, 错误信息: {Type.error} - {Type.details}");
                     throw new IException.General.UAPIServerDown();
 
                 case 502:
                     WriteLog.Error(LogKind.Network,
-                        $"bilibili API请求错误, 错误代码: {IException.bilibili._Bilibili_Service_Error}, 错误信息: {Type?.error} - {Type?.details}");
+                        $"bilibili API请求错误, 错误代码: {IException.bilibili._Bilibili_Service_Error}, 错误信息: {Type.error} - {Type.details}");
                     throw new IException.bilibili.BilibiliServiceError();
                 case 200:
                     WriteLog.Info(LogKind.Network, "请求成功");
                     return true;
                 case 403:
                     WriteLog.Warning(LogKind.Network, "您已被限制限制请求, 因 请求量过大.");
+                    break;
+                case 404:
+                    WriteLog.Warning("未找到用户");
                     break;
                 case -1:
                     WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");

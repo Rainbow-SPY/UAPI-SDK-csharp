@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
-using static Rox.Text.Json;
 
 namespace UAPI
 {
@@ -58,9 +57,9 @@ namespace UAPI
                     break;
                 case 500:
                     WriteLog.Error(LogKind.Network,
-                        $"服务器内部错误。在请求QQ数据时发生了未知问题, 错误代码: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}");
+                        $"服务器内部错误。在请求QQ数据时发生了未知问题, 错误代码: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}");
                     MessageBox_I.Error(
-                        $"服务器内部错误。在请求QQ数据时发生了未知问题, 错误代码: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}",
+                        $"服务器内部错误。在请求QQ数据时发生了未知问题, 错误代码: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}",
                         _ERROR);
                     throw new General.UAPIServerDown();
                 case 502:
@@ -69,7 +68,7 @@ namespace UAPI
                     throw new IException.QQ.QQServiceError();
                 default:
                     WriteLog.Error(LogKind.Network, $"未知异常, 请联系管理员, 错误代码: {_UNKNOW_ERROR}");
-                    throw new IException.General.UAPIUnknowException();
+                    throw new General.UAPIUnknowException();
             }
 
             return false;

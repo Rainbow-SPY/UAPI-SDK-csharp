@@ -107,9 +107,7 @@ namespace UAPI
             /// <summary>
             /// 注册时间 (字符串格式)
             /// </summary>
-            public string reg_time_str => DateTime.ParseExact(reg_time, "yyyy-MM-ddTHH:mm:ssZ",
-                    CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)
-                .ToString(CultureInfo.InvariantCulture);
+            public string reg_time_str => DateTime.TryParse(reg_time, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt) ? dt.ToString("yyyy-MM-dd") : string.Empty;
 
             /// <summary>
             /// 最后更新时间（ISO 8601 格式）
@@ -120,9 +118,7 @@ namespace UAPI
             /// <summary>
             /// 最后更新时间 (字符串格式)
             /// </summary>
-            public string last_updated_str => DateTime.ParseExact(last_updated, "yyyy-MM-ddTHH:mm:ssZ",
-                    CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)
-                .ToString(CultureInfo.InvariantCulture);
+            public string last_updated_str => DateTime.TryParse(last_updated, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt) ? dt.ToString("yyyy-MM-dd") : string.Empty;
         }
     }
 }
