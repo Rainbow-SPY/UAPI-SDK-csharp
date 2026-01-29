@@ -10,7 +10,9 @@
 //  
 //  This code for redirecting Bilibili API through a third-party interface.
 //  Now Play:       MyGO!!!!! - 春日影 (MyGO!!!!! ver.)
+
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,9 +34,10 @@ namespace UAPI
 
         public class GetLiveRoomStatus
         {
-            public Task<LiveRoomType> AsID(string mid) => GetLiveRoomStatus_Main(mid, null);
+            public static async Task<LiveRoomType> AsID(string mid) => await GetLiveRoomStatus_Main(mid, null);
 
-            public Task<LiveRoomType> AsLiveroomID(string room_id) => GetLiveRoomStatus_Main(null, room_id);
+            public static async Task<LiveRoomType> AsLiveroomID(string room_id) =>
+                await GetLiveRoomStatus_Main(null, room_id);
         }
 
         private static async Task<LiveRoomType> GetLiveRoomStatus_Main(string mid, string room_id)
@@ -81,7 +84,7 @@ namespace UAPI
             return false;
         }
 
-        public static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class
         {
             try
             {
@@ -106,18 +109,7 @@ namespace UAPI
 
                         WriteLog.Info(LogKind.Json, "压缩 Json");
                         var compressedJson = CompressJson(responseData);
-                        // 新增：反序列化配置（忽略未知字段、空值处理）
-                        var jsonSettings = new JsonSerializerSettings
-                        {
-                            // 忽略JSON中存在但实体类没有的字段
-                            MissingMemberHandling = MissingMemberHandling.Ignore,
-                            // 允许空值
-                            NullValueHandling = NullValueHandling.Ignore,
-                            // 容错类型转换
-                            TypeNameHandling = TypeNameHandling.None
-                        };
-                        WriteLog.Info(LogKind.Json, "反序列化 Json 对象");
-                        var result = JsonConvert.DeserializeObject<T>(compressedJson, jsonSettings);
+                        var result = JsonConvert.DeserializeObject<T>(compressedJson);
                         return (result, statusCode);
                     }
                 }
