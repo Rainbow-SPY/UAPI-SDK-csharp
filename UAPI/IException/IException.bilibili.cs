@@ -10,6 +10,7 @@
 //  
 //  This code for catch any exceptions from Bilibili API and itself through a third-party interface.
 //  Now Play:       Ave Mujica - 颜
+
 using System;
 
 namespace UAPI.IException

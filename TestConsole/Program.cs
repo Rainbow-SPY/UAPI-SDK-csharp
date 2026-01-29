@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using UAPI;
-using static Rox.Runtimes.LogLibraries;
 using static Rox.Runtimes.LocalizedString;
+using static Rox.Runtimes.LogLibraries;
 
 namespace TestConsole
 {

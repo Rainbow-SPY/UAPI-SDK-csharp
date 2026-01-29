@@ -10,6 +10,7 @@
 //  
 //  This code for catch any exceptions from Bilibili API and itself through a third-party interface.
 //  Now Play:       トゲナシトゲアリ (TOGENASHI TOGEARI) - 空の箱 (井芹仁菜、河原木桃香)
+
 namespace UAPI.IException
 {
     public class General

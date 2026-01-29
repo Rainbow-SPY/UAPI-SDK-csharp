@@ -43,7 +43,7 @@ namespace UAPI
         private static async Task<LiveRoomType> GetLiveRoomStatus_Main(string mid, string room_id)
         {
             var (LiveRoomStatus, statusCode) =
-                await GetResult<LiveRoomType>(
+                await Interface.GetResult<LiveRoomType>(
                     $@"{requestUrl_Main}/liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
             var a = IsGetSuccessful(LiveRoomStatus, statusCode);
             if (!a)
@@ -57,6 +57,7 @@ namespace UAPI
 
         internal static bool IsGetSuccessful(LiveRoomType Type, int StatusCode)
         {
+            if (Type == null) return false;
             switch (StatusCode)
             {
                 case 400:
@@ -71,7 +72,6 @@ namespace UAPI
                 case 502:
                     WriteLog.Error(LogKind.Network,
                         $"bilibili API请求错误, 错误代码: {IException.bilibili._Bilibili_Service_Error}, 错误信息: {Type?.error} - {Type?.details}");
-
                     throw new IException.bilibili.BilibiliServiceError();
                 case 200:
                     WriteLog.Info(LogKind.Network, "请求成功");
@@ -79,46 +79,15 @@ namespace UAPI
                 case 403:
                     WriteLog.Warning(LogKind.Network, "您已被限制限制请求, 因 请求量过大.");
                     break;
+                case -1:
+                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
+                    break;
+                default:
+                    WriteLog.Warning(LogKind.Http, "未知错误");
+                    break;
             }
 
             return false;
-        }
-
-        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class
-        {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    using (var response = await httpClient.GetAsync(requestUrl))
-                    {
-                        var statusCode = (int)response.StatusCode;
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            MessageBox_I.Error($"请求失败: {response.StatusCode}, 错误代码: {_HttpClient_Request_Failed}",
-                                _ERROR);
-                            return (null, statusCode);
-                        }
-
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        if (string.IsNullOrEmpty(responseData))
-                        {
-                            WriteLog.Error(LogKind.Http, _void_value_null("HttpClient", "Content"));
-                            return (null, statusCode);
-                        }
-
-                        WriteLog.Info(LogKind.Json, "压缩 Json");
-                        var compressedJson = CompressJson(responseData);
-                        var result = JsonConvert.DeserializeObject<T>(compressedJson);
-                        return (result, statusCode);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
-                throw;
-            }
         }
     }
 }
