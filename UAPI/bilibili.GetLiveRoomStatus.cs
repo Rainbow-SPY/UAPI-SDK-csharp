@@ -34,8 +34,18 @@ namespace UAPI
 
         public class GetLiveRoomStatus
         {
+            /// <summary>
+            /// 使用用户 UID 作为形参请求B站直播间数据
+            /// </summary>
+            /// <param name="mid">用户的 UID</param>
+            /// <returns><see cref="LiveRoomType"/> 对象</returns>
             public static async Task<LiveRoomType> AsID(string mid) => await GetLiveRoomStatus_Main(mid, null);
 
+            /// <summary>
+            /// 使用直播间ID作为形参请求B站直播间的数据
+            /// </summary>
+            /// <param name="room_id">直播间ID</param>
+            /// <returns><see cref="LiveRoomType"/> 对象</returns>
             public static async Task<LiveRoomType> AsLiveroomID(string room_id) =>
                 await GetLiveRoomStatus_Main(null, room_id);
         }
@@ -46,10 +56,7 @@ namespace UAPI
                 await Interface.GetResult<LiveRoomType>(
                     $@"{requestUrl_Main}/liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
             var a = IsGetSuccessful(LiveRoomStatus, statusCode);
-            if (!a)
-            {
-                WriteLog.Error(LogKind.Network, "请求失败, 请重试");
-            }
+            if (!a) WriteLog.Error(LogKind.Network, "请求失败, 请重试");
 
             return LiveRoomStatus;
         }

@@ -97,8 +97,13 @@
         <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
         <Compile Include="IException\IException.bilibili.cs"/>
         <Compile Include="IException\IException.General.cs"/>
+        <Compile Include="IException\IException.QQ.cs" />
         <Compile Include="Interface.common.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="QQ.GetGroupData.cs" />
+        <Compile Include="QQ.GetUserData.cs" />
+        <Compile Include="QQ.GroupType.cs" />
+        <Compile Include="QQ.UserType.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config"/>

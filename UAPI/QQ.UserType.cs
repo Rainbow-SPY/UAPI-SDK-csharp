@@ -1,0 +1,128 @@
+using System;
+using System.Globalization;
+using Newtonsoft.Json;
+
+namespace UAPI
+{
+    public partial class QQ
+    {
+        public class UserType
+        {
+            /// <summary>
+            /// 错误代码
+            /// </summary>
+            [JsonProperty("code")]
+            public string code { get; set; }
+
+            /// <summary>
+            /// 错误信息
+            /// </summary>
+            [JsonProperty("message")]
+            public string message { get; set; }
+
+            /// <summary>
+            /// 详细错误信息
+            /// </summary>
+            [JsonProperty("details")]
+            public string details { get; set; }
+
+            /// <summary>
+            /// QQ号
+            /// </summary>
+            [JsonProperty("qq")]
+            public string qq { get; set; }
+
+            /// <summary>
+            /// 昵称
+            /// </summary>
+            [JsonProperty("nickname")]
+            public string nickname { get; set; }
+
+            /// <summary>
+            /// 个性签名
+            /// </summary>
+            [JsonProperty("long_nick")]
+            public string long_nick { get; set; }
+
+            /// <summary>
+            /// 头像链接
+            /// </summary>
+            [JsonProperty("avatar_url")]
+            public string avatar_url { get; set; }
+
+            /// <summary>
+            /// 年龄
+            /// </summary>
+            [JsonProperty("age")]
+            public int age { get; set; }
+
+            /// <summary>
+            /// 性别
+            /// </summary>
+            [JsonProperty("sex")]
+            public string sex { get; set; }
+
+            /// <summary>
+            /// QQ个性域名
+            /// </summary>
+            [JsonProperty("qid")]
+            public string qid { get; set; }
+
+            /// <summary>
+            /// QQ等级
+            /// </summary>
+            [JsonProperty("qq_level")]
+            public int qq_level { get; set; }
+
+            /// <summary>
+            /// 地理位置
+            /// </summary>
+            [JsonProperty("location")]
+            public string location { get; set; }
+
+            /// <summary>
+            /// 电子邮箱
+            /// </summary>
+            [JsonProperty("email")]
+            public string email { get; set; }
+
+            /// <summary>
+            /// 是否开了SVIP
+            /// </summary>
+            [JsonProperty("is_vip")]
+            public bool is_vip { get; set; }
+
+            /// <summary>
+            /// 会员等级
+            /// </summary>
+            [JsonProperty("vip_level")]
+            public int vip_level { get; set; }
+
+            /// <summary>
+            /// 注册时间（ISO 8601 格式）
+            /// </summary>
+            [JsonProperty("reg_time")]
+            public string reg_time { get; set; }
+
+            /// <summary>
+            /// 注册时间 (字符串格式)
+            /// </summary>
+            public string reg_time_str => DateTime.ParseExact(reg_time, "yyyy-MM-ddTHH:mm:ssZ",
+                    CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)
+                .ToString(CultureInfo.InvariantCulture);
+
+            /// <summary>
+            /// 最后更新时间（ISO 8601 格式）
+            /// </summary>
+            [JsonProperty("last_updated")]
+            public string last_updated { get; set; }
+
+            /// <summary>
+            /// 最后更新时间 (字符串格式)
+            /// </summary>
+            public string last_updated_str => DateTime.ParseExact(last_updated, "yyyy-MM-ddTHH:mm:ssZ",
+                    CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)
+                .ToString(CultureInfo.InvariantCulture);
+        }
+    }
+}
