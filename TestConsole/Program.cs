@@ -19,6 +19,8 @@ namespace TestConsole
             TestBiliArchive().Wait();
             TestQQUser().Wait();
             TestQQGroup().Wait();
+
+            TestGithubRepos().Wait();
             _stopwatch.Reset();
         }
 
@@ -175,6 +177,52 @@ namespace TestConsole
                               $"群公告: {a.group_memo}\n" +
                               $"认证类型: {a.cert_type_str}\n" +
                               $"认证说明: {a.cert_text}\n测试完毕, 共用 {_stopwatch.Elapsed.TotalSeconds} 秒");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public static async Task TestGithubRepos()
+        {
+            WriteLog.Info("测试github仓库");
+            try
+            {
+                _stopwatch.Reset();
+                _stopwatch.Start();
+                var a = await github.GetReposData("torvalds/linux");
+                WriteLog.Info($"完整名称: {a.full_name}\n" +
+                              $"描述: {a.description}\n" +
+                              $"主页: {a.homepage}\n" +
+                              $"默认分支: {a.default_branch}\n" +
+                              $"默认分支SHA值: {a.default_branch_sha}\n" +
+                              $"主要分支: {a.primary_branch}\n" +
+                              $"可见性: {a.visibility}\n" +
+                              $"是否为存档: {a.archived}\n" +
+                              $"是否禁用: {a.disabled}\n" +
+                              $"是否为Fork的仓库: {a.fork}\n" +
+                              $"主要代码语言: {a.language}\n" +
+                              $"话题: {a.topics}\n" +
+                              $"许可证: {a.license}\n" +
+                              $"Star 数量: {a.stargazers}\n" +
+                              $"Fork 的数量: {a.forks}\n" +
+                              $"打开的Issue: {a.open_issues}\n" +
+                              $"关注人数: {a.watchers}\n" +
+                              $"推送时间: {a.pushed_at_str}\n" +
+                              $"创建仓库时间: {a.created_at_str}\n" +
+                              $"更新时间: {a.updated_at_str}\n" +
+                              $"代码语言: {a.languages}\n" +
+                              $"仓库协作者: {a.collaborators}\n");
+                foreach (var t in a.maintainers)
+                {
+                    WriteLog.Info($"协作者: {t.login}\n" +
+                                  $"名称: {t.name}\n" +
+                                  $"邮箱: {t.email}\n" +
+                                  $"个人主页: {t.url}\n\n");
+                }
+                WriteLog.Info($"测试完毕, 共用时 {_stopwatch.Elapsed.TotalSeconds} 秒");
             }
             catch (Exception e)
             {

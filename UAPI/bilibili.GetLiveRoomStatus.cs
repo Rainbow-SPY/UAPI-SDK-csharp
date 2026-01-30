@@ -51,7 +51,7 @@ namespace UAPI
                 await Interface.GetResult<LiveRoomType>(
                     $@"{requestUrl_Main}liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
             var a = IsGetSuccessful(LiveRoomStatus, statusCode);
-            if (!a) WriteLog.Error(LogKind.Network, "请求失败, 请重试");
+            if (!a) WriteLog.Error(LogKind.Network, $"请求失败, 请重试, 返回值: {statusCode}");
 
             return LiveRoomStatus;
         }

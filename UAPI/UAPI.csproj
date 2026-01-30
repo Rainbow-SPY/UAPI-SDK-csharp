@@ -99,8 +99,11 @@
         <Compile Include="bilibili.LiveRoomType.cs"/>
         <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
         <Compile Include="bilibili.UserType.cs" />
+        <Compile Include="github.repos.cs" />
+        <Compile Include="github.ReposType.cs" />
         <Compile Include="IException\IException.bilibili.cs"/>
         <Compile Include="IException\IException.General.cs"/>
+        <Compile Include="IException\IException.github.cs" />
         <Compile Include="IException\IException.QQ.cs" />
         <Compile Include="Interface.common.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
