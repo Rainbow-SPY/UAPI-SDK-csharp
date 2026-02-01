@@ -8,6 +8,9 @@ using static Rox.Text.Json;
 
 namespace UAPI
 {
+    /// <summary>
+    /// UAPI常规方法接口
+    /// </summary>
     public class Interface
     {
         /// <summary>
@@ -25,14 +28,6 @@ namespace UAPI
                     using (var response = await httpClient.GetAsync(requestUrl))
                     {
                         var statusCode = (int)response.StatusCode;
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            LogLibraries.MessageBox_I.Error(
-                                $"请求失败: {response.StatusCode}, 错误代码: {_HttpClient_Request_Failed}",
-                                _ERROR);
-                            return (null, statusCode);
-                        }
-
                         var responseData = await response.Content.ReadAsStringAsync();
                         if (string.IsNullOrEmpty(responseData))
                         {

@@ -19,7 +19,8 @@ namespace TestConsole
             TestBiliArchive().Wait();
             TestQQUser().Wait();
             TestQQGroup().Wait();
-
+            TestSteamUser().Wait();
+            Task.Run(EpicGames.GetDataJson).Wait();
             TestGithubRepos().Wait();
             _stopwatch.Reset();
         }
@@ -56,6 +57,37 @@ namespace TestConsole
             {
                 WriteLog.Info(_Exception_With_xKind("捕获到LiveRoomStatus错误暂停", e));
                 Console.ReadLine();
+            }
+        }
+
+        public static async Task TestSteamUser()
+        {
+            WriteLog.Info("测试Steam用户");
+            try
+            {
+                _stopwatch.Reset();
+                _stopwatch.Start();
+                var a = await Steam.GetUserData("Rainbow-SPY");
+                WriteLog.Info(LogKind.Network, $"API 返回的代码: {a.code}");
+                WriteLog.Info(LogKind.Network, $"SteamID64: {a.steamid}");
+                WriteLog.Info(LogKind.Network, $"个人资料可见性: {a.communityvisibilitystate}");
+                WriteLog.Info(LogKind.Network, $"Steam ID3: {a.steamID3}");
+                WriteLog.Info(LogKind.Network, $"Steam 用户名: {a.personaname}");
+                WriteLog.Info(LogKind.Network, $"个人资料主页链接: {a.profileurl}");
+                WriteLog.Info(LogKind.Network, $"头像地址: {a.avatarfull}");
+                WriteLog.Info(LogKind.Network, $"在线状态: {a.personastate}");
+                WriteLog.Info(LogKind.Network, $"真实姓名: {a.realname}");
+                WriteLog.Info(LogKind.Network, $"主要社区组ID: {a.primaryclanid}");
+                WriteLog.Info(LogKind.Network, $"账户创建时间戳: {a.timecreated}");
+                WriteLog.Info(LogKind.Network, $"账户创建时间: {a.timecreated_str}");
+                WriteLog.Info(LogKind.Network, $"账户所属国家或地区: {a.loccountrycode}");
+                WriteLog.Info(LogKind.Network, $"好友代码: {a.friendcode}");
+                WriteLog.Info($"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
+            }
+            catch (Exception e)
+            {
+                WriteLog.Error(_Exception_With_xKind("捕获到SteamType错误", e));
+                throw;
             }
         }
 
@@ -222,6 +254,7 @@ namespace TestConsole
                                   $"邮箱: {t.email}\n" +
                                   $"个人主页: {t.url}\n\n");
                 }
+
                 WriteLog.Info($"测试完毕, 共用时 {_stopwatch.Elapsed.TotalSeconds} 秒");
             }
             catch (Exception e)

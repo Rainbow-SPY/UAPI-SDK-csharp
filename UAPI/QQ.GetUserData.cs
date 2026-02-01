@@ -12,14 +12,21 @@
 //  Now Play:       Ave Mujica - 颜
 
 using System.Threading.Tasks;
+using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 
 namespace UAPI
 {
+    /// <summary>
+    /// QQ相关请求
+    /// </summary>
     public partial class QQ
     {
+        /// <summary>
+        /// UAPI公用请求API地址
+        /// </summary>
         public const string _UAPI_Request_Url = @"https://uapis.cn/api/v1/social/qq/";
 
         /// <summary>
@@ -46,29 +53,46 @@ namespace UAPI
             if (Type == null) return false;
             switch (StatusCode)
             {
-                case 200:
-                    WriteLog.Info(LogKind.Network, $"请求成功");
-                    return true;
                 case 400:
-                    WriteLog.Error(LogKind.Network, $"无效的请求, 缺少必要的参数");
-                    break;
-                case 404:
-                    WriteLog.Error(LogKind.Network, $"获取QQ用户信息失败或用户不存在");
+                    LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
+                        $"{_value_Not_Is_NullOrEmpty("qq")}, 错误代码: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"{_value_Not_Is_NullOrEmpty("qq")}, 错误代码: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}",
+                        _ERROR);
                     break;
                 case 500:
-                    WriteLog.Error(LogKind.Network,
-                        $"服务器内部错误。在请求QQ数据时发生了未知问题, 错误代码: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}");
-                    MessageBox_I.Error(
-                        $"服务器内部错误。在请求QQ数据时发生了未知问题, 错误代码: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}",
+                    LogLibraries.WriteLog.Error(
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, 错误代码: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, 错误代码: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
-                    throw new General.UAPIServerDown();
+                    throw new IException.General.UAPIServerDown();
                 case 502:
-                    WriteLog.Error(LogKind.Network,
-                        $"QQ上游服务异常, 错误代码: {IException.QQ._QQ_Service_Error}, 错误信息: {Type.code} - {Type.message}");
+                    LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
+                        $"QQ API请求错误, 错误码: {IException.QQ._QQ_Service_Error}, 错误信息: {Type.code} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"QQ API请求错误, 错误码: {IException.QQ._QQ_Service_Error}, 错误信息: {Type.code} - {Type.details}",
+                        _ERROR);
                     throw new IException.QQ.QQServiceError();
+                case 200:
+                    LogLibraries.WriteLog.Info(LogLibraries.LogKind.Network, "请求成功");
+                    return true;
+                case 403:
+                    LogLibraries.WriteLog.Warning(LogLibraries.LogKind.Network, "您已被限制限制请求, 因 请求量过大.");
+                    LogLibraries.MessageBox_I.Warning("您已被限制请求, 因 请求量过大.", _ERROR);
+                    break;
+                case 404:
+                    LogLibraries.WriteLog.Warning("未找到用户");
+                    LogLibraries.MessageBox_I.Warning("未找到用户", _ERROR);
+                    break;
+                case -1:
+                    LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
+                    LogLibraries.MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
+                    break;
                 default:
-                    WriteLog.Error(LogKind.Network, $"未知异常, 请联系管理员, 错误代码: {_UNKNOW_ERROR}");
-                    throw new General.UAPIUnknowException();
+                    LogLibraries.WriteLog.Error(LogLibraries.LogKind.Http, "未知错误");
+                    LogLibraries.MessageBox_I.Error("发生了未知错误", _ERROR);
+                    break;
             }
 
             return false;

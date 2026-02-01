@@ -12,25 +12,26 @@
         <AssemblyName>UAPI</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <DocumentationFile>..\..\..\%24Release\Rox\Rox.Runtimes.xml</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <DocumentationFile>..\..\..\%24Release\Rox\Rox.Runtimes.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -99,8 +100,13 @@
         <Compile Include="bilibili.LiveRoomType.cs"/>
         <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
         <Compile Include="bilibili.UserType.cs" />
-        <Compile Include="github.repos.cs" />
+        <Compile Include="EpicGames.GetFreeGames.cs" />
+        <Compile Include="EpicGames.GetFreeGames.EpicType.cs" />
+        <Compile Include="github.GetReposData.cs" />
         <Compile Include="github.ReposType.cs" />
+        <Compile Include="IException\IException.EpicGames.cs" />
+        <Compile Include="IException\IException.Steam.cs" />
+        <Compile Include="IException\IException.Weather.cs" />
         <Compile Include="IException\IException.bilibili.cs"/>
         <Compile Include="IException\IException.General.cs"/>
         <Compile Include="IException\IException.github.cs" />
@@ -111,6 +117,11 @@
         <Compile Include="QQ.GetUserData.cs" />
         <Compile Include="QQ.GroupType.cs" />
         <Compile Include="QQ.UserType.cs" />
+        <Compile Include="Steam.SteamID.Converter.cs" />
+        <Compile Include="Steam.SteamID.cs" />
+        <Compile Include="Steam.SteamID.SteamIDType.cs" />
+        <Compile Include="Steam.GetUserData.cs" />
+        <Compile Include="Steam.SteamType.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config"/>
