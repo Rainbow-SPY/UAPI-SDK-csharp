@@ -15,9 +15,12 @@ using System;
 
 namespace UAPI.IException
 {
-    public static partial class bilibili
+    /// <summary>
+    /// bilibili综合相关的异常
+    /// </summary>
+    public class bilibili
     {
-        public const string _Bilibili_Service_Error = "bilibili_Service_Error;HttpClient return 502;";
+        internal const string _Bilibili_Service_Error = "bilibili_Service_Error;HttpClient return 502;";
 
         /// <summary>
         /// bilibili API错误或无法请求

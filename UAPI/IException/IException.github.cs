@@ -1,8 +1,11 @@
 namespace UAPI.IException
 {
+    /// <summary>
+    /// github综合相关异常
+    /// </summary>
     public class github
     {
-        public const string _Github_ServiceError = "Github API Error;HttpClient return 502";
+        internal const string _Github_ServiceError = "Github API Error;HttpClient return 502";
         /// <summary>
         /// 上游 GitHub API 出错或不可用
         /// </summary>

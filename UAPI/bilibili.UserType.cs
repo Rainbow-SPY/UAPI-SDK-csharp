@@ -4,6 +4,9 @@ namespace UAPI
 {
     public partial class bilibili
     {
+        /// <summary>
+        /// 查询bilibili用户时返回的Json列表
+        /// </summary>
         public class UserType
         {
             /// <summary>

@@ -19,9 +19,16 @@ namespace UAPI
         /// </summary>
         /// <param name="steamType"> <see cref="SteamType"/> 对象, 其中包含了 Steam 用户的在线状态信息</param>
         /// <returns> Steam 用户的在线状态字符串</returns>
-        public static string GetPersonalState(SteamType steamType)
+        public static string GetPersonalState(SteamType steamType) => GetPersonalState(steamType.personastate);
+
+        /// <summary>
+        /// 获取 Steam 用户的在线状态, 此方法仅限于 <see cref="SteamType"/> 的 <see cref="SteamType.personastate"/> 属性。
+        /// </summary>
+        /// <param name="PersonaState"><see cref="SteamType.personastate"/>属性值</param>
+        /// <returns> Steam 用户的在线状态字符串</returns>
+        public static string GetPersonalState(int PersonaState)
         {
-            switch (steamType.personastate)
+            switch (PersonaState)
             {
                 case 0:
                     return "离线或私密";
@@ -45,11 +52,27 @@ namespace UAPI
         /// <summary>
         /// 获取 Steam 用户的社区可见性状态, 此方法仅限于 <see cref="SteamType"/> 的 <see cref="SteamType.communityvisibilitystate"/> 属性。
         /// </summary>
-        /// <param name="steamType"> <see cref="SteamType"/> 对象, 其中包含了 Steam 用户的社区可见性状态信息</param>
+        /// <param name="CommunityVisibilityState"><see cref="SteamType.communityvisibilitystate"/> 属性值</param>
+        /// <returns> Steam 用户的社区可见性状态字符串</returns>
+        public static string GetCommunityVisibilityState(int CommunityVisibilityState) => CommunityVisibilityState == 1
+            ? "私密"
+            : (CommunityVisibilityState == 3 ? "公开" : "未知");
+
+        /// <summary>
+        /// 获取 Steam 用户的社区可见性状态, 此方法仅限于 <see cref="SteamType"/> 的 <see cref="SteamType.communityvisibilitystate"/> 属性。
+        /// </summary>
+        /// <param name="steamType"><see cref="SteamType"/> 对象</param>
         /// <returns> Steam 用户的社区可见性状态字符串</returns>
         public static string GetCommunityVisibilityState(SteamType steamType) => steamType.communityvisibilitystate == 1
             ? "私密"
             : (steamType.communityvisibilitystate == 3 ? "公开" : "未知");
+
+        /// <summary>
+        /// 获取 Steam 用户的个人资料状态, 此方法仅限于 <see cref="SteamType"/> 的 <see cref="SteamType.profilestate"/> 属性。
+        /// </summary>
+        /// <param name="profilestate"><see cref="SteamType.profilestate"/> 属性, Steam 用户的个人资料状态信息</param>
+        /// <returns> Steam 用户的个人资料状态字符串</returns>
+        public static string GetProfileState(int profilestate) => profilestate == 1 ? "已填写个人资料" : "未填写个人资料";
 
         /// <summary>
         /// 获取 Steam 用户的个人资料状态, 此方法仅限于 <see cref="SteamType"/> 的 <see cref="SteamType.profilestate"/> 属性。

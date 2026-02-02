@@ -6,6 +6,9 @@ namespace UAPI
 {
     public partial class QQ
     {
+        /// <summary>
+        /// 查询QQ用户时返回的Json列表
+        /// </summary>
         public class UserType
         {
             /// <summary>

@@ -6,6 +6,9 @@ namespace UAPI
 {
     public partial class bilibili
     {
+        /// <summary>
+        /// 查询bilibili稿件时返回的Json列表
+        /// </summary>
         public class ArchiveType
         {
             /// <summary>
@@ -41,8 +44,11 @@ namespace UAPI
             /// <summary>
             /// 视频的详细信息
             /// </summary>
-            public List<Videos> videos { get; set; }
+            public List<Videos> videos { get; }
 
+            /// <summary>
+            /// 视频的综合数据
+            /// </summary>
             public class Videos
             {
                 /// <summary>
@@ -80,14 +86,20 @@ namespace UAPI
                 /// </summary>
                 public long publish_time { get; set; }
 
+                /// <summary>
+                /// 视频发布的时间 (字符串格式)
+                /// </summary>
                 public string publish_time_str => TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
                     .AddSeconds(publish_time).ToString(CultureInfo.CurrentCulture); //当地时区
 
                 /// <summary>
-                /// 创建时间戳
+                /// 视频创建的时间 (时间戳格式)
                 /// </summary>
                 public long create_time { get; set; }
 
+                /// <summary>
+                /// 视频创建的时间 (字符串格式)
+                /// </summary>
                 public string create_time_str => TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
                     .AddSeconds(create_time).ToString(CultureInfo.CurrentCulture); //当地时区
 

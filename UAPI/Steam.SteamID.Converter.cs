@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using static UAPI.Steam.SteamID;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 
@@ -69,7 +68,7 @@ namespace UAPI
                         case SteamIDType.SteamID64:
                             return (long.Parse(SteamID) - 76561197960265728).ToString();
                         case SteamIDType.Invalid:
-                            return null;
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(SteamID), "不是可以解析的 SteamID ");
                     }
@@ -107,7 +106,7 @@ namespace UAPI
                         case SteamIDType.SteamID64:
                             return SteamID;
                         case SteamIDType.Invalid:
-                            return null;
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(SteamID), "不是可以解析的 SteamID");
                     }
@@ -141,7 +140,7 @@ namespace UAPI
                         case SteamIDType.SteamID32:
                             return $"[U:1:{SteamID}]";
                         case SteamIDType.Invalid:
-                            return null;
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(SteamID), "不是可以解析的 SteamID");
                     }
@@ -162,7 +161,7 @@ namespace UAPI
                         return null;
                     }
 
-                    long SteamID32 = 0;
+                    long SteamID32;
 
                     switch (Identifier(SteamID))
                     {
@@ -183,7 +182,7 @@ namespace UAPI
                             throw new ArgumentOutOfRangeException(nameof(SteamID), "不是可以解析的 SteamID");
                     }
 
-                    return $"STEAM_0:{(SteamID32) & 1}:{(SteamID32 - ((SteamID32) & 1)) / 2}";
+                    return $"STEAM_0:{SteamID32 & 1}:{(SteamID32 - ((SteamID32) & 1)) / 2}";
                 }
             }
         }

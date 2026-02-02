@@ -5,12 +5,12 @@ namespace UAPI.IException
     /// <summary>
     /// <see langword="Rox.GameExpansionFeatures.Steam"/> 的常见异常
     /// </summary>
-    public class Steam : System.Exception
+    public class Steam : Exception
     {
         /// <summary>
         /// 提供的Steam Web API Key 无效或已过期
         /// </summary>
-        public class UnAuthenticatedSteamKey : System.Exception
+        public class UnAuthenticatedSteamKey : Exception
         {
             /// <summary>
             /// 提供的Steam Web API Key 无效或已过期
@@ -40,7 +40,7 @@ namespace UAPI.IException
         /// <summary>
         /// Steam 服务不可用, 无法访问 Steam 相关服务, 可以访问 <see href="https://steamstat.us/"/> 查看 Steam 服务当前情况
         /// </summary>
-        public class SteamServiceError : System.Exception
+        public class SteamServiceError : Exception
         {
             /// <summary>
             /// Steam 服务暂时中断, 可以访问 <see href="https://steamstat.us/"/> 查看 Steam 服务当前情况

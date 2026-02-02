@@ -101,12 +101,12 @@ namespace UAPI
             /// <summary>
             /// 好友代码 （SteamID32）
             /// </summary>
-            public string friendcode => UAPI.Steam.GetFriendCode(steamid.ToString());
+            public string friendcode => GetFriendCode(steamid);
 
             /// <summary>
             /// SteamID3
             /// </summary>
-            public string steamID3 => UAPI.Steam.SteamID.Converter.ToSteamID3(steamid.ToString());
+            public string steamID3 => SteamID.Converter.ToSteamID3(steamid);
         }
     }
 }

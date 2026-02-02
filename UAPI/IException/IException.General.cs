@@ -13,11 +13,14 @@
 
 namespace UAPI.IException
 {
+    /// <summary>
+    /// UAPI平台综合常见异常
+    /// </summary>
     public class General
     {
-        public const string _UAPI_Unknown_Exception = "UAPI_Unknown_Exception";
+        internal const string _UAPI_Unknown_Exception = "UAPI_Unknown_Exception";
 
-        public const string _UAPI_Server_Down =
+        internal const string _UAPI_Server_Down =
             "UAPI_Server_Down;HttpClient return 500;";
 
         /// <summary>

@@ -5,6 +5,9 @@ namespace UAPI
 {
     public partial class bilibili
     {
+        /// <summary>
+        /// 查询bilibili直播间时返回的Json列表
+        /// </summary>
         public class LiveRoomType
         {
             /// <summary>

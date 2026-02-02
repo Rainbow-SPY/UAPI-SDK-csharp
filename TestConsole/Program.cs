@@ -68,14 +68,14 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await Steam.GetUserData("Rainbow-SPY");
-                WriteLog.Info(LogKind.Network, $"API 返回的代码: {a.code}");
                 WriteLog.Info(LogKind.Network, $"SteamID64: {a.steamid}");
-                WriteLog.Info(LogKind.Network, $"个人资料可见性: {a.communityvisibilitystate}");
+                WriteLog.Info(LogKind.Network, $"个人资料可见性: {Steam.GetCommunityVisibilityState(a.communityvisibilitystate)}");
                 WriteLog.Info(LogKind.Network, $"Steam ID3: {a.steamID3}");
                 WriteLog.Info(LogKind.Network, $"Steam 用户名: {a.personaname}");
                 WriteLog.Info(LogKind.Network, $"个人资料主页链接: {a.profileurl}");
+                WriteLog.Info(LogKind.Network, $"是否填写了个人资料: {Steam.GetProfileState(a.profilestate)}");
                 WriteLog.Info(LogKind.Network, $"头像地址: {a.avatarfull}");
-                WriteLog.Info(LogKind.Network, $"在线状态: {a.personastate}");
+                WriteLog.Info(LogKind.Network, $"在线状态: {Steam.GetPersonalState(a.personastate)}");
                 WriteLog.Info(LogKind.Network, $"真实姓名: {a.realname}");
                 WriteLog.Info(LogKind.Network, $"主要社区组ID: {a.primaryclanid}");
                 WriteLog.Info(LogKind.Network, $"账户创建时间戳: {a.timecreated}");
@@ -87,6 +87,53 @@ namespace TestConsole
             catch (Exception e)
             {
                 WriteLog.Error(_Exception_With_xKind("捕获到SteamType错误", e));
+                throw;
+            }
+        }
+
+        public static async Task TestWeather()
+        {
+            WriteLog.Info("测试天气......");
+            try
+            {
+                var result = await Weather.GetWeatherDataJson(city: "连云港", true, true, true);
+                WriteLog.Info("Weather",
+                    $"请求位置: {result.province} {result.city} Adcode: {result.adcode}\n" +
+                    $"今日天气: {result.weather}, 气温:{result.temperature} ℃, 最高气温: {result.temp_max} ℃, 最低气温: {result.temp_min} ℃\n" +
+                    $"风向: {result.wind_direction}, 风力 {result.wind_power}, 湿度 {result.humidity}%\n" +
+                    "\n");
+                // 先校验 ForecastData 是否为 null，避免空引用
+                if (result.forecast == null || result.forecast.Count == 0)
+                    WriteLog.Warning("Weather", "未来三天天气预报数据为空，跳过遍历");
+                else
+                {
+                    WriteLog.Info("Weather", $"未来三天的天气预报");
+                    foreach (var _data in result.forecast)
+                        WriteLog.Info("Weather Forcast",
+                            $"{_data.date} 的天气预报:\n" + $"白天天气: {_data.weather_day}, 夜间天气: {_data.weather_night}\n" +
+                            $"最高温度: {_data.temp_max} ℃, 最低温度: {_data.temp_min} ℃\n" +
+                            $"降水量: {_data.precip} mm, 能见度: {_data.visibility} km, 紫外线指数: {_data.uv_index}");
+                }
+
+                WriteLog.Info("Weather",
+                    $"体感温度: {result.feels_like} ℃, 能见度: {result.visibility} km, 紫外线指数: {result.uv}\n" +
+                    $"空气质量指数: {result.aqi}, 降水量: {result.precipitation} mm, 云量: {result.cloud} %, 气压: {result.pressure} hPa");
+
+                var b = result.life_indices;
+                WriteLog.Info("Weather Indices",
+                    $"穿衣指数: {b.clothing.level},简述: {b.clothing.brief},建议: {b.clothing.advice}\n" +
+                    $"紫外线指数: {b.uv.level},简述: {b.uv.brief},建议: {b.uv.advice}\n" +
+                    $"洗车指数: {b.car_wash.level},简述: {b.car_wash.brief},建议: {b.car_wash.advice}\n" +
+                    $"晾晒指数: {b.drying.level},简述: {b.drying.brief},建议: {b.drying.advice}\n" +
+                    $"空调指数: {b.air_conditioner.level},简述: {b.air_conditioner.brief},建议: {b.air_conditioner.advice}\n" +
+                    $"感冒指数: {b.cold_risk.level},简述: {b.cold_risk.brief},建议: {b.cold_risk.advice}\n" +
+                    $"运动指数: {b.exercise.level},简述: {b.exercise.brief},建议: {b.exercise.advice}\n" +
+                    $"舒适度指数: {b.comfort.level},简述: {b.comfort.brief},建议: {b.comfort.advice}\n" +
+                    $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
+            }
+            catch (Exception e)
+            {
+                WriteLog.Error(_Exception_With_xKind("TestWeather", e));
                 throw;
             }
         }
@@ -144,7 +191,8 @@ namespace TestConsole
                                   $"创建时间: {b.create_time_str}\n" +
                                   $"视频状态: {b.state}\n" +
                                   $"是否为充电视频: {b.is_ugc_pay_str}\n" +
-                                  $"是否为共创视频: {b.is_interactive}\n共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
+                                  $"是否为共创视频: {b.is_interactive}\n" +
+                                  $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
                 }
             }
             catch (Exception e)
@@ -175,7 +223,8 @@ namespace TestConsole
                               $"是否为S/VIP: {a.is_vip}\n" +
                               $"vip等级: {a.vip_level}\n" +
                               $"注册时间: {a.reg_time_str}\n" +
-                              $"最后更新时间: {a.last_updated_str}\n共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
+                              $"最后更新时间: {a.last_updated_str}\n" +
+                              $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
             }
             catch (Exception e)
             {
@@ -208,7 +257,8 @@ namespace TestConsole
                               $"群等级: {a.group_grade}\n" +
                               $"群公告: {a.group_memo}\n" +
                               $"认证类型: {a.cert_type_str}\n" +
-                              $"认证说明: {a.cert_text}\n测试完毕, 共用 {_stopwatch.Elapsed.TotalSeconds} 秒");
+                              $"认证说明: {a.cert_text}\n" +
+                              $"测试完毕, 共用 {_stopwatch.Elapsed.TotalSeconds} 秒");
             }
             catch (Exception e)
             {

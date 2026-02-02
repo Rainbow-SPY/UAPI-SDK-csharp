@@ -4,6 +4,9 @@ namespace UAPI
 {
     public partial class QQ
     {
+        /// <summary>
+        /// 查询QQ群组返回的Json列表
+        /// </summary>
         public class GroupType
         {
             /// <summary>

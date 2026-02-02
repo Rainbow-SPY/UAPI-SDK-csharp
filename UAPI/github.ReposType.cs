@@ -7,6 +7,9 @@ namespace UAPI
 {
     public partial class github
     {
+        /// <summary>
+        /// 查询github仓库时返回的Json列表
+        /// </summary>
         public class ReposType
         {
             /// <summary>
@@ -190,6 +193,9 @@ namespace UAPI
                     : string.Empty;
         }
 
+        /// <summary>
+        /// 维护者
+        /// </summary>
         public class Maintainer
         {
             /// <summary>
