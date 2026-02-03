@@ -44,7 +44,7 @@ namespace UAPI
             /// <summary>
             /// 视频的详细信息
             /// </summary>
-            public List<Videos> videos { get; }
+            public List<Videos> videos { get; set; }
 
             /// <summary>
             /// 视频的综合数据

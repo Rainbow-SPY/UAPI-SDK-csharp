@@ -12,7 +12,7 @@ namespace UAPI
             /// <summary>
             /// 返回值
             /// </summary>
-            public string code { get; }
+            public string code { get;  set; }
             /// <summary>
             /// 信息
             /// </summary>

@@ -12,17 +12,17 @@ namespace UAPI
             /// <summary>
             /// 用户名
             /// </summary>
-            public string username { get; }
+            public string username { get; set;  }
 
             /// <summary>
             /// 玩家的32位无破折号UUID。
             /// </summary>
-            public string uuid { get; }
+            public string uuid { get;  set; }
 
             /// <summary>
             /// 玩家当前使用的皮肤图片URL。
             /// </summary>
-            public string skin_url { get; }
+            public string skin_url { get;  set; }
 
             /// <summary>
             /// 详细错误信息

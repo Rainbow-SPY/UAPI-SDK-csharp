@@ -4,51 +4,54 @@ using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
-    /// <summary>
-    /// Minecraft 相关请求
-    /// </summary>
     public partial class minecraft
     {
-        internal const string requestUrl = @"https://uapis.cn/api/v1/game/minecraft/userinfo";
+        /// <summary>
+        /// 查询Minecraft游戏服务器
+        /// </summary>
+        /// <param name="server">服务器的IP地址或域名</param>
+        /// <returns><see cref="ServerType"/> 对象</returns>
+        public static async Task<ServerType> GetServerStatus(string server) => await GetServerStatus(server, -1);
 
         /// <summary>
-        /// 获取 Minecraft 正版 Mojang 账号的数据
+        /// 查询Minecraft游戏服务器
         /// </summary>
-        /// <param name="username">Minecraft 用户名</param>
-        /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string username)
+        /// <param name="server">服务器的IP地址或域名</param>
+        /// <param name="port">端口号</param>
+        /// <returns><see cref="ServerType"/> 对象</returns>
+        public static async Task<ServerType> GetServerStatus(string server, int port = 25565)
         {
-            var (result, statusCode) = await Interface.GetResult<UserType>($"{requestUrl}?username={username}");
-            if (!IsGetSuccessful(result, statusCode))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
+            var (result, statusCode) = await Interface.GetResult<ServerType>(
+                $"https://uapis.cn/api/v1/game/minecraft/serverstatus?server={server}{(port == -1 ? "" : $":{port}")}");
+            if (!IsGetSuccessful(result, statusCode)) LogLibraries.WriteLog.Error("请求失败,请重试!");
             return result;
         }
 
-        internal static bool IsGetSuccessful(UserType Type, int StatusCode)
+        internal static bool IsGetSuccessful(ServerType Type, int StatusCode)
         {
             if (Type == null) return false;
             switch (StatusCode)
             {
                 case 400:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
-                        $"{_value_Not_Is_NullOrEmpty("owner_and_repo")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.error} - {Type.details}");
+                        $"{_value_Not_Is_NullOrEmpty("server")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}");
                     LogLibraries.MessageBox_I.Error(
-                        $"{_value_Not_Is_NullOrEmpty("owner_and_repo")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.error} - {Type.details}",
+                        $"{_value_Not_Is_NullOrEmpty("server")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
                     break;
                 case 500:
                     LogLibraries.WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.error} - {Type.details}");
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}");
                     LogLibraries.MessageBox_I.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.error} - {Type.details}",
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
                     throw new IException.General.UAPIServerDown();
 
                 case 502:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
-                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.error} - {Type.details}");
+                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.code} - {Type.details}");
                     LogLibraries.MessageBox_I.Error(
-                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.error} - {Type.details}",
+                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
                     throw new IException.minecraft.MojangAPIServiceError();
                 case 200:

@@ -15,12 +15,12 @@ namespace UAPI
             /// <summary>
             /// 详细错误信息
             /// </summary>
-            public string details { get; }
+            public string details { get; set;  }
 
             /// <summary>
             /// 错误信息
             /// </summary>
-            public string message { get; }
+            public string message { get; set;  }
 
             /// <summary>
             /// SteamID64

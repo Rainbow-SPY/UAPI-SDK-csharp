@@ -106,7 +106,7 @@ namespace UAPI
 
                 case 200:
                     WriteLog.Info(LogKind.Network, $"请求成功");
-                    break;
+                    return true;
                 default:
                     WriteLog.Error(LogKind.Network, $"未知异常, 请联系管理员, 错误代码: {_UNKNOW_ERROR}");
                     throw new IException.General.UAPIUnknowException();

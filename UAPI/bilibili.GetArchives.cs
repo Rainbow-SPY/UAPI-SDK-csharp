@@ -35,8 +35,7 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<ArchiveType>(
                 $"{requestUrl_Main}archives?mid={mid}&orderby={orderby}&ps={ps}&pn={pn}&keywords={keywords}");
-            var a = IsGetSuccessful(result, statusCode);
-            if (!a) LogLibraries.WriteLog.Error("请求失败, 请重试");
+            if (!IsGetSuccessful(result, statusCode)) LogLibraries.WriteLog.Error("请求失败, 请重试");
             return result;
         }
 

@@ -11,7 +11,7 @@ namespace UAPI
     /// <summary>
     /// UAPI常规方法接口
     /// </summary>
-    public class Interface
+    public partial class Interface
     {
         /// <summary>
         /// 公共API 获取请求
@@ -45,7 +45,8 @@ namespace UAPI
             }
             catch (HttpRequestException e)
             {
-                LogLibraries.WriteLog.Error(LogLibraries.LogKind.Http, "HttpClient 请求失败, 请检查您的网络连接或反馈工单给工作人员");
+                LogLibraries.WriteLog.Error(LogLibraries.LogKind.Http,
+                    $"HttpClient 请求失败, 请检查您的网络连接或反馈工单给工作人员: {e.Message} - {e.StackTrace}");
                 return (null, -1);
             }
             catch (Exception e)

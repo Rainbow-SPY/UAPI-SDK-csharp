@@ -4,51 +4,47 @@ using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
-    /// <summary>
-    /// Minecraft 相关请求
-    /// </summary>
     public partial class minecraft
     {
-        internal const string requestUrl = @"https://uapis.cn/api/v1/game/minecraft/userinfo";
-
         /// <summary>
-        /// 获取 Minecraft 正版 Mojang 账号的数据
+        /// 查询Minecraft玩家的历史昵称
         /// </summary>
-        /// <param name="username">Minecraft 用户名</param>
-        /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string username)
+        /// <param name="_param">昵称或UUID</param>
+        /// <param name="searchType">指定以何种方式查询</param>
+        /// <returns></returns>
+        public static async Task<HistoryType> GetHistoryName(string _param, SearchType searchType)
         {
-            var (result, statusCode) = await Interface.GetResult<UserType>($"{requestUrl}?username={username}");
-            if (!IsGetSuccessful(result, statusCode))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
+            var (result, statusCode) = await Interface.GetResult<HistoryType>(
+                $"https://uapis.cn/api/v1/game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}");
+            if (!IsGetSuccessful(result, statusCode)) LogLibraries.WriteLog.Error("请求失败,请重试!");
             return result;
         }
 
-        internal static bool IsGetSuccessful(UserType Type, int StatusCode)
+        internal static bool IsGetSuccessful(HistoryType Type, int StatusCode)
         {
             if (Type == null) return false;
             switch (StatusCode)
             {
                 case 400:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
-                        $"{_value_Not_Is_NullOrEmpty("owner_and_repo")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.error} - {Type.details}");
+                        $"{_value_Not_Is_NullOrEmpty("name_or_uuid")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}");
                     LogLibraries.MessageBox_I.Error(
-                        $"{_value_Not_Is_NullOrEmpty("owner_and_repo")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.error} - {Type.details}",
+                        $"{_value_Not_Is_NullOrEmpty("name_or_uuid")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
                     break;
                 case 500:
                     LogLibraries.WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.error} - {Type.details}");
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}");
                     LogLibraries.MessageBox_I.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.error} - {Type.details}",
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
                     throw new IException.General.UAPIServerDown();
 
                 case 502:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
-                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.error} - {Type.details}");
+                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.code} - {Type.details}");
                     LogLibraries.MessageBox_I.Error(
-                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.error} - {Type.details}",
+                        $"Mojang 上游 API请求错误, {_ERROR_CODE}: {IException.minecraft._Mojang_API_Service_Error}, 错误信息: {Type.code} - {Type.details}",
                         _ERROR);
                     throw new IException.minecraft.MojangAPIServiceError();
                 case 200:
@@ -73,6 +69,23 @@ namespace UAPI
             }
 
             return false;
+        }
+
+
+        /// <summary>
+        /// 查询方式
+        /// </summary>
+        public enum SearchType
+        {
+            /// <summary>
+            /// 以UUID查找
+            /// </summary>
+            UUID,
+
+            /// <summary>
+            /// 以昵称查找
+            /// </summary>
+            Name,
         }
     }
 }

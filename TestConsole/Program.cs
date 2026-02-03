@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using UAPI;
 using static Rox.Runtimes.LocalizedString;
@@ -14,15 +15,63 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
+            TestMinecraftServer().Wait();
+            TestMinecraftHistoryName().Wait();
             TestLiveRoomStatus().Wait();
+            TestUAPIHealth().Wait();
             TestBiliUser().Wait();
             TestBiliArchive().Wait();
             TestQQUser().Wait();
             TestQQGroup().Wait();
             TestSteamUser().Wait();
+            TestWeather().Wait();
             Task.Run(EpicGames.GetDataJson).Wait();
             TestGithubRepos().Wait();
             _stopwatch.Reset();
+        }
+
+        public static async Task TestUAPIHealth()
+        {
+            WriteLog.Info("测试UAPI系统状态");
+            try
+            {
+                var a = await Interface.APIHealthStatus();
+                WriteLog.Info("服务名: ");
+                foreach (var i in a.services)
+                    WriteLog.Info($"\t{i.name}: {(i.status == "error" ? "接口故障" : "正常")}");
+                WriteLog.Info("所有API:\n");
+                foreach (var s in a.apis.GetType().GetProperties())
+                {
+                    if (!(s.GetValue(a.apis) is List<Interface.HealthType.APIProperties> k)) continue;
+                    foreach (var j in k)
+                    {
+                        var o = $"API:  {j.name}\n\t状态: {(j.status == "error" ? "接口故障" : "正常")}" +
+                                $"\n\t分类: {j.category}" +
+                                $"\n\tID: {j.id}";
+                        if (j.status != "error")
+                            WriteLog.Info(o);
+                        else
+                            WriteLog.Error(o);
+                    }
+                }
+
+                WriteLog.Info("Workers:\n" +
+                              $"是否连接到了UAPI平台: {(a.workers.connected ? "已连接" : "未连接")}\n" +
+                              $"全部计算节点: {a.workers.total_nodes}\n" +
+                              $"在线计算节点: {a.workers.online_nodes}\n");
+                foreach (var f in a.workers.nodes)
+                    WriteLog.Info($"节点名称: {f.name}\n" +
+                                  $"ID: {f.id}\n" +
+                                  $"当前状态: {(f.status == "online" ? "在线" : "离线")}\n");
+                WriteLog.Info("历史记录: ");
+                foreach (var r in a.history)
+                    WriteLog.Info($"{r.date} - 成功率: {r.percent_str}%");
+            }
+            catch (Exception e)
+            {
+                WriteLog.Error(_Exception_With_xKind("UAPI Health Status", e));
+                throw;
+            }
         }
 
         public static async Task TestLiveRoomStatus()
@@ -69,7 +118,8 @@ namespace TestConsole
                 _stopwatch.Start();
                 var a = await Steam.GetUserData("Rainbow-SPY");
                 WriteLog.Info(LogKind.Network, $"SteamID64: {a.steamid}");
-                WriteLog.Info(LogKind.Network, $"个人资料可见性: {Steam.GetCommunityVisibilityState(a.communityvisibilitystate)}");
+                WriteLog.Info(LogKind.Network,
+                    $"个人资料可见性: {Steam.GetCommunityVisibilityState(a.communityvisibilitystate)}");
                 WriteLog.Info(LogKind.Network, $"Steam ID3: {a.steamID3}");
                 WriteLog.Info(LogKind.Network, $"Steam 用户名: {a.personaname}");
                 WriteLog.Info(LogKind.Network, $"个人资料主页链接: {a.profileurl}");
@@ -109,7 +159,7 @@ namespace TestConsole
                 {
                     WriteLog.Info("Weather", $"未来三天的天气预报");
                     foreach (var _data in result.forecast)
-                        WriteLog.Info("Weather Forcast",
+                        WriteLog.Info("Weather Forecast",
                             $"{_data.date} 的天气预报:\n" + $"白天天气: {_data.weather_day}, 夜间天气: {_data.weather_night}\n" +
                             $"最高温度: {_data.temp_max} ℃, 最低温度: {_data.temp_min} ℃\n" +
                             $"降水量: {_data.precip} mm, 能见度: {_data.visibility} km, 紫外线指数: {_data.uv_index}");
@@ -179,7 +229,7 @@ namespace TestConsole
                 WriteLog.Info($"总投稿数: {a.total}\n" +
                               $"页数: {a.page}\n" +
                               $"每页数量: {a.size}\n");
-                for (var i = 0; i < a.videos.Count; i++)
+                for (var i = 0; i < a.videos?.Count; i++)
                 {
                     var b = a.videos[i];
                     WriteLog.Info($"第{i + 1}个视频: \nAID:{b.aid}\n" +
@@ -197,7 +247,66 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                WriteLog.Error(_Exception_With_xKind("bilibili archives", e));
+                throw;
+            }
+        }
+
+        public static async Task TestMinecraftServer()
+        {
+            WriteLog.Info("测试获取Minecraft游戏服务器信息");
+            try
+            {
+                _stopwatch.Reset();
+                _stopwatch.Start();
+
+                var a = await minecraft.GetServerStatus("hypixel.net");
+                WriteLog.Info($"是否在线: {(a.online ? "在线" : "离线")}");
+                //      if (!a.online) return;
+                WriteLog.Info($"解析的IP地址: {a.ip}\n" +
+                              $"端口号: {a.port}\n" +
+                              $"当前玩家数量: {a.players}\n" +
+                              $"最大允许的玩家数量: {a.max_players}\n" +
+                              $"客户端需求版本: {a.version}\n" +
+                              $"描述: {a.motd_clean}\n" +
+                              $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒");
+            }
+            catch (Exception e)
+            {
+                WriteLog.Error(_Exception_With_xKind("hypixel.net", e));
+                throw;
+            }
+        }
+
+        public static async Task TestMinecraftHistoryName()
+        {
+            WriteLog.Info("查找Minecraft玩家历史名称");
+            try
+            {
+                var a = await minecraft.GetHistoryName("Dream", minecraft.SearchType.Name);
+                WriteLog.Info($"查询的用户名: {a.query}\n" +
+                              $"匹配到的数量: {a.count}\n");
+                foreach (var i in a.results)
+                {
+                    WriteLog.Info($"当前的用户名: {i.id}\n" +
+                                  $"UUID: {i.uuid}\n" +
+                                  $"历史名称的总数: {i.name_num}");
+                    foreach (var q in i.history)
+                        WriteLog.Info($"{(q.changedToAt == "Initial" ? "创建账号时" : q.changedToAt)} 的用户名: {q.name}");
+                }
+
+
+                var b = await minecraft.GetHistoryName("ee9b4ed1-aac1-491e-b761-1471be374b80",
+                    minecraft.SearchType.UUID);
+                WriteLog.Info($"玩家当前的用户名: {b.id}\n" +
+                              $"UUID: {b.uuid}\n" +
+                              $"历史名称的总数(改过几次名): {b.name_num}\n");
+                foreach (var g in b.history)
+                    WriteLog.Info($"{(g.changedToAt == "Initial" ? "创建账号时" : g.changedToAt)} 的用户名: {g.name}");
+            }
+            catch (Exception e)
+            {
+                WriteLog.Error(_Exception_With_xKind("MinecraftHistoryName", e));
                 throw;
             }
         }
@@ -275,6 +384,13 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await github.GetReposData("torvalds/linux");
+                var _topics = "";
+                for (var i = 0; i < a.topics?.Count; i++)
+                    _topics += $"{(i == 0 ? "" : ",")}{a.topics?[i]}";
+                var _languages = a.languages.Aggregate("",
+                    (current, v) =>
+                        current + $"{(v.Equals(a.languages.First()) ? "\n" : "")}\t{v.Key}: {v.Value} 行代码\n");
+
                 WriteLog.Info($"完整名称: {a.full_name}\n" +
                               $"描述: {a.description}\n" +
                               $"主页: {a.homepage}\n" +
@@ -286,7 +402,7 @@ namespace TestConsole
                               $"是否禁用: {a.disabled}\n" +
                               $"是否为Fork的仓库: {a.fork}\n" +
                               $"主要代码语言: {a.language}\n" +
-                              $"话题: {a.topics}\n" +
+                              $"话题: {_topics}\n" +
                               $"许可证: {a.license}\n" +
                               $"Star 数量: {a.stargazers}\n" +
                               $"Fork 的数量: {a.forks}\n" +
@@ -295,7 +411,7 @@ namespace TestConsole
                               $"推送时间: {a.pushed_at_str}\n" +
                               $"创建仓库时间: {a.created_at_str}\n" +
                               $"更新时间: {a.updated_at_str}\n" +
-                              $"代码语言: {a.languages}\n" +
+                              $"代码语言: {_languages}\n" +
                               $"仓库协作者: {a.collaborators}\n");
                 foreach (var t in a.maintainers)
                 {
