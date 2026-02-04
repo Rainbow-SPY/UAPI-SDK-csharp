@@ -11,9 +11,52 @@
         <RootNamespace>UAPI</RootNamespace>
         <AssemblyName>UAPI</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <BaseVersion>1.2.21</BaseVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
         <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
     </PropertyGroup>
+
+    <Target Name="GetGitInfo" BeforeTargets="CoreCompile">
+        <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD"
+              StandardOutputImportance="Low"
+              ContinueOnError="WarnAndContinue"
+              ConsoleToMsBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShortId"/>
+        </Exec>
+
+        <!-- 3. 拼接最终版本（保留原代码，不变） -->
+        <PropertyGroup>
+            <GitCommitShortId>$([System.String]::Copy('$(GitCommitShortId)').Trim())</GitCommitShortId>
+            <GitCommitShortId Condition="'$(GitCommitShortId)' == ''">Unknown</GitCommitShortId>
+            <AssemblyInformationalVersion>$(BaseVersion)-$(GitCommitShortId)</AssemblyInformationalVersion>
+        </PropertyGroup>
+
+        <!-- 4. 打印日志（保留原代码，不变） -->
+        <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High"/>
+        <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High"/>
+    </Target>
+    
+    <!-- 2. 动态生成GitAssemblyInfo.cs（保留using、无覆盖、语法正确、版本注入成功） -->
+    <Target Name="WriteAssemblyInfo" AfterTargets="GetGitInfo" BeforeTargets="CoreCompile">
+        <PropertyGroup>
+            <GitAssemblyInfoPath>$(IntermediateOutputPath)\GitAssemblyInfo.cs</GitAssemblyInfoPath>
+            <GitCodeContent>[assembly: System.Reflection.AssemblyInformationalVersion(&quot;$(AssemblyInformationalVersion)&quot;)]</GitCodeContent>
+        </PropertyGroup>
+
+        <!-- 写入文件：直接用拼接好的纯文本，一次性写入所有行 -->
+        <WriteLinesToFile
+                File="$(GitAssemblyInfoPath)"
+                Lines="$(GitCodeContent)"
+                Overwrite="true"
+                Encoding="UTF-8"
+                WriteOnlyWhenDifferent="true"/>
+
+        <!-- 将临时文件加入编译列表，与原有AssemblyInfo.cs合并编译 -->
+        <ItemGroup>
+            <Compile Include="$(GitAssemblyInfoPath)"/>
+        </ItemGroup>
+    </Target>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
@@ -52,71 +95,66 @@
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Numerics"/>
+        <Reference Include="System.Windows.Forms"/>
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="bilibili.ArchiveType.cs" />
-        <Compile Include="bilibili.GetArchives.cs" />
-        <Compile Include="bilibili.GetUserData.cs" />
+        <Compile Include="bilibili.ArchiveType.cs"/>
+        <Compile Include="bilibili.GetArchives.cs"/>
+        <Compile Include="bilibili.GetUserData.cs"/>
+        <Compile Include="bilibili.GetVideoData.cs" />
         <Compile Include="bilibili.LiveRoomType.cs"/>
         <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
-        <Compile Include="bilibili.UserType.cs" />
-        <Compile Include="EpicGames.GetFreeGames.cs" />
-        <Compile Include="EpicGames.GetFreeGames.EpicType.cs" />
-        <Compile Include="github.GetReposData.cs" />
-        <Compile Include="github.ReposType.cs" />
-        <Compile Include="IException\IException.EpicGames.cs" />
-        <Compile Include="IException\IException.minecraft.cs" />
-        <Compile Include="IException\IException.Steam.cs" />
-        <Compile Include="IException\IException.Weather.cs" />
+        <Compile Include="bilibili.UserType.cs"/>
+        <Compile Include="bilibili.VideoType.cs" />
+        <Compile Include="EpicGames.GetFreeGames.cs"/>
+        <Compile Include="EpicGames.GetFreeGames.EpicType.cs"/>
+        <Compile Include="github.GetReposData.cs"/>
+        <Compile Include="github.ReposType.cs"/>
+        <Compile Include="IException\IException.EpicGames.cs"/>
+        <Compile Include="IException\IException.minecraft.cs"/>
+        <Compile Include="IException\IException.Steam.cs"/>
+        <Compile Include="IException\IException.Weather.cs"/>
         <Compile Include="IException\IException.bilibili.cs"/>
         <Compile Include="IException\IException.General.cs"/>
-        <Compile Include="IException\IException.github.cs" />
-        <Compile Include="IException\IException.QQ.cs" />
-        <Compile Include="Interface.APIHealthStatus.cs" />
+        <Compile Include="IException\IException.github.cs"/>
+        <Compile Include="IException\IException.QQ.cs"/>
+        <Compile Include="Interface.APIHealthStatus.cs"/>
         <Compile Include="Interface.common.cs"/>
-        <Compile Include="Interface.HealthType.cs" />
-        <Compile Include="minecraft.GetHistoryName.cs" />
-        <Compile Include="minecraft.GetServerStatus.cs" />
-        <Compile Include="minecraft.GetUserData.cs" />
-        <Compile Include="minecraft.HistoryType.cs" />
-        <Compile Include="minecraft.ServerType.cs" />
-        <Compile Include="minecraft.UserType.cs" />
+        <Compile Include="Interface.HealthType.cs"/>
+        <Compile Include="minecraft.GetHistoryName.cs"/>
+        <Compile Include="minecraft.GetServerStatus.cs"/>
+        <Compile Include="minecraft.GetUserData.cs"/>
+        <Compile Include="minecraft.HistoryType.cs"/>
+        <Compile Include="minecraft.ServerType.cs"/>
+        <Compile Include="minecraft.UserType.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="QQ.GetGroupData.cs" />
-        <Compile Include="QQ.GetUserData.cs" />
-        <Compile Include="QQ.GroupType.cs" />
-        <Compile Include="QQ.UserType.cs" />
-        <Compile Include="Steam.SteamID.Converter.cs" />
-        <Compile Include="Steam.SteamID.cs" />
-        <Compile Include="Steam.SteamID.SteamIDType.cs" />
-        <Compile Include="Steam.GetUserData.cs" />
-        <Compile Include="Steam.SteamType.cs" />
-        <Compile Include="Weather.GetWeather.cs" />
-        <Compile Include="Weather.WeatherType.cs" />
+        <Compile Include="QQ.GetGroupData.cs"/>
+        <Compile Include="QQ.GetUserData.cs"/>
+        <Compile Include="QQ.GroupType.cs"/>
+        <Compile Include="QQ.UserType.cs"/>
+        <Compile Include="Steam.SteamID.Converter.cs"/>
+        <Compile Include="Steam.SteamID.cs"/>
+        <Compile Include="Steam.SteamID.SteamIDType.cs"/>
+        <Compile Include="Steam.GetUserData.cs"/>
+        <Compile Include="Steam.SteamType.cs"/>
+        <Compile Include="Weather.GetWeather.cs"/>
+        <Compile Include="Weather.WeatherType.cs"/>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
-      <PackageReference Include="System.Buffers" Version="4.6.1" />
-      <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2" />
-      <PackageReference Include="System.IO" Version="4.3.0" />
-      <PackageReference Include="System.Memory" Version="4.6.3" />
-      <PackageReference Include="System.Net.Http" Version="4.3.4" />
-      <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-      <PackageReference Include="System.Runtime" Version="4.3.1" />
-      <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-      <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-      <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
-      <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
-      <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
+        <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0"/>
+        <PackageReference Include="System.Buffers" Version="4.6.1"/>
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2"/>
+        <PackageReference Include="System.IO" Version="4.3.0"/>
+        <PackageReference Include="System.Memory" Version="4.6.3"/>
+        <PackageReference Include="System.Net.Http" Version="4.3.4"/>
+        <PackageReference Include="System.Numerics.Vectors" Version="4.6.1"/>
+        <PackageReference Include="System.Runtime" Version="4.3.1"/>
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2"/>
+        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>
+        <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0"/>
+        <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
+        <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
-
 </Project>

@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -7,9 +9,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("UAPI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rainbow-SPY & UAPI CM & AxT-Team")]
+[assembly: AssemblyCompany("Rainbow-SPY & AxT-Team")]
 [assembly: AssemblyProduct("UAPI")]
-[assembly: AssemblyCopyright("Copyright © Rainbow-SPY & UAPI CM & AxT-Team 2026")]
+[assembly: AssemblyCopyright("Copyright © Rainbow-SPY & AxT-Team 2019-2026, All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +33,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+// [assembly: AssemblyInformationalVersionAttribute("1.2.3.4")]
