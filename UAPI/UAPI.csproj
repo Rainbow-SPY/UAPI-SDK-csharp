@@ -11,7 +11,7 @@
         <RootNamespace>UAPI</RootNamespace>
         <AssemblyName>UAPI</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <BaseVersion>1.2.21</BaseVersion>
+        <BaseVersion>0.14.1</BaseVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
         <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -121,6 +121,7 @@
         <Compile Include="IException\IException.QQ.cs"/>
         <Compile Include="Interface.APIHealthStatus.cs"/>
         <Compile Include="Interface.common.cs"/>
+        <Compile Include="Interface.Convert.cs" />
         <Compile Include="Interface.HealthType.cs"/>
         <Compile Include="minecraft.GetHistoryName.cs"/>
         <Compile Include="minecraft.GetServerStatus.cs"/>

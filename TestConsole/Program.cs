@@ -15,6 +15,7 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
+            TestBiliVideo().Wait();
             TestMinecraftServer().Wait();
             TestMinecraftHistoryName().Wait();
             TestLiveRoomStatus().Wait();
@@ -74,11 +75,139 @@ namespace TestConsole
             }
         }
 
+        public static async Task TestBiliVideo()
+        {
+            WriteLog.Info("测试B站视频信息");
+            try
+            {
+                _stopwatch.Reset();
+                _stopwatch.Start();
+                var a = await bilibili.GetVideoData("BV1uT4y1P7CX", bilibili.BiliVideoIDType.BVID);
+                string message = $"查询的BVID: {a.bvid}" +
+                                 $"\n查询的AID: {a.aid}";
+                if (a.videos != 1)
+                {
+                    message += $"\n视频分集: {a.videos}P";
+                    foreach (var i in a.pages)
+                    {
+                        message += $"\n\nP{i.page}: " +
+                                   $"\n\t分P ID: {i.cid}" +
+                                   $"\n\t从哪里上传: {i.SourceWhere}" +
+                                   $"\n\t标题: {i.part}" +
+                                   $"\n\t总计时长: {Interface.FormatSecondsTime(i.duration)}" +
+                                   (string.IsNullOrEmpty(i.vid)
+                                       ? ""
+                                       : $"\n\t外部视频源: {i.vid}") +
+                                   (string.IsNullOrEmpty(i.weblink)
+                                       ? ""
+                                       : $"\n\t外部链接: {i.weblink}") +
+                                   $"\n\t分辨率: {i.dimension.width}x{i.dimension.height},{(i.dimension.Rotate == "正常" ? "" : $"旋转角度: {i.dimension.Rotate}")}";
+                    }
+                }
+
+                message += $"\n视频所属子分区: {(string.IsNullOrEmpty(a.tname) ? "其他" : a.tname)}, ID: {a.tid}" +
+                           $"\n视频版权: {a.CopyRight}" +
+                           $"\n视频封面链接: {a.pic}" +
+                           $"\n视频标题: {a.title}" +
+                           $"\n视频单P弹幕ID: {a.cid}" +
+                           $"\n视频发布时间: {a.pubdate_str}" +
+                           $"\nUP投稿时间: {a.ctime_str}" +
+                           $"\n投稿附带的动态文字: {a.dynamic}" +
+                           "\n视频简介:";
+                foreach (var i in a.desc_v2)
+                {
+                    message += $"\n\t简介文字: {i.raw_text}" +
+                               $"\n\t节点类型: {i.Type}" +
+                               $"\n\t业务ID: {i.biz_id}";
+                }
+
+                message += $"\n视频状态: {a.state_str}" +
+                           $"\n视频总长: {Interface.FormatSecondsTime(a.duration)}" +
+                           "\n\n视频权限:" +
+                           $"\n\t(过时)是否付费观看番剧: {a.rights.BangumiPay}" +
+                           $"\n\t是否允许充电: {a.rights.IsAllowElectronicPay}" +
+                           $"\n\t是否允许下载: {a.rights.IsAllowDownload}" +
+                           $"\n\t视频类型是否为电影: {a.rights.IsMovie}" +
+                           $"\n\t是否需要付费观看: {a.rights.IsPay}" +
+                           $"\n\t(过时)是否有高码率: {a.rights.IsHighBitrate}" +
+                           $"\n\t是否允许转载: {a.rights.IsAllowReprint}" +
+                           $"\n\t是否允许自动播放: {a.rights.IsAllowAutoPlay}" +
+                           $"\n\t是否为UGC 付费: {a.rights.IsUGCPay}" +
+                           $"\n\t是否为合作视频: {a.rights.IsCooperation}" +
+                           $"\n\t是否允许付费视频预览: {a.rights.IsAllowPayPreview}" +
+                           // $"\n\t????: {a.rights.no_background}" +
+                           $"\n\t是否为纯净模式: {a.rights.IsCleanMode}" +
+                           $"\n\t????: {a.rights.IsSteinGate}" +
+                           $"\n\t是否为全景视频: {a.rights.Is360PanoramicVideo}" +
+                           $"\n\t是否允许分享: {a.rights.IsAllowShare}" +
+                           $"\n\t是否为付费视频: {a.rights.IsArcPayVideo}" +
+                           $"\n\t是否允许付费视频免费试看: {a.rights.IsAllowFreePreviewInPayVideo}" +
+                           "\n\nUP主:" +
+                           $"\n\tUID: {a.owner.mid}" +
+                           $"\n\t昵称: {a.owner.name}" +
+                           $"\n\t头像链接: {a.owner.face}" +
+                           "\n\n视频信息:" +
+                           $"\n\t播放量: {Interface.FormatPlayCount(a.stat.view)}" +
+                           $"\n\t弹幕量: {Interface.FormatPlayCount(a.stat.danmaku)}" +
+                           $"\n\t评论量: {Interface.FormatPlayCount(a.stat.reply)}" +
+                           $"\n\t点赞量: {Interface.FormatPlayCount(a.stat.like)}" +
+                           $"\n\t收藏量: {Interface.FormatPlayCount(a.stat.favorite)}" +
+                           $"\n\t投币量: {Interface.FormatPlayCount(a.stat.coin)}" +
+                           $"\n\t分享量: {Interface.FormatPlayCount(a.stat.share)}" +
+                           $"\n\t当前全站排名: {a.stat.NowRank}" +
+                           $"\n\t历史全站排名: {a.stat.his_rank}";
+                if (a.staff != null)
+                {
+                    message += "\n\n共创信息: ";
+                    foreach (var i in a.staff)
+                    {
+                        if (i == null) continue;
+                        message += $"\n\t合作人: {i}";
+                    }
+                }
+
+                if (a.subtitle.list != null)
+                {
+                    message += "\n\n字幕信息: " +
+                               $"\n\t是否允许观众提交CC字幕: {a.subtitle.allow_submit}" +
+                               "\n\t字幕列表:";
+                    foreach (var i in a.subtitle.list)
+                    {
+                        message += $"\n\n\t\t字幕ID: {i.id}" +
+                                   $"\n\t\t语言: {i.lan} - {i.lan_doc}" +
+                                   $"\n\t\t????: {i.is_lock}" +
+                                   $"\n\t\t????: {i.subtitle_url}" +
+                                   $"\n\t\t字幕作者UID: {i.author.mid}" +
+                                   $"\n\t\t字幕作者昵称: {i.author.name}" +
+                                   $"\n\t\t字幕作者头像链接: {i.author.face}";
+                    }
+                }
+
+                if (a.honor_reply?.honor != null)
+                {
+                    message += "\n视频所得荣誉: ";
+                    foreach (var i in a.honor_reply.honor)
+                    {
+                        message += $"\n\t荣誉名称: {i.desc}" +
+                                   $"\n\t荣誉类型:{i.type}";
+                    }
+                }
+
+                WriteLog.Info(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public static async Task TestLiveRoomStatus()
         {
             WriteLog.Info("测试 B站直播间信息获取......\n\n");
             try
             {
+                _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await bilibili.GetLiveRoomStatus.AsLiveroomID("22637261");
                 WriteLog.Info(
