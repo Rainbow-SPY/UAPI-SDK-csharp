@@ -121,6 +121,7 @@
         <Compile Include="IException\IException.QQ.cs"/>
         <Compile Include="Interface.APIHealthStatus.cs"/>
         <Compile Include="Interface.common.cs"/>
+        <Compile Include="Interface.Convert.cs" />
         <Compile Include="Interface.HealthType.cs"/>
         <Compile Include="minecraft.GetHistoryName.cs"/>
         <Compile Include="minecraft.GetServerStatus.cs"/>
