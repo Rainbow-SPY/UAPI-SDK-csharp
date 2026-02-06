@@ -81,9 +81,6 @@
         <Reference Include="Newtonsoft.Json">
             <HintPath>..\..\..\$Release\Rox\Newtonsoft.Json.dll</HintPath>
         </Reference>
-        <Reference Include="Rox.API">
-            <HintPath>..\..\..\$Release\Rox\Rox.API.dll</HintPath>
-        </Reference>
         <Reference Include="Rox.Runtimes">
             <HintPath>..\..\..\$Release\Rox\Rox.Runtimes.dll</HintPath>
         </Reference>
