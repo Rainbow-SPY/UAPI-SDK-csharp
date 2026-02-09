@@ -7,16 +7,8 @@ namespace UAPI
         /// <summary>
         /// Epic Games API
         /// </summary>
-        public class EpicType
+        public class EpicType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 返回值
-            /// </summary>
-            public string code { get;  set; }
-            /// <summary>
-            /// 信息
-            /// </summary>
-            public string message { get; set; }
             /// <summary>
             /// 免费游戏列表（数组）
             /// </summary>

@@ -22,8 +22,9 @@ namespace UAPI
         {
             const string requestUrl = @"https://uapis.cn/api/v1/game/epic-free";
             var (result, statuscode) = await Interface.GetResult<EpicType>(requestUrl);
-            var a = IsGetSuccessful(result, statuscode);
-            if (!a) WriteLog.Error("请求失败, 请重试");
+            if (!Interface.IsGetSuccessful<EpicType>(result, "", statuscode,
+                    new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games"))
+                WriteLog.Error("请求失败, 请重试");
             foreach (var game in result.data)
             {
                 WriteLog.Info(_au, $"游戏唯一ID {game.id}");
@@ -38,47 +39,6 @@ namespace UAPI
             }
 
             return result;
-        }
-
-        internal static bool IsGetSuccessful(EpicType Type, int StatusCode)
-        {
-            if (Type == null) return false;
-            switch (StatusCode)
-            {
-                case 500:
-                    WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}");
-                    MessageBox_I.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {IException.General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.message}",
-                        _ERROR);
-                    throw new IException.General.UAPIServerDown();
-
-                case 502:
-                    WriteLog.Error(LogKind.Network, $"Epic Games 免费游戏服务暂时不可用，请稍后再试");
-                    throw new IException.EpicGames.EpicGamesServerError(
-                        "Epic Online Services 免费游戏服务器不可用");
-                case 200:
-                    WriteLog.Info(LogKind.Network, "请求成功");
-                    return true;
-                case 403:
-                    WriteLog.Warning(LogKind.Network, "您已被限制请求, 因 请求量过大.");
-                    MessageBox_I.Warning("您已被限制请求, 因 请求量过大.", _ERROR);
-                    break;
-                case 404:
-                    WriteLog.Warning("未找到用户");
-                    MessageBox_I.Warning("未找到用户", _ERROR);
-                    break;
-                case -1:
-                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
-                    MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
-                    break;
-                default:
-                    WriteLog.Error(LogKind.Http, "未知错误");
-                    MessageBox_I.Error("发生了未知错误", _ERROR);
-                    break;
-            }
-
-            return false;
         }
     }
 }

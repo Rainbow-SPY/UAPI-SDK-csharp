@@ -7,7 +7,7 @@ namespace UAPI
         /// <summary>
         /// 查询QQ群组返回的Json列表
         /// </summary>
-        public class GroupType
+        public class GroupType : Interface.TypeInterface
         {
             /// <summary>
             /// 群ID
@@ -121,30 +121,6 @@ namespace UAPI
             /// </summary>
             [JsonProperty("cert_text")]
             public string cert_text { get; set; }
-
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            [JsonProperty("code")]
-            public string code { get; set; }
-
-            /// <summary>
-            /// ???
-            /// </summary>
-            [JsonProperty("details")]
-            public string[] details { get; set; }
-
-            /// <summary>
-            ///  错误消息
-            /// </summary>
-            [JsonProperty("message")]
-            public string message { get; set; }
-
-            /// <summary>
-            /// 错误消息
-            /// </summary>
-            [JsonProperty("error")]
-            public string error { get; set; }
         }
     }
 }

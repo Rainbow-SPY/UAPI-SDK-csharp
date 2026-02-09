@@ -42,59 +42,10 @@ namespace UAPI
             }
 
             var (result, statusCode) = await Interface.GetResult<UserType>($"{_UAPI_Request_Url}userinfo?qq={qq}");
-            var b = IsGetSuccessful(result, statusCode);
-            if (!b) WriteLog.Error(LogKind.Http, "请求失败, 请重试");
+            if (!Interface.IsGetSuccessful<UserType>(result, "qq", statusCode, new IException.QQ.QQServiceError(),
+                    "QQ", IException.QQ._QQ_Service_Error))
+                WriteLog.Error(LogKind.Http, "请求失败, 请重试");
             return result;
-        }
-
-        private static bool IsGetSuccessful(UserType Type, int StatusCode)
-        {
-            if (Type == null) return false;
-            switch (StatusCode)
-            {
-                case 400:
-                    WriteLog.Error(LogKind.Network,
-                        $"{_value_Not_Is_NullOrEmpty("qq")}, 错误代码: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}");
-                    MessageBox_I.Error(
-                        $"{_value_Not_Is_NullOrEmpty("qq")}, 错误代码: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}",
-                        _ERROR);
-                    break;
-                case 500:
-                    WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, 错误代码: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}");
-                    MessageBox_I.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, 错误代码: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}",
-                        _ERROR);
-                    throw new General.UAPIServerDown();
-                case 502:
-                    WriteLog.Error(LogKind.Network,
-                        $"QQ API请求错误, 错误码: {IException.QQ._QQ_Service_Error}, 错误信息: {Type.code} - {Type.details}");
-                    MessageBox_I.Error(
-                        $"QQ API请求错误, 错误码: {IException.QQ._QQ_Service_Error}, 错误信息: {Type.code} - {Type.details}",
-                        _ERROR);
-                    throw new IException.QQ.QQServiceError();
-                case 200:
-                    WriteLog.Info(LogKind.Network, "请求成功");
-                    return true;
-                case 403:
-                    WriteLog.Warning(LogKind.Network, "您已被限制限制请求, 因 请求量过大.");
-                    MessageBox_I.Warning("您已被限制请求, 因 请求量过大.", _ERROR);
-                    break;
-                case 404:
-                    WriteLog.Warning("未找到用户");
-                    MessageBox_I.Warning("未找到用户", _ERROR);
-                    break;
-                case -1:
-                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
-                    MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
-                    break;
-                default:
-                    WriteLog.Error(LogKind.Http, "未知错误");
-                    MessageBox_I.Error("发生了未知错误", _ERROR);
-                    break;
-            }
-
-            return false;
         }
     }
 }

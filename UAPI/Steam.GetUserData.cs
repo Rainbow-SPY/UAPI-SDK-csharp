@@ -96,71 +96,13 @@ namespace UAPI
             }
         }
 
-        internal static bool IsGetSuccessful(SteamType Type, int StatusCode)
-        {
-            if (Type == null) return false;
-            switch (StatusCode)
-            {
-                case 400:
-                    WriteLog.Error(LogKind.Network,
-                        $"{_value_Not_Is_NullOrEmpty("owner_and_repo")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}");
-                    MessageBox_I.Error(
-                        $"{_value_Not_Is_NullOrEmpty("owner_and_repo")}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code} - {Type.details}",
-                        _ERROR);
-                    break;
-                case 401: //未经授权
-                    WriteLog.Error(LogKind.Network,
-                        $"API返回响应: 认证失败。你提供的 Steam Web API Key 无效或已过期，或者你没有提供 Key。请检查你的 Key. 错误代码: {_Steam_Server_UnAuthenticated}");
-                    MessageBox_I.Error(
-                        $"API返回响应: 认证失败。你提供的 Steam Web API Key 无效或已过期，或者你没有提供 Key。请检查你的 Key. 错误代码: {_Steam_Server_UnAuthenticated}",
-                        _ERROR);
-                    throw new IException.Steam.UnAuthenticatedSteamKey();
-                case 500:
-                    WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}");
-                    MessageBox_I.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code} - {Type.details}",
-                        _ERROR);
-                    throw new General.UAPIServerDown();
-
-                case 502:
-                    WriteLog.Error(LogKind.Network,
-                        $"API返回响应: 上游服务错误, 在向 Steam 的官方 API 请求数据时遇到了问题, 这可能是他们的服务暂时中断，请稍后重试, 错误代码: {_Steam_Service_Error}");
-                    MessageBox_I.Error(
-                        $"API返回响应: 上游服务错误, 在向 Steam 的官方 API 请求数据时遇到了问题, 这可能是他们的服务暂时中断，请稍后重试, 错误代码: {_Steam_Service_Error}",
-                        _ERROR);
-                    throw new IException.Steam.SteamServiceError();
-                case 200:
-                    WriteLog.Info(LogKind.Network, "请求成功");
-                    return true;
-                case 403:
-                    WriteLog.Warning(LogKind.Network, "您已被限制请求, 因 请求量过大.");
-                    MessageBox_I.Warning("您已被限制请求, 因 请求量过大.", _ERROR);
-                    break;
-                case 404:
-                    WriteLog.Error(LogKind.Network,
-                        $"API返回响应: Steam账户不存在或完全私密了个人资料, 错误代码: {_Steam_Not_Found_Account}");
-                    MessageBox_I.Error($"API返回响应: Steam账户不存在或完全私密了个人资料, 错误代码: {_Steam_Not_Found_Account}", _ERROR);
-                    break;
-                case -1:
-                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
-                    MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
-                    break;
-                default:
-                    WriteLog.Error(LogKind.Http, "未知错误");
-                    MessageBox_I.Error("发生了未知错误", _ERROR);
-                    break;
-            }
-
-            return false;
-        }
-
         private static async Task<SteamType> SendQueryMessage(string Type, string SteamID64, string key)
         {
             var requestUrl =
                 $"https://uapis.cn/api/v1/game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";
             var (result, statusCode) = await Interface.GetResult<SteamType>(requestUrl);
-            if (!IsGetSuccessful(result, statusCode))
+            if (!Interface.IsGetSuccessful<SteamType>(result, "SteamID", statusCode,
+                    new IException.Steam.SteamServiceError(), "Steam", _Steam_Service_Error))
                 WriteLog.Error("请求失败,请重试");
             return result;
         }
