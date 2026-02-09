@@ -9,23 +9,8 @@ namespace UAPI
         /// <summary>
         /// 查询bilibili稿件时返回的Json列表
         /// </summary>
-        public class ArchiveType
+        public class ArchiveType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            public string code { get; set; }
-
-            /// <summary>
-            /// 错误消息
-            /// </summary>
-            public string message { get; set; }
-
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            public string details { get; set; }
-
             /// <summary>
             /// 投搞的视频总数量
             /// </summary>

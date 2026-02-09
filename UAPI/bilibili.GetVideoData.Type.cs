@@ -9,18 +9,8 @@ namespace UAPI
         /// <summary>
         /// bilibili视频的返回属性列表
         /// </summary>
-        public class VideoType
+        public class VideoType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            public string details { get; set; }
-
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            public string error { get; set; }
-
             /// <summary>
             /// 稿件的BV号。
             /// </summary>

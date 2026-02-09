@@ -7,26 +7,8 @@ namespace UAPI
         /// <summary>
         /// 查询bilibili用户时返回的Json列表
         /// </summary>
-        public class UserType
+        public class UserType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            [JsonProperty("code")]
-            public string code { get; set; }
-
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            [JsonProperty("message")]
-            public string message { get; set; }
-
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            [JsonProperty("details")]
-            public string details { get; set; }
-
             /// <summary>
             /// bilibili 用户的 UID
             /// </summary>

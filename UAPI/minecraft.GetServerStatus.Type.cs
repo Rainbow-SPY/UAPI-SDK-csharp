@@ -5,23 +5,8 @@ namespace UAPI
         /// <summary>
         /// 查询Minecraft游戏服务器返回的属性列表
         /// </summary>
-        public class ServerType
+        public class ServerType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            public string code { get; set; }
-
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            public string details { get; set; }
-
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            public string message { get; set; }
-
             /// <summary>
             /// 服务器图标的 Base64 Data URI
             /// </summary>

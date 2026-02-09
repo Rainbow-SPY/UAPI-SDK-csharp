@@ -7,13 +7,8 @@ namespace UAPI
         /// <summary>
         /// 获取指定城市的数据更新时间信息属性
         /// </summary>
-        public class WeatherType
+        public class WeatherType: Interface.TypeInterface
         {
-            /// <summary>
-            /// 错误的返回值
-            /// </summary>
-            public string code { get; set; }
-
             /// <summary>
             /// 省份名称
             /// </summary>
@@ -58,11 +53,6 @@ namespace UAPI
             /// 数据更新时间	
             /// </summary>
             public string report_time { get; set; }
-
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            public string message { get; set; }
 
             /// <summary>
             /// <see langword="double"/> 一天中的最高温度

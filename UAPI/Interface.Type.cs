@@ -14,6 +14,11 @@ namespace UAPI
             /// </summary>
             [JsonProperty("code")]
             public string code { get; set; }
+            /// <summary>
+            /// 错误代码
+            /// </summary>
+            [JsonProperty("error")]
+            public string error { get; set; }
 
             /// <summary>
             /// 错误信息

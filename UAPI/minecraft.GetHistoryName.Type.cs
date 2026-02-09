@@ -7,23 +7,8 @@ namespace UAPI
         /// <summary>
         /// 查询Minecraft玩家历史昵称的属性值列表
         /// </summary>
-        public class HistoryType
+        public class HistoryType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            public string code { get; set; }
-
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            public string details { get; set; }
-
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            public string message { get; set; }
-
             /// <summary>
             /// 历史昵称的属性值列表
             /// </summary>

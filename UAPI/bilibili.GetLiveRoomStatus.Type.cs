@@ -8,7 +8,7 @@ namespace UAPI
         /// <summary>
         /// 查询bilibili直播间时返回的Json列表
         /// </summary>
-        public class LiveRoomType
+        public class LiveRoomType : Interface.TypeInterface
         {
             /// <summary>
             /// 头像框
@@ -69,18 +69,6 @@ namespace UAPI
                 [JsonProperty("badge")]
                 public Badge badge { get; set; }
             }
-
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            [JsonProperty("details")]
-            public string details { get; set; }
-
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            [JsonProperty("error")]
-            public string error { get; set; }
 
             /// <summary>
             /// 主播的用户ID (mid)。
