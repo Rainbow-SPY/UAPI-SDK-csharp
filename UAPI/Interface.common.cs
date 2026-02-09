@@ -70,7 +70,8 @@ namespace UAPI
         /// <typeparam name="T">指定为继承 <see cref="Interface.Hotboard.HotboardInterface"/> 的公共类</typeparam>
         /// <returns><see langword="bool"/> 类型的返回状态<br/>当请求成功时(200) 会返回 <see langword="true"/> , 反之则返回 <see langword="false"/> 或 <see langword="throw"/> 异常</returns>
         /// <exception cref="General.UAPIServerDown">UAPI 请求源服务器异常</exception>
-        /// <exception cref="UAPI.IException.github.GithubAPIServiceError"></exception>
+        /// <exception cref="UnauthorizedAccessException">未经授权的操作引发的异常</exception>
+        /// <exception cref="_Exception">指定为继承 <see cref="System.Exception"/> 的自定义异常</exception>
         internal static bool IsGetSuccessful<T>(T Type, string NullValue, int StatusCode, Exception _Exception,
             string _Error_Type,
             string Error_Code = "")
@@ -79,6 +80,9 @@ namespace UAPI
             if (Type == null) return false;
             switch (StatusCode)
             {
+                case 200:
+                    LogLibraries.WriteLog.Info(LogLibraries.LogKind.Network, "请求成功");
+                    return true;
                 case 400:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
                         $"{_value_Not_Is_NullOrEmpty(NullValue)}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
@@ -86,24 +90,9 @@ namespace UAPI
                         $"{_value_Not_Is_NullOrEmpty(NullValue)}, {_ERROR_CODE}: {_String_NullOrEmpty}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
                         _ERROR);
                     break;
-                case 500:
-                    LogLibraries.WriteLog.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
-                    LogLibraries.MessageBox_I.Error(
-                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
-                        _ERROR);
-                    throw new General.UAPIServerDown();
-
-                case 502:
-                    LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
-                        $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
-                    LogLibraries.MessageBox_I.Error(
-                        $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
-                        _ERROR);
-                    throw _Exception;
-                case 200:
-                    LogLibraries.WriteLog.Info(LogLibraries.LogKind.Network, "请求成功");
-                    return true;
+                case 401:
+                    LogLibraries.WriteLog.Error("UnAuthorized", "未经授权的操作");
+                    throw new UnauthorizedAccessException("未经授权的操作");
                 case 403:
                     LogLibraries.WriteLog.Warning(LogLibraries.LogKind.Network, "您已被限制请求, 因 请求量过大.");
                     LogLibraries.MessageBox_I.Warning("您已被限制请求, 因 请求量过大.", _ERROR);
@@ -112,6 +101,22 @@ namespace UAPI
                     LogLibraries.WriteLog.Warning("未找到用户");
                     LogLibraries.MessageBox_I.Warning("未找到用户", _ERROR);
                     break;
+                case 500:
+                    LogLibraries.WriteLog.Error(
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
+                        _ERROR);
+                    throw new General.UAPIServerDown(
+                        $"UAPI 服务器内部错误, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Server_Down}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+
+                case 502:
+                    LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
+                        $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
+                        _ERROR);
+                    throw _Exception;
                 case -1:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
                     LogLibraries.MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
