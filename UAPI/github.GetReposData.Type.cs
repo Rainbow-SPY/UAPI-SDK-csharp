@@ -10,26 +10,8 @@ namespace UAPI
         /// <summary>
         /// 查询github仓库时返回的Json列表
         /// </summary>
-        public class ReposType
+        public class ReposType : Interface.TypeInterface
         {
-            /// <summary>
-            /// 错误代码
-            /// </summary>
-            [JsonProperty("code")]
-            public string code { get; set; }
-
-            /// <summary>
-            /// 详细错误信息
-            /// </summary>
-            [JsonProperty("details")]
-            public string details { get; set; }
-
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            [JsonProperty("message")]
-            public string message { get; set; }
-
             /// <summary>
             /// 完整名称
             /// </summary>

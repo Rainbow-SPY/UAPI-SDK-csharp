@@ -111,6 +111,7 @@
         <Compile Include="hotboard.NeteaseMusic.cs" />
         <Compile Include="hotboard.NeteaseMusic.Type.cs" />
         <Compile Include="IException\IException.EpicGames.cs"/>
+        <Compile Include="IException\IException.Hotboard.cs" />
         <Compile Include="IException\IException.minecraft.cs"/>
         <Compile Include="IException\IException.Steam.cs"/>
         <Compile Include="IException\IException.Weather.cs"/>
@@ -123,6 +124,8 @@
         <Compile Include="Interface.Convert.cs" />
         <Compile Include="Interface.APIHealthStatus.Type.cs" />
         <Compile Include="Interface.HotBoard.cs" />
+        <Compile Include="Interface.HotBoard.Type.cs" />
+        <Compile Include="Interface.Type.cs" />
         <Compile Include="minecraft.GetHistoryName.cs"/>
         <Compile Include="minecraft.GetServerStatus.cs"/>
         <Compile Include="minecraft.GetUserData.cs"/>

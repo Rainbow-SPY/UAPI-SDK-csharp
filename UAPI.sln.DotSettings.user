@@ -7,6 +7,7 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005C_0024Release_005CRox_005CRox_002ESocialMedia_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005C_0024Release_005CRox_005CRox_002EText_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AHttpResponseMessage_002Ecs_002Fl_003AC_0021_003FUsers_003FAdministrator_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Ff672648ee8864b3c8f886a61b66fcf2430f98_003F1d_003F01afe6ab_003FHttpResponseMessage_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AHttpStatusCode_002Ecs_002Fl_003AC_0021_003FUsers_003FAdministrator_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fbf96c78e936748a3b715b367347c59e33671b0_003Ff1_003F005a60dd_003FHttpStatusCode_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Adcode/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Mojang/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=orderby/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
