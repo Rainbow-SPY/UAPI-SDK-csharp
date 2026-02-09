@@ -15,6 +15,7 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
+            TestNeteaseMusic().Wait();
             TestBiliVideo().Wait();
             TestMinecraftServer().Wait();
             TestMinecraftHistoryName().Wait();
@@ -29,6 +30,34 @@ namespace TestConsole
             Task.Run(EpicGames.GetDataJson).Wait();
             TestGithubRepos().Wait();
             _stopwatch.Reset();
+        }
+
+        public static async Task TestNeteaseMusic()
+        {
+            WriteLog.Info("测试网易云音乐");
+            try
+            {
+                var a = await hotboard.GetNeteaseMusicHotboard();
+                var b = $"\n\n查询类型: {a.type}" +
+                              $"\n更新时间: {a.update_time}" +
+                              $"\n排行榜信息: ";
+                foreach (var i in a.list)
+                {
+                    b += $"\n\t排名: {i.index}" +
+                         $"\n\t{i.extra.artist_names} - {i.title}, 时长: {i.extra.duration_text}, 热度值: {i.hot_value}" +
+                         $"\n\tID: {i.extra.id}" +
+                         $"\n\t专辑名称: {i.extra.album}" +
+                         $"\n\t专辑链接: {i.url}" +
+                         $"\n\t专辑封面: {i.cover}" +
+                         $"\n\t上次的热榜排名: {i.extra.last_rank}\n";
+                }
+                WriteLog.Info(b);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public static async Task TestUAPIHealth()

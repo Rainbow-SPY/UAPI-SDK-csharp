@@ -49,7 +49,7 @@ namespace UAPI
             /// <summary>
             /// 歌曲在网易云音乐的唯一ID
             /// </summary>
-            public int id { get; set; }
+            public long id { get; set; }
             /// <summary>
             /// 上次的热榜排名
             /// </summary>
