@@ -11,6 +11,8 @@
 //  This code for catch any exceptions from QQ API through a third-party interface.
 //  Now Play:       Ave Mujica - KiLLKiSS
 
+using System;
+
 namespace UAPI.IException
 {
     /// <summary>
@@ -23,7 +25,7 @@ namespace UAPI.IException
         /// <summary>
         /// QQ 在线API服务错误或无法请求
         /// </summary>
-        public class QQServiceError : System.Exception
+        public class QQServiceError : Exception
         {
             /// <summary>
             /// QQ 在线API服务错误或无法请求
@@ -36,14 +38,14 @@ namespace UAPI.IException
             /// <summary>
             /// QQ 在线API服务错误或无法请求
             /// </summary>
-            public QQServiceError(string message, System.Exception inner) : base(message, inner)
+            public QQServiceError(string message, Exception inner) : base(message, inner)
             {
             }
 
             /// <summary>
             /// QQ 在线API服务错误或无法请求
             /// </summary>
-            public QQServiceError() : base()
+            public QQServiceError()
             {
             }
         }

@@ -12,8 +12,6 @@
 //  Now Play:       MyGO!!!!! - 春日影 (MyGO!!!!! ver.)
 
 using System.Threading.Tasks;
-using UAPI.IException;
-using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 
 namespace UAPI
@@ -54,7 +52,7 @@ namespace UAPI
             var (LiveRoomStatus, statusCode) =
                 await Interface.GetResult<LiveRoomType>(
                     $@"{requestUrl_Main}liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
-            if (!Interface.IsGetSuccessful<LiveRoomType>(LiveRoomStatus, "mid 或 room_id", statusCode,
+            if (!Interface.IsGetSuccessful(LiveRoomStatus, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",
                     IException.bilibili._Bilibili_Service_Error))
                 WriteLog.Error(LogKind.Network, $"请求失败, 请重试, 返回值: {statusCode}");

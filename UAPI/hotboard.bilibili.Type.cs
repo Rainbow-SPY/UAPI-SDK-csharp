@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -38,7 +39,7 @@ namespace UAPI
                 /// <summary>
                 /// UID
                 /// </summary>
-                public int Mid { get; set; }
+                public long Mid { get; set; }
 
                 /// <summary>
                 /// 昵称
@@ -54,37 +55,79 @@ namespace UAPI
                 /// <summary>
                 /// 投币量
                 /// </summary>
-                public int Coin { get; set; }
+                public string Coin => Interface.FormatPlayCount(Coin_int);
+
+                /// <summary>
+                /// 投币量
+                /// </summary>
+                [JsonProperty("coin")]
+                public int Coin_int { get; set; }
 
                 /// <summary>
                 /// 弹幕量
                 /// </summary>
-                public int Danmaku { get; set; }
+                public string Danmaku => Interface.FormatPlayCount(Danmaku_int);
+
+                /// <summary>
+                /// 弹幕量
+                /// </summary>
+                [JsonProperty("danmaku")]
+                public int Danmaku_int { get; set; }
 
                 /// <summary>
                 /// 收藏量
                 /// </summary>
-                public int Favorite { get; set; }
+                public string Favorite => Interface.FormatPlayCount(Favorite_int);
+
+                /// <summary>
+                /// 收藏量
+                /// </summary>
+                [JsonProperty("favorite")]
+                public int Favorite_int { get; set; }
 
                 /// <summary>
                 /// 点赞量
                 /// </summary>
-                public int Like { get; set; }
+                public string Like => Interface.FormatPlayCount(Like_int);
+
+                /// <summary>
+                /// 点赞量
+                /// </summary>
+                [JsonProperty("like")]
+                public int Like_int { get; set; }
 
                 /// <summary>
                 /// 评论量
                 /// </summary>
-                public int Reply { get; set; }
+                public string Reply => Interface.FormatPlayCount(Reply_int);
+
+                /// <summary>
+                /// 评论量
+                /// </summary>
+                [JsonProperty("reply")]
+                public int Reply_int { get; set; }
 
                 /// <summary>
                 /// 分享量
                 /// </summary>
-                public int Share { get; set; }
+                public string Share => Interface.FormatPlayCount(Share_int);
+
+                /// <summary>
+                /// 分享量
+                /// </summary>
+                [JsonProperty("share")]
+                public int Share_int { get; set; }
 
                 /// <summary>
                 /// 观看量
                 /// </summary>
-                public int View { get; set; }
+                public string view => Interface.FormatPlayCount(View_int);
+
+                /// <summary>
+                /// 观看量
+                /// </summary>
+                [JsonProperty("view")]
+                public int View_int { get; set; }
             }
 
             /// <summary>
@@ -112,7 +155,7 @@ namespace UAPI
                 /// </summary>
                 public string duration => Interface.FormatSecondsTime(seconds);
 
-                internal int seconds { get; set; }
+                [JsonProperty("duration")] internal int seconds { get; set; }
 
                 /// <summary>
                 /// UP主信息
@@ -127,9 +170,14 @@ namespace UAPI
                 /// <summary>
                 /// 发布时间
                 /// </summary>
-                public string pubdate => Interface.FormatISO8601TimeToLocal(pubdate_ISO8601);
+                public string pubdate_str => pubdate.Contains("T")
+                    ? Interface.FormatISO8601TimeToLocal(pubdate)
+                    : pubdate;
 
-                internal string pubdate_ISO8601 { get; set; }
+                /// <summary>
+                /// 发布时间
+                /// </summary>
+                public string pubdate { get; set; }
 
                 /// <summary>
                 /// 视频荣誉

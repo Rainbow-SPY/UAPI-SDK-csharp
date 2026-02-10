@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 
 namespace UAPI
@@ -22,7 +21,7 @@ namespace UAPI
         {
             const string requestUrl = @"https://uapis.cn/api/v1/game/epic-free";
             var (result, statuscode) = await Interface.GetResult<EpicType>(requestUrl);
-            if (!Interface.IsGetSuccessful<EpicType>(result, "", statuscode,
+            if (!Interface.IsGetSuccessful(result, "", statuscode,
                     new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games"))
                 WriteLog.Error("请求失败, 请重试");
             foreach (var game in result.data)

@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -16,7 +15,7 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<VideoType>(
                 $"https://uapis.cn/api/v1/social/bilibili/videoinfo?{(IDType.ToString().ToLower() == "bvid" ? "bvid" : "aid")}={video_id}");
-            if (!Interface.IsGetSuccessful<VideoType>(result, "aid_or_bvid", statusCode,
+            if (!Interface.IsGetSuccessful(result, "aid_or_bvid", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",
                     IException.bilibili._Bilibili_Service_Error)) LogLibraries.WriteLog.Error("请求失败,请重试!");
             return result;

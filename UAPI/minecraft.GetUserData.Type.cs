@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace UAPI
 {
     public partial class minecraft

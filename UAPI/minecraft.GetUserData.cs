@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -19,7 +18,7 @@ namespace UAPI
         public static async Task<UserType> GetUserData(string username)
         {
             var (result, statusCode) = await Interface.GetResult<UserType>($"{requestUrl}?username={username}");
-            if (!Interface.IsGetSuccessful<UserType>(result, "owner_and_repo", statusCode,
+            if (!Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",
                     IException.minecraft._Mojang_API_Service_Error))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");

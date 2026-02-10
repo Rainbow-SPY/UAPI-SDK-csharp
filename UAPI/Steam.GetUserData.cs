@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Steam.SteamID;
@@ -80,7 +79,8 @@ namespace UAPI
                                         $"{_Exception_With_xKind("Regex")}, 返回的错误代码: {_Regex_Match_Unknow_Exception} ");
                                     return null;
                                 }
-                                else if (ExtractSteamID(SteamID) == _Regex_Match_Not_Found_Any)
+
+                                if (ExtractSteamID(SteamID) == _Regex_Match_Not_Found_Any)
                                 {
                                     WriteLog.Error(LogKind.Regex,
                                         $"未匹配到任何 正则表达式 , 返回的错误代码: {_Regex_Match_Not_Found_Any}");
@@ -91,8 +91,8 @@ namespace UAPI
                                     key); //解析SteamID64
                         }
                     }
-                    else
-                        return await SendQueryMessage("steamid", SteamID, key);
+
+                    return await SendQueryMessage("steamid", SteamID, key);
             }
         }
 
@@ -101,7 +101,7 @@ namespace UAPI
             var requestUrl =
                 $"https://uapis.cn/api/v1/game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";
             var (result, statusCode) = await Interface.GetResult<SteamType>(requestUrl);
-            if (!Interface.IsGetSuccessful<SteamType>(result, "SteamID", statusCode,
+            if (!Interface.IsGetSuccessful(result, "SteamID", statusCode,
                     new IException.Steam.SteamServiceError(), "Steam", _Steam_Service_Error))
                 WriteLog.Error("请求失败,请重试");
             return result;
@@ -131,7 +131,7 @@ namespace UAPI
                 }
 
                 // 尝试匹配 17 位数字 ID
-                WriteLog.Info(LogKind.Regex, $"正则表达式匹配17位ID");
+                WriteLog.Info(LogKind.Regex, "正则表达式匹配17位ID");
                 var numericIdMatch = Regex.Match(url, numericIdPattern);
                 if (numericIdMatch.Success)
                 {

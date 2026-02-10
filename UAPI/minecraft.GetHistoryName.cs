@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -16,7 +15,7 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<HistoryType>(
                 $"https://uapis.cn/api/v1/game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}");
-            if (!Interface.IsGetSuccessful<HistoryType>(result, "name_or_uuid", statusCode,
+            if (!Interface.IsGetSuccessful(result, "name_or_uuid", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",
                     IException.minecraft._Mojang_API_Service_Error))
                 LogLibraries.WriteLog.Error("请求失败,请重试!");

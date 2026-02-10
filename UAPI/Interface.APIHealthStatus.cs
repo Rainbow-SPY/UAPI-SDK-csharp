@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
+using UAPI.IException;
 
 namespace UAPI
 {
@@ -13,7 +13,7 @@ namespace UAPI
         public static async Task<HealthType> APIHealthStatus()
         {
             var (result, statusCode) = await GetResult<HealthType>("https://uapis.cn/api/status/health");
-            if (!Interface.IsGetSuccessful<HealthType>(result, "", statusCode, new IException.General.UAPIServerDown(),
+            if (!IsGetSuccessful(result, "", statusCode, new General.UAPIServerDown(),
                     "Health"))
                 LogLibraries.WriteLog.Error("请求错误,请重试");
             return result;

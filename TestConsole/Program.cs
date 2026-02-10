@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UAPI;
 using static Rox.Runtimes.LocalizedString;
@@ -15,32 +16,87 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
-            TestNeteaseMusic().Wait();
-            TestBiliVideo().Wait();
-            TestMinecraftServer().Wait();
+            TestbilibiliHotboard().Wait();
+            TestNeteaseMusicHotboard().Wait();
+            Thread.Sleep((2000));
+            TestBiliVideoData().Wait();
+            TestMinecraftServerStatus().Wait();
             TestMinecraftHistoryName().Wait();
             TestLiveRoomStatus().Wait();
-            TestUAPIHealth().Wait();
-            TestBiliUser().Wait();
-            TestBiliArchive().Wait();
-            TestQQUser().Wait();
-            TestQQGroup().Wait();
-            TestSteamUser().Wait();
-            TestWeather().Wait();
+            TestUAPIHealthStatus().Wait();
+            TestBiliUserData().Wait();
+            TestBiliArchiveData().Wait();
+            TestQQUserData().Wait();
+            TestQQGroupData().Wait();
+            TestSteamUserData().Wait();
+            TestWeatherData().Wait();
             Task.Run(EpicGames.GetDataJson).Wait();
-            TestGithubRepos().Wait();
+            TestGithubRepoData().Wait();
             _stopwatch.Reset();
         }
 
-        public static async Task TestNeteaseMusic()
+        private static void CatchAnyException(string _void, Exception e)
+        {
+            WriteLog.Error((_Exception_With_xKind(_void, e)));
+            Thread.Sleep(2000);
+        }
+
+        public static async Task TestbilibiliHotboard()
+        {
+            WriteLog.Info("测试bilibili热榜");
+            try
+            {
+                var a = await hotboard.GetBilibiliHotboard();
+                var b = $"\n\n查询类型: {a.type}" +
+                        $"\n更新时间: {a.update_time_str}" +
+                        $"\n排行榜信息: ";
+                foreach (var i in a.list)
+                {
+                    b += $"\n\t排名: {i.index}" +
+                         $"\n\t视频标题: {i.title}" +
+                         $"\n\t视频链接: {i.url}" +
+                         $"\n\t视频短链接: {i.extra.short_link}" +
+                         $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.hot_value.Replace("播放", ""), out var p) ? p : 0)}" +
+                         $"\n\n视频详细信息:" +
+                         $"\n\tAV号: {i.extra.aid}" +
+                         $"\n\tBV号: {i.extra.bvid}" +
+                         $"\n\t简介: {i.extra.desc}" +
+                         $"\n\t总计时长: {i.extra.duration}" +
+                         $"\n\t视频封面: {i.extra.pic}" +
+                         $"\n\t发布时间: {i.extra.pubdate_str}" +
+                         $"\n\t荣誉: {i.extra.rcmd_reason}" +
+                         $"\n\t视频分区: {i.extra.tname}" +
+                         $"\n\n视频统计信息:" +
+                         $"\n\t播放量: {i.extra.stat.view}" +
+                         $"\n\t点赞量: {i.extra.stat.Like}" +
+                         $"\n\t投币量: {i.extra.stat.Coin}" +
+                         $"\n\t收藏量: {i.extra.stat.Favorite}" +
+                         $"\n\t分享量: {i.extra.stat.Share}" +
+                         $"\n\t弹幕量: {i.extra.stat.Danmaku}" +
+                         $"\n\t评论量: {i.extra.stat.Reply}" +
+                         $"\n\n视频UP主信息:" +
+                         $"\n\t昵称: {i.extra.owner.Name}" +
+                         $"\n\tUID: {i.extra.owner.Mid}" +
+                         $"\n\t头像链接: {i.extra.owner.Face}";
+                }
+
+                WriteLog.Info(b);
+            }
+            catch (Exception e)
+            {
+                CatchAnyException("bilibili Hotboard", e);
+            }
+        }
+
+        public static async Task TestNeteaseMusicHotboard()
         {
             WriteLog.Info("测试网易云音乐");
             try
             {
                 var a = await hotboard.GetNeteaseMusicHotboard();
                 var b = $"\n\n查询类型: {a.type}" +
-                              $"\n更新时间: {a.update_time}" +
-                              $"\n排行榜信息: ";
+                        $"\n更新时间: {a.update_time_str}" +
+                        $"\n排行榜信息: ";
                 foreach (var i in a.list)
                 {
                     b += $"\n\t排名: {i.index}" +
@@ -51,16 +107,16 @@ namespace TestConsole
                          $"\n\t专辑封面: {i.cover}" +
                          $"\n\t上次的热榜排名: {i.extra.last_rank}\n";
                 }
+
                 WriteLog.Info(b);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                CatchAnyException("Netease Music Hotboard", e);
             }
         }
 
-        public static async Task TestUAPIHealth()
+        public static async Task TestUAPIHealthStatus()
         {
             WriteLog.Info("测试UAPI系统状态");
             try
@@ -99,12 +155,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("UAPI Health Status", e));
-                throw;
+                CatchAnyException("UAPI Health Status", e);
             }
         }
 
-        public static async Task TestBiliVideo()
+        public static async Task TestBiliVideoData()
         {
             WriteLog.Info("测试B站视频信息");
             try
@@ -226,8 +281,7 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                CatchAnyException("GetBilibili Video Data", e);
             }
         }
 
@@ -262,12 +316,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Info(_Exception_With_xKind("捕获到LiveRoomStatus错误暂停", e));
-                Console.ReadLine();
+                CatchAnyException("捕获到LiveRoomStatus错误暂停", e);
             }
         }
 
-        public static async Task TestSteamUser()
+        public static async Task TestSteamUserData()
         {
             WriteLog.Info("测试Steam用户");
             try
@@ -294,12 +347,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("捕获到SteamType错误", e));
-                throw;
+                CatchAnyException("捕获到SteamType错误", e);
             }
         }
 
-        public static async Task TestWeather()
+        public static async Task TestWeatherData()
         {
             WriteLog.Info("测试天气......");
             try
@@ -341,12 +393,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("TestWeather", e));
-                throw;
+                CatchAnyException("TestWeather", e);
             }
         }
 
-        public static async Task TestBiliUser()
+        public static async Task TestBiliUserData()
         {
             WriteLog.Info("测试B站用户信息获取......");
             try
@@ -371,12 +422,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                CatchAnyException("GetBilibili User Data", e);
             }
         }
 
-        public static async Task TestBiliArchive()
+        public static async Task TestBiliArchiveData()
         {
             WriteLog.Info("测试B站用户的投稿信息...");
             try
@@ -405,12 +455,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("bilibili archives", e));
-                throw;
+                CatchAnyException("GetBilibili archives Data", e);
             }
         }
 
-        public static async Task TestMinecraftServer()
+        public static async Task TestMinecraftServerStatus()
         {
             WriteLog.Info("测试获取Minecraft游戏服务器信息");
             try
@@ -431,8 +480,7 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("hypixel.net", e));
-                throw;
+                CatchAnyException("GetMinecraft Server Data", e);
             }
         }
 
@@ -464,12 +512,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("MinecraftHistoryName", e));
-                throw;
+                CatchAnyException("GetMinecraftHistoryName", e);
             }
         }
 
-        public static async Task TestQQUser()
+        public static async Task TestQQUserData()
         {
             WriteLog.Info("测试获取QQ用户信息...");
             try
@@ -495,12 +542,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                CatchAnyException("GetQQ User Data", e);
             }
         }
 
-        public static async Task TestQQGroup()
+        public static async Task TestQQGroupData()
         {
             WriteLog.Info("测试获取群聊信息...");
             try
@@ -529,12 +575,11 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                CatchAnyException("GetQQ Group Data", e);
             }
         }
 
-        public static async Task TestGithubRepos()
+        public static async Task TestGithubRepoData()
         {
             WriteLog.Info("测试github仓库");
             try
@@ -583,8 +628,7 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                CatchAnyException("GetGithubRepos Data", e);
             }
         }
     }

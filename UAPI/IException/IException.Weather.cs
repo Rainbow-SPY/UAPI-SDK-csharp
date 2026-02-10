@@ -15,7 +15,7 @@ namespace UAPI.IException
             /// <summary>
             /// 天气供应商API不可用, 无法访问天气供应商提供的API
             /// </summary>
-            public WeatherServiceError() : base()
+            public WeatherServiceError()
             {
             }
 
@@ -45,7 +45,7 @@ namespace UAPI.IException
             /// <summary>
             /// UAPI 服务器内部错误, 在处理天气数据时发生了未知问题
             /// </summary>
-            public WeatherAPIServerError() : base()
+            public WeatherAPIServerError()
             {
             }
 

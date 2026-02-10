@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -15,7 +14,7 @@ namespace UAPI
         {
             var (result, statusCode) =
                 await Interface.GetResult<GroupType>($"{_UAPI_Request_Url}groupinfo?group_id={group_id}");
-            if (!Interface.IsGetSuccessful<GroupType>(result, "group_id", statusCode,
+            if (!Interface.IsGetSuccessful(result, "group_id", statusCode,
                     new IException.QQ.QQServiceError(), "QQ",
                     IException.QQ._QQ_Service_Error))
                 LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network, "请求失败, 请重试");
