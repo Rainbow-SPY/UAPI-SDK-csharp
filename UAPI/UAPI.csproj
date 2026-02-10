@@ -108,6 +108,8 @@
         <Compile Include="EpicGames.GetFreeGames.Type.cs" />
         <Compile Include="github.GetReposData.cs"/>
         <Compile Include="github.GetReposData.Type.cs" />
+        <Compile Include="hotboard.bilibili.cs" />
+        <Compile Include="hotboard.bilibili.Type.cs" />
         <Compile Include="hotboard.NeteaseMusic.cs" />
         <Compile Include="hotboard.NeteaseMusic.Type.cs" />
         <Compile Include="IException\IException.EpicGames.cs"/>

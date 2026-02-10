@@ -23,8 +23,18 @@ namespace UAPI
             out var dt)
             ? dt.ToString("yyyy-MM-dd")
             : string.Empty;
-
         /// <summary>
+        /// 将ISO 8601格式（YYYY-MM-DDTHH:mm:ssZ）的UTC时间转换为本地时间，并格式化为指定格式
+        /// </summary>
+        /// <param name="iso8601Time">ISO 8601格式的时间字符串（带Z后缀）</param>
+        /// <returns>格式化后的本地时间字符串，格式：yyyy-M-d dddd</returns>
+        /// <exception cref="ArgumentException">输入时间字符串格式无效/为空时抛出</exception>
+        public static string FormatISO8601TimeToLocal(string iso8601Time) => 
+            string.IsNullOrWhiteSpace(iso8601Time) 
+                ? throw new ArgumentException("输入的ISO 8601时间字符串不能为空", nameof(iso8601Time)) 
+                : DateTime.TryParseExact(iso8601Time, "o", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var utcTime)
+                    ? utcTime.ToLocalTime().ToString("yyyy-M-d dddd", CultureInfo.CurrentCulture)
+                    : throw new ArgumentException($"无效的ISO 8601时间格式：{iso8601Time}，请确保格式为 YYYY-MM-DDTHH:mm:ssZ", nameof(iso8601Time));        /// <summary>
         /// 识别总长时间并转换为HH:MM:SS格式的字符串
         /// </summary>
         /// <param name="_time">时间 (秒)</param>

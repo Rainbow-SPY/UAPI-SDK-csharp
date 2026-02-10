@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
@@ -40,7 +41,11 @@ namespace UAPI
 
                         LogLibraries.WriteLog.Info(LogLibraries.LogKind.Json, "压缩 Json");
                         var compressedJson = CompressJson(responseData);
-                        var result = JsonConvert.DeserializeObject<T>(compressedJson);
+                        var result = JsonConvert.DeserializeObject<T>(compressedJson,
+                            new JsonSerializerSettings
+                            {
+                                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                            });
                         return (result, statusCode);
                     }
                 }
