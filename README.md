@@ -9,29 +9,29 @@
 - [Rainbow-SPY](https://github.com/Rainbow-SPY)
 - [Shuakami](https://github.com/shuakami/)
 
-## 📜 License / 许可证
+##  License / 许可证
 
 Copyright (©) AxT-Team & UApi, Developer: Rainbow-SPY. All content is protected by copyright.
 
 This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**.
 
-- 🔍 **You must**:
+-  **You must**:
     - Keep original author attribution and repository link.
     - Open-source any modified versions under AGPL-3.0.
-- 🚫 **You cannot**:
+-  **You cannot**:
     - Use this code (or derivatives) for commercial purposes.
-- 📂 See [LICENSE](LICENSE) for full terms.
+-  See [LICENSE](LICENSE) for full terms.
 
 版权所有 (©) AxT-Team & UApi，开发者：Rainbow-SPY，所有内容均受版权保护。
 
 本项目采用 **AGPL-3.0 + 署名 + 非商业附加条款** 许可协议。
 
-- 🔍 **您必须**：
+-  **您必须**：
     - 保留原始作者署名及仓库链接。
     - 任何修改后的版本必须以 AGPL-3.0 协议开源。
-- 🚫 **您不得**：
+-  **您不得**：
     - 将此代码（或衍生作品）用于商业用途。
-- 📂 完整条款参见 [LICENSE](LICENSE)
+-  完整条款参见 [LICENSE](LICENSE)
 
 ## 目录
 
@@ -194,10 +194,10 @@ var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType sear
     * **_param:** 指定要查询的用户UUID或昵称
     * **searchType:** 指定查询的查找方式, 可供使用的枚举如下:
 
-  | 枚举值 | 注释 |
-  |:-----:|:--------:|
-  | UUID | 以UUID查找 |
-  | Name | 以昵称查找 |
+      | 枚举值 | 注释 |
+      |:-----:|:--------:|
+      | UUID | 以UUID查找 |
+      | Name | 以昵称查找 |
 * **返回类型:** `Task <UAPI.bilibili.HistoryType>`
 * **返回值:** `HistoryType` 对象
 * **异常:**
