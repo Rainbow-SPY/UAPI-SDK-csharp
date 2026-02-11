@@ -36,7 +36,7 @@
         <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High"/>
         <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High"/>
     </Target>
-    
+
     <!-- 2. 动态生成GitAssemblyInfo.cs（保留using、无覆盖、语法正确、版本注入成功） -->
     <Target Name="WriteAssemblyInfo" AfterTargets="GetGitInfo" BeforeTargets="CoreCompile">
         <PropertyGroup>
@@ -96,24 +96,24 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="bilibili.GetArchives.Type.cs" />
+        <Compile Include="bilibili.GetArchives.Type.cs"/>
         <Compile Include="bilibili.GetArchives.cs"/>
         <Compile Include="bilibili.GetUserData.cs"/>
-        <Compile Include="bilibili.GetVideoData.cs" />
-        <Compile Include="bilibili.GetLiveRoomStatus.Type.cs" />
+        <Compile Include="bilibili.GetVideoData.cs"/>
+        <Compile Include="bilibili.GetLiveRoomStatus.Type.cs"/>
         <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
-        <Compile Include="bilibili.GetUserData.Type.cs" />
-        <Compile Include="bilibili.GetVideoData.Type.cs" />
+        <Compile Include="bilibili.GetUserData.Type.cs"/>
+        <Compile Include="bilibili.GetVideoData.Type.cs"/>
         <Compile Include="EpicGames.GetFreeGames.cs"/>
-        <Compile Include="EpicGames.GetFreeGames.Type.cs" />
+        <Compile Include="EpicGames.GetFreeGames.Type.cs"/>
         <Compile Include="github.GetReposData.cs"/>
-        <Compile Include="github.GetReposData.Type.cs" />
-        <Compile Include="hotboard.bilibili.cs" />
-        <Compile Include="hotboard.bilibili.Type.cs" />
-        <Compile Include="hotboard.NeteaseMusic.cs" />
-        <Compile Include="hotboard.NeteaseMusic.Type.cs" />
+        <Compile Include="github.GetReposData.Type.cs"/>
+        <Compile Include="hotboard.bilibili.cs"/>
+        <Compile Include="hotboard.bilibili.Type.cs"/>
+        <Compile Include="hotboard.NeteaseMusic.cs"/>
+        <Compile Include="hotboard.NeteaseMusic.Type.cs"/>
         <Compile Include="IException\IException.EpicGames.cs"/>
-        <Compile Include="IException\IException.Hotboard.cs" />
+        <Compile Include="IException\IException.Hotboard.cs"/>
         <Compile Include="IException\IException.minecraft.cs"/>
         <Compile Include="IException\IException.Steam.cs"/>
         <Compile Include="IException\IException.Weather.cs"/>
@@ -123,31 +123,31 @@
         <Compile Include="IException\IException.QQ.cs"/>
         <Compile Include="Interface.APIHealthStatus.cs"/>
         <Compile Include="Interface.common.cs"/>
-        <Compile Include="Interface.Convert.cs" />
-        <Compile Include="Interface.APIHealthStatus.Type.cs" />
-        <Compile Include="Interface.HotBoard.cs" />
-        <Compile Include="Interface.HotBoard.Type.cs" />
-        <Compile Include="Interface.Type.cs" />
+        <Compile Include="Interface.Convert.cs"/>
+        <Compile Include="Interface.APIHealthStatus.Type.cs"/>
+        <Compile Include="Interface.HotBoard.cs"/>
+        <Compile Include="Interface.HotBoard.Type.cs"/>
+        <Compile Include="Interface.Type.cs"/>
         <Compile Include="minecraft.GetHistoryName.cs"/>
         <Compile Include="minecraft.GetServerStatus.cs"/>
         <Compile Include="minecraft.GetUserData.cs"/>
-        <Compile Include="minecraft.GetHistoryName.Type.cs" />
-        <Compile Include="minecraft.GetServerStatus.Type.cs" />
-        <Compile Include="minecraft.GetUserData.Type.cs" />
-        <Compile Include="network.GetMyIP.cs" />
-        <Compile Include="network.GetMyIP.Type.cs" />
+        <Compile Include="minecraft.GetHistoryName.Type.cs"/>
+        <Compile Include="minecraft.GetServerStatus.Type.cs"/>
+        <Compile Include="minecraft.GetUserData.Type.cs"/>
+        <Compile Include="network.GetMyIP.cs"/>
+        <Compile Include="network.GetMyIP.Type.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="QQ.GetGroupData.cs"/>
         <Compile Include="QQ.GetUserData.cs"/>
-        <Compile Include="QQ.GetGroupData.Type.cs" />
-        <Compile Include="QQ.GetUserData.Type.cs" />
+        <Compile Include="QQ.GetGroupData.Type.cs"/>
+        <Compile Include="QQ.GetUserData.Type.cs"/>
         <Compile Include="Steam.SteamID.Converter.cs"/>
         <Compile Include="Steam.SteamID.cs"/>
         <Compile Include="Steam.SteamID.SteamIDType.cs"/>
         <Compile Include="Steam.GetUserData.cs"/>
-        <Compile Include="Steam.GetUserData.Type.cs" />
+        <Compile Include="Steam.GetUserData.Type.cs"/>
         <Compile Include="Weather.GetWeather.cs"/>
-        <Compile Include="Weather.GetWeather.Type.cs" />
+        <Compile Include="Weather.GetWeather.Type.cs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0"/>
