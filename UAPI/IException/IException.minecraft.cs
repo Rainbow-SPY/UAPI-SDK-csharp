@@ -8,7 +8,9 @@ namespace UAPI.IException
     public class minecraft : Exception
     {
         /// <summary></summary>
-        public const string _Mojang_API_Service_Error="Mojang API Service Error;Redirect to Microsoft/Xbox or Mojang API Service;HttpClient return 502;Type: UPSTREAM";
+        public const string _Mojang_API_Service_Error =
+            "Mojang API Service Error;Redirect to Microsoft/Xbox or Mojang API Service;HttpClient return 502;Type: UPSTREAM";
+
         /// <summary>
         /// 在向 Mojang 的官方 API 请求数据时遇到了问题
         /// </summary>

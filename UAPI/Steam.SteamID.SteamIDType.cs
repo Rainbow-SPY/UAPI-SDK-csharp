@@ -2,6 +2,7 @@
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Steam.SteamID.Converter;
+
 namespace UAPI
 {
     public partial class Steam
@@ -20,23 +21,28 @@ namespace UAPI
                 /// STEAM_x_xxxx
                 /// </summary>
                 SteamID,
+
                 /// <summary>
                 /// [U:1:1xxxx]
                 /// </summary>
                 SteamID3,
+
                 /// <summary>
                 /// 1xxxxxx
                 /// </summary>
                 SteamID32,
+
                 /// <summary>
                 /// 以 7656 为开头的
                 /// </summary>
                 SteamID64,
+
                 /// <summary>
                 /// 未识别到任何 <see cref="SteamIDType"/>, 等效于 <see langword="null"/>
                 /// </summary>
                 Invalid,
             }
+
             /// <summary>
             /// 匹配识别 <see cref="SteamIDType"/> 的类型
             /// </summary>
@@ -60,7 +66,6 @@ namespace UAPI
                     return SteamIDType.SteamID64;
                 return SteamIDType.Invalid;
             }
-
         }
     }
 }

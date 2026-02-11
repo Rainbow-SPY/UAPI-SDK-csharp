@@ -7,7 +7,7 @@ namespace UAPI
         /// <summary>
         /// 获取指定城市的数据更新时间信息属性
         /// </summary>
-        public class WeatherType: Interface.TypeInterface
+        public class WeatherType : Interface.TypeInterface
         {
             /// <summary>
             /// 省份名称
