@@ -29,7 +29,8 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
 - 📂 完整条款参见 [LICENSE](LICENSE)
 
 ## 目录
-1. 
+1. [请求bilibili热榜](#%E8%AF%B7%E6%B1%82-bilibili-%E7%83%AD%E6%A6%9C)
+2. [请求网易云音乐热榜](#请求网易云音乐热榜)
 
 ### 热榜请求
 #### 请求 Bilibili 热榜
@@ -42,6 +43,18 @@ var request = await UAPI.hotboard.GetBilibiliHotboard();
   - `UAPI.IException.General.UAPIServerDown`: 请求源服务器发生错误
   - `UnauthorizedAccessException`: 未经授权的请求操作
   - `$_Exception`:  指定为继承 `System.Exception` 的自定义异常
+___
+#### 请求网易云音乐热榜
+```csharp
+var request = await UAPI.hotboard.GetNeteaseMusicHotboard();
+```
+* **返回类型:** `Task <UAPI.hotboard.NeteaseType>`
+* **返回值:** `NeteaseType` 对象
+* **异常:**
+  - `UAPI.IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `$_Exception`:  指定为继承 `System.Exception` 的自定义异常
+
 
 ## 开发环境
 [Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)<br>
