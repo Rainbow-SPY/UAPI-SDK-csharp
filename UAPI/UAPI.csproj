@@ -11,7 +11,7 @@
         <RootNamespace>UAPI</RootNamespace>
         <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <BaseVersion>0.14.1</BaseVersion>
+        <BaseVersion>0.15.6</BaseVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
         <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
