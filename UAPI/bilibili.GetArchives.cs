@@ -14,7 +14,6 @@
 
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -35,7 +34,7 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<ArchiveType>(
                 $"{requestUrl_Main}archives?mid={mid}&orderby={orderby}&ps={ps}&pn={pn}&keywords={keywords}");
-            if (!Interface.IsGetSuccessful<ArchiveType>(result, "mid 或 room_id", statusCode,
+            if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",
                     IException.bilibili._Bilibili_Service_Error))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");

@@ -134,6 +134,8 @@
         <Compile Include="minecraft.GetHistoryName.Type.cs" />
         <Compile Include="minecraft.GetServerStatus.Type.cs" />
         <Compile Include="minecraft.GetUserData.Type.cs" />
+        <Compile Include="network.GetMyIP.cs" />
+        <Compile Include="network.GetMyIP.Type.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="QQ.GetGroupData.cs"/>
         <Compile Include="QQ.GetUserData.cs"/>

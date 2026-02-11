@@ -1,3 +1,5 @@
+using System;
+
 namespace UAPI.IException
 {
     /// <summary>
@@ -9,12 +11,12 @@ namespace UAPI.IException
         /// <summary>
         /// 上游 GitHub API 出错或不可用
         /// </summary>
-        public class GithubAPIServiceError : System.Exception
+        public class GithubAPIServiceError : Exception
         {
             /// <summary>
             /// 上游 GitHub API 出错或不可用
             /// </summary>
-            public GithubAPIServiceError() : base()
+            public GithubAPIServiceError()
             {
             }
 
@@ -31,7 +33,7 @@ namespace UAPI.IException
             /// </summary>
             /// <param name="message"></param>
             /// <param name="innerException"></param>
-            public GithubAPIServiceError(string message, System.Exception innerException) : base(message,
+            public GithubAPIServiceError(string message, Exception innerException) : base(message,
                 innerException)
             {
             }

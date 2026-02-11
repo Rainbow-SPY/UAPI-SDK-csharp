@@ -30,7 +30,7 @@ namespace UAPI.IException
             /// <summary>
             /// bilibili API错误或无法请求
             /// </summary>
-            public BilibiliServiceError() : base()
+            public BilibiliServiceError()
             {
             }
 

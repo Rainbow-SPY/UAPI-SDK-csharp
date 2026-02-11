@@ -51,7 +51,7 @@ namespace UAPI
                              (indices ? "&indices=true" : "") +
                              (forecast ? "&forecast=true" : "");
             var (result, statusCode) = await Interface.GetResult<WeatherType>(requestUrl);
-            if (!Interface.IsGetSuccessful<WeatherType>(result, "city_or_adcode", statusCode,
+            if (!Interface.IsGetSuccessful(result, "city_or_adcode", statusCode,
                     new IException.Weather.WeatherServiceError(), "天气供应商", _Weather_Service_Error))
                 WriteLog.Error(("请求失败, 请重试"));
             return result;

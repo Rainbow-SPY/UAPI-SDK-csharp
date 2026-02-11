@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -23,7 +22,7 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<ServerType>(
                 $"https://uapis.cn/api/v1/game/minecraft/serverstatus?server={server}{(port == -1 ? "" : $":{port}")}");
-            if (!Interface.IsGetSuccessful<ServerType>(result, "server", statusCode,
+            if (!Interface.IsGetSuccessful(result, "server", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",
                     IException.minecraft._Mojang_API_Service_Error)) LogLibraries.WriteLog.Error("请求失败,请重试!");
             return result;

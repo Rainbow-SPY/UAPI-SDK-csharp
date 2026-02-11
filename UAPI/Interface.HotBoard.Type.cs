@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -7,12 +8,12 @@ namespace UAPI
         /// <summary>
         /// 热榜列表的Json属性的公共属性列表
         /// </summary>
-        public partial class Hotboard
+        public class Hotboard
         {
             /// <summary>
             /// 热榜顶级公共属性基类
             /// </summary>
-            public class HotboardInterface : Interface.TypeInterface
+            public class HotboardInterface : TypeInterface
             {
                 /// <summary>
                 /// 查询到的热榜类型（公共属性）
@@ -22,7 +23,15 @@ namespace UAPI
                 /// <summary>
                 /// 热榜更新时间（公共属性）
                 /// </summary>
-                public string update_time { get; set; }
+                public string update_time_str => update_time_ISO8601.Contains("T")
+                    ? FormatISO8601TimeToLocal(update_time_ISO8601)
+                    : update_time_ISO8601;
+
+                /// <summary>
+                /// 热榜更新时间（公共属性）
+                /// </summary>
+                [JsonProperty("update_time")]
+                public string update_time_ISO8601 { get; set; }
 
                 /// <summary>
                 /// 热榜列表（公共属性，列表项为公共基类）

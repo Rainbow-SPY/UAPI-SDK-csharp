@@ -7,7 +7,7 @@ namespace UAPI
         /// <summary>
         /// UAPI平台的系统状态
         /// </summary>
-        public class HealthType : Interface.TypeInterface
+        public class HealthType : TypeInterface
         {
             /// <summary>
             /// 当前所有服务状态

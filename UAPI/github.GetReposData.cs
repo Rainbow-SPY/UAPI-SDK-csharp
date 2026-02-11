@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -20,7 +19,7 @@ namespace UAPI
         {
             var (result, statusCode) =
                 await Interface.GetResult<ReposType>($"{_UAPI_Request_Url}repo?repo={owner_and_repo}");
-            if (!Interface.IsGetSuccessful<ReposType>(result, "owner_and_repo", statusCode,
+            if (!Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
                     new IException.github.GithubAPIServiceError(), "Github", IException.github._Github_ServiceError))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;

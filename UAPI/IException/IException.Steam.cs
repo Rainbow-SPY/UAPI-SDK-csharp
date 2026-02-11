@@ -15,7 +15,7 @@ namespace UAPI.IException
             /// <summary>
             /// 提供的Steam Web API Key 无效或已过期
             /// </summary>
-            public UnAuthenticatedSteamKey() : base()
+            public UnAuthenticatedSteamKey()
             {
             }
 
@@ -45,7 +45,7 @@ namespace UAPI.IException
             /// <summary>
             /// Steam 服务暂时中断, 可以访问 <see href="https://steamstat.us/"/> 查看 Steam 服务当前情况
             /// </summary>
-            public SteamServiceError() : base()
+            public SteamServiceError()
             {
             }
 

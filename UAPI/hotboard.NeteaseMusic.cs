@@ -18,7 +18,7 @@ namespace UAPI
         public static async Task<NeteaseType> GetNeteaseMusicHotboard()
         {
             var (result, statusCode) = await Interface.GetResult<NeteaseType>($"{_Request_Url}?type=netease-music");
-            if (!Interface.IsGetSuccessful<NeteaseType>(result, "none", statusCode,
+            if (!Interface.IsGetSuccessful(result, "none", statusCode,
                     new Hotboard.HotboardUpstreamServiceError(), "Netease-Music Hotboard"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试!");
             return result;

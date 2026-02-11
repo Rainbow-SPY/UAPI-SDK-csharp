@@ -11,6 +11,8 @@
 //  This code for catch any exceptions from Bilibili API and itself through a third-party interface.
 //  Now Play:       トゲナシトゲアリ (TOGENASHI TOGEARI) - 空の箱 (井芹仁菜、河原木桃香)
 
+using System;
+
 namespace UAPI.IException
 {
     /// <summary>
@@ -26,12 +28,12 @@ namespace UAPI.IException
         /// <summary>
         /// 未知异常, 请联系管理员或反馈工单 <see href="https://uapis.cn/docs/getting-started/about-us"/>
         /// </summary>
-        public class UAPIUnknowException : System.Exception
+        public class UAPIUnknowException : Exception
         {
             /// <summary>
             /// 未知异常, 请联系管理员或反馈工单 <see href="https://uapis.cn/docs/getting-started/about-us"/>
             /// </summary>
-            public UAPIUnknowException() : base()
+            public UAPIUnknowException()
             {
             }
 
@@ -46,7 +48,7 @@ namespace UAPI.IException
             /// <summary>
             /// 未知异常, 请联系管理员或反馈工单 <see href="https://uapis.cn/docs/getting-started/about-us"/>
             /// </summary>
-            public UAPIUnknowException(string message, System.Exception inner) : base(message, inner)
+            public UAPIUnknowException(string message, Exception inner) : base(message, inner)
             {
             }
         }
@@ -54,12 +56,12 @@ namespace UAPI.IException
         /// <summary>
         /// UAPI服务异常
         /// </summary>
-        public class UAPIServerDown : System.Exception
+        public class UAPIServerDown : Exception
         {
             /// <summary>
             /// UAPI服务异常
             /// </summary>
-            public UAPIServerDown() : base()
+            public UAPIServerDown()
             {
             }
 
@@ -73,7 +75,7 @@ namespace UAPI.IException
             /// <summary>
             /// UAPI服务异常
             /// </summary>
-            public UAPIServerDown(string message, System.Exception inner) : base(message, inner)
+            public UAPIServerDown(string message, Exception inner) : base(message, inner)
             {
             }
         }

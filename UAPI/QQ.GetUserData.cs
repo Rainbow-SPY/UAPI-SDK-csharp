@@ -12,7 +12,6 @@
 //  Now Play:       Ave Mujica - 颜
 
 using System.Threading.Tasks;
-using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 
@@ -42,7 +41,7 @@ namespace UAPI
             }
 
             var (result, statusCode) = await Interface.GetResult<UserType>($"{_UAPI_Request_Url}userinfo?qq={qq}");
-            if (!Interface.IsGetSuccessful<UserType>(result, "qq", statusCode, new IException.QQ.QQServiceError(),
+            if (!Interface.IsGetSuccessful(result, "qq", statusCode, new IException.QQ.QQServiceError(),
                     "QQ", IException.QQ._QQ_Service_Error))
                 WriteLog.Error(LogKind.Http, "请求失败, 请重试");
             return result;

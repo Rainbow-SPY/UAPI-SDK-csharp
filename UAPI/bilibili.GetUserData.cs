@@ -13,7 +13,6 @@
 
 using System.Threading.Tasks;
 using Rox.Runtimes;
-using static Rox.Runtimes.LocalizedString;
 
 namespace UAPI
 {
@@ -27,7 +26,7 @@ namespace UAPI
         public static async Task<UserType> GetUserData(string uid)
         {
             var (result, statuscode) = await Interface.GetResult<UserType>($"{requestUrl_Main}userinfo?uid={uid}");
-            if (!Interface.IsGetSuccessful<UserType>(result, "uid", statuscode, new IException.bilibili.BilibiliServiceError(),
+            if (!Interface.IsGetSuccessful(result, "uid", statuscode, new IException.bilibili.BilibiliServiceError(),
                     "bilibili", IException.bilibili._Bilibili_Service_Error)) LogLibraries.WriteLog.Info("请求错误,请重试");
             return result;
         }
