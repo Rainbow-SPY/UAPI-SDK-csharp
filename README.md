@@ -157,11 +157,11 @@ var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType 
 * 参数选项:
     * **mid:** 指定要查询的用户UID(mid)
     * **IDType:** 指定查询视频的ID格式, 可供使用的枚举如下:
+
       | 枚举值 | 注释 |
       |:----:|:-------------:|
       | AID | 视频的AV号 (aid)  |
       | BVID | 视频的BV号 (bvid) |
-
 * **返回类型:** `Task <UAPI.bilibili.VideoType>`
 * **返回值:** `VideoType` 对象
 * **异常:**
