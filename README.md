@@ -1,7 +1,12 @@
-# UAPI C# SDK
+# UAPI C# SDK 社区版
 
 ## 介绍
-一个适配于`uapis.cn`的C# SDK
+一个深度集成 [UApi](https://uapis.cn) 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生.
+
+### 贡献者: 
+  - [Rainbow-SPY](https://github.com/Rainbow-SPY)
+  - [Shuakami](https://github.com/shuakami/)
+
 ## 📜 License / 许可证
 Copyright (©) AxT-Team & UApi, Developer: Rainbow-SPY. All content is protected by copyright.
 
@@ -23,6 +28,20 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
     - 将此代码（或衍生作品）用于商业用途。
 - 📂 完整条款参见 [LICENSE](LICENSE)
 
+## 目录
+1. 
+
+### 热榜请求
+#### 请求 Bilibili 热榜
+```csharp
+var request = await UAPI.hotboard.GetBilibiliHotboard();
+```
+* **返回类型:** `Task <UAPI.hotboard.bilibiliType>`
+* **返回值:** `bilibiliType` 对象
+* **异常:** 
+  - `UAPI.IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `$_Exception`:  指定为继承 `System.Exception` 的自定义异常
 
 ## 开发环境
 [Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)<br>
@@ -38,11 +57,13 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
     - C# .NET Framework 4.7.2
 - 依赖项
     - System.Diagnostics.DiagnosticSource
-    - [Rox.Runtimes](https://github.com/Rainbow-SPY/Rox)
+    - [Rox](https://github.com/Rainbow-SPY/Rox)
+        - Rox.Text
+        - Rox.Runtimes
     - System.Buffers
     - System.Net.Http
     - [Newtonsoft.Json ](https://www.nuget.org/packages/newtonsoft.json)
-      > (部分使用, 大部分使用项目内的 `Rox.Text.Json` 进行简单反/序列化)
+      > (部分使用, 大部分使用 `Rox.Text.Json` 进行简单反/序列化)
 - 扩展
   > 以下扩展均为 Visual Studio 2026 版本适用的扩展
     - [ClaudiaIDE **(视觉 更改文本编辑器的背景)**](https://marketplace.visualstudio.com/items?itemName=kbuchi.ClaudiaIDE)
@@ -53,4 +74,5 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
     - [One Dark Pro 2026 **(视觉 主题)**](https://marketplace.visualstudio.com/items?itemName=Bayaraa.OneDarkPro2026)
 
 ___
+<!--suppress HtmlDeprecatedAttribute -->
 <div align="center">Copyright (C) Rainbow-SPY & AxT-Team & UAPI 2019-2026 , All rights reserved.</div>
