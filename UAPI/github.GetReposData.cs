@@ -14,6 +14,7 @@ namespace UAPI
         /// 获取github仓库数据
         /// </summary>
         /// <param name="owner_and_repo">所有者+仓库(owner/repo)</param>
+        /// <exception cref="UAPI.IException.github.GithubAPIServiceError()">Github 上游服务异常, 这可能是他们的服务暂时中断.</exception>
         /// <returns><see cref="ReposType"/> 对象</returns>
         public static async Task<ReposType> GetReposData(string owner_and_repo)
         {

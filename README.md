@@ -133,7 +133,7 @@ var request = await UAPI.bilibili.GetUserData(string mid);
 
 ____
 
-##### 获取指定视频的详细数据
+#### 获取指定视频的详细数据
 
 ```csharp
 var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType IDType)
@@ -187,6 +187,21 @@ var request = await UAPI.QQ.GetUserData(string qq)
   - `IException.General.UAPIServerDown`: 请求源服务器发生错误
   - `UnauthorizedAccessException`: 未经授权的请求操作
   - `IException.QQ.QQServiceError()`:  QQ 上游服务异常, 这可能是他们的服务暂时中断.
+
+### 获取 Github 仓库信息
+
+```csharp
+var request = await UAPI.github.GetReposData(string owner_and_repo)
+```
+
+* 参数选项:
+  * **owner_and_repo:** 指定要查询的用户+仓库, 例: `"torvalds/linux"`
+* **返回类型:** `Task <UAPI.github.ReposType>`
+* **返回值:** `ReposType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.github.GithubAPIServiceError()`:  Github 上游服务异常, 这可能是他们的服务暂时中断.
 
 ## 游戏功能性请求
 
@@ -374,6 +389,78 @@ var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended =
   - `UnauthorizedAccessException`: 未经授权的请求操作
   - `IException.Weather.WeatherServiceError()`:  天气供应商的上游服务不可用, 这可能是他们的服务暂时中断
 
+### 获取全球时区时间
+
+```csharp
+var request = await UAPI.misc.GetWorldTime(string region)
+```
+
+* 参数选项:
+
+  * **region:** 指定要查询天气的城市, 格式为 **七大洲之一/地区** 或 **直接输入地区** 
+
+    例: Asia/Shanghai, 	America/New_York, 	Tokyo
+
+* **返回类型:** `Task <UAPI.misc.WorldTimeType>`
+
+* **返回值:** `WorldTimeType` 对象
+
+* **异常:**
+
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.General.UAPIUnknowException`:  未知的异常
+
+> 因为这个接口没有什么所谓的上游, 因此也不会报出其他异常.
+
+### 获取手机号码的归属地信息
+
+```csharp
+var request = await UAPI.misc.GetPhoneInfo(string phoneNumber)
+```
+
+* 参数选项:
+  * **phoneNumber:** 指定要查询的中国大陆的11位手机号码
+* **返回类型:** `Task <UAPI.misc.PhoneInfoType>`
+* **返回值:** `PhoneInfoType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.General.UAPIUnknowException`:  未知的异常
+
+### 获取一组随机数字
+
+```csharp
+var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0, int count = 0,bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0)
+```
+
+* 参数选项:
+  * **min:** 生成随机数的最小值（包含）。
+  * **max:** 生成随机数的最大值（包含）。
+  * **count:** 需要生成的随机数的数量。
+  * **allow_repeat:** 是否允许生成的多个数字中出现重复值。
+  * **allow_decimal:** 是否生成小（浮点）数。如果为 false，则只生成整数。
+  * **decimal_places:** 如果 `allow_decimal=true`，这里可以指定小数的位数。
+* **返回类型:** `Task <UAPI.misc.RandomNumberType>`
+* **返回值:** `RandomNumberType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.General.UAPIUnknowException()`:  未知异常
+
+### 获取程序员历史上的今天的事件
+
+```csharp
+var request = await UAPI.misc.GetProgrammerHistoryToday()
+```
+
+* **返回类型:** `Task <UAPI.misc.HistoryTodayType>`
+* **返回值:** `HistoryTodayType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.General.UAPIUnknowException`:  未知的异常
+
 ____
 
 
@@ -390,12 +477,11 @@ ____
       - 在 Windows 上不得禁用**强名称跳过**功能
 
   - [Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)
-
     - [系统要求](https://learn.microsoft.com/zh-cn/visualstudio/releases/2026/vs-system-requirements)
         - Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版
         - Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。
         - 64 位操作系统, 基于 x64 的处理器
-
+    
     - 工作负荷
         - 桌面应用和移动应用
           - [x] .NET 桌面开发

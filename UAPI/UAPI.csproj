@@ -11,7 +11,7 @@
         <RootNamespace>UAPI</RootNamespace>
         <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <BaseVersion>0.15.8</BaseVersion>
+        <BaseVersion>0.16.2</BaseVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
         <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -115,6 +115,7 @@
         <Compile Include="IException\IException.EpicGames.cs"/>
         <Compile Include="IException\IException.Hotboard.cs"/>
         <Compile Include="IException\IException.minecraft.cs"/>
+        <Compile Include="IException\IException.misc.cs" />
         <Compile Include="IException\IException.Steam.cs"/>
         <Compile Include="IException\IException.Weather.cs"/>
         <Compile Include="IException\IException.bilibili.cs"/>
@@ -134,6 +135,14 @@
         <Compile Include="minecraft.GetHistoryName.Type.cs"/>
         <Compile Include="minecraft.GetServerStatus.Type.cs"/>
         <Compile Include="minecraft.GetUserData.Type.cs"/>
+        <Compile Include="misc.GetPhoneInfo.cs" />
+        <Compile Include="misc.GetPhoneInfo.Type.cs" />
+        <Compile Include="misc.GetProgrammerHistoryToday.cs" />
+        <Compile Include="misc.GetProgrammerHistoryToday.Type.cs" />
+        <Compile Include="misc.GetRandomNumberList.cs" />
+        <Compile Include="misc.GetRandomNumberList.Type.cs" />
+        <Compile Include="misc.GetWorldTime.cs" />
+        <Compile Include="misc.WorldTime.Type.cs" />
         <Compile Include="network.GetMyIP.cs"/>
         <Compile Include="network.GetMyIP.Type.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
