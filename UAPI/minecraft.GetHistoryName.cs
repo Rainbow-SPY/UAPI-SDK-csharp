@@ -9,6 +9,7 @@ namespace UAPI
         /// 查询Minecraft玩家的历史昵称
         /// </summary>
         /// <param name="_param">昵称或UUID</param>
+        /// <exception cref="UAPI.IException.minecraft.MojangAPIServiceError()"> Mojang API 上游服务异常, 这可能是他们的服务暂时中断.</exception>
         /// <param name="searchType">指定以何种方式查询</param>
         /// <returns></returns>
         public static async Task<HistoryType> GetHistoryName(string _param, SearchType searchType)

@@ -17,6 +17,7 @@ namespace UAPI
         /// <param name="extended">是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）。</param>
         /// <param name="indices">是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）。</param>
         /// <param name="forecast">是否返回预报数据（当日最高/最低气温及未来3天天气预报）。</param>
+        /// <exception cref="IException.Weather.WeatherServiceError()">天气供应商的上游服务不可用, 这可能是他们的服务暂时中断</exception>
         /// <returns><see cref="WeatherType"/> 类型的 <see cref="Json"/> 对象</returns>
         public static async Task<WeatherType> GetWeatherDataJson(string city, bool extended = false,
             bool indices = false, bool forecast = false) =>
@@ -29,6 +30,7 @@ namespace UAPI
         /// <param name="extended">是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）。</param>
         /// <param name="indices">是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）。</param>
         /// <param name="forecast">是否返回预报数据（当日最高/最低气温及未来3天天气预报）。</param>
+        /// <exception cref="IException.Weather.WeatherServiceError()">天气供应商的上游服务不可用, 这可能是他们的服务暂时中断</exception>
         /// <returns><see cref="WeatherType"/> 类型的 <see cref="Json"/> 对象</returns>
         public static async Task<WeatherType> GetWeatherDataJson(int adcode, bool extended = false,
             bool indices = false, bool forecast = false) =>

@@ -9,6 +9,7 @@ namespace UAPI
         /// 获取QQ群公开摘要
         /// </summary>
         /// <param name="group_id">QQ群组ID</param>
+        /// <exception cref="UAPI.IException.QQ.QQServiceError()">QQ 上游服务发生异常, 这可能是他们的服务暂时中断</exception>
         /// <returns><see cref="GroupType"/> 对象</returns>
         public static async Task<GroupType> GetGroupData(string group_id)
         {

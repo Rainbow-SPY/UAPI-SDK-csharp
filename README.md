@@ -35,17 +35,7 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
 
 ## 目录
 
-1. [热榜请求](#热榜请求)
-    1. [请求bilibili热榜](#%E8%AF%B7%E6%B1%82-bilibili-%E7%83%AD%E6%A6%9C)
-    2. [请求网易云音乐热榜](#请求网易云音乐热榜)
-2. [bilibili 相关请求](#bilibili-相关请求)
-    1. [请求bilibili热榜](#请求-bilibili-热榜)
-    2. [获取指定UP的所有稿件信息](#获取指定up的所有稿件信息)
-    3. [获取指定UP的直播间信息](#获取指定up的直播间信息)
-    4. [获取指定用户的公开账户数据](#获取指定用户的账户数据)
-    5. [获取指定视频的详细数据](#获取指定视频的详细数据)
-3. [游戏功能性请求](#游戏功能性请求)
-    1. [获取Epic Games每日免费游戏](#获取epic-games每日免费游戏)
+[TOC]
 
 ### 热榜请求
 
@@ -79,7 +69,9 @@ var request = await UAPI.hotboard.GetNeteaseMusicHotboard();
 
 ### bilibili 相关请求
 
-#### [请求 bilibili热榜](#请求-bilibili-热榜)
+#### 请求 bilibili 热门排行榜
+
+> 转到 [热榜请求 - 请求 bilibili热榜](#请求-bilibili-热榜)
 
 ____
 
@@ -169,6 +161,40 @@ var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType 
     - `UnauthorizedAccessException`: 未经授权的请求操作
     - `IException.bilibili.BilibiliServiceError`:  bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
 
+### QQ 相关请求
+
+#### 获取QQ群相关信息
+
+```csharp
+var request = await UAPI.QQ.GetGroupData(string group_id)
+```
+
+* 参数选项:
+  * **group_id:** 指定要查询的群ID
+* **返回类型:** `Task <UAPI.QQ.GroupType>`
+* **返回值:** `GroupType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.QQ.QQServiceError()`:  QQ 上游服务异常, 这可能是他们的服务暂时中断.
+
+____
+
+#### 获取QQ用户相关信息
+
+```csharp
+var request = await UAPI.QQ.GetUserData(string qq)
+```
+
+* 参数选项:
+  * **qq:** 指定要查询的用户QQ号
+* **返回类型:** `Task <UAPI.QQ.UserType>`
+* **返回值:** `UserType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.QQ.QQServiceError()`:  QQ 上游服务异常, 这可能是他们的服务暂时中断.
+
 ### 游戏功能性请求
 
 #### 获取Epic Games每日免费游戏
@@ -183,6 +209,12 @@ var request = await UAPI.EpicGames.GetDataJson();
     - `IException.General.UAPIServerDown`: 请求源服务器发生错误
     - `UnauthorizedAccessException`: 未经授权的请求操作
     - `IException.EpicGames.EpicGamesServerError`:  Epic Games 上游 API 服务异常
+
+____
+
+> [!NOTE]  
+> 所有 Minecraft 相关请求的用户必须均为正版, 否则返回 `404`等`StatusCode` .
+
 
 #### 获取 Minecraft 玩家历史昵称
 
@@ -217,7 +249,7 @@ var request = await UAPI.minecraft.GetServerStatus(string server);
 * 参数选项:
     * **server:** 指定要查询的服务器地址
     * **port:** 指定查询的服务器的端口, 默认为 `25565`.
-* **返回类型:** `Task <UAPI.bilibili.ServerType>`
+* **返回类型:** `Task <UAPI.minecraft.ServerType>`
 * **返回值:** `ServerType` 对象
 * **异常:**
     - `IException.General.UAPIServerDown`: 请求源服务器发生错误
@@ -226,29 +258,81 @@ var request = await UAPI.minecraft.GetServerStatus(string server);
 
 ____
 
+#### 获取 Minecraft 玩家信息
+
+```csharp
+var request = await UAPI.minecraft.GetUserData(string username)
+```
+
+* 参数选项:
+  * **username:** 指定要查询的用户名
+* **返回类型:** `Task <UAPI.minectaft.UserType>`
+* **返回值:** `UserType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.minecraft.MojangAPIServiceError`:  Mojang API 上游服务异常, 这可能是他们的服务暂时中断.
+
+____
+
 #### 获取 Steam 个人用户的公开数据
 
 ```csharp
 var request = await UAPI.Steam.GetUserData(string SteamID)
-    		  await UAPI.Steam.GetUserData(string SteamID, string key)
+    		= await UAPI.Steam.GetUserData(string SteamID, string key)
 ```
 
 - 参数选项:
 
   - **SteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下:
 
-    |  ID类型   | 正则表达式         | 示例 |
-    | :-------: | ------------------ | ---- |
+    |  ID类型   | 正则表达式         | 示例 
+    | :-------: | :----------------- | :--- |
     | STEAM_ID | ``` Regex: ^STEAM_[0-5]:[01]:\d+$``` | STEAM_1:1:728234856 |
     | STEAM_ID3 | ``` Regex: ^\[U:1:([0-9]+)\]$``` | [U:1:1456469713] |
     | STEAM_ID32 | ``` Regex: ^[0-9]{1,16}$``` | 1456469713 |
     | STEAM_ID64 | ``` Regex: ^7656[0-9]*$``` | 76561199416735441 |
-
+    | Link | ```Regex: https://steamcommunity.com/*``` | https://steamcommunity.com/id/Rainbow-SPY |
     
+  - **key:** Steam Web API 所需要的 `Key`  , 这是一个可选参数，如果提供，它将覆盖API供应商提供的全局Key。这为你提供了更大的灵活性，但请务必注意Key的保密，不要在前端暴露。
+  
+- **返回类型:** `Task <UAPI.Steam.SteamType>`
 
+- **返回值:** `SteamType` 对象
 
+- **异常:**
 
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.Steam.SteamServiceError`:  Steam Web API 上游服务异常, 这可能是他们的服务暂时中断.
 
+___
+
+### 杂项
+
+#### 天气请求
+
+```csharp
+var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended = false, bool indices = false, bool forecast = false)
+    		= await UAPI.Weather.GetWeatherDataJson(int adcode, bool extended = false, bool indices = false, bool forecast = false
+```
+
+* 参数选项:
+  * **city:** 指定要查询天气的城市
+  * **adcode:** 指定要查询天气的城市的高德地图的6位数字城市编码
+  * **extended:** 是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）
+  * **indices:** 是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）
+  * **forecast:** 是否返回预报数据（当日最高/最低气温及未来3天天气预报）
+* **返回类型:** `Task <UAPI.Weather.WeatherType>`
+* **返回值:** `WeatherType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `IException.Weather.WeatherServiceError()`:  天气供应商的上游服务不可用, 这可能是他们的服务暂时中断
+
+____
+
+#### 
 
 ## 开发环境
 

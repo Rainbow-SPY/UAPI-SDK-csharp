@@ -9,6 +9,7 @@ namespace UAPI
         /// 查询Minecraft游戏服务器
         /// </summary>
         /// <param name="server">服务器的IP地址或域名</param>
+        /// <exception cref="UAPI.IException.minecraft.MojangAPIServiceError()"> Mojang API 上游服务异常, 这可能是他们的服务暂时中断.</exception>
         /// <returns><see cref="ServerType"/> 对象</returns>
         public static async Task<ServerType> GetServerStatus(string server) => await GetServerStatus(server, -1);
 
@@ -17,6 +18,7 @@ namespace UAPI
         /// </summary>
         /// <param name="server">服务器的IP地址或域名</param>
         /// <param name="port">端口号</param>
+        /// <exception cref="UAPI.IException.minecraft.MojangAPIServiceError()"> Mojang API 上游服务异常, 这可能是他们的服务暂时中断.</exception>
         /// <returns><see cref="ServerType"/> 对象</returns>
         public static async Task<ServerType> GetServerStatus(string server, int port = 25565)
         {
