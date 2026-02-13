@@ -1,6 +1,6 @@
 namespace UAPI
 {
-    public partial class network
+    public partial class Network
     {
         /// <summary>
         /// 请求本机的IP地址返回的Json属性列表

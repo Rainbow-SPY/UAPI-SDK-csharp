@@ -34,38 +34,31 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
 -  完整条款参见 [LICENSE](LICENSE)
 
 ## 目录
+1. [社交类请求](#社交类请求)
+   1. [bilibili 相关请求](#bilibili-相关请求)
+       1. [请求bilibili热榜](#请求-bilibili-热榜)
+       2. [获取指定UP的所有稿件信息](#获取指定up的所有稿件信息)
+       3. [获取指定UP的直播间信息](#获取指定up的直播间信息)
+       4. [获取指定用户的公开账户数据](#获取指定用户的账户数据)
+       5. [获取指定视频的详细数据](#获取指定视频的详细数据)
+   2. [QQ 相关请求](#qq-相关请求)
+       1. [获取QQ群相关信息](#获取qq群相关信息)
+       2. [获取QQ用户相关信息](#获取qq用户相关信息) 
+4. [游戏功能性请求](#游戏功能性请求)
+    1. [获取Epic Games每日免费游戏](#获取epic-games每日免费游戏)
+    2. [获取 Minecraft 玩家历史昵称](#获取-minecraft-玩家历史昵称)
+    3. [获取 Minecraft 服务器状态](#获取-minecraft-服务器状态)
+    4. [获取 Minecraft 玩家信息](#获取-minecraft-玩家信息) 
+    5. [获取 Steam 个人用户的公开数据](#获取-steam-个人用户的公开数据)
+5. [网络类请求](#获取本机的公网ip地址)
+    1. [获取本机的公网IP地址](#获取本机的公网ip地址)
+5. [杂项](#杂项)
+   1. [热榜请求](#热榜请求)
+      1. [请求bilibili热榜](#请求-bilibili-热门排行榜)
+      2. [请求网易云音乐热榜](#请求网易云音乐热榜)
+   2. [天气请求](#天气请求)
 
-[TOC]
-
-### 热榜请求
-
-#### 请求 Bilibili 热榜
-
-```csharp
-var request = await UAPI.hotboard.GetBilibiliHotboard();
-```
-
-* **返回类型:** `Task <UAPI.hotboard.bilibiliType>`
-* **返回值:** `bilibiliType` 对象
-* **异常:**
-    - `IException.General.UAPIServerDown`: 请求源服务器发生错误
-    - `UnauthorizedAccessException`: 未经授权的请求操作
-    - `Hotboard.HotboardUpstreamServiceError()`: 上游服务异常, 这可能是他们的服务暂时中断.
-
-___
-
-#### 请求网易云音乐热榜
-
-```csharp
-var request = await UAPI.hotboard.GetNeteaseMusicHotboard();
-```
-
-* **返回类型:** `Task <UAPI.hotboard.NeteaseType>`
-* **返回值:** `NeteaseType` 对象
-* **异常:**
-    - `IException.General.UAPIServerDown`: 请求源服务器发生错误
-    - `UnauthorizedAccessException`: 未经授权的请求操作
-    - `Hotboard.HotboardUpstreamServiceError`:  上游服务异常, 这可能是他们的服务暂时中断.
+## 社交类请求
 
 ### bilibili 相关请求
 
@@ -140,7 +133,7 @@ var request = await UAPI.bilibili.GetUserData(string mid);
 
 ____
 
-#### 获取指定视频的详细数据
+##### 获取指定视频的详细数据
 
 ```csharp
 var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType IDType)
@@ -195,9 +188,9 @@ var request = await UAPI.QQ.GetUserData(string qq)
   - `UnauthorizedAccessException`: 未经授权的请求操作
   - `IException.QQ.QQServiceError()`:  QQ 上游服务异常, 这可能是他们的服务暂时中断.
 
-### 游戏功能性请求
+## 游戏功能性请求
 
-#### 获取Epic Games每日免费游戏
+### 获取Epic Games每日免费游戏
 
 ```csharp
 var request = await UAPI.EpicGames.GetDataJson();
@@ -216,7 +209,7 @@ ____
 > 所有 Minecraft 相关请求的用户必须均为正版, 否则返回 `404`等`StatusCode` .
 
 
-#### 获取 Minecraft 玩家历史昵称
+### 获取 Minecraft 玩家历史昵称
 
 ```csharp
 var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType searchType);
@@ -239,7 +232,7 @@ var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType sear
 
 ____
 
-#### 获取 Minecraft 服务器状态
+### 获取 Minecraft 服务器状态
 
 ```csharp
 var request = await UAPI.minecraft.GetServerStatus(string server);
@@ -258,7 +251,7 @@ var request = await UAPI.minecraft.GetServerStatus(string server);
 
 ____
 
-#### 获取 Minecraft 玩家信息
+### 获取 Minecraft 玩家信息
 
 ```csharp
 var request = await UAPI.minecraft.GetUserData(string username)
@@ -275,7 +268,7 @@ var request = await UAPI.minecraft.GetUserData(string username)
 
 ____
 
-#### 获取 Steam 个人用户的公开数据
+### 获取 Steam 个人用户的公开数据
 
 ```csharp
 var request = await UAPI.Steam.GetUserData(string SteamID)
@@ -308,9 +301,60 @@ var request = await UAPI.Steam.GetUserData(string SteamID)
 
 ___
 
-### 杂项
+## 网络类请求
 
-#### 天气请求
+### 获取本机的公网IP地址
+
+```csharp
+var request = await UAPI.Network.GetMyIP(bool commercial = false)
+```
+
+* 参数选项:
+  * **commercial:** 指定是否使用商业级的数据源, 默认为 `false` 
+* **返回类型:** `Task <UAPI.Network.IPType>`
+* **返回值:** `IPType` 对象
+* **异常:**
+  - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+  - `UnauthorizedAccessException`: 未经授权的请求操作
+  - `HttpRequestException`:  引发的异常的基类 `HttpClient` 和 `HttpMessageHandler` 类 , 使用此异常通常是这个接口没有上游服务, 多数异常来源于服务器和连接过程.
+
+
+
+____
+
+## 杂项
+
+### 热榜请求
+
+#### 请求 Bilibili 热榜
+
+```csharp
+var request = await UAPI.hotboard.GetBilibiliHotboard();
+```
+
+* **返回类型:** `Task <UAPI.hotboard.bilibiliType>`
+* **返回值:** `bilibiliType` 对象
+* **异常:**
+    - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+    - `UnauthorizedAccessException`: 未经授权的请求操作
+    - `Hotboard.HotboardUpstreamServiceError()`: 上游服务异常, 这可能是他们的服务暂时中断.
+
+___
+
+#### 请求网易云音乐热榜
+
+```csharp
+var request = await UAPI.hotboard.GetNeteaseMusicHotboard();
+```
+
+* **返回类型:** `Task <UAPI.hotboard.NeteaseType>`
+* **返回值:** `NeteaseType` 对象
+* **异常:**
+    - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+    - `UnauthorizedAccessException`: 未经授权的请求操作
+    - `Hotboard.HotboardUpstreamServiceError`:  上游服务异常, 这可能是他们的服务暂时中断.
+
+### 天气请求
 
 ```csharp
 var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended = false, bool indices = false, bool forecast = false)
@@ -320,9 +364,9 @@ var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended =
 * 参数选项:
   * **city:** 指定要查询天气的城市
   * **adcode:** 指定要查询天气的城市的高德地图的6位数字城市编码
-  * **extended:** 是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）
-  * **indices:** 是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）
-  * **forecast:** 是否返回预报数据（当日最高/最低气温及未来3天天气预报）
+  * **extended:** 是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）, 默认为 `false`
+  * **indices:** 是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）, 默认为 `false`
+  * **forecast:** 是否返回预报数据（当日最高/最低气温及未来3天天气预报）, 默认为 `false`
 * **返回类型:** `Task <UAPI.Weather.WeatherType>`
 * **返回值:** `WeatherType` 对象
 * **异常:**
@@ -332,46 +376,44 @@ var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended =
 
 ____
 
-#### 
+
 
 ## 开发环境
 
-[Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)<br>
-[IntelliJ JetBrains Rider](https://www.jetbrains.com/zh-cn/rider/)
+- #### IDE
 
-- 系统要求
-    - [Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版](https://learn.microsoft.com/zh-cn/visualstudio/releases/2026/vs-system-requirements)
-    - Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。
-    - 64 位操作系统, 基于 x64 的处理器
-- 工作负荷
-    - 桌面应用和移动应用
-    - [x] .NET 桌面开发
+  - [IntelliJ JetBrains Rider](https://www.jetbrains.com/zh-cn/rider/)
+    - [系统要求](https://www.jetbrains.com.cn/dotnet/download/system-requirements/)
+      - Windows 10 版本1809 或更高版本
+      - 64 位操作系统, 基于 x64 的处理器
+      - .NET Framework 4.7.2 或更高版本
+      - 在 Windows 上不得禁用**强名称跳过**功能
+
+  - [Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)
+
+    - [系统要求](https://learn.microsoft.com/zh-cn/visualstudio/releases/2026/vs-system-requirements)
+        - Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版
+        - Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。
+        - 64 位操作系统, 基于 x64 的处理器
+
+    - 工作负荷
+        - 桌面应用和移动应用
+          - [x] .NET 桌面开发
+
+
 - 编译语言
-    - C# .NET Framework 4.7.2
+  - C# .NET Framework 4.7.2
+
 - 依赖项
     - System.Diagnostics.DiagnosticSource
     - [Rox](https://github.com/Rainbow-SPY/Rox)
-      
-        - Rox.Text
+      - Rox.Text
         - Rox.Runtimes
     - System.Buffers
     - System.Net.Http
     - [Newtonsoft.Json ](https://www.nuget.org/packages/newtonsoft.json)
-      > (部分使用, 大部分使用 `Rox.Text.Json` 进行简单反/序列化)
-- 扩展
-  > 以下扩展均为 Visual Studio 2026 版本适用的扩展
-    - [ClaudiaIDE **(视觉 更改文本编辑器的背景)
-      **](https://marketplace.visualstudio.com/items?itemName=kbuchi.ClaudiaIDE)
-    - [Hide Main Menu, Title Bar, and Tabs 2026 **(视觉 隐藏Tab栏,主菜单)
-      **](https://marketplace.visualstudio.com/items?itemName=ChrisTorng.MinimalisticView)
-    - [IntelliSense Extender 2022 **(代码辅助 IntelliSense增强版)
-      **](https://marketplace.visualstudio.com/items?itemName=Dreamescaper.IntelliSenseExtender2022)
-    - [IntelliSense汉语拼音拓展 **(代码辅助 支持汉语拼音拓展)
-      **](https://marketplace.visualstudio.com/items?itemName=stratos.ChinesePinyinIntelliSenseExtender)
-    - [Markdown Editor v2 **(编辑器 支持编辑和实时显示Markdown)
-      **](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.MarkdownEditor2)
-    - [One Dark Pro 2026 **(视觉 主题)**](https://marketplace.visualstudio.com/items?itemName=Bayaraa.OneDarkPro2026)
 
 ___
 <!--suppress HtmlDeprecatedAttribute -->
+
 <div align="center">Copyright (C) Rainbow-SPY & AxT-Team & UAPI 2019-2026 , All rights reserved.</div>

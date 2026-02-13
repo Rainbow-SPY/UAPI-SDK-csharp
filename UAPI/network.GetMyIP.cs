@@ -7,7 +7,7 @@ namespace UAPI
     /// <summary>
     /// 网络类请求
     /// </summary>
-    public partial class network
+    public partial class Network
     {
         /// <summary>
         /// 请求地址
@@ -17,7 +17,7 @@ namespace UAPI
         /// <summary>
         /// 获取本机的IP地址
         /// </summary>
-        /// <param name="commercial">是否指定为商业级的数据源</param>
+        /// <param name="commercial">指定是否使用商业级的数据源, 默认为 false </param>
         /// <returns><see cref="IPType"/> 对象</returns>
         public static async Task<IPType> GetMyIP(bool commercial = false)
         {
