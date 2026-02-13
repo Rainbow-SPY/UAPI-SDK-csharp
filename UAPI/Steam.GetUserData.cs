@@ -16,7 +16,7 @@ namespace UAPI
         /// 新版请求Steam Web API Json的方法
         /// </summary>
         /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
-        /// <exception cref="UAPI.IException.github.GithubAPIServiceError">Github上游服务异常</exception>
+        /// <exception cref="UAPI.IException.Steam.SteamServiceError">Steam 上游服务异常</exception>
         /// <exception cref="UAPI.IException.General.UAPIServerDown">UAPI服务错误</exception>
         /// <returns><see cref="SteamType"/> 对象</returns>
         public static async Task<SteamType> GetUserData(string SteamID) => await GetUserData(SteamID, null);
@@ -26,7 +26,7 @@ namespace UAPI
         /// </summary>
         /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
         /// <param name="key">Steam Web API Key</param>
-        /// <exception cref="UAPI.IException.github.GithubAPIServiceError">Github上游服务异常</exception>
+        /// <exception cref="UAPI.IException.Steam.SteamServiceError">Steam 上游服务异常</exception>
         /// <exception cref="UAPI.IException.General.UAPIServerDown">UAPI服务错误</exception>
         /// <returns><see cref="SteamType"/> 对象</returns>
         public static async Task<SteamType> GetUserData(string SteamID, string key)

@@ -226,6 +226,30 @@ var request = await UAPI.minecraft.GetServerStatus(string server);
 
 ____
 
+#### 获取 Steam 个人用户的公开数据
+
+```csharp
+var request = await UAPI.Steam.GetUserData(string SteamID)
+    		  await UAPI.Steam.GetUserData(string SteamID, string key)
+```
+
+- 参数选项:
+
+  - **SteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下:
+
+    |  ID类型   | 正则表达式         | 示例 |
+    | :-------: | ------------------ | ---- |
+    | STEAM_ID | ``` Regex: ^STEAM_[0-5]:[01]:\d+$``` | STEAM_1:1:728234856 |
+    | STEAM_ID3 | ``` Regex: ^\[U:1:([0-9]+)\]$``` | [U:1:1456469713] |
+    | STEAM_ID32 | ``` Regex: ^[0-9]{1,16}$``` | 1456469713 |
+    | STEAM_ID64 | ``` Regex: ^7656[0-9]*$``` | 76561199416735441 |
+
+    
+
+
+
+
+
 ## 开发环境
 
 [Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)<br>
@@ -243,6 +267,7 @@ ____
 - 依赖项
     - System.Diagnostics.DiagnosticSource
     - [Rox](https://github.com/Rainbow-SPY/Rox)
+      
         - Rox.Text
         - Rox.Runtimes
     - System.Buffers
