@@ -61,19 +61,19 @@ namespace TestConsole
                          $"\n\tAV号: {i.extra.aid}" +
                          $"\n\tBV号: {i.extra.bvid}" +
                          $"\n\t简介: {i.extra.desc}" +
-                         $"\n\t总计时长: {i.extra.duration}" +
+                         $"\n\t总计时长: {i.extra.durations}" +
                          $"\n\t视频封面: {i.extra.pic}" +
                          $"\n\t发布时间: {i.extra.pubdate_str}" +
                          $"\n\t荣誉: {i.extra.rcmd_reason}" +
                          $"\n\t视频分区: {i.extra.tname}" +
                          $"\n\n视频统计信息:" +
-                         $"\n\t播放量: {i.extra.stat.view}" +
-                         $"\n\t点赞量: {i.extra.stat.Like}" +
-                         $"\n\t投币量: {i.extra.stat.Coin}" +
-                         $"\n\t收藏量: {i.extra.stat.Favorite}" +
-                         $"\n\t分享量: {i.extra.stat.Share}" +
-                         $"\n\t弹幕量: {i.extra.stat.Danmaku}" +
-                         $"\n\t评论量: {i.extra.stat.Reply}" +
+                         $"\n\t播放量: {i.extra.stat.view_str}" +
+                         $"\n\t点赞量: {i.extra.stat.Like_str}" +
+                         $"\n\t投币量: {i.extra.stat.Coin_str}" +
+                         $"\n\t收藏量: {i.extra.stat.Favorite_str}" +
+                         $"\n\t分享量: {i.extra.stat.Share_str}" +
+                         $"\n\t弹幕量: {i.extra.stat.Danmaku_str}" +
+                         $"\n\t评论量: {i.extra.stat.Reply_str}" +
                          $"\n\n视频UP主信息:" +
                          $"\n\t昵称: {i.extra.owner.Name}" +
                          $"\n\tUID: {i.extra.owner.Mid}" +

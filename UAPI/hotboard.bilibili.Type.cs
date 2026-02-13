@@ -55,7 +55,7 @@ namespace UAPI
                 /// <summary>
                 /// 投币量
                 /// </summary>
-                public string Coin => Interface.FormatPlayCount(Coin_int);
+                public string Coin_str => Interface.FormatPlayCount(Coin_int);
 
                 /// <summary>
                 /// 投币量
@@ -66,7 +66,7 @@ namespace UAPI
                 /// <summary>
                 /// 弹幕量
                 /// </summary>
-                public string Danmaku => Interface.FormatPlayCount(Danmaku_int);
+                public string Danmaku_str => Interface.FormatPlayCount(Danmaku_int);
 
                 /// <summary>
                 /// 弹幕量
@@ -77,7 +77,7 @@ namespace UAPI
                 /// <summary>
                 /// 收藏量
                 /// </summary>
-                public string Favorite => Interface.FormatPlayCount(Favorite_int);
+                public string Favorite_str => Interface.FormatPlayCount(Favorite_int);
 
                 /// <summary>
                 /// 收藏量
@@ -88,7 +88,7 @@ namespace UAPI
                 /// <summary>
                 /// 点赞量
                 /// </summary>
-                public string Like => Interface.FormatPlayCount(Like_int);
+                public string Like_str => Interface.FormatPlayCount(Like_int);
 
                 /// <summary>
                 /// 点赞量
@@ -99,7 +99,7 @@ namespace UAPI
                 /// <summary>
                 /// 评论量
                 /// </summary>
-                public string Reply => Interface.FormatPlayCount(Reply_int);
+                public string Reply_str => Interface.FormatPlayCount(Reply_int);
 
                 /// <summary>
                 /// 评论量
@@ -110,7 +110,7 @@ namespace UAPI
                 /// <summary>
                 /// 分享量
                 /// </summary>
-                public string Share => Interface.FormatPlayCount(Share_int);
+                public string Share_str => Interface.FormatPlayCount(Share_int);
 
                 /// <summary>
                 /// 分享量
@@ -121,7 +121,7 @@ namespace UAPI
                 /// <summary>
                 /// 观看量
                 /// </summary>
-                public string view => Interface.FormatPlayCount(View_int);
+                public string view_str => Interface.FormatPlayCount(View_int);
 
                 /// <summary>
                 /// 观看量
@@ -153,9 +153,14 @@ namespace UAPI
                 /// <summary>
                 /// 总计时长
                 /// </summary>
-                public string duration => Interface.FormatSecondsTime(seconds);
+                public string durations => Interface.FormatSecondsTime(seconds);
 
-                [JsonProperty("duration")] internal int seconds { get; set; }
+                /// <summary>
+                /// 总计时长
+                /// </summary>
+
+                [JsonProperty("duration")] 
+                public int seconds { get; set; }
 
                 /// <summary>
                 /// UP主信息
