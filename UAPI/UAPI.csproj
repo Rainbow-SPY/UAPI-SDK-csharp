@@ -98,6 +98,8 @@
     <ItemGroup>
         <Compile Include="bilibili.GetArchives.Type.cs"/>
         <Compile Include="bilibili.GetArchives.cs"/>
+        <Compile Include="bilibili.GetRepliesList.cs" />
+        <Compile Include="bilibili.GetRepliesList.Type.cs" />
         <Compile Include="bilibili.GetUserData.cs"/>
         <Compile Include="bilibili.GetVideoData.cs"/>
         <Compile Include="bilibili.GetLiveRoomStatus.Type.cs"/>
