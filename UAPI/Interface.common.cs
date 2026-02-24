@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -20,15 +21,27 @@ namespace UAPI
         /// 公共API 获取请求
         /// </summary>
         /// <param name="requestUrl">请求的API Url</param>
+        /// <param name="postContent">POST 请求内容</param>
+        /// <param name="contentType">POST请求内容类型</param>
+        /// <param name="type">请求的方式</param>
         /// <typeparam name="T">泛式类型</typeparam>
         /// <returns>泛式对象 <see cref="T"/></returns>
-        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl,
+            SendRequestType type = SendRequestType.GET, string postContent = "",
+            string contentType = "application/json") where T : class
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync(requestUrl))
+                    HttpResponseMessage response;
+                    if (type == SendRequestType.GET)
+                        response = await httpClient.GetAsync(requestUrl);
+                    else
+                        response = await httpClient.PostAsync(requestUrl,
+                            new StringContent(postContent, Encoding.UTF8, contentType));
+
+                    using (response)
                     {
                         var statusCode = (int)response.StatusCode;
                         var responseData = await response.Content.ReadAsStringAsync();
@@ -61,6 +74,12 @@ namespace UAPI
                 LogLibraries.WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
                 return (null, -1);
             }
+        }
+
+        internal enum SendRequestType
+        {
+            GET,
+            POST
         }
 
         /// <summary>
