@@ -47,7 +47,7 @@ namespace UAPI
             /// <summary>
             /// 湿度
             /// </summary>
-            public int humidity { get; set; }
+            public double humidity { get; set; }
 
             /// <summary>
             /// 数据更新时间	
@@ -122,7 +122,7 @@ namespace UAPI
                 /// <summary>
                 /// <see langword="int"/> 湿度
                 /// </summary>
-                public int humidity { get; set; }
+                public double humidity { get; set; }
 
                 /// <summary>
                 /// 降水量 mm
@@ -132,7 +132,7 @@ namespace UAPI
                 /// <summary>
                 /// 能见度 km
                 /// </summary>
-                public int visibility { get; set; }
+                public double visibility { get; set; }
 
                 /// <summary>
                 /// 紫外线指数 0-11+
@@ -148,12 +148,12 @@ namespace UAPI
             /// <summary>
             /// 能见度 km（extended=true 时返回）
             /// </summary>
-            public int visibility { get; set; }
+            public double visibility { get; set; }
 
             /// <summary>
             /// 气压 hPa（extended=true 时返回）
             /// </summary>
-            public int pressure { get; set; }
+            public double pressure { get; set; }
 
             /// <summary>
             /// 紫外线指数 0-11+（extended=true 时返回）
@@ -163,7 +163,7 @@ namespace UAPI
             /// <summary>
             /// 空气质量指数 0-500（extended=true 时返回）
             /// </summary>
-            public int aqi { get; set; }
+            public double aqi { get; set; }
 
             /// <summary>
             /// 降水量 mm（extended=true 时返回）
@@ -173,7 +173,7 @@ namespace UAPI
             /// <summary>
             /// 云量 %（extended=true 时返回）
             /// </summary>
-            public int cloud { get; set; }
+            public double cloud { get; set; }
 
             /// <summary>
             /// 
