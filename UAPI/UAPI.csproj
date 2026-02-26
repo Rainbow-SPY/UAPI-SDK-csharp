@@ -15,14 +15,13 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
         <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>uapi-sdk-csharp-key.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <Target Name="GetGitInfo" BeforeTargets="CoreCompile">
-        <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD"
-              StandardOutputImportance="Low"
-              ContinueOnError="WarnAndContinue"
-              ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShortId"/>
+        <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD" StandardOutputImportance="Low" ContinueOnError="WarnAndContinue" ConsoleToMsBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShortId" />
         </Exec>
 
         <!-- 3. 拼接最终版本（保留原代码，不变） -->
@@ -33,28 +32,23 @@
         </PropertyGroup>
 
         <!-- 4. 打印日志（保留原代码，不变） -->
-        <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High"/>
-        <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High"/>
+        <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High" />
+        <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High" />
     </Target>
 
     <!-- 2. 动态生成GitAssemblyInfo.cs（保留using、无覆盖、语法正确、版本注入成功） -->
     <Target Name="WriteAssemblyInfo" AfterTargets="GetGitInfo" BeforeTargets="CoreCompile">
         <PropertyGroup>
             <GitAssemblyInfoPath>$(IntermediateOutputPath)\GitAssemblyInfo.cs</GitAssemblyInfoPath>
-            <GitCodeContent>[assembly: System.Reflection.AssemblyInformationalVersion(&quot;$(AssemblyInformationalVersion)&quot;)]</GitCodeContent>
+            <GitCodeContent>[assembly: System.Reflection.AssemblyInformationalVersion("$(AssemblyInformationalVersion)")]</GitCodeContent>
         </PropertyGroup>
 
         <!-- 写入文件：直接用拼接好的纯文本，一次性写入所有行 -->
-        <WriteLinesToFile
-                File="$(GitAssemblyInfoPath)"
-                Lines="$(GitCodeContent)"
-                Overwrite="true"
-                Encoding="UTF-8"
-                WriteOnlyWhenDifferent="true"/>
+        <WriteLinesToFile File="$(GitAssemblyInfoPath)" Lines="$(GitCodeContent)" Overwrite="true" Encoding="UTF-8" WriteOnlyWhenDifferent="true" />
 
         <!-- 将临时文件加入编译列表，与原有AssemblyInfo.cs合并编译 -->
         <ItemGroup>
-            <Compile Include="$(GitAssemblyInfoPath)"/>
+            <Compile Include="$(GitAssemblyInfoPath)" />
         </ItemGroup>
     </Target>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -65,7 +59,7 @@
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <DocumentationFile>..\..\..\%24Release\Rox\Rox.Runtimes.xml</DocumentationFile>
+        <DocumentationFile>D:\$Release\UAPI\Debug\UAPI.xml</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -74,7 +68,7 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <DocumentationFile>..\..\..\%24Release\Rox\Rox.Runtimes.xml</DocumentationFile>
+        <DocumentationFile>D:\$Release\UAPI\Release\UAPI.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="mscorlib"/>
@@ -186,6 +180,9 @@
         <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0"/>
         <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
         <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2"/>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="uapi-sdk-csharp-key.snk" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
