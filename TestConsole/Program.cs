@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using UAPI;
@@ -294,11 +295,11 @@ namespace TestConsole
                 _stopwatch.Start();
                 var a = await bilibili.GetLiveRoomStatus.AsLiveroomID("22637261");
                 WriteLog.Info(
-                    $"头像框名称: {(string.IsNullOrEmpty(a.new_pendants.frame?.name) ? "没有" : a.new_pendants.frame.name)}");
+                    $"头像框名称: {(string.IsNullOrEmpty(a.new_pendants?.frame?.name) ? "没有" : a.new_pendants?.frame?.name)}");
                 WriteLog.Info(
-                    $"头像框简介: {(string.IsNullOrEmpty(a.new_pendants.frame?.desc) ? "没有" : a.new_pendants.frame.desc)}");
+                    $"头像框简介: {(string.IsNullOrEmpty(a.new_pendants?.frame?.desc) ? "没有" : a.new_pendants?.frame?.desc)}");
                 WriteLog.Info(
-                    $"称号: {(string.IsNullOrEmpty(a.new_pendants.badge?.desc) ? "没有" : a.new_pendants.badge.desc)}");
+                    $"称号: {(string.IsNullOrEmpty(a.new_pendants?.badge?.desc) ? "没有" : a.new_pendants?.badge?.desc)}");
                 WriteLog.Info($"主播UID: {a.uid}");
                 WriteLog.Info($"主播直播间ID: {a.room_id}");
                 WriteLog.Info($"主播间的标题: {(string.IsNullOrEmpty(a.title) ? "未开播" : a.title)}");

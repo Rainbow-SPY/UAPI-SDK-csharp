@@ -54,11 +54,21 @@ namespace UAPI
 
                         LogLibraries.WriteLog.Info(LogLibraries.LogKind.Json, "压缩 Json");
                         var compressedJson = CompressJson(responseData);
-                        var result = JsonConvert.DeserializeObject<T>(compressedJson,
-                            new JsonSerializerSettings
-                            {
-                                ContractResolver = new CamelCasePropertyNamesContractResolver()
-                            });
+                        T result = null;
+                        try
+                        {
+                            result = JsonConvert.DeserializeObject<T>(compressedJson,
+                                new JsonSerializerSettings
+                                {
+                                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                                });
+                        }
+                        catch (JsonSerializationException ex)
+                        {
+                            LogLibraries.WriteLog.Error(LogLibraries.LogKind.Json,
+                                $"JSON反序列化失败！类型：{typeof(T).FullName}，错误：{ex.Message}，堆栈：{ex.StackTrace}");
+                        }
+
                         return (result, statusCode);
                     }
                 }
@@ -141,6 +151,13 @@ namespace UAPI
                         $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
                         _ERROR);
                     throw _Exception;
+                case 503:
+                    LogLibraries.WriteLog.Error(
+                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
+                        _ERROR);
+                    throw new General.UAPIServiceUnavailable();
                 case -1:
                     LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
                     LogLibraries.MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);

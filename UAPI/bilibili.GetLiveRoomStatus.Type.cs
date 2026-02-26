@@ -100,6 +100,8 @@ namespace UAPI
             [JsonProperty("online")]
             public long online { get; set; }
 
+            [JsonProperty("is_portrait")] public bool is_portrait { get; set; }
+
             /// <summary>
             /// 直播状态。0:未开播, 1:直播中, 2:轮播中。
             /// </summary>
@@ -117,6 +119,8 @@ namespace UAPI
             /// </summary>
             [JsonProperty("parent_area_name")]
             public string parent_area_name { get; set; }
+
+            [JsonProperty("parent_area_id")] public int parent_area_id { get; set; }
 
             /// <summary>
             /// 子分区名称。
@@ -154,6 +158,8 @@ namespace UAPI
             [JsonProperty("live_time")]
             public string live_time { get; set; }
 
+            [JsonProperty("keyframe")] public string keyframe { get; set; }
+
             /// <summary>
             /// 直播间设置的标签，以逗号分隔。
             /// </summary>
@@ -170,7 +176,7 @@ namespace UAPI
             /// 主播佩戴的头像框、大航海等级等信息
             /// </summary>
             [JsonProperty("new_pendants")]
-            public Pendants new_pendants { get; set; }
+            public Pendants new_pendants { get; set; } = new Pendants();
         }
     }
 }

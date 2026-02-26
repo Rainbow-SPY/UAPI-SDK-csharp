@@ -49,15 +49,14 @@ namespace UAPI
 
         private static async Task<LiveRoomType> GetLiveRoomStatus_Main(string mid, string room_id)
         {
-            var (LiveRoomStatus, statusCode) =
+            var (result, statusCode) =
                 await Interface.GetResult<LiveRoomType>(
-                    $@"{requestUrl_Main}liveroom?{(mid == null ? "" : $"mid={mid}")}{(room_id == null ? "" : $"room_id={room_id}")}");
-            if (!Interface.IsGetSuccessful(LiveRoomStatus, "mid 或 room_id", statusCode,
+                    $@"{requestUrl_Main}liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}");
+            if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",
                     IException.bilibili._Bilibili_Service_Error))
                 WriteLog.Error(LogKind.Network, $"请求失败, 请重试, 返回值: {statusCode}");
-
-            return LiveRoomStatus;
+            return result;
         }
     }
 }
