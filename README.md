@@ -106,7 +106,7 @@ var request = await UAPI.bilibili.GetArchives(string mid,
     - `IException.General.UAPIServerDown`: 请求源服务器发生错误
     - `UnauthorizedAccessException`: 未经授权的请求操作
     - `IException.bilibili.BilibiliServiceError`:  bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
-
+* **属性列表**: [详见 bilibili.GetArchives.md](UAPI\docs\bilibili.GetArchives.md)
 ____
 
 #### 获取指定UP的直播间信息
