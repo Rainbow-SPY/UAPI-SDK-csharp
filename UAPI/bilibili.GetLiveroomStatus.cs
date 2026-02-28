@@ -29,28 +29,28 @@ namespace UAPI
         /// <summary>
         /// 获取bilibili直播间的信息
         /// </summary>
-        public class GetLiveRoomStatus
+        public class GetLiveroomStatus
         {
             /// <summary>
             /// 使用用户 UID 作为形参请求B站直播间数据
             /// </summary>
             /// <param name="mid">用户的 UID</param>
-            /// <returns><see cref="LiveRoomType"/> 对象</returns>
-            public static async Task<LiveRoomType> AsID(string mid) => await GetLiveRoomStatus_Main(mid, null);
+            /// <returns><see cref="LiveroomType"/> 对象</returns>
+            public static async Task<LiveroomType> AsID(string mid) => await GetLiveroomStatus_Main(mid, null);
 
             /// <summary>
             /// 使用直播间ID作为形参请求B站直播间的数据
             /// </summary>
             /// <param name="room_id">直播间ID</param>
-            /// <returns><see cref="LiveRoomType"/> 对象</returns>
-            public static async Task<LiveRoomType> AsLiveroomID(string room_id) =>
-                await GetLiveRoomStatus_Main(null, room_id);
+            /// <returns><see cref="LiveroomType"/> 对象</returns>
+            public static async Task<LiveroomType> AsLiveroomID(string room_id) =>
+                await GetLiveroomStatus_Main(null, room_id);
         }
 
-        private static async Task<LiveRoomType> GetLiveRoomStatus_Main(string mid, string room_id)
+        private static async Task<LiveroomType> GetLiveroomStatus_Main(string mid, string room_id)
         {
             var (result, statusCode) =
-                await Interface.GetResult<LiveRoomType>(
+                await Interface.GetResult<LiveroomType>(
                     $@"{requestUrl_Main}liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}");
             if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",

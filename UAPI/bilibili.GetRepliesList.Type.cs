@@ -20,13 +20,13 @@ namespace UAPI
             [JsonProperty("config")] public object config { get; set; }
 
             /// <summary>
-            /// 当前页的评论列表。
+            /// 当前页的评论列表
             /// </summary>
             [JsonProperty("replies")]
             public List<RepliesItem> replies { get; set; }
 
             /// <summary>
-            /// 热门评论列表。结构与 `replies` 中的对象一致。如果当前页是第一页，且有热门评论，则此数组非空。
+            /// 热门评论列表结构与 `replies` 中的对象一致如果当前页是第一页，且有热门评论，则此数组非空
             /// </summary>
             [JsonProperty("hots")]
             public List<object> hots { get; set; }
@@ -58,25 +58,25 @@ namespace UAPI
                 public int size { get; set; }
 
                 /// <summary>
-                /// 根评论（即直接评论视频的评论）的总数。
+                /// 根评论（即直接评论视频的评论）的总数
                 /// </summary>
                 [JsonProperty("count")]
                 public int count { get; set; }
 
                 /// <summary>
-                /// 评论区总评论数，包含了所有的楼中楼回复。
+                /// 评论区总评论数，包含了所有的楼中楼回复
                 /// </summary>
                 [JsonProperty("acount")]
                 public int acount { get; set; }
             }
 
             /// <summary>
-            /// 用户的B站等级。
+            /// 用户的B站等级
             /// </summary>
             public class Level_info
             {
                 /// <summary>
-                /// 用户的B站等级。
+                /// 用户的B站等级
                 /// </summary>
                 [JsonProperty("current_level")]
                 public int current_level { get; set; }
@@ -104,13 +104,13 @@ namespace UAPI
                 public string mid { get; set; }
 
                 /// <summary>
-                /// 用户昵称。
+                /// 用户昵称
                 /// </summary>
                 [JsonProperty("uname")]
                 public string Name { get; set; }
 
                 /// <summary>
-                /// 用户性别。
+                /// 用户性别
                 /// </summary>
                 [JsonProperty("sex")]
                 public string Sex { get; set; }
@@ -118,7 +118,7 @@ namespace UAPI
                 [JsonProperty("sign")] public string sign { get; set; }
 
                 /// <summary>
-                /// 用户头像的URL。
+                /// 用户头像的URL
                 /// </summary>
                 [JsonProperty("avatar")]
                 public string AvatarUrl { get; set; }
@@ -126,7 +126,7 @@ namespace UAPI
                 [JsonProperty("rank")] public string rank { get; set; }
 
                 /// <summary>
-                /// 用户的B站等级。
+                /// 用户的B站等级
                 /// </summary>
                 [JsonProperty("level_info")]
                 public Level_info level_info { get; set; }
@@ -138,7 +138,7 @@ namespace UAPI
             public class Content
             {
                 /// <summary>
-                /// 评论的文本内容。
+                /// 评论的文本内容
                 /// </summary>
                 [JsonProperty("message")]
                 public string message { get; set; }
@@ -188,14 +188,17 @@ namespace UAPI
 
             public class RepliesItem
             {
+                private int _fansgrade;
+                private int _isHidden;
+
                 /// <summary>
-                /// 评论的唯一ID (Reply ID)。
+                /// 评论的唯一ID (Reply ID)
                 /// </summary>
                 [JsonProperty("rpid")]
                 public long ReplyID { get; set; }
 
                 /// <summary>
-                /// 评论区对象ID，即视频的aid。
+                /// 评论区对象ID，即视频的aid
                 /// </summary>
                 [JsonProperty("oid")]
                 public long oid { get; set; }
@@ -203,7 +206,7 @@ namespace UAPI
                 /// <summary>
                 /// 以字符串格式返回评论区父级分类
                 /// </summary>
-                public string RelplyLocaleType => GetReplyLocaleType(type);
+                public string ReplyLocaleType => GetReplyLocaleType(type);
 
                 /// <summary>
                 /// 评论区父级分类
@@ -212,13 +215,13 @@ namespace UAPI
                 public int type { get; set; }
 
                 /// <summary>
-                /// 发表评论的用户的mid。
+                /// 发表评论的用户的mid
                 /// </summary>
                 [JsonProperty("mid")]
                 public int mid { get; set; }
 
                 /// <summary>
-                /// 根评论的rpid。如果为0，表示这条评论是根评论。
+                /// 根评论的rpid如果为0，表示这条评论是根评论
                 /// </summary>
                 [JsonProperty("root")]
                 public long root { get; set; }
@@ -226,10 +229,10 @@ namespace UAPI
                 /// <summary>
                 /// 该评论是否为根评论
                 /// </summary>
-                public bool Is_RootReply => root == 0 && parent == 0;
+                public bool IsRootReply => root == 0 && parent == 0;
 
                 /// <summary>
-                /// 回复的父级评论的rpid。如果为0，表示是根评论。
+                /// 回复的父级评论的rpid如果为0，表示是根评论
                 /// </summary>
                 [JsonProperty("parent")]
                 public long parent { get; set; }
@@ -241,7 +244,7 @@ namespace UAPI
                 public int dialog { get; set; }
 
                 /// <summary>
-                /// 这条评论下的回复（楼中楼）数量。
+                /// 这条评论下的回复（楼中楼）数量
                 /// </summary>
                 [JsonProperty("count")]
                 public int count { get; set; }
@@ -253,27 +256,37 @@ namespace UAPI
                 public int rcount { get; set; }
 
                 /// <summary>
-                /// 评论状态, 0: 正常 17: 被阿瓦隆系统隐藏 (无法被别人看到, 只能自己看到)
+                /// 是否被系统隐藏
                 /// </summary>
                 [JsonProperty("state")]
-                public int state { get; set; }
+                // public int state { get; set; }
+                //评论状态, 0: 正常 17: 被阿瓦隆系统隐藏 (无法被别人看到, 只能自己看到)
+                public bool IsHidden
+                {
+                    get => _isHidden == 17;
+                    set => _isHidden = value ? 17 : 0;
+                }
 
                 /// <summary>
-                /// 是否具有粉丝标签0：无 1：有
+                /// 是否具有粉丝标签
                 /// </summary>
                 [JsonProperty("fansgrade")]
-                public int fansgrade { get; set; }
+                public bool IsHadFanTag
+                {
+                    get => _fansgrade == 1;
+                    set => _fansgrade = value ? 1 : 0;
+                }
 
                 [JsonProperty("attr")] public int attr { get; set; }
 
                 /// <summary>
-                /// 评论发送时间的Unix时间戳（秒）。
+                /// 评论发送时间的Unix时间戳（秒）
                 /// </summary>
                 [JsonProperty("ctime")]
                 public int ctime { get; set; }
 
                 /// <summary>
-                /// 该评论获得的点赞数。
+                /// 该评论获得的点赞数
                 /// </summary>
                 [JsonProperty("like")]
                 public int like { get; set; }
@@ -286,19 +299,19 @@ namespace UAPI
                 [JsonProperty("action")] public int action { get; set; }
 
                 /// <summary>
-                /// 发表评论的用户信息。
+                /// 发表评论的用户信息
                 /// </summary>
                 [JsonProperty("member")]
                 public Member member { get; set; }
 
                 /// <summary>
-                /// 评论内容。
+                /// 评论内容
                 /// </summary>
                 [JsonProperty("content")]
                 public Content content { get; set; }
 
                 /// <summary>
-                /// 楼中楼回复列表。结构与顶层评论对象一致，但通常此数组为空，需要单独请求。
+                /// 楼中楼回复列表结构与顶层评论对象一致，但通常此数组为空，需要单独请求
                 /// </summary>
                 [JsonProperty("replies")]
                 public List<RepliesItem> replies { get; set; }

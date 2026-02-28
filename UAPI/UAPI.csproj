@@ -96,8 +96,8 @@
         <Compile Include="bilibili.GetRepliesList.Type.cs" />
         <Compile Include="bilibili.GetUserData.cs"/>
         <Compile Include="bilibili.GetVideoData.cs"/>
-        <Compile Include="bilibili.GetLiveRoomStatus.Type.cs"/>
-        <Compile Include="bilibili.GetLiveRoomStatus.cs"/>
+        <Compile Include="bilibili.GetLiveroomStatus.Type.cs" />
+        <Compile Include="bilibili.GetLiveroomStatus.cs" />
         <Compile Include="bilibili.GetUserData.Type.cs"/>
         <Compile Include="bilibili.GetVideoData.Type.cs"/>
         <Compile Include="EpicGames.GetFreeGames.cs"/>
