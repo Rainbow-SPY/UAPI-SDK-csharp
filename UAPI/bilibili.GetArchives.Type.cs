@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -36,6 +37,8 @@ namespace UAPI
             /// </summary>
             public class Videos
             {
+                private int _isPayVideo;
+
                 /// <summary>
                 /// 视频的AID
                 /// </summary>
@@ -57,7 +60,7 @@ namespace UAPI
                 public string cover { get; set; }
 
                 /// <summary>
-                /// 一个视频内所有选集的所有时长(秒)
+                /// 一个视频内所有选集的总时长(秒)
                 /// </summary>
                 public long duration { get; set; }
 
@@ -96,17 +99,23 @@ namespace UAPI
                 /// <summary>
                 /// 是否为充电视频, 0=免费，1=付费
                 /// </summary>
-                public int is_ugc_pay { get; set; }
+                [JsonProperty("is_ugc_pay")]
+                public bool IsPayVideo
+                {
+                    get => _isPayVideo != 0;
+                    set => _isPayVideo = value ? 1 : 0;
+                }
 
                 /// <summary>
                 /// 是否为充电视频, 直接返回字符串 免费 or 付费
                 /// </summary>
-                public string is_ugc_pay_str => is_ugc_pay == 0 ? "免费" : "付费";
+                public string IsPayVideo_str => IsPayVideo ? "免费" : "付费";
 
                 /// <summary>
                 /// 是否为共创视频
                 /// </summary>
-                public bool is_interactive { get; set; }
+                [JsonProperty("is_interactive")]
+                public bool IsInteractive { get; set; }
             }
         }
     }

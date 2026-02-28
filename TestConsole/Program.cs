@@ -447,10 +447,11 @@ namespace TestConsole
                                   $"视频封面: {b.cover}\n" +
                                   $"视频持续时长: {(b.duration < 0 ? "00:00:00" : $"{(b.duration / 3600 == 0 ? "00" : (b.duration / 3600).ToString())}: {(b.duration % 3600 / 60 == 0 ? "00" : (b.duration % 3600 / 60).ToString())}:{b.duration % 60}")}\n" +
                                   $"发布时间: {b.publish_time_str}\n" +
+                                  $"播放量: {b.play_count}" +
                                   $"创建时间: {b.create_time_str}\n" +
                                   $"视频状态: {b.state}\n" +
-                                  $"是否为充电视频: {b.is_ugc_pay_str}\n" +
-                                  $"是否为共创视频: {b.is_interactive}\n" +
+                                  $"是否为充电视频: {b.IsPayVideo_str}\n" +
+                                  $"是否为共创视频: {b.IsInteractive}\n" +
                                   $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
                 }
             }
