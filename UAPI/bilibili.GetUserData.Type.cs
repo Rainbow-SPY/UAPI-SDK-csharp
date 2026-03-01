@@ -19,19 +19,19 @@ namespace UAPI
             /// 昵称
             /// </summary>
             [JsonProperty("name")]
-            public string name { get; set; }
+            public string Name { get; set; }
 
             /// <summary>
             /// 性别
             /// </summary>
             [JsonProperty("sex")]
-            public string sex { get; set; }
+            public string Sex { get; set; }
 
             /// <summary>
             /// 头像链接
             /// </summary>
             [JsonProperty("face")]
-            public string face { get; set; }
+            public string AvatarImageUrl { get; set; }
 
             /// <summary>
             /// 签名
@@ -73,7 +73,7 @@ namespace UAPI
             /// 粉丝数
             /// </summary>
             [JsonProperty("follower")]
-            public int follower { get; set; }
+            public int Fans { get; set; }
 
             /// <summary>
             /// 稿件数量

@@ -178,21 +178,21 @@ namespace TestConsole
                         message += $"\n\nP{i.page}: " +
                                    $"\n\t分P ID: {i.cid}" +
                                    $"\n\t从哪里上传: {i.SourceWhere}" +
-                                   $"\n\t标题: {i.part}" +
-                                   $"\n\t总计时长: {Interface.FormatSecondsTime(i.duration)}" +
+                                   $"\n\t标题: {i.PartTitle}" +
+                                   $"\n\t总计时长: {Interface.FormatSecondsTime((int)i.duration)}" +
                                    (string.IsNullOrEmpty(i.vid)
                                        ? ""
                                        : $"\n\t外部视频源: {i.vid}") +
-                                   (string.IsNullOrEmpty(i.weblink)
+                                   (string.IsNullOrEmpty(i.WebLink)
                                        ? ""
-                                       : $"\n\t外部链接: {i.weblink}") +
-                                   $"\n\t分辨率: {i.dimension.width}x{i.dimension.height},{(i.dimension.Rotate == "正常" ? "" : $"旋转角度: {i.dimension.Rotate}")}";
+                                       : $"\n\t外部链接: {i.WebLink}") +
+                                   $"\n\t分辨率: {i.dimension.Width}x{i.dimension.Height},{(i.dimension.Rotate == "正常" ? "" : $"旋转角度: {i.dimension.Rotate}")}";
                     }
                 }
 
                 message += $"\n视频所属子分区: {(string.IsNullOrEmpty(a.tname) ? "其他" : a.tname)}, ID: {a.tid}" +
-                           $"\n视频版权: {a.CopyRight}" +
-                           $"\n视频封面链接: {a.pic}" +
+                           $"\n视频版权: {a.Copyright}" +
+                           $"\n视频封面链接: {a.CoverImageUrl}" +
                            $"\n视频标题: {a.title}" +
                            $"\n视频单P弹幕ID: {a.cid}" +
                            $"\n视频发布时间: {a.pubdate_str}" +
@@ -201,15 +201,15 @@ namespace TestConsole
                            "\n视频简介:";
                 foreach (var i in a.desc_v2)
                 {
-                    message += $"\n\t简介文字: {i.raw_text}" +
+                    message += $"\n\t简介文字: {i.Text}" +
                                $"\n\t节点类型: {i.Type}" +
                                $"\n\t业务ID: {i.biz_id}";
                 }
 
                 message += $"\n视频状态: {a.state_str}" +
-                           $"\n视频总长: {Interface.FormatSecondsTime(a.duration)}" +
+                           $"\n视频总长: {Interface.FormatSecondsTime((int)a.duration)}" +
                            "\n\n视频权限:" +
-                           $"\n\t(过时)是否付费观看番剧: {a.rights.BangumiPay}" +
+                           $"\n\t(过时)是否付费观看番剧: {a.rights.IsBangumiPay}" +
                            $"\n\t是否允许充电: {a.rights.IsAllowElectronicPay}" +
                            $"\n\t是否允许下载: {a.rights.IsAllowDownload}" +
                            $"\n\t视频类型是否为电影: {a.rights.IsMovie}" +
@@ -229,18 +229,18 @@ namespace TestConsole
                            $"\n\t是否允许付费视频免费试看: {a.rights.IsAllowFreePreviewInPayVideo}" +
                            "\n\nUP主:" +
                            $"\n\tUID: {a.owner.mid}" +
-                           $"\n\t昵称: {a.owner.name}" +
-                           $"\n\t头像链接: {a.owner.face}" +
+                           $"\n\t昵称: {a.owner.Name}" +
+                           $"\n\t头像链接: {a.owner.AvatarImageUrl}" +
                            "\n\n视频信息:" +
-                           $"\n\t播放量: {Interface.FormatPlayCount(a.stat.view)}" +
-                           $"\n\t弹幕量: {Interface.FormatPlayCount(a.stat.danmaku)}" +
-                           $"\n\t评论量: {Interface.FormatPlayCount(a.stat.reply)}" +
-                           $"\n\t点赞量: {Interface.FormatPlayCount(a.stat.like)}" +
-                           $"\n\t收藏量: {Interface.FormatPlayCount(a.stat.favorite)}" +
-                           $"\n\t投币量: {Interface.FormatPlayCount(a.stat.coin)}" +
-                           $"\n\t分享量: {Interface.FormatPlayCount(a.stat.share)}" +
+                           $"\n\t播放量: {Interface.FormatPlayCount(a.stat.Views)}" +
+                           $"\n\t弹幕量: {Interface.FormatPlayCount(a.stat.Danmaku)}" +
+                           $"\n\t评论量: {Interface.FormatPlayCount(a.stat.Reply)}" +
+                           $"\n\t点赞量: {Interface.FormatPlayCount(a.stat.Like)}" +
+                           $"\n\t收藏量: {Interface.FormatPlayCount(a.stat.Favorite)}" +
+                           $"\n\t投币量: {Interface.FormatPlayCount(a.stat.Coin)}" +
+                           $"\n\t分享量: {Interface.FormatPlayCount(a.stat.Share)}" +
                            $"\n\t当前全站排名: {a.stat.NowRank}" +
-                           $"\n\t历史全站排名: {a.stat.his_rank}";
+                           $"\n\t历史全站排名: {a.stat.HistoryRank}";
                 if (a.staff != null)
                 {
                     message += "\n\n共创信息: ";
@@ -407,16 +407,16 @@ namespace TestConsole
                 _stopwatch.Start();
                 var a = await bilibili.GetUserData("1");
                 WriteLog.Info($"UID: {a.mid}\n" +
-                              $"昵称: {a.name}\n" +
-                              $"性别: {a.sex}\n" +
-                              $"头像链接: {a.face}\n" +
+                              $"昵称: {a.Name}\n" +
+                              $"性别: {a.Sex}\n" +
+                              $"头像链接: {a.AvatarImageUrl}\n" +
                               $"个性签名: {a.sign}\n" +
                               $"账户等级: {a.level}\n" +
                               $"生日: {a.birthday}\n" +
                               $"大会员等级: {a.vip_type}\n" +
                               $"大会员状态: {a.vip_status}\n" +
                               $"关注的人数: {a.following}\n" +
-                              $"粉丝数: {a.follower}\n" +
+                              $"粉丝数: {a.Fans}\n" +
                               $"稿件数量: {a.archive_count}\n" +
                               $"文章数量: {a.article_count}\n\n" +
                               $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");

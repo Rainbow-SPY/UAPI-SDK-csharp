@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -11,18 +12,21 @@ namespace UAPI
         /// </summary>
         public class VideoType : Interface.TypeInterface
         {
+            private int _copyright;
+            private int _state;
+
             /// <summary>
-            /// 稿件的BV号。
+            /// 稿件的BV号
             /// </summary>
             public string bvid { get; set; }
 
             /// <summary>
-            /// 稿件的AV号。
+            /// 稿件的AV号
             /// </summary>
             public string aid { get; set; }
 
             /// <summary>
-            /// 稿件分P总数。如果是单P视频，则为1
+            /// 稿件分P总数如果是单P视频，则为1
             /// </summary>
             public int videos { get; set; }
 
@@ -32,38 +36,47 @@ namespace UAPI
             public int tid { get; set; }
 
             /// <summary>
-            /// 视频所属的子分区名称。
+            /// 视频所属的子分区名称
             /// </summary>
             public string tname { get; set; }
 
             /// <summary>
-            /// 视频类型 原创/转载。
+            /// 视频版权类型 原创/转载
             /// </summary>
-            public string CopyRight => copyright == 1
+            public string Copyright => _copyright == 1
                 ? "原创"
-                : (copyright == 2
+                : (_copyright == 2
                     ? "转载"
                     : "未知");
 
-            private int copyright { get; set; }
-
             /// <summary>
-            /// 稿件封面图片的URL。这是一个可以直接在网页上展示的链接。   
+            /// 是否为版权拥有者
             /// </summary>
-            public string pic { get; set; }
+            [JsonProperty("copyright")]
+            public bool IsCopyrightOwner
+            {
+                get => _copyright == 1;
+                set => _copyright = value ? _copyright = 1 : _copyright = 2;
+            }
 
             /// <summary>
-            /// 稿件的标题。
+            /// 稿件封面图片的URL
+            /// </summary>
+            [JsonProperty("pic")]
+            public string CoverImageUrl { get; set; }
+
+            /// <summary>
+            /// 稿件的标题
             /// </summary>
             public string title { get; set; }
 
             /// <summary>
-            /// 稿件发布时间的Unix时间戳（秒）。
+            /// 稿件发布时间的Unix时间戳（秒）
             /// </summary>
             public long pubdate { get; set; }
 
             /// <summary>
-            /// 稿件发布的字符串时间（秒）。
+            /// 稿件发布的字符串时间（秒）
             /// </summary>
             public string pubdate_str =>
                 DateTime.TryParse(pubdate.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
@@ -72,12 +85,12 @@ namespace UAPI
                     : string.Empty;
 
             /// <summary>
-            /// 用户投稿时间的Unix时间戳（秒）。
+            /// 用户投稿时间的Unix时间戳（秒）
             /// </summary>
             public long ctime { get; set; }
 
             /// <summary>
-            /// 用户投稿的字符串时间（秒）。
+            /// 用户投稿的字符串时间（秒）
             /// </summary>
             public string ctime_str =>
                 DateTime.TryParse(ctime.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
@@ -86,7 +99,7 @@ namespace UAPI
                     : string.Empty;
 
             /// <summary>
-            /// 视频简介。可能会包含HTML换行符。
+            /// 视频简介, 可能会包含HTML换行符
             /// </summary>
             public string desc { get; set; }
 
@@ -96,19 +109,24 @@ namespace UAPI
             public List<Desc_v2> desc_v2 { get; set; }
 
             /// <summary>
-            /// 视频状态 1=正常，-6=被删除
+            /// 视频是否被删除
             /// </summary>
-            public int state { get; set; }
+            [JsonProperty("state")]
+            public bool IsDeleted
+            {
+                get => _state == -6;
+                set => _state = value ? -6 : 1;
+            }
 
             /// <summary>
             /// 视频状态
             /// </summary>
-            public string state_str => state == 1 ? "正常" : (state == -6 ? "被删除" : "未知");
+            public string state_str => _state == 1 ? "正常" : (_state == -6 ? "被删除" : "未知");
 
             /// <summary>
-            /// 稿件总时长（所有分P累加），单位为秒。
+            /// 稿件总时长（所有分P累加），单位为秒
             /// </summary>
-            public int duration { get; set; }
+            public long duration { get; set; }
 
             /// <summary>
             /// 视频的各种权限开关（如是否允许转载）
@@ -116,7 +134,7 @@ namespace UAPI
             public Rights rights { get; set; }
 
             /// <summary>
-            /// 视频UP主信息。
+            /// 视频UP主信息
             /// </summary>
             public Owner owner { get; set; }
 
@@ -146,7 +164,7 @@ namespace UAPI
             public bool no_cache { get; set; }
 
             /// <summary>
-            /// 视频分P列表。即使是单P视频，该数组也包含一个元素。
+            /// 视频分P列表即使是单P视频，该数组也包含一个元素
             /// </summary>
             public List<Pages> pages { get; set; }
 
@@ -156,7 +174,7 @@ namespace UAPI
             public Subtitle subtitle { get; set; }
 
             /// <summary>
-            /// 合作 UP 主	联合投稿人列表 (非赞助商)
+            /// 合作UP主, 联合投稿人列表 (非赞助商)
             /// </summary>
             public List<string> staff { get; set; }
 
@@ -179,19 +197,29 @@ namespace UAPI
         /// </summary>
         public class Rights
         {
+            private int _bp;
+            private int _elec;
+
             /// <summary>
             /// 番剧付费 (Bangumi Pay)	是否可以承包/付费（老番剧字段）
             /// </summary>
-            public bool BangumiPay => bp == 1;
-
-            private int bp { get; set; }
+            [JsonProperty("bp")]
+            [Obsolete]
+            public bool IsBangumiPay
+            {
+                get => _bp == 1;
+                set => _bp = value ? 1 : _bp;
+            }
 
             /// <summary>
             /// 是否允许充电
             /// </summary>
-            public bool IsAllowElectronicPay => elec == 1;
-
-            private int elec { get; set; }
+            [JsonProperty("elec")]
+            public bool IsAllowElectronicPay
+            {
+                get => _elec == 1;
+                set => _elec = value ? 1 : _elec;
+            }
 
             /// <summary>
             /// 是否允许缓存/下载
@@ -300,24 +328,33 @@ namespace UAPI
         /// </summary>
         public class Desc_v2
         {
+            private int _type;
+
             /// <summary>
             /// 简介文本
             /// </summary>
-            public string raw_text { get; set; }
+            [JsonProperty("raw_text")]
+            public string Text { get; set; }
 
             /// <summary>
             /// 节点类型	1=@某人, 2=普通链接 or= 其他关联
             /// </summary>
-            public string Type => type == 1
-                ? "提到了某人"
-                : (type == 2
-                    ? "普通连接"
-                    : "其他关联");
-
-            private int type { get; set; }
+            [JsonProperty("type")]
+            public string Type
+            {
+                get => _type == 1
+                    ? "提到了某人"
+                    : (_type == 2
+                        ? "普通连接"
+                        : "其他关联");
+                set => _type =
+                    value == "提到了某人"
+                        ? 1
+                        : (value == "普通连接" ? 2 : _type);
+            }
 
             /// <summary>
-            /// 业务 ID	被关联对象的 ID。例如 type=1 时，这里是 mid (用户ID)
+            /// 业务 ID, 被关联对象的 ID. 例如 type=1 时，这里是 mid (用户ID)
             /// </summary>
             public int biz_id { get; set; }
         }
@@ -328,19 +365,21 @@ namespace UAPI
         public class Owner
         {
             /// <summary>
-            /// UP主的UID。
+            /// UP主的UID
             /// </summary>
             public int mid { get; set; }
 
             /// <summary>
-            /// UP主昵称。
+            /// UP主昵称
             /// </summary>
-            public string name { get; set; }
+            [JsonProperty("name")]
+            public string Name { get; set; }
 
             /// <summary>
-            /// UP主头像的URL。
+            /// UP主头像的URL
             /// </summary>
-            public string face { get; set; }
+            [JsonProperty("face")]
+            public string AvatarImageUrl { get; set; }
         }
 
         /// <summary>
@@ -348,74 +387,103 @@ namespace UAPI
         /// </summary>
         public class Stat
         {
+            private int _nowRank;
+            private int _historyRank;
+
             /// <summary>
             /// AV号
             /// </summary>
-            public int aid { get; set; }
+            public long aid { get; set; }
 
             /// <summary>
             /// 播放量
             /// </summary>
-            public int view { get; set; }
+            [JsonProperty("view")]
+            public int Views { get; set; }
 
             /// <summary>
             /// 弹幕量
             /// </summary>
-            public int danmaku { get; set; }
+            [JsonProperty("danmaku")]
+            public int Danmaku { get; set; }
 
             /// <summary>
             /// 评论量
             /// </summary>
-            public int reply { get; set; }
+            [JsonProperty("reply")]
+            public int Reply { get; set; }
 
             /// <summary>
             /// 收藏量
             /// </summary>
-            public int favorite { get; set; }
+            [JsonProperty("favorite")]
+            public int Favorite { get; set; }
 
             /// <summary>
             /// 投币量
             /// </summary>
-            public int coin { get; set; }
+            [JsonProperty("coin")]
+            public int Coin { get; set; }
 
             /// <summary>
             /// 分享量
             /// </summary>
-            public int share { get; set; }
+            [JsonProperty("share")]
+            public int Share { get; set; }
 
             /// <summary>
             /// 当前全站/分区排名
             /// </summary>
-            public string NowRank => now_rank == 0
-                ? "无排名"
-                : now_rank.ToString();
+            [JsonProperty("now_rank")]
+            public string NowRank
+            {
+                get => _nowRank == 0
+                    ? "无排名"
+                    : _nowRank.ToString();
 
-            private int now_rank { get; set; }
+                set => _nowRank =
+                    value == "无排名"
+                        ? 0
+                        : int.Parse(value);
+            }
 
             /// <summary>
             /// 历史排名
             /// </summary>
-            public int his_rank { get; set; }
+            [JsonProperty("his_rank")]
+            public string HistoryRank
+            {
+                get => _historyRank == 0
+                    ? "无排名"
+                    : _historyRank.ToString();
+
+                set => _historyRank =
+                    value == "无排名"
+                        ? 0
+                        : int.Parse(value);
+            }
 
             /// <summary>
             /// 点赞量
             /// </summary>
-            public int like { get; set; }
+            [JsonProperty("like")]
+            public int Like { get; set; }
 
             /// <summary>
             /// 点踩量 (API 通常返回 0，前端不显示)
             /// </summary>
-            internal int dislike { get; set; }
+            public int dislike { get; set; }
 
             /// <summary>
             /// 评分/评估	通常为空，古早版本用于视频评分
             /// </summary>
-            internal string evaluation { get; set; }
+            public string evaluation { get; set; }
 
             /// <summary>
             /// Video Type	(古早字段) 视频类型，通常为 0
             /// </summary>
-            internal int vt { get; set; }
+            [JsonProperty("vt")]
+            public int VideoType_old { get; set; }
         }
 
         /// <summary>
@@ -423,26 +491,43 @@ namespace UAPI
         /// </summary>
         public class Dimension
         {
+            private int _rotate;
+
             /// <summary>
             /// 宽度
             /// </summary>
-            public int width { get; set; }
+            [JsonProperty("width")]
+            public int Width { get; set; }
 
             /// <summary>
             /// 高度
             /// </summary>
-            public int height { get; set; }
+            [JsonProperty("height")]
+            public int Height { get; set; }
 
             /// <summary>
             /// 旋转角度	0=正常, 1=90度旋转 (通常手机拍摄上传会有此标记)
             /// </summary>
-            public string Rotate => rotate == 0
-                ? "正常"
-                : (rotate == 1
-                    ? "90度旋转"
-                    : "未知");
+            [JsonProperty("rotate")]
+            public string Rotate
+            {
+                get => _rotate == 0
+                    ? "正常"
+                    : (_rotate == 1
+                        ? "90度旋转"
+                        : "未知");
+                set => _rotate =
+                    value == "正常"
+                        ? 0
+                        : value == "90度旋转"
+                            ? 1
+                            : _rotate;
+            }
 
-            private int rotate { get; set; }
+            /// <summary>
+            /// 视频分辨率 ($Width x $Height), 例: 1920x1080
+            /// </summary>
+            public string VideoDimension => $"{Width}x{Height}";
         }
 
         /// <summary>
@@ -450,44 +535,54 @@ namespace UAPI
         /// </summary>
         public class Pages
         {
+            private string _from;
+
             /// <summary>
-            /// 分P的唯一标识CID，用于获取弹幕等。
+            /// 分P的唯一标识CID，用于获取弹幕等
             /// </summary>
             public int cid { get; set; }
 
             /// <summary>
-            /// 分P的序号，从1开始。  
+            /// 分P的序号，从1开始
             /// </summary>
             public int page { get; set; }
 
             /// <summary>
-            /// 来源	通常是 vupload (B站直传)，早期有 hunan 等
+            /// 来源. 通常是 vupload (B站直传)，早期有 hunan 等
             /// </summary>
-            public string SourceWhere => from == "vupload"
-                ? "B站上传"
-                : "其他";
-
-            private string from { get; set; }
+            [JsonProperty("from")]
+            public string SourceWhere
+            {
+                get => _from == "vupload"
+                    ? "B站直传"
+                    : _from;
+                set => _from =
+                    value == "vupload"
+                        ? "B站直传"
+                        : value;
+            }
 
             /// <summary>
-            /// 分P的标题。对于单P视频，通常是视频主标题。
+            /// 分P的标题. 对于单P视频，通常是视频主标题
             /// </summary>
-            public string part { get; set; }
+            [JsonProperty("part")]
+            public string PartTitle { get; set; }
 
             /// <summary>
-            /// 该分P的持续时间，单位为秒。
+            /// 该分P的持续时间，单位为秒
             /// </summary>
-            public int duration { get; set; }
+            public long duration { get; set; }
 
             /// <summary>
-            /// 如果 <see cref="from"/> 不是 vupload，这里存外部视频源 ID，现大多为空
+            /// 如果 <see cref="SourceWhere"/> 不是 "B站直传"，这里存外部视频源 ID，现大多为空
             /// </summary>
             public string vid { get; set; }
 
             /// <summary>
             /// 外部链接	极少用到，跳转外部链接
             /// </summary>
-            public string weblink { get; set; }
+            [JsonProperty("weblink")]
+            public string WebLink { get; set; }
 
             /// <summary>
             /// 分P视频的分辨率

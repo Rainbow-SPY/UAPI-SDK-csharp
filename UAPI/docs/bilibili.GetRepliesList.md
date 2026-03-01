@@ -26,11 +26,11 @@ var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = "0", 
 ### 根属性
 
 | 属性值 | 注释 | 备注 |
-|:------|:----|:-----|
+|:------|:---:|:-----|
 |`Page` **page**| 分页信息 | |
 |`object` **config**| ??? | ??? |
 |`List<RepliesItem>` **replies**| 当前页的评论列表 | |
-|`List<object>` **hots**| 热门评论列表结构与 `replies` 中的对象一致如果当前页是第一页，且有热门评论，则此数组非空 | |
+|`List<object>` **hots**| 热门评论列表结构与 `replies` 中的对象一致.<br/>如果当前页是第一页，且有热门评论，则此数组非空 | |
 |`object` **upper**| ??? | ??? |
 |`object` **top**| ??? | ??? |
 |`object` **notice**| ??? | ??? |
@@ -40,7 +40,7 @@ var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = "0", 
 |`object` **cursor**| ??? | ??? |
 
 ___
-### `Page` **page** 嵌套类
+#### `Page` **page** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
@@ -50,7 +50,7 @@ ___
 |`int` **acount**| 评论区总评论数，包含了所有的楼中楼回复 | | |
 
 
-### `List<RepliesItem>` **replies** 嵌套类
+#### `List<RepliesItem>` **replies** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
@@ -77,7 +77,7 @@ ___
 |`List<RepliesItem>` **replies**| 楼中楼回复列表结构与顶层评论对象一致，但通常此数组为空，需要单独请求 | 通常为空 | |
 |`Reply_control` **reply_control**| ??? | ??? | ??? |
 
-### `Member` **member** 嵌套类
+##### `Member` **member** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
@@ -90,6 +90,44 @@ ___
 |`Level_info` **level_info**|  用户的B站等级 | | |
 |`Official_verify` **official_verify**| ??? | ??? | ??? |
 |`Vip` **vip**| ??? | ??? | ??? |
+
+###### `Level_info` **level_info** 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+|:------|-----|:-----|-----|
+|`int` **current_level**| 用户的B站等级 | | |
+
+###### `Official_verify` **official_verify** 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+|:------|-----|:-----|-----|
+|`int` **type**| ??? | ??? | ??? |
+|`string` **desc**| ??? | ??? | ??? |
+
+
+###### `Vip` **vip** 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+|:------|-----|:-----|-----|
+|`int` **vipType**| ??? | ??? | ??? |
+|`int` **vipStatus**| ??? | ??? | ??? |
+|`int` **vipDueDate**| ??? | ??? | ??? |
+
+##### `Content` **content** 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+|:------|-----|:-----|-----|
+|`string` **message**| 评论的文本内容 | | |
+|`object` **emote**| ??? | ??? | ??? |
+|`object` **members**| ??? | ??? | ??? |
+|`object` **jump_url**| ??? | ??? | ??? |
+
+##### `Reply_control` **reply_control** 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+|:------|-----|:-----|-----|
+|`string` **time_desc**| ??? | ??? | ??? |
+|`string` **location**| ??? | ??? | ??? |
 
 ### 评论区父级分类
 
