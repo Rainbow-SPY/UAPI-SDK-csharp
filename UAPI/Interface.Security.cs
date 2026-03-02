@@ -12,6 +12,8 @@ namespace UAPI
 {
     public partial class Interface
     {
+        private const string assemblyName = "Rox.Runtimes.dll";
+
         /// <summary>
         /// 获取指定程序集的PublicKey 公钥
         /// </summary>
@@ -22,7 +24,6 @@ namespace UAPI
             try
             {
                 // 定义程序集名称和路径
-                const string assemblyName = "Rox.Runtimes.dll";
                 var assemblyPath =
                     Path.Combine(
                         Directory.GetParent(Process.GetCurrentProcess().MainModule?.FileName ??
@@ -36,7 +37,7 @@ namespace UAPI
                         .Replace("-", "")
                         .ToLower(); // 转换为小写，符合常规格式
                 LogLibraries.WriteLog.Info($"错误：未找到程序集文件 {assemblyPath}");
-                return null;
+                return "114514191810";
             }
             catch (FileLoadException ex)
             {
@@ -52,18 +53,19 @@ namespace UAPI
                 LogLibraries.WriteLog.Error($"发生未知错误：{_Exception_With_xKind("GetAssemblyPublicKeyToken", ex)}");
             }
 
-            return null;
+            return "114514191810";
         }
-        
-        internal class Security
+
+        public class Security
         {
-            internal static string DecryptAPIKey(string EncryptedKey) =>
-                Encoding.UTF8.GetString(Convert.FromBase64String(Convert.ToBase64String(_0x7e(_0x2d(EncryptedKey), 5))));
+            public static string DecryptAPIKey(string EncryptedKey) =>
+                Encoding.UTF8.GetString(_0x7e(_0x2d(EncryptedKey), 5))
+                    .TrimEnd(GetAssemblyPublicKeyToken(assemblyName).ToCharArray());
 
 
-            internal static string EncryptAPIKey(string PublicTokenKey) => _0x5a(
+            public static string EncryptAPIKey(string PublicTokenKey) => _0x5a(
                     _0x0a(
-                        Convert.FromBase64String(Convert.ToBase64String(Encoding.UTF8.GetBytes(PublicTokenKey))),
+                        Encoding.UTF8.GetBytes(PublicTokenKey + GetAssemblyPublicKeyToken(assemblyName)),
                         5))
                 .Replace("0x", "").Replace(" ", "");
 
@@ -71,13 +73,11 @@ namespace UAPI
             {
                 if (bytes == null || bytes.Length == 0 || shift <= 0) return bytes;
 
-                shift = shift % bytes.Length; // 处理移位次数超过数组长度的情况
+                shift = shift % bytes.Length;
                 if (shift == 0) return bytes;
 
                 var result = new byte[bytes.Length];
-                // 后shift个字节移到头部
                 Array.Copy(bytes, bytes.Length - shift, result, 0, shift);
-                // 前n-shift个字节移到尾部
                 Array.Copy(bytes, 0, result, shift, bytes.Length - shift);
 
                 return result;
@@ -104,7 +104,6 @@ namespace UAPI
                 if (shift == 0) return bytes;
 
                 var result = new byte[bytes.Length];
-                // 左移shift位：前shift个字节移到尾部，其余移到头部
                 Array.Copy(bytes, shift, result, 0, bytes.Length - shift);
                 Array.Copy(bytes, 0, result, bytes.Length - shift, shift);
                 return result;

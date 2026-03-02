@@ -314,6 +314,7 @@ namespace UAPI
                 /// 楼中楼回复列表结构与顶层评论对象一致，但通常此数组为空，需要单独请求
                 /// </summary>
                 [JsonProperty("replies")]
+                [Obsolete]
                 public List<RepliesItem> replies { get; set; }
 
                 [JsonProperty("reply_control")] public Reply_control reply_control { get; set; }

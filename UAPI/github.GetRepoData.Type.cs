@@ -12,165 +12,174 @@ namespace UAPI
         /// </summary>
         public class ReposType : Interface.TypeInterface
         {
+            private string _visibility;
+
             /// <summary>
             /// 完整名称
             /// </summary>
             [JsonProperty("full_name")]
-            public string full_name { get; set; }
+            public string FullName { get; set; }
 
             /// <summary>
             /// 描述
             /// </summary>
             [JsonProperty("description")]
-            public string description { get; set; }
+            public string Description { get; set; }
 
             /// <summary>
             /// 主页
             /// </summary>
             [JsonProperty("homepage")]
-            public string homepage { get; set; }
+            public string HomePage { get; set; }
 
             /// <summary>
             /// 默认分支
             /// </summary>
             [JsonProperty("default_branch")]
-            public string default_branch { get; set; }
+            public string DefaultBranch { get; set; }
 
             /// <summary>
             /// 主要分支
             /// </summary>
             [JsonProperty("primary_branch")]
-            public string primary_branch { get; set; }
+            public string PrimaryBranch { get; set; }
 
             /// <summary>
             /// 可见性
             /// </summary>
             [JsonProperty("visibility")]
-            public string visibility { get; set; }
+            public bool Visibility
+            {
+                get => _visibility == "Public";
+                set => _visibility = value ? "public" : _visibility;
+            }
 
             /// <summary>
             /// 是否归档
             /// </summary>
             [JsonProperty("archived")]
-            public bool archived { get; set; }
+            public bool IsArchived { get; set; }
 
             /// <summary>
             /// 是否禁用
             /// </summary>
             [JsonProperty("disabled")]
-            public bool disabled { get; set; }
+            public bool IsDisabled { get; set; }
 
             /// <summary>
             /// 是否为 fork
             /// </summary>
             [JsonProperty("fork")]
-            public bool fork { get; set; }
+            public bool IsForked { get; set; }
 
             /// <summary>
             /// 主要语言
             /// </summary>
             [JsonProperty("language")]
-            public string language { get; set; }
+            public string MainLanguage { get; set; }
 
             /// <summary>
             /// 话题
             /// </summary>
             [JsonProperty("topics")]
-            public List<string> topics { get; set; }
+            public List<string> Topics { get; set; }
 
             /// <summary>
             /// 许可证
             /// </summary>
             [JsonProperty("license")]
-            public string license { get; set; }
+            public string License { get; set; }
 
             /// <summary>
             /// 星星数
             /// </summary>
             [JsonProperty("stargazers")]
-            public int stargazers { get; set; }
+            public int Stargazers { get; set; }
 
             /// <summary>
             /// Fork 数
             /// </summary>
             [JsonProperty("forks")]
-            public int forks { get; set; }
+            public int Forks { get; set; }
 
             /// <summary>
             /// 开放问题数
             /// </summary>
             [JsonProperty("open_issues")]
-            public int open_issues { get; set; }
+            public int OpenIssues { get; set; }
 
             /// <summary>
-            /// 观看者数
+            /// 关注者数
             /// </summary>
             [JsonProperty("watchers")]
-            public int watchers { get; set; }
+            public int Watchers { get; set; }
 
             /// <summary>
             /// 最后推送时间（ISO 8601 格式）
             /// </summary>
             [JsonProperty("pushed_at")]
-            public string pushed_at { get; set; }
+            public string PushedTime_ISO8601 { get; set; }
 
             /// <summary>
             /// 创建时间（ISO 8601 格式）
             /// </summary>
             [JsonProperty("created_at")]
-            public string created_at { get; set; }
+            public string CreatedTime_ISO8601 { get; set; }
 
             /// <summary>
             /// 更新时间（ISO 8601 格式）
             /// </summary>
             [JsonProperty("updated_at")]
-            public string updated_at { get; set; }
+            public string UpdatedTime_ISO8601 { get; set; }
 
             /// <summary>
             /// 语言统计
             /// </summary>
             [JsonProperty("languages")]
-            public Dictionary<string, int> languages { get; set; }
+            public Dictionary<string, int> LanguagesStats { get; set; }
 
             /// <summary>
             /// 协作者
             /// </summary>
             [JsonProperty("collaborators")]
-            public object collaborators { get; set; }
+            public object Collaborators { get; set; }
 
             /// <summary>
             /// 维护者
             /// </summary>
             [JsonProperty("maintainers")]
-            public Maintainer[] maintainers { get; set; }
+            public Maintainer[] Maintainers { get; set; }
 
             /// <summary>
             /// 默认分支的 SHA 值
             /// </summary>
             [JsonProperty("default_branch_sha")]
-            public string default_branch_sha { get; set; }
+            public string DefaultBranchSHAHash { get; set; }
 
             /// <summary>
             /// 最后推送时间 (字符串格式)
             /// </summary>
-            public string pushed_at_str =>
-                DateTime.TryParse(pushed_at, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt)
+            public string PushedTime_String =>
+                DateTime.TryParse(PushedTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                    out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
 
             /// <summary>
             /// 创建时间 (字符串格式)
             /// </summary>
-            public string created_at_str =>
-                DateTime.TryParse(created_at, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt)
+            public string CreatedTime_String =>
+                DateTime.TryParse(CreatedTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                    out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
 
             /// <summary>
             /// 更新时间 (字符串格式)
             /// </summary>
-            public string updated_at_str =>
-                DateTime.TryParse(updated_at, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt)
+            public string UpdatedTime_Str =>
+                DateTime.TryParse(UpdatedTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                    out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
         }
