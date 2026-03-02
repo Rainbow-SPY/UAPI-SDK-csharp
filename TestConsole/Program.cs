@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using UAPI;
@@ -168,8 +170,8 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await bilibili.GetVideoData("BV1uT4y1P7CX", bilibili.BiliVideoIDType.BVID);
-                string message = $"查询的BVID: {a.bvid}" +
-                                 $"\n查询的AID: {a.aid}";
+                var message = $"查询的BVID: {a.bvid}" +
+                              $"\n查询的AID: {a.aid}";
                 if (a.videos != 1)
                 {
                     message += $"\n视频分集: {a.videos}P";
