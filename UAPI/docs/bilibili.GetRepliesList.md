@@ -1,4 +1,4 @@
-# 查询 bilibili 指定用户的投稿数据
+# 查询 bilibili 指定视频的评论数据
 
 >[!IMPORTANT]
 > 此页面需要补充

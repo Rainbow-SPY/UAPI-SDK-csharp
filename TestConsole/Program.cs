@@ -19,6 +19,8 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
+            ASs();
+            Console.ReadLine();
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
             Thread.Sleep((2000));
@@ -42,6 +44,16 @@ namespace TestConsole
         {
             WriteLog.Error((_Exception_With_xKind(_void, e)));
             Thread.Sleep(2000);
+        }
+
+        public static void ASs()
+        {
+            string text = "1f74bf9079b58865";
+            WriteLog.Info($"token: {text}");
+            WriteLog.Info("公钥: " + Interface.GetAssemblyPublicKeyToken("Rox.Runtimes.dll"));
+            var en = Interface.Security.EncryptAPIKey(text);
+            WriteLog.Info("加密后的token: " + en);
+            WriteLog.Info("还原的token: " + Interface.Security.DecryptAPIKey(en));
         }
 
         public static async Task TestbilibiliHotboard()
@@ -256,17 +268,17 @@ namespace TestConsole
                 if (a.subtitle.list != null)
                 {
                     message += "\n\n字幕信息: " +
-                               $"\n\t是否允许观众提交CC字幕: {a.subtitle.allow_submit}" +
+                               $"\n\t是否允许观众提交CC字幕: {a.subtitle.IsAllowSubmitSubtitle}" +
                                "\n\t字幕列表:";
                     foreach (var i in a.subtitle.list)
                     {
                         message += $"\n\n\t\t字幕ID: {i.id}" +
-                                   $"\n\t\t语言: {i.lan} - {i.lan_doc}" +
+                                   $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
                                    $"\n\t\t????: {i.is_lock}" +
                                    $"\n\t\t????: {i.subtitle_url}" +
                                    $"\n\t\t字幕作者UID: {i.author.mid}" +
                                    $"\n\t\t字幕作者昵称: {i.author.name}" +
-                                   $"\n\t\t字幕作者头像链接: {i.author.face}";
+                                   $"\n\t\t字幕作者头像链接: {i.author.AvatorImageUrl}";
                     }
                 }
 
@@ -592,35 +604,35 @@ namespace TestConsole
                 _stopwatch.Start();
                 var a = await github.GetReposData("torvalds/linux");
                 var _topics = "";
-                for (var i = 0; i < a.topics?.Count; i++)
-                    _topics += $"{(i == 0 ? "" : ",")}{a.topics?[i]}";
-                var _languages = a.languages.Aggregate("",
+                for (var i = 0; i < a.Topics?.Count; i++)
+                    _topics += $"{(i == 0 ? "" : ",")}{a.Topics?[i]}";
+                var _languages = a.LanguagesStats.Aggregate("",
                     (current, v) =>
-                        current + $"{(v.Equals(a.languages.First()) ? "\n" : "")}\t{v.Key}: {v.Value} 行代码\n");
+                        current + $"{(v.Equals(a.LanguagesStats.First()) ? "\n" : "")}\t{v.Key}: {v.Value} 行代码\n");
 
-                WriteLog.Info($"完整名称: {a.full_name}\n" +
-                              $"描述: {a.description}\n" +
-                              $"主页: {a.homepage}\n" +
-                              $"默认分支: {a.default_branch}\n" +
-                              $"默认分支SHA值: {a.default_branch_sha}\n" +
-                              $"主要分支: {a.primary_branch}\n" +
-                              $"可见性: {a.visibility}\n" +
-                              $"是否为存档: {a.archived}\n" +
-                              $"是否禁用: {a.disabled}\n" +
-                              $"是否为Fork的仓库: {a.fork}\n" +
-                              $"主要代码语言: {a.language}\n" +
+                WriteLog.Info($"完整名称: {a.FullName}\n" +
+                              $"描述: {a.Description}\n" +
+                              $"主页: {a.HomePage}\n" +
+                              $"默认分支: {a.DefaultBranch}\n" +
+                              $"默认分支SHA值: {a.DefaultBranchSHAHash}\n" +
+                              $"主要分支: {a.PrimaryBranch}\n" +
+                              $"可见性: {a.Visibility}\n" +
+                              $"是否为存档: {a.IsArchived}\n" +
+                              $"是否禁用: {a.IsDisabled}\n" +
+                              $"是否为Fork的仓库: {a.IsForked}\n" +
+                              $"主要代码语言: {a.MainLanguage}\n" +
                               $"话题: {_topics}\n" +
-                              $"许可证: {a.license}\n" +
-                              $"Star 数量: {a.stargazers}\n" +
-                              $"Fork 的数量: {a.forks}\n" +
-                              $"打开的Issue: {a.open_issues}\n" +
-                              $"关注人数: {a.watchers}\n" +
-                              $"推送时间: {a.pushed_at_str}\n" +
-                              $"创建仓库时间: {a.created_at_str}\n" +
-                              $"更新时间: {a.updated_at_str}\n" +
+                              $"许可证: {a.License}\n" +
+                              $"Star 数量: {a.Stargazers}\n" +
+                              $"Fork 的数量: {a.Forks}\n" +
+                              $"打开的Issue: {a.OpenIssues}\n" +
+                              $"关注人数: {a.Watchers}\n" +
+                              $"推送时间: {a.PushedTime_String}\n" +
+                              $"创建仓库时间: {a.CreatedTime_String}\n" +
+                              $"更新时间: {a.UpdatedTime_Str}\n" +
                               $"代码语言: {_languages}\n" +
-                              $"仓库协作者: {a.collaborators}\n");
-                foreach (var t in a.maintainers)
+                              $"仓库协作者: {a.Collaborators}\n");
+                foreach (var t in a.Maintainers)
                 {
                     WriteLog.Info($"协作者: {t.login}\n" +
                                   $"名称: {t.name}\n" +

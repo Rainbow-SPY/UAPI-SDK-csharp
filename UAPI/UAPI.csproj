@@ -102,8 +102,8 @@
         <Compile Include="bilibili.GetVideoData.Type.cs"/>
         <Compile Include="EpicGames.GetFreeGames.cs"/>
         <Compile Include="EpicGames.GetFreeGames.Type.cs"/>
-        <Compile Include="github.GetReposData.cs"/>
-        <Compile Include="github.GetReposData.Type.cs"/>
+        <Compile Include="github.GetRepoData.cs" />
+        <Compile Include="github.GetRepoData.Type.cs" />
         <Compile Include="hotboard.bilibili.cs"/>
         <Compile Include="hotboard.bilibili.Type.cs"/>
         <Compile Include="hotboard.NeteaseMusic.cs"/>

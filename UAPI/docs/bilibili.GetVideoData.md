@@ -1,4 +1,4 @@
-# 查询 bilibili 指定用户的投稿数据
+# 查询 bilibili 指定视频的数据
 
 ## 请求示例
 
@@ -64,12 +64,12 @@ var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType 
 | `object` **ugc_season** | 合集信息	如果视频属于某个合集，这里会有数据 | |
 | `bool` **is_chargeable_season** | ??? | ??? |
 | `bool` **is_story** | ??? | ??? |
-| `Honor_reply` **honor_reply** | ??? | ??? |
+| `Honor_reply` **honor_reply** | 视频所得荣誉 |                    |
 
 
 ___
 
-#### `List<Desc_v2>` **Video** 嵌套类
+#### `List<Desc_v2>` **desc_v2** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 | :------ | ---- | :--- | ---- |
@@ -83,8 +83,22 @@ ___
 | :------------------------------ | ------------------------------ | :--- | ---- |
 | `bool` **IsBangumiPay**         | 是否可以承包/付费 (老番剧字段) |      |      |
 | `bool` **IsAllowElectronicPay** | 是否允许付费充电               |      |      |
-| `` ****                         |                                |      |      |
-| `` ****                         |                                |      |      |
+| `bool` **IsAllowDownload**      | 是否允许缓存/下载              |      |      |
+| `bool` **IsMovie**              | 是否是电影                     |      |      |
+| `bool` **IsPay**                | 是否需要付费观看               |      |      |
+| `bool` **IsHighBitrate**        | (古早字段) 是否有高码率        |      |      |
+| `bool` **IsAllowReprint**           | 是否允许转载 |      |      |
+| `bool` **IsAllowAutoPlay**          | 是否允许自动播放 |      |      |
+| `bool` **IsUGCPay**                 | 是否为UGC 付费 |      | "B站课堂"之类的付费课程 |
+| `bool` **IsCooperation**            | 是否为合作视频 |      |      |
+| `bool` **IsAllowPayPreview**        | 是否允许付费视频预览 |      |      |
+| `int` **no_background**          | ??? | ??? | ??? |
+| `bool` **IsCleanMode**              | 是否为纯净模式 |      |      |
+| `bool` **IsSteinGate**              | ??? |  | ??? |
+| `bool` **Is360PanoramicVideo**      | 是否为360°全景视频 |      |      |
+| `bool` **IsAllowShare**             | 是否允许分享 |      |      |
+| `bool` **IsArcPayVideo**            | 是否为付费视频 |      |      |
+| `bool` **IsAllowFreePreviewInPayVideo** | 是否允许付费视频中的免费试看 |      |      |
 
 #### `Owner` **Owner** 嵌套类
 
@@ -133,3 +147,44 @@ ___
 | `string` **vid** | 外部视频源 ID, 现大多为空 | \<empty> | 如果 `SourceWhere` 不是"B站直传", 则为外部视频源ID |
 | `string` **** | 跳转外部链接 | | 极少用到 |
 | `Dimension` **dimension** | 分P视频的分辨率 | | |
+
+#### `Subtitle` subtitle 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+| :------ | ---- | :--- | ---- |
+| `bool` **IsAllowSubmitSubtitle** | 允许观众投稿 CC 字幕 | | |
+| `string` **Name** | UP主昵称 | | |
+| `List<Subtitles>` **list** | 字幕列表 | | |
+
+##### `List<Subtitles>` list 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+| :------ | ---- | :--- | ---- |
+| `long` **id** | 字幕ID | | |
+| `string` **LanguageCode** | 语言代码 | | |
+| `string` **LanguageName** | 语言名称 | | |
+| `bool` **is_lock** | ??? | | ??? |
+| `int` **author_mid** | 字幕作者的UID |  |  |
+| `string` **subtitle_url** | ??? | ??? | ??? |
+| `SubtitleAuthor` **author** | 字幕作者信息 | | |
+
+###### `SubtitleAuthor` author 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+| :------ | ---- | :--- | ---- |
+| `int` **mid** | 作者的UID | | |
+| `string` **name** | 作者昵称 | | |
+| `string` **AvatorImageUrl** | 作者头像链接 | | |
+
+#### `Honnor_reply` honor_reply 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+| :------ | ---- | :--- | ---- |
+| `List<Honnors>` **honor** | 视频所得荣誉 | | |
+
+##### `List<Honnors>` honor 嵌套类
+
+| 属性值 | 注释 | 示例 | 备注 |
+| :------ | ---- | :--- | ---- |
+| `string` **desc** | 荣誉名称 | | |
+| `object` **type** | 荣誉类型 | | |

@@ -193,137 +193,6 @@ namespace UAPI
         }
 
         /// <summary>
-        /// 视频的各种权限开关（如是否允许转载）
-        /// </summary>
-        public class Rights
-        {
-            private int _bp;
-            private int _elec;
-
-            /// <summary>
-            /// 番剧付费 (Bangumi Pay)	是否可以承包/付费（老番剧字段）
-            /// </summary>
-            [JsonProperty("bp")]
-            [Obsolete]
-            public bool IsBangumiPay
-            {
-                get => _bp == 1;
-                set => _bp = value ? 1 : _bp;
-            }
-
-            /// <summary>
-            /// 是否允许充电
-            /// </summary>
-            [JsonProperty("elec")]
-            public bool IsAllowElectronicPay
-            {
-                get => _elec == 1;
-                set => _elec = value ? 1 : _elec;
-            }
-
-            /// <summary>
-            /// 是否允许缓存/下载
-            /// </summary>
-            public bool IsAllowDownload => download == 1;
-
-            private int download { get; set; }
-
-            /// <summary>
-            /// 是否是电影
-            /// </summary>
-            public bool IsMovie => movie == 1;
-
-            private int movie { get; set; }
-
-            /// <summary>
-            /// 是否需要付费观看
-            /// </summary>
-            public bool IsPay => pay == 1;
-
-            private int pay { get; set; }
-
-            /// <summary>
-            /// (古早字段)是否有高码率
-            /// </summary>
-            public bool IsHighBitrate => hd5 == 1;
-
-            private int hd5 { get; set; }
-
-            /// <summary>
-            /// 是否允许转载
-            /// </summary>
-            public bool IsAllowReprint => no_reprint != 1;
-
-            private int no_reprint { get; set; }
-
-            /// <summary>
-            /// 是否允许自动播放
-            /// </summary>
-            public bool IsAllowAutoPlay => autoplay == 1;
-
-            private int autoplay { get; set; }
-
-            /// <summary>
-            /// 是否为UGC 付费	也就是"B站课堂"之类的付费课程
-            /// </summary>
-            public bool IsUGCPay => ugc_pay == 1;
-
-            private int ugc_pay { get; set; }
-
-            /// <summary>
-            /// 是否为合作视频
-            /// </summary>
-            public bool IsCooperation => is_cooperation == 1;
-
-            private int is_cooperation { get; set; }
-
-            /// <summary>
-            /// 是否允许付费视频预览
-            /// </summary>
-            public bool IsAllowPayPreview => ugc_pay_preview == 1;
-
-            private int ugc_pay_preview { get; set; }
-            private int no_background { get; set; }
-
-            /// <summary>
-            /// 纯净模式
-            /// </summary>
-            public bool IsCleanMode => clean_mode == 1;
-
-            private int clean_mode { get; set; }
-            public bool IsSteinGate => is_stein_gate == 1;
-            private int is_stein_gate { get; set; }
-
-            /// <summary>
-            /// 是否为360°全景视频
-            /// </summary>
-            public bool Is360PanoramicVideo => is_360 == 1;
-
-            private int is_360 { get; set; }
-
-            /// <summary>
-            /// 是否允许分享
-            /// </summary>
-            public bool IsAllowShare => no_share != 1;
-
-            private int no_share { get; set; }
-
-            /// <summary>
-            /// 是否为付费视频
-            /// </summary>
-            public bool IsArcPayVideo => arc_pay == 1;
-
-            private int arc_pay { get; set; }
-
-            /// <summary>
-            /// 是否允许付费视频中的免费试看
-            /// </summary>
-            public bool IsAllowFreePreviewInPayVideo => free_watch == 1;
-
-            private int free_watch { get; set; }
-        }
-
-        /// <summary>
         /// 详细的视频简介
         /// </summary>
         public class Desc_v2
@@ -359,6 +228,201 @@ namespace UAPI
             public int biz_id { get; set; }
         }
 
+        /// <summary>
+        /// 视频的各种权限开关（如是否允许转载）
+        /// </summary>
+        public class Rights
+        {
+            private int _bp;
+            private int _elec;
+            private int _download;
+            private int _movie;
+            private int _pay;
+            private int _hd5;
+            private int _noReprint;
+            private int _autoplay;
+            private int _isCooperation;
+            private int _ugcPayPreview;
+            private int _ugcPay;
+            private int _noShare;
+            private int _is360;
+            private int _isSteinGate;
+            private int _cleanMode;
+            private int _arcPay;
+            private int _freeWatch;
+
+            /// <summary>
+            /// 番剧付费 (Bangumi Pay)	是否可以承包/付费（老番剧字段）
+            /// </summary>
+            [JsonProperty("bp")]
+            [Obsolete]
+            public bool IsBangumiPay
+            {
+                get => _bp == 1;
+                set => _bp = value ? 1 : _bp;
+            }
+
+            /// <summary>
+            /// 是否允许充电
+            /// </summary>
+            [JsonProperty("elec")]
+            public bool IsAllowElectronicPay
+            {
+                get => _elec == 1;
+                set => _elec = value ? 1 : _elec;
+            }
+
+            /// <summary>
+            /// 是否允许缓存/下载
+            /// </summary>
+            [JsonProperty("download")]
+            public bool IsAllowDownload
+            {
+                get => _download == 1;
+                set => _download = value ? 1 : _download;
+            }
+
+            /// <summary>
+            /// 是否是电影
+            /// </summary>
+            [JsonProperty("movie")]
+            public bool IsMovie
+            {
+                get => _movie == 1;
+                set => _movie = value ? 1 : _movie;
+            }
+
+            /// <summary>
+            /// 是否需要付费观看
+            /// </summary>
+            [JsonProperty("pay")]
+            public bool IsPay
+            {
+                get => _pay == 1;
+                set => _pay = value ? 1 : _pay;
+            }
+
+            /// <summary>
+            /// (古早字段)是否有高码率
+            /// </summary>
+            [JsonProperty("hd5")]
+            [Obsolete]
+            public bool IsHighBitrate
+            {
+                get => _hd5 == 1;
+                set => _hd5 = value ? 1 : _hd5;
+            }
+
+            /// <summary>
+            /// 是否允许转载
+            /// </summary>
+            [JsonProperty("no_reprint")]
+            public bool IsAllowReprint
+            {
+                get => _noReprint == 1;
+                set => _noReprint = value ? 1 : _noReprint;
+            }
+
+            /// <summary>
+            /// 是否允许自动播放
+            /// </summary>
+            [JsonProperty("autoplay")]
+            public bool IsAllowAutoPlay
+            {
+                get => _autoplay == 1;
+                set => _autoplay = value ? 1 : _autoplay;
+            }
+
+            /// <summary>
+            /// 是否为UGC 付费	也就是"B站课堂"之类的付费课程
+            /// </summary>
+            [JsonProperty("ugc_pay")]
+            public bool IsUGCPay
+            {
+                get => _ugcPay == 1;
+                set => _ugcPay = value ? 1 : _ugcPay;
+            }
+
+            /// <summary>
+            /// 是否为合作视频
+            /// </summary>
+            [JsonProperty("is_cooperation")]
+            public bool IsCooperation
+            {
+                get => _isCooperation == 1;
+                set => _isCooperation = value ? 1 : _isCooperation;
+            }
+
+            /// <summary>
+            /// 是否允许付费视频预览
+            /// </summary>
+            [JsonProperty("ugc_pay_preview")]
+            public bool IsAllowPayPreview
+            {
+                get => _ugcPayPreview == 1;
+                set => _ugcPayPreview = value ? 1 : _ugcPayPreview;
+            }
+
+            private int no_background { get; set; }
+
+            /// <summary>
+            /// 是否为纯净模式
+            /// </summary>
+            [JsonProperty("clean_mode")]
+            public bool IsCleanMode
+            {
+                get => _cleanMode == 1;
+                set => _cleanMode = value ? 1 : _cleanMode;
+            }
+
+            [JsonProperty("is_stein_gate")]
+            public bool IsSteinGate
+            {
+                get => _isSteinGate == 1;
+                set => _isSteinGate = value ? 1 : _isSteinGate;
+            }
+
+            /// <summary>
+            /// 是否为360°全景视频
+            /// </summary>
+            [JsonProperty("is_360")]
+            public bool Is360PanoramicVideo
+            {
+                get => _is360 == 1;
+                set => _is360 = value ? 1 : _is360;
+            }
+
+            /// <summary>
+            /// 是否允许分享
+            /// </summary>
+            [JsonProperty("no_share")]
+            public bool IsAllowShare
+            {
+                get => _noShare != 1;
+                set => _noShare = value ? _noReprint : 1;
+            }
+
+            /// <summary>
+            /// 是否为付费视频
+            /// </summary>
+            [JsonProperty("arc_pay")]
+            public bool IsArcPayVideo
+            {
+                get => _arcPay == 1;
+                set => _arcPay = value ? 1 : _arcPay;
+            }
+
+            /// <summary>
+            /// 是否允许付费视频中的免费试看
+            /// </summary>
+            [JsonProperty("free_watch")]
+            public bool IsAllowFreePreviewInPayVideo
+            {
+                get => _freeWatch == 1;
+                set => _freeWatch = value ? 1 : _freeWatch;
+            }
+        }
+        
         /// <summary>
         /// 视频所有者的信息
         /// </summary>
@@ -483,6 +547,7 @@ namespace UAPI
             /// Video Type	(古早字段) 视频类型，通常为 0
             /// </summary>
             [JsonProperty("vt")]
+            [Obsolete]
             public int VideoType_old { get; set; }
         }
 
@@ -576,18 +641,76 @@ namespace UAPI
             /// <summary>
             /// 如果 <see cref="SourceWhere"/> 不是 "B站直传"，这里存外部视频源 ID，现大多为空
             /// </summary>
+            [Obsolete]
             public string vid { get; set; }
 
             /// <summary>
             /// 外部链接	极少用到，跳转外部链接
             /// </summary>
             [JsonProperty("weblink")]
+            [Obsolete]
             public string WebLink { get; set; }
 
             /// <summary>
             /// 分P视频的分辨率
             /// </summary>
             public Dimension dimension { get; set; }
+        }
+
+        #region Subtitle
+
+        /// <summary>
+        /// 字幕
+        /// </summary>
+        public class Subtitle
+        {
+            /// <summary>
+            /// 允许观众投稿 CC 字幕
+            /// </summary>
+            [JsonProperty("allow_submit")]
+            public bool IsAllowSubmitSubtitle { get; set; }
+
+            /// <summary>
+            /// 字幕列表
+            /// </summary>
+            public List<Subtitles> list { get; set; }
+        }
+
+        /// <summary>
+        /// 字幕
+        /// </summary>
+        public class Subtitles
+        {
+            /// <summary>
+            /// 字幕ID
+            /// </summary>
+            public long id { get; set; }
+
+            /// <summary>
+            /// 语言代码
+            /// </summary>
+            [JsonProperty("lan")]
+            public string LanguageCode { get; set; }
+
+            /// <summary>
+            /// 语言名称
+            /// </summary>
+            [JsonProperty("lan_doc")]
+            public string LanguageName { get; set; }
+
+            public bool is_lock { get; set; }
+
+            /// <summary>
+            /// 字幕作者的UID
+            /// </summary>
+            public int author_mid { get; set; }
+
+            public string subtitle_url { get; set; }
+
+            /// <summary>
+            /// 字幕作者信息
+            /// </summary>
+            public SubtitleAuthor author { get; set; }
         }
 
         /// <summary>
@@ -608,59 +731,13 @@ namespace UAPI
             /// <summary>
             /// 作者头像链接
             /// </summary>
-            public string face { get; set; }
+            [JsonProperty("face")]
+            public string AvatorImageUrl { get; set; }
         }
 
-        /// <summary>
-        /// 字幕
-        /// </summary>
-        public class Subtitles
-        {
-            /// <summary>
-            /// 字幕ID
-            /// </summary>
-            public long id { get; set; }
+        #endregion
 
-            /// <summary>
-            /// 语言代码
-            /// </summary>
-            public string lan { get; set; }
-
-            /// <summary>
-            /// 语言名称
-            /// </summary>
-            public string lan_doc { get; set; }
-
-            public bool is_lock { get; set; }
-
-            /// <summary>
-            /// 字幕作者的UID
-            /// </summary>
-            public int author_mid { get; set; }
-
-            public string subtitle_url { get; set; }
-
-            /// <summary>
-            /// 字幕作者信息
-            /// </summary>
-            public SubtitleAuthor author { get; set; }
-        }
-
-        /// <summary>
-        /// 字幕
-        /// </summary>
-        public class Subtitle
-        {
-            /// <summary>
-            /// 允许观众投稿 CC 字幕
-            /// </summary>
-            public bool allow_submit { get; set; }
-
-            /// <summary>
-            /// 字幕列表
-            /// </summary>
-            public List<Subtitles> list { get; set; }
-        }
+        #region Honors
 
         /// <summary>
         /// 荣誉
@@ -688,5 +765,7 @@ namespace UAPI
             /// </summary>
             public object type { get; set; }
         }
+
+        #endregion
     }
 }

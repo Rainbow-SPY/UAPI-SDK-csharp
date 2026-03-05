@@ -28,11 +28,11 @@ namespace UAPI
             {
                 WriteLog.Info(_au, $"游戏唯一ID {game.id}");
                 WriteLog.Info(_au, $"游戏名: {game.title}");
-                WriteLog.Info(_au, $"当前是否免费? {(game.is_free_now ? "Free" : "UnKnow")}");
-                WriteLog.Info(_au, $"免费开始的时间: {game.free_start}");
-                WriteLog.Info(_au, $"免费结束的时间: {game.free_end}");
-                WriteLog.Info(_au, $"游戏封面的URL: {game.cover}");
-                WriteLog.Info(_au, $"免费结束的时间戳: {game.free_end_at}");
+                WriteLog.Info(_au, $"当前是否免费? {(game.IsFreeNow ? "Free" : "UnKnow")}");
+                WriteLog.Info(_au, $"免费开始的时间: {game.FreeStartTime}");
+                WriteLog.Info(_au, $"免费结束的时间: {game.FreeEndTime}");
+                WriteLog.Info(_au, $"游戏封面的URL: {game.CoverImageUrl}");
+                WriteLog.Info(_au, $"免费结束的时间戳: {game.FreeEndTimeUnix}");
                 WriteLog.Info(_au, $"详情页: {game.link}");
                 WriteLog.Info(_au, $"游戏介绍: {game.description}");
             }
