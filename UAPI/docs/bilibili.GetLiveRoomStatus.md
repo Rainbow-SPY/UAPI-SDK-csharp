@@ -7,19 +7,19 @@
 
 ```csharp
 var request = await UAPI.bilibili.GetLiveRoomStatus.AsID(string mid);
-            = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id);
+ = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id);
 ```
 
 * 参数选项:
-    * **mid:** 指定要查询的用户UID(mid)
-    * **room_id:** 指定要查询的直播间ID, 和上述参数 `mid` 选其一即可.
+ * **mid:** 指定要查询的用户UID(mid)
+ * **room_id:** 指定要查询的直播间ID, 和上述参数 `mid` 选其一即可.
 * **返回类型:** `Task <UAPI.bilibili.LiveRoomType>`
 * **返回值:** `LiveRoomType` 对象
 * **异常:**
-    - `IException.General.UAPIServerDown`: 请求源服务器发生错误
-    - `UnauthorizedAccessException`: 未经授权的请求操作
-    - `IException.bilibili.BilibiliServiceError`:  bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
-  
+ - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+ - `UnauthorizedAccessException`: 未经授权的请求操作
+ - `IException.bilibili.BilibiliServiceError`: bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
+ 
 
 ## 属性列表
 
