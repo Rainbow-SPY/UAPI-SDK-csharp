@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -22,7 +23,8 @@ namespace UAPI
                 /// <summary>
                 /// 歌曲专辑封面
                 /// </summary>
-                public string cover { get; set; }
+                [JsonProperty("cover")]
+                public string CoverImageUrl { get; set; }
 
                 /// <summary>
                 /// 歌曲额外元数据

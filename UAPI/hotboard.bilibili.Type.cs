@@ -34,7 +34,8 @@ namespace UAPI
                 /// <summary>
                 /// 头像链接
                 /// </summary>
-                public string Face { get; set; }
+                [JsonProperty("Face")]
+                public string AvatarImageUrl { get; set; }
 
                 /// <summary>
                 /// UID
@@ -159,7 +160,7 @@ namespace UAPI
                 /// 总计时长
                 /// </summary>
 
-                [JsonProperty("duration")] 
+                [JsonProperty("duration")]
                 public int seconds { get; set; }
 
                 /// <summary>
@@ -170,7 +171,8 @@ namespace UAPI
                 /// <summary>
                 /// 视频封面链接
                 /// </summary>
-                public string pic { get; set; }
+                [JsonProperty("pic")]
+                public string CoverImageUrl { get; set; }
 
                 /// <summary>
                 /// 发布时间

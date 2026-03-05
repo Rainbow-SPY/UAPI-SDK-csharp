@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -24,16 +25,20 @@ namespace UAPI
         /// <param name="postContent">POST 请求内容</param>
         /// <param name="contentType">POST请求内容类型</param>
         /// <param name="type">请求的方式</param>
+        /// <param name="AuthenticationAPITokenKey">API Token Key</param>
         /// <typeparam name="T">泛式类型</typeparam>
+        /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
+        /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
         /// <returns>泛式对象 <see cref="T"/></returns>
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl,
             SendRequestType type = SendRequestType.GET, string postContent = "",
-            string contentType = "application/json") where T : class
+            string contentType = "application/json",string AuthenticationAPITokenKey = "") where T : class
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
                     HttpResponseMessage response;
                     if (type == SendRequestType.GET)
                         response = await httpClient.GetAsync(requestUrl);
@@ -95,13 +100,13 @@ namespace UAPI
         /// <summary>
         /// 检查是否请求成功, 并根据返回值执行制定操作
         /// </summary>
-        /// <param name="Type">指定为继承 <see cref="Interface.Hotboard.HotboardInterface"/> 的公共类</param>
+        /// <param name="Type">指定为继承 <see cref="Interface.TypeInterface"/> 的公共类</param>
         /// <param name="NullValue">当返回值为 400 时的提示参数</param>
         /// <param name="StatusCode"><see cref="HttpStatusCode"/> 返回值</param>
         /// <param name="_Exception">指定为继承 <see cref="System.Exception"/> 的自定义异常</param>
         /// <param name="_Error_Type">出现异常的类别</param>
         /// <param name="Error_Code">(可选) 错误代码</param>
-        /// <typeparam name="T">指定为继承 <see cref="Interface.Hotboard.HotboardInterface"/> 的公共类</typeparam>
+        /// <typeparam name="T">指定为继承 <see cref="Interface.TypeInterface"/> 的公共类</typeparam>
         /// <returns><see langword="bool"/> 类型的返回状态<br/>当请求成功时(200) 会返回 <see langword="true"/> , 反之则返回 <see langword="false"/> 或 <see langword="throw"/> 异常</returns>
         /// <exception cref="General.UAPIServerDown">UAPI 请求源服务器异常</exception>
         /// <exception cref="UnauthorizedAccessException">未经授权的操作引发的异常</exception>
@@ -127,6 +132,10 @@ namespace UAPI
                 case 401:
                     LogLibraries.WriteLog.Error("UnAuthorized", "未经授权的操作");
                     throw new UnauthorizedAccessException("未经授权的操作");
+                case 429:
+                    LogLibraries.WriteLog.Error("Too Many Requests",$"因请求量太大, 限制了您的请求, 错误代码: 429 Too Many Requests, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error($"因请求量太大, 限制了您的请求, 错误代码: 429 Too Many Requests, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",_ERROR);
+                    break;
                 case 403:
                     LogLibraries.WriteLog.Warning(LogLibraries.LogKind.Network, "您已被限制请求, 因 请求量过大.");
                     LogLibraries.MessageBox_I.Warning("您已被限制请求, 因 请求量过大.", _ERROR);

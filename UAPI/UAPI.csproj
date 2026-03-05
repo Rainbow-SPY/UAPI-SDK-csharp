@@ -124,6 +124,7 @@
         <Compile Include="Interface.APIHealthStatus.Type.cs"/>
         <Compile Include="Interface.HotBoard.cs"/>
         <Compile Include="Interface.HotBoard.Type.cs"/>
+        <Compile Include="Interface.Security.cs" />
         <Compile Include="Interface.Type.cs"/>
         <Compile Include="minecraft.GetHistoryName.cs"/>
         <Compile Include="minecraft.GetServerStatus.cs"/>

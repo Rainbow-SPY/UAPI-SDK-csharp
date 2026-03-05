@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using UAPI;
@@ -63,7 +65,7 @@ namespace TestConsole
                          $"\n\tBV号: {i.extra.bvid}" +
                          $"\n\t简介: {i.extra.desc}" +
                          $"\n\t总计时长: {i.extra.durations}" +
-                         $"\n\t视频封面: {i.extra.pic}" +
+                         $"\n\t视频封面: {i.extra.CoverImageUrl}" +
                          $"\n\t发布时间: {i.extra.pubdate_str}" +
                          $"\n\t荣誉: {i.extra.rcmd_reason}" +
                          $"\n\t视频分区: {i.extra.tname}" +
@@ -78,7 +80,7 @@ namespace TestConsole
                          $"\n\n视频UP主信息:" +
                          $"\n\t昵称: {i.extra.owner.Name}" +
                          $"\n\tUID: {i.extra.owner.Mid}" +
-                         $"\n\t头像链接: {i.extra.owner.Face}";
+                         $"\n\t头像链接: {i.extra.owner.AvatarImageUrl}";
                 }
 
                 WriteLog.Info(b);
@@ -105,7 +107,7 @@ namespace TestConsole
                          $"\n\tID: {i.extra.id}" +
                          $"\n\t专辑名称: {i.extra.album}" +
                          $"\n\t专辑链接: {i.url}" +
-                         $"\n\t专辑封面: {i.cover}" +
+                         $"\n\t专辑封面: {i.CoverImageUrl}" +
                          $"\n\t上次的热榜排名: {i.extra.last_rank}\n";
                 }
 
@@ -168,8 +170,8 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await bilibili.GetVideoData("BV1uT4y1P7CX", bilibili.BiliVideoIDType.BVID);
-                string message = $"查询的BVID: {a.bvid}" +
-                                 $"\n查询的AID: {a.aid}";
+                var message = $"查询的BVID: {a.bvid}" +
+                              $"\n查询的AID: {a.aid}";
                 if (a.videos != 1)
                 {
                     message += $"\n视频分集: {a.videos}P";
