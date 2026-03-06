@@ -254,7 +254,7 @@ var request = await UAPI.EpicGames.GetDataJson();
 ____
 
 > [!NOTE]  
-> 所有 Minecraft 相关请求的用户必须均为正版, 否则返回 `404`等`StatusCode` .
+> 所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 `404`等`StatusCode` .
 
 ### 获取 Minecraft 玩家历史昵称
 
@@ -282,8 +282,7 @@ ____
 ### 获取 Minecraft 服务器状态
 
 ```csharp
-var request = await UAPI.minecraft.GetServerStatus(string server);
-            = await UAPI.minecraft.GetServerStatus(string server, int port = 25565);
+var request = await UAPI.minecraft.GetServerStatus(string server, int port = 25565);
 ```
 
 * 参数选项:
@@ -507,7 +506,7 @@ ____
 ### 转换 Unix 时间戳
 
 ```csharp
-var request = await UAPI.misc.CovertTimestamp(string ts)
+var request = await UAPI.misc.CovertTimestamp(string ts);
 ```
 
 * 参数选项:
@@ -524,7 +523,7 @@ ___
 ### 通过快递单号识别快递公司
 
 ```csharp
-var request = await UAPI.misc.DetectTrackingCarrier(string tracking_number)
+var request = await UAPI.misc.DetectTrackingCarrier(string tracking_number);
 ```
 
 * 参数选项:
@@ -634,13 +633,39 @@ var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,st
     - C# .NET Framework 4.7.2
 
 - 依赖项
-    - System.Diagnostics.DiagnosticSource
-    - [Rox](https://github.com/Rainbow-SPY/Rox)
-        - Rox.Text
-            - Rox.Runtimes
-    - System.Buffers
-    - System.Net.Http
-    - [Newtonsoft.Json ](https://www.nuget.org/packages/newtonsoft.json)
+    
+    - 第三方程序集
+    
+      - AntdUI
+    
+        用于依赖项 Rox.Runtimes 的 `Reporter` 窗体渲染, 防止出现未知的异常
+    
+      - [Newtonsoft.Json](https://www.nuget.org/packages/newtonsoft.json)
+    
+        用于 `Json` 反序列化解析
+    
+      - [Rox.Runtimes](https://github.com/Rainbow-SPY/Rox)
+    
+        用于输出日志、引用字符串常量等
+    
+      - [Rox.Text](https://github.com/Rainbow-SPY/Rox)
+    
+        用于压缩 `Json` .后续会集成移除
+    
+    - 来自 Microsoft 的 NuGet 包扩展
+    
+      - System.Buffers
+    
+      - System.Diagnostics.DiagnosticSource
+    
+      - System.Memory
+    
+      - System.Numerics.Vectors
+    
+      - System.Runtime.CompilerServices.Unsafe
+    
+    
+      - System.Net.Http
 
 ___
 <!--suppress HtmlDeprecatedAttribute -->

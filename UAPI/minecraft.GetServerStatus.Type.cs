@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace UAPI
 {
     public partial class minecraft
@@ -8,47 +10,53 @@ namespace UAPI
         public class ServerType : Interface.TypeInterface
         {
             /// <summary>
-            /// 服务器图标的 Base64 Data URI
+            /// 服务器图标的 Base64 Data Url
             /// </summary>
-            public string favicon_url { get; set; }
+            [JsonProperty("favicon_url")]
+            public string FaviconUrlWithBase64 { get; set; }
 
             /// <summary>
             /// 服务器解析后的IP地址
             /// </summary>
-            public string ip { get; set; }
+            [JsonProperty("ip")]
+            public string IP { get; set; }
 
             /// <summary>
             /// 服务器配置的最大玩家数量
             /// </summary>
-            public int max_players { get; set; }
+            [JsonProperty("max_players")]
+            public int MaxPlayers { get; set; }
 
             /// <summary>
-            /// 纯文本格式的服务器MOTD（每日消息），去除了所有颜色和格式代码。
+            /// 纯文本格式的服务器MOTD（每日消息），去除了所有颜色和格式代码
             /// </summary>
             public string motd_clean { get; set; }
 
             /// <summary>
-            /// HTML格式的服务器MOTD，保留了颜色和样式。
+            /// HTML格式的服务器MOTD，保留了颜色和样式
             /// </summary>
             public string motd_html { get; set; }
 
             /// <summary>
             /// 服务器是否在线
             /// </summary>
-            public bool online { get; set; }
+            [JsonProperty("online")]
+            public bool IsServerOnline { get; set; }
 
             /// <summary>
             /// 服务器当前的玩家数量
             /// </summary>
-            public int players { get; set; }
+            [JsonProperty("players")]
+            public int CurrentPlayers { get; set; }
 
             /// <summary>
             /// 服务器使用的端口号
             /// </summary>
-            public int port { get; set; }
+            [JsonProperty("port")]
+            public int Port { get; set; }
 
             /// <summary>
-            /// 服务器报告的版本信息。
+            /// 服务器报告的版本信息
             /// </summary>
             public string version { get; set; }
         }

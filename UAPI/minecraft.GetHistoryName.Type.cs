@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -26,65 +27,75 @@ namespace UAPI
             }
 
             /// <summary>
-            /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家。
+            /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家
             /// </summary>
             public class ResultsItem
             {
                 /// <summary>
-                /// 玩家当前的用户名。
+                /// 玩家当前的用户名
                 /// </summary>
-                public string id { get; set; }
+                [JsonProperty("id")]
+                public string UserName { get; set; }
 
                 /// <summary>
-                /// 玩家的UUID（带连字符格式）。
+                /// 玩家的UUID（带连字符格式）
                 /// </summary>
-                public string uuid { get; set; }
+                [JsonProperty("uuid")]
+                public string UUID { get; set; }
 
                 /// <summary>
-                /// 历史名称的总数。
+                /// 历史名称的总数
                 /// </summary>
-                public int name_num { get; set; }
+                [JsonProperty("name_num")]
+                public int OldNameCount { get; set; }
 
                 /// <summary>
-                /// 历史用户名数组。
+                /// 历史用户名数组
                 /// </summary>
                 public List<History> history { get; set; }
             }
 
             /// <summary>
-            /// 【name 查询时返回】查询的用户名。
+            /// 【name 查询时返回】查询的用户名
             /// </summary>
-            public string query { get; set; }
+            [JsonProperty("query")]
+            public string NUserName { get; set; }
 
             /// <summary>
-            /// 【name 查询时返回】匹配到的用户数量，为 0 时表示未找到。
+            /// 【name 查询时返回】匹配到的用户数量，为 0 时表示未找到
             /// </summary>
-            public int count { get; set; }
+            [JsonProperty("count")]
+            public int NCount { get; set; }
 
             /// <summary>
-            /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家。
+            /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家
             /// </summary>
-            public List<ResultsItem> results { get; set; }
+            [JsonProperty("results")]
+            public List<ResultsItem> NResults { get; set; }
 
             /// <summary>
-            /// 【uuid 查询时返回】玩家当前的用户名。
+            /// 【uuid 查询时返回】玩家当前的用户名
             /// </summary>
-            public string id { get; set; }
+            [JsonProperty("id")]
+            public string U_UserName { get; set; }
 
             /// <summary>
-            /// 【uuid 查询时返回】被查询玩家的UUID（带连字符格式）。
+            /// 【uuid 查询时返回】被查询玩家的UUID（带连字符格式）
             /// </summary>
-            public string uuid { get; set; }
+            [JsonProperty("uuid")]
+            public string U_UUID { get; set; }
 
             /// <summary>
-            /// 【uuid 查询时返回】历史名称的总数（包含当前名称）。
+            /// 【uuid 查询时返回】历史名称的总数（包含当前名称）
             /// </summary>
-            public int name_num { get; set; }
+            [JsonProperty("name_num")]
+            public int U_OldNameCount { get; set; }
 
             /// <summary>
-            /// 【uuid 查询时返回】包含所有历史用户名的数组，按时间倒序排列。
+            /// 【uuid 查询时返回】包含所有历史用户名的数组，按时间倒序排列
             /// </summary>
-            public List<History> history { get; set; }
+            [JsonProperty("history")]
+            public List<History> U_HistoryList { get; set; }
         }
     }
 }

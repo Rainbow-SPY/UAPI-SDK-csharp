@@ -133,7 +133,7 @@
         <Compile Include="minecraft.GetServerStatus.Type.cs"/>
         <Compile Include="minecraft.GetUserData.Type.cs"/>
         <Compile Include="misc.ConvertTimestamp.Type.cs" />
-        <Compile Include="misc.CovertTimestamp.cs" />
+        <Compile Include="misc.ConvertTimestamp.cs" />
         <Compile Include="misc.DetectTrackingCarrier.cs" />
         <Compile Include="misc.DetectTrackingCarrier.Type.cs" />
         <Compile Include="misc.GetLunarTime.cs" />

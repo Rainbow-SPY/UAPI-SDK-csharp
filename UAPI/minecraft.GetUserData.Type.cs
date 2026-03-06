@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace UAPI
 {
     public partial class minecraft
@@ -10,17 +12,20 @@ namespace UAPI
             /// <summary>
             /// 用户名
             /// </summary>
-            public string username { get; set; }
+            [JsonProperty("username")]
+            public string UserName { get; set; }
 
             /// <summary>
-            /// 玩家的32位无破折号UUID。
+            /// 玩家的32位无破折号UUID
             /// </summary>
-            public string uuid { get; set; }
+            [JsonProperty("uuid")]
+            public string UUID { get; set; }
 
             /// <summary>
-            /// 玩家当前使用的皮肤图片URL。
+            /// 玩家当前使用的皮肤图片URL
             /// </summary>
-            public string skin_url { get; set; }
+            [JsonProperty("skin_url")]
+            public string SkinImageUrl { get; set; }
         }
     }
 }

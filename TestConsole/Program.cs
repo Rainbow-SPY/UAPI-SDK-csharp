@@ -481,12 +481,12 @@ namespace TestConsole
                 _stopwatch.Start();
 
                 var a = await minecraft.GetServerStatus("hypixel.net");
-                WriteLog.Info($"是否在线: {(a.online ? "在线" : "离线")}");
+                WriteLog.Info($"是否在线: {(a.IsServerOnline ? "在线" : "离线")}");
                 //      if (!a.online) return;
-                WriteLog.Info($"解析的IP地址: {a.ip}\n" +
-                              $"端口号: {a.port}\n" +
-                              $"当前玩家数量: {a.players}\n" +
-                              $"最大允许的玩家数量: {a.max_players}\n" +
+                WriteLog.Info($"解析的IP地址: {a.IP}\n" +
+                              $"端口号: {a.Port}\n" +
+                              $"当前玩家数量: {a.CurrentPlayers}\n" +
+                              $"最大允许的玩家数量: {a.MaxPlayers}\n" +
                               $"客户端需求版本: {a.version}\n" +
                               $"描述: {a.motd_clean}\n" +
                               $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒");
@@ -503,13 +503,13 @@ namespace TestConsole
             try
             {
                 var a = await minecraft.GetHistoryName("Dream", minecraft.SearchType.Name);
-                WriteLog.Info($"查询的用户名: {a.query}\n" +
-                              $"匹配到的数量: {a.count}\n");
-                foreach (var i in a.results)
+                WriteLog.Info($"查询的用户名: {a.NUserName}\n" +
+                              $"匹配到的数量: {a.NCount}\n");
+                foreach (var i in a.NResults)
                 {
-                    WriteLog.Info($"当前的用户名: {i.id}\n" +
-                                  $"UUID: {i.uuid}\n" +
-                                  $"历史名称的总数: {i.name_num}");
+                    WriteLog.Info($"当前的用户名: {i.UserName}\n" +
+                                  $"UUID: {i.UUID}\n" +
+                                  $"历史名称的总数: {i.OldNameCount}");
                     foreach (var q in i.history)
                         WriteLog.Info($"{(q.changedToAt == "Initial" ? "创建账号时" : q.changedToAt)} 的用户名: {q.name}");
                 }
@@ -517,10 +517,10 @@ namespace TestConsole
 
                 var b = await minecraft.GetHistoryName("ee9b4ed1-aac1-491e-b761-1471be374b80",
                     minecraft.SearchType.UUID);
-                WriteLog.Info($"玩家当前的用户名: {b.id}\n" +
-                              $"UUID: {b.uuid}\n" +
-                              $"历史名称的总数(改过几次名): {b.name_num}\n");
-                foreach (var g in b.history)
+                WriteLog.Info($"玩家当前的用户名: {b.U_UserName}\n" +
+                              $"UUID: {b.U_UUID}\n" +
+                              $"历史名称的总数(改过几次名): {b.U_OldNameCount}\n");
+                foreach (var g in b.U_HistoryList)
                     WriteLog.Info($"{(g.changedToAt == "Initial" ? "创建账号时" : g.changedToAt)} 的用户名: {g.name}");
             }
             catch (Exception e)
