@@ -1,0 +1,52 @@
+﻿{
+  "brand": {
+    "name": "UAPI C# SDK",
+    "github": {
+      "href": "https://github.com/Rainbow-SPY/UAPI-SDK-csharp",
+      "title": "Open GitHub repository",
+      "openInNewTab": true
+    }
+  },
+  "hero": {
+    "title": "UAPI C# SDK 文档",
+    "description": "直接基于仓库里的 Markdown 渲染接口说明、开发文档和 README，保持现在的 UI 风格，同时让内容维护更简单。"
+  },
+  "repository": {
+    "contentRoot": "..",
+    "defaultBranch": "master"
+  },
+  "groups": [
+    {
+      "id": "guide",
+      "title": "开始使用",
+      "icon": "Rocket",
+      "order": 1,
+      "homeLinks": 4,
+      "sources": ["readme", "developer", "Interface"]
+    },
+    {
+      "id": "social",
+      "title": "社交平台",
+      "icon": "MessageSquare",
+      "order": 2,
+      "homeLinks": 6,
+      "sources": ["bilibili", "QQ", "github"]
+    },
+    {
+      "id": "games",
+      "title": "游戏服务",
+      "icon": "Building",
+      "order": 3,
+      "homeLinks": 6,
+      "sources": ["EpicGames", "minecraft", "Steam"]
+    },
+    {
+      "id": "utility",
+      "title": "通用能力",
+      "icon": "Settings",
+      "order": 4,
+      "homeLinks": 6,
+      "sources": ["misc", "network", "Weather", "hotboard"]
+    }
+  ]
+}
