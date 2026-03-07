@@ -402,8 +402,14 @@ ____
 ### 天气请求
 
 ```csharp
-var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended = false, bool indices = false, bool forecast = false)
-    		= await UAPI.Weather.GetWeatherDataJson(int adcode, bool extended = false, bool indices = false, bool forecast = false
+var request = await UAPI.Weather.GetWeatherDataJson(string city,
+                    bool extended = false, bool indices = false,
+                    bool forecast = false, bool hourly = false,
+                    bool minutely = false);
+    		= await UAPI.Weather.GetWeatherDataJson(int adcode, 
+                    bool extended = false, bool indices = false, 
+                    bool forecast = false, bool hourly = false,
+                    bool minutely = false);
 ```
 
 * 参数选项:
@@ -412,6 +418,8 @@ var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended =
     * **extended:** 是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）, 默认为 `false`
     * **indices:** 是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）, 默认为 `false`
     * **forecast:** 是否返回预报数据（当日最高/最低气温及未来3天天气预报）, 默认为 `false`
+    * **hourly**: 是否返回逐小时预报 (24小时)，含温度、天气、风向风速、湿度、降水概率等
+    * **minutely**:是否返回分钟级降水预报 (仅国内城市)，每5分钟一个数据点，共24个
 * **返回类型:** `Task <UAPI.Weather.WeatherType>`
 * **返回值:** `WeatherType` 对象
 * **异常:**
