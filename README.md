@@ -192,7 +192,7 @@ var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = "0", 
 #### 获取QQ群相关信息
 
 ```csharp
-var request = await UAPI.QQ.GetGroupData(string group_id)
+var request = await UAPI.QQ.GetGroupData(string group_id);
 ```
 
 * 参数选项:
@@ -209,7 +209,7 @@ ____
 #### 获取QQ用户相关信息
 
 ```csharp
-var request = await UAPI.QQ.GetUserData(string qq)
+var request = await UAPI.QQ.GetUserData(string qq);
 ```
 
 * 参数选项:
@@ -317,16 +317,15 @@ ____
 ### 获取 Steam 个人用户的公开数据
 
 ```csharp
-var request = await UAPI.Steam.GetUserData(string SteamID)
-    		= await UAPI.Steam.GetUserData(string SteamID, string key)
+var request = await UAPI.Steam.GetUserData(string SteamID, string key);
 ```
 
 - 参数选项:
 
     - **SteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下:
 
-      |    ID类型    | 正则表达式                                     | 示例                                        |
-      |:----------:|:------------------------------------------|:------------------------------------------|
+      |   ID类型   | 正则表达式格式                            | 示例                                      |
+      | :--------: | :---------------------------------------- | :---------------------------------------- |
       |  STEAM_ID  | ``` Regex: ^STEAM_[0-5]:[01]:\d+$```      | STEAM_1:1:728234856                       |
       | STEAM_ID3  | ``` Regex: ^\[U:1:([0-9]+)\]$```          | [U:1:1456469713]                          |
       | STEAM_ID32 | ``` Regex: ^[0-9]{1,16}$```               | 1456469713                                |
@@ -352,7 +351,7 @@ ___
 ### 获取本机的公网IP地址
 
 ```csharp
-var request = await UAPI.Network.GetMyIP(bool commercial = false)
+var request = await UAPI.Network.GetMyIP(bool commercial = false);
 ```
 
 * 参数选项:
@@ -362,8 +361,7 @@ var request = await UAPI.Network.GetMyIP(bool commercial = false)
 * **异常:**
     - `IException.General.UAPIServerDown`: 请求源服务器发生错误
     - `UnauthorizedAccessException`: 未经授权的请求操作
-    - `HttpRequestException`:  引发的异常的基类 `HttpClient` 和 `HttpMessageHandler` 类 , 使用此异常通常是这个接口没有上游服务,
-      多数异常来源于服务器和连接过程.
+    - `HttpRequestException`:  引发的异常的基类 `HttpClient` 和 `HttpMessageHandler` 类 , 使用此异常通常是这个接口没有上游服务, 多数异常来源于服务器和连接过程.
 
 ____
 
@@ -423,10 +421,10 @@ var request = await UAPI.Weather.GetWeatherDataJson(string city, bool extended =
 
 ___
 
-### 获取全球时区时间
+### 获取全球指定时区的当地时间
 
 ```csharp
-var request = await UAPI.misc.GetWorldTime(string region)
+var request = await UAPI.misc.GetWorldTime(string region);
 ```
 
 * 参数选项:
@@ -469,7 +467,7 @@ ___
 ### 获取一组随机数字
 
 ```csharp
-var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0, int count = 0,bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0)
+var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0, int count = 0,bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0);
 ```
 
 * 参数选项:
@@ -477,7 +475,7 @@ var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0, int 
     * **max:** 生成随机数的最大值（包含）。
     * **count:** 需要生成的随机数的数量。
     * **allow_repeat:** 是否允许生成的多个数字中出现重复值。
-    * **allow_decimal:** 是否生成小（浮点）数。如果为 false，则只生成整数。
+    * **allow_decimal:** 是否生成小（浮点）数。如果为 `false`，则只生成整数。
     * **decimal_places:** 如果 `allow_decimal=true`，这里可以指定小数的位数。
 * **返回类型:** `Task <UAPI.misc.RandomNumberType>`
 * **返回值:** `RandomNumberType` 对象
@@ -491,7 +489,7 @@ ___
 ### 获取程序员历史上的今天的事件
 
 ```csharp
-var request = await UAPI.misc.GetProgrammerHistoryToday()
+var request = await UAPI.misc.GetProgrammerHistoryToday();
 ```
 
 * **返回类型:** `Task <UAPI.misc.HistoryTodayType>`
@@ -558,7 +556,7 @@ ___
 ### 获取支持的快递公司列表
 
 ```csharp
-var request = await UAPI.misc.GetTrackingCarriers()
+var request = await UAPI.misc.GetTrackingCarriers();
 ```
 
 * **返回类型:** `Task <UAPI.misc.CarriersType>`
@@ -573,8 +571,7 @@ ___
 ### 查询快递物流信息
 
 ```csharp
-var request = await UAPI.misc.GetTrackingInfo(string tracking_number, string carrier_code = "",
-            string phone = "")
+var request = await UAPI.misc.GetTrackingInfo(string tracking_number, string carrier_code = "",string phone = "");
 ```
 
 - 参数列表
@@ -593,7 +590,7 @@ ___
 ### 计算两个日期之间的差值
 
 ```csharp
-var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,string format = "YYYY-MM-DD")
+var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,string format = "YYYY-MM-DD");
 ```
 
 - 参数列表
@@ -633,7 +630,7 @@ var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,st
     - C# .NET Framework 4.7.2
 
 - 依赖项
-    
+  
     - 第三方程序集
     
       - AntdUI

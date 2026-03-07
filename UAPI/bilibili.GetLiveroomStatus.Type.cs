@@ -65,19 +65,19 @@ namespace UAPI
             public long uid { get; set; }
 
             /// <summary>
-            /// 直播间的真实房间号（长号）
+            /// 直播间的真实房间号(长号)
             /// </summary>
             [JsonProperty("room_id")]
             public long LiveroomID { get; set; }
 
             /// <summary>
-            /// 直播间的短号（靓号）如果没有设置，则为0
+            /// 直播间的短号(靓号)如果没有设置，则为0
             /// </summary>
             [JsonProperty("short_id")]
             public long short_id { get; set; }
 
             /// <summary>
-            /// 主播的粉丝数（关注数量）
+            /// 主播的粉丝数(关注数量)
             /// </summary>
             [JsonProperty("attention")]
             public long Fans { get; set; }

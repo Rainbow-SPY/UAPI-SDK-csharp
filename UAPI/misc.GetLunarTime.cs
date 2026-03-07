@@ -10,7 +10,7 @@ namespace UAPI
         /// 查询农历时间
         /// </summary>
         /// <param name="ts">Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。</param>
-        /// <param name="timezone">时区名称。支持 IANA 时区（如 Asia/Shanghai）和别名（Shanghai、Beijing）。默认 Asia/Shanghai。</param>
+        /// <param name="timezone">时区名称。支持 IANA 时区(如 Asia/Shanghai)和别名(Shanghai、Beijing)。默认 Asia/Shanghai。</param>
         /// <returns><see cref="LunarTimeType"/> 对象</returns>
         public static async Task<LunarTimeType> GetLunarTime(string ts = "", string timezone = "Asia/Shanghai")
         {

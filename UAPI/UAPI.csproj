@@ -24,19 +24,19 @@
             <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShortId" />
         </Exec>
 
-        <!-- 3. 拼接最终版本（保留原代码，不变） -->
+        <!-- 3. 拼接最终版本(保留原代码，不变) -->
         <PropertyGroup>
             <GitCommitShortId>$([System.String]::Copy('$(GitCommitShortId)').Trim())</GitCommitShortId>
             <GitCommitShortId Condition="'$(GitCommitShortId)' == ''">Unknown</GitCommitShortId>
             <AssemblyInformationalVersion>$(BaseVersion)-$(GitCommitShortId)</AssemblyInformationalVersion>
         </PropertyGroup>
 
-        <!-- 4. 打印日志（保留原代码，不变） -->
+        <!-- 4. 打印日志(保留原代码，不变) -->
         <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High" />
         <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High" />
     </Target>
 
-    <!-- 2. 动态生成GitAssemblyInfo.cs（保留using、无覆盖、语法正确、版本注入成功） -->
+    <!-- 2. 动态生成GitAssemblyInfo.cs(保留using、无覆盖、语法正确、版本注入成功) -->
     <Target Name="WriteAssemblyInfo" AfterTargets="GetGitInfo" BeforeTargets="CoreCompile">
         <PropertyGroup>
             <GitAssemblyInfoPath>$(IntermediateOutputPath)\GitAssemblyInfo.cs</GitAssemblyInfoPath>
@@ -184,6 +184,40 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="uapi-sdk-csharp-key.snk" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="docs\$method_Tempure.md" />
+      <Content Include="docs\bilibili.GetArchives.md" />
+      <Content Include="docs\bilibili.GetLiveRoomStatus.md" />
+      <Content Include="docs\bilibili.GetRepliesList.md" />
+      <Content Include="docs\bilibili.GetUserData.md" />
+      <Content Include="docs\bilibili.GetVideoData.md" />
+      <Content Include="docs\developer.develop.md" />
+      <Content Include="docs\EpicGames.GetFreeGames.md" />
+      <Content Include="docs\github.GetRepoData.md" />
+      <Content Include="docs\hotboard.bilibili.md" />
+      <Content Include="docs\hotboard.NeteaseMusic.md" />
+      <Content Include="docs\Interface.common.md" />
+      <Content Include="docs\Interface.Convert.md" />
+      <Content Include="docs\minecraft.GetHistoryName.md" />
+      <Content Include="docs\minecraft.GetServerStatus.md" />
+      <Content Include="docs\minecraft.GetUserData.md" />
+      <Content Include="docs\misc.ConvertTimestamp.md" />
+      <Content Include="docs\misc.DetectTrackingCarrier.md" />
+      <Content Include="docs\misc.GetLunarTime.md" />
+      <Content Include="docs\misc.GetPhoneInfo.md" />
+      <Content Include="docs\misc.GetProgrammerHistoryToday.md" />
+      <Content Include="docs\misc.GetRandomNumberList.md" />
+      <Content Include="docs\misc.GetTrackingCarriers.md" />
+      <Content Include="docs\misc.GetTrackingInfo.md" />
+      <Content Include="docs\misc.GetWorldTime.md" />
+      <Content Include="docs\misc.PostDateDiff.md" />
+      <Content Include="docs\network.GetMyIP.md" />
+      <Content Include="docs\QQ.GetGroupData.md" />
+      <Content Include="docs\QQ.GetUserData.md" />
+      <Content Include="docs\Steam.GetUserData.md" />
+      <Content Include="docs\Steam.SteamID.md" />
+      <Content Include="docs\Weather.GetWeather.md" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

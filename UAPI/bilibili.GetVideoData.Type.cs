@@ -71,7 +71,7 @@ namespace UAPI
             public string title { get; set; }
 
             /// <summary>
-            /// 稿件发布时间的Unix时间戳（秒）
+            /// 稿件发布时间的Unix时间戳（秒)
             /// </summary>
             public long pubdate { get; set; }
 

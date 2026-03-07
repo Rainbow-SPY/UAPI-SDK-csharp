@@ -11,7 +11,7 @@ namespace UAPI
         public class EpicType : Interface.TypeInterface
         {
             /// <summary>
-            /// 免费游戏列表（数组）
+            /// 免费游戏列表(数组)
             /// </summary>
             public List<GameData> data { get; set; }
 

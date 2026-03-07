@@ -46,6 +46,7 @@ namespace UAPI
                 /// </summary>
                 /// <param name="SteamID">其中一种的 <see cref="SteamIDType"/> </param>
                 /// <returns> <see cref="SteamIDType.SteamID32"/> (好友代码)</returns>
+                /// <exception cref="ArgumentOutOfRangeException"></exception>
                 public static string ToSteamID32(string SteamID)
                 {
                     if (string.IsNullOrWhiteSpace(SteamID))
@@ -82,6 +83,7 @@ namespace UAPI
                 /// </summary>
                 /// <param name="SteamID">其中一种的 <see cref="SteamIDType"/></param>
                 /// <returns> <see cref="SteamIDType.SteamID64"/></returns>
+                /// <exception cref="ArgumentOutOfRangeException"></exception>
                 public static string ToSteamID64(string SteamID)
                 {
                     if (string.IsNullOrWhiteSpace(SteamID))
@@ -120,6 +122,7 @@ namespace UAPI
                 /// </summary>
                 /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
                 /// <returns> <see cref="SteamIDType.SteamID3"/></returns>
+                /// <exception cref="ArgumentOutOfRangeException"></exception>
                 public static string ToSteamID3(string SteamID)
                 {
                     if (string.IsNullOrWhiteSpace(SteamID))
@@ -153,6 +156,7 @@ namespace UAPI
                 /// </summary>
                 /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
                 /// <returns> <see cref="SteamIDType.SteamID"/></returns>
+                /// <exception cref="ArgumentOutOfRangeException"></exception>
                 public static string ToSteamID(string SteamID)
                 {
                     if (string.IsNullOrWhiteSpace(SteamID))

@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace UAPI
 {
     public partial class Network
@@ -10,52 +12,62 @@ namespace UAPI
             /// <summary>
             /// 你的公网IP地址
             /// </summary>
-            public string ip { get; set; }
+            [JsonProperty("ip")]
+            public string IP { get; set; }
 
             /// <summary>
-            /// IP段起始地址（标准查询）
+            /// IP段起始地址(标准查询)
             /// </summary>
-            public string beginip { get; set; }
+            [JsonProperty("beginip")]
+            public string BeginAddress { get; set; }
 
             /// <summary>
-            /// IP段结束地址（标准查询）
+            /// IP段结束地址(标准查询)
             /// </summary>
-            public string endip { get; set; }
+            [JsonProperty("endip")]
+            public string EndAddress { get; set; }
 
             /// <summary>
             /// 地理位置，格式：国家 省份 城市
             /// </summary>
-            public string region { get; set; }
+            [JsonProperty("region")]
+            public string Region { get; set; }
 
             /// <summary>
             /// 运营商名称
             /// </summary>
-            public string isp { get; set; }
+            [JsonProperty("isp")]
+            public string ISP { get; set; }
 
             /// <summary>
             /// 自治系统编号
             /// </summary>
-            public string asn { get; set; }
+            [JsonProperty("asn")]
+            public string ASN { get; set; }
 
             /// <summary>
             /// 归属机构
             /// </summary>
-            public string llc { get; set; }
+            [JsonProperty("llc")]
+            public string LLC { get; set; }
 
             /// <summary>
             /// 纬度
             /// </summary>
-            public int latitude { get; set; }
+            [JsonProperty("latitude")]
+            public decimal Latitude { get; set; }
 
             /// <summary>
             /// 经度
             /// </summary>
-            public int longitude { get; set; }
+            [JsonProperty("longitude")]
+            public decimal Longitude { get; set; }
 
             /// <summary>
             /// 行政区 (仅限商业查询)
             /// </summary>
-            public string district { get; set; }
+            [JsonProperty("district")]
+            public string District_Pro { get; set; }
         }
     }
 }

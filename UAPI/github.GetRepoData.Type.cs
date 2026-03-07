@@ -115,19 +115,19 @@ namespace UAPI
             public int Watchers { get; set; }
 
             /// <summary>
-            /// 最后推送时间（ISO 8601 格式）
+            /// 最后推送时间(ISO 8601 格式)
             /// </summary>
             [JsonProperty("pushed_at")]
             public string PushedTime_ISO8601 { get; set; }
 
             /// <summary>
-            /// 创建时间（ISO 8601 格式）
+            /// 创建时间(ISO 8601 格式)
             /// </summary>
             [JsonProperty("created_at")]
             public string CreatedTime_ISO8601 { get; set; }
 
             /// <summary>
-            /// 更新时间（ISO 8601 格式）
+            /// 更新时间(ISO 8601 格式)
             /// </summary>
             [JsonProperty("updated_at")]
             public string UpdatedTime_ISO8601 { get; set; }

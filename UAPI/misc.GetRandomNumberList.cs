@@ -9,11 +9,11 @@ namespace UAPI
         /// <summary>
         /// 获取一组随机数字
         /// </summary>
-        /// <param name="min">生成随机数的最小值（包含）。</param>
-        /// <param name="max">生成随机数的最大值（包含）。</param>
+        /// <param name="min">生成随机数的最小值(包含)。</param>
+        /// <param name="max">生成随机数的最大值(包含)。</param>
         /// <param name="count">需要生成的随机数的数量。</param>
         /// <param name="allow_repeat">是否允许生成的多个数字中出现重复值。</param>
-        /// <param name="allow_decimal">是否生成小（浮点）数。如果为 false，则只生成整数。</param>
+        /// <param name="allow_decimal">是否生成小(浮点)数。如果为 false，则只生成整数。</param>
         /// <param name="decimal_places">如果 allow_decimal=true，这里可以指定小数的位数。</param>
         /// <returns></returns>
         public static async Task<RandomNumberType> GetRandomNumberList(int min = 0, int max = 0, int count = 0,

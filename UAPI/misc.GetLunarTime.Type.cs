@@ -59,7 +59,7 @@ namespace UAPI
             public string weekday_cn { get; set; }
 
             /// <summary>
-            /// 农历年份（数字）
+            /// 农历年份（数字)
             /// </summary>
             [JsonProperty("lunar_year")]
             public int lunar_year { get; set; }

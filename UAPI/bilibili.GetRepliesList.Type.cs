@@ -58,7 +58,7 @@ namespace UAPI
                 public int size { get; set; }
 
                 /// <summary>
-                /// 根评论（即直接评论视频的评论）的总数
+                /// 根评论(即直接评论视频的评论)的总数
                 /// </summary>
                 [JsonProperty("count")]
                 public int count { get; set; }
@@ -167,13 +167,13 @@ namespace UAPI
                     case 8: return "直播活动";
                     case 9: return "活动稿件";
                     case 10: return "直播公告";
-                    case 11: return "相簿（图片动态）";
+                    case 11: return "相簿(图片动态)";
                     case 12: return "专栏";
                     case 13: return "票务";
                     case 14: return "音频";
                     case 15: return "风纪委员会";
                     case 16: return "点评";
-                    case 17: return "动态（纯文字动态&分享）";
+                    case 17: return "动态(纯文字动态&分享)";
                     case 18: return "播单";
                     case 19: return "音乐播单";
                     case 20:
@@ -244,7 +244,7 @@ namespace UAPI
                 public int dialog { get; set; }
 
                 /// <summary>
-                /// 这条评论下的回复（楼中楼）数量
+                /// 这条评论下的回复(楼中楼)数量
                 /// </summary>
                 [JsonProperty("count")]
                 public int count { get; set; }
@@ -280,7 +280,7 @@ namespace UAPI
                 [JsonProperty("attr")] public int attr { get; set; }
 
                 /// <summary>
-                /// 评论发送时间的Unix时间戳（秒）
+                /// 评论发送时间的Unix时间戳(秒)
                 /// </summary>
                 [JsonProperty("ctime")]
                 public int ctime { get; set; }

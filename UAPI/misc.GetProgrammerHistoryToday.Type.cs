@@ -37,13 +37,13 @@ namespace UAPI
                 /// 标题
                 /// </summary>
                 [JsonProperty("title")]
-                public string title { get; set; }
+                public string Title { get; set; }
 
                 /// <summary>
                 /// 描述
                 /// </summary>
                 [JsonProperty("description")]
-                public string description { get; set; }
+                public string Description { get; set; }
 
                 /// <summary>
                 /// 类型
@@ -55,13 +55,13 @@ namespace UAPI
                 /// 标签
                 /// </summary>
                 [JsonProperty("tags")]
-                public List<string> tags { get; set; }
+                public List<string> Tags { get; set; }
 
                 /// <summary>
                 /// 重要等级
                 /// </summary>
                 [JsonProperty("importance")]
-                public int importance { get; set; }
+                public int ImportanceLevel { get; set; }
 
                 /// <summary>
                 /// 数据源

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -12,57 +13,68 @@ namespace UAPI
             /// <summary>
             /// 省份名称
             /// </summary>
-            public string province { get; set; }
+            [JsonProperty("province")]
+            public string Province { get; set; }
 
             /// <summary>
             /// 城市名称
             /// </summary>
-            public string city { get; set; }
+            [JsonProperty("city")]
+            public string City { get; set; }
 
             /// <summary>
             /// <see langword="int"/>高德地图的6位数字城市编码
             /// </summary>
-            public int adcode { get; set; }
+            [JsonProperty("adcode")]
+            public int Adcode { get; set; }
 
             /// <summary>
             /// 天气状况
             /// </summary>
-            public string weather { get; set; }
+            [JsonProperty("weather")]
+            public string Weather { get; set; }
 
             /// <summary>   
             /// <see langword="double"/> 温度
             /// </summary>
-            public double temperature { get; set; }
+            [JsonProperty("temperature")]
+            public double Temperature { get; set; }
 
             /// <summary>
             /// 风向
             /// </summary>
-            public string wind_direction { get; set; }
+            [JsonProperty("wind_direction")]
+            public string WindDirection { get; set; }
 
             /// <summary>
             /// 风力等级
             /// </summary>
-            public string wind_power { get; set; }
+            [JsonProperty("wind_power")]
+            public string WindPower { get; set; }
 
             /// <summary>
             /// 湿度
             /// </summary>
-            public double humidity { get; set; }
+            [JsonProperty("humidity")]
+            public double Humidity { get; set; }
 
             /// <summary>
             /// 数据更新时间	
             /// </summary>
-            public string report_time { get; set; }
+            [JsonProperty("report_time")]
+            public string ReportTime { get; set; }
 
             /// <summary>
             /// <see langword="double"/> 一天中的最高温度
             /// </summary>
-            public double temp_max { get; set; }
+            [JsonProperty("temp_max")]
+            public double MaxTemperature { get; set; }
 
             /// <summary>
             /// <see langword="double"/> 一天中的最低温度
             /// </summary>
-            public double temp_min { get; set; }
+            [JsonProperty("temp_min")]
+            public double MinTemperature { get; set; }
 
             /// <summary>
             /// <see cref="List{Forcast}"/> 未来三天的天气预报
@@ -70,7 +82,7 @@ namespace UAPI
             public List<Forecast> forecast { get; set; }
 
             /// <summary>
-            /// 未来3天天气预报（forecast=true 时返回）
+            /// 未来3天天气预报(forecast=true 时返回)
             /// </summary>
             public class Forecast
             {
@@ -82,98 +94,117 @@ namespace UAPI
                 /// <summary>
                 /// <see langword="double"/> 一天中的最高温度
                 /// </summary>
-                public double temp_max { get; set; }
+                [JsonProperty("temp_max")]
+                public double MaxTemperature { get; set; }
 
                 /// <summary>
                 /// <see langword="double"/> 一天中的最低温度
                 /// </summary>
-                public double temp_min { get; set; }
+                [JsonProperty("temp_min")]
+                public double MinTemperature { get; set; }
 
                 /// <summary>
                 /// 白天天气
                 /// </summary>
-                public string weather_day { get; set; }
+                [JsonProperty("weather_day")]
+                public string DayWeather { get; set; }
 
                 /// <summary>
                 /// 白天风向
                 /// </summary>
-                public string wind_dir_day { get; set; }
+                [JsonProperty("wind_dir_day")]
+                public string DayWindDirection { get; set; }
 
                 /// <summary>
                 /// 夜间风向
                 /// </summary>
-                public string wind_dir_night { get; set; }
+                [JsonProperty("wind_dir_night")]
+                public string NightWindDirection { get; set; }
 
                 /// <summary>
                 /// 白天风力
                 /// </summary>
-                public string wind_scale_day { get; set; }
+                [JsonProperty("wind_scale_day")]
+                public string DayWindPower { get; set; }
 
                 /// <summary>
                 /// 夜间风力
                 /// </summary>
-                public string wind_scale_night { get; set; }
+                [JsonProperty("wind_scale_night")]
+                public string NightWindPower { get; set; }
 
                 /// <summary>
                 /// 夜间天气
                 /// </summary>
-                public string weather_night { get; set; }
+                [JsonProperty("weather_night")]
+                public string NightWeather { get; set; }
 
                 /// <summary>
                 /// <see langword="int"/> 湿度
                 /// </summary>
-                public double humidity { get; set; }
+                [JsonProperty("humidity")]
+                public double Humidity { get; set; }
 
                 /// <summary>
                 /// 降水量 mm
                 /// </summary>
-                public double precip { get; set; }
+                [JsonProperty("precip")]
+                public double Precipitation { get; set; }
 
                 /// <summary>
                 /// 能见度 km
                 /// </summary>
-                public double visibility { get; set; }
+                [JsonProperty("visibility")]
+                public double Visibility { get; set; }
 
                 /// <summary>
                 /// 紫外线指数 0-11+
                 /// </summary>
-                public double uv_index { get; set; }
+                [JsonProperty("uv_index")]
+                public double UV { get; set; }
             }
 
             /// <summary>
-            /// 体感温度 °C（extended=true 时返回）
+            /// 体感温度 °C(extended=true 时返回)
             /// </summary>
-            public double feels_like { get; set; }
+            [JsonProperty("feels_like")]
+            public double FeelsLikeTemperature { get; set; }
 
             /// <summary>
-            /// 能见度 km（extended=true 时返回）
+            /// 能见度 km(extended=true 时返回)
             /// </summary>
-            public double visibility { get; set; }
+            [JsonProperty("visibility")]
+            public double Visibility { get; set; }
 
             /// <summary>
-            /// 气压 hPa（extended=true 时返回）
+            /// 气压 hPa(extended=true 时返回)
             /// </summary>
-            public double pressure { get; set; }
+            [JsonProperty("pressure")]
+            public double Pressure { get; set; }
 
             /// <summary>
-            /// 紫外线指数 0-11+（extended=true 时返回）
+            /// 紫外线指数 0-11+(extended=true 时返回)
             /// </summary>
-            public double uv { get; set; }
+            [JsonProperty("uv")]
+            public double UV { get; set; }
 
             /// <summary>
-            /// 空气质量指数 0-500（extended=true 时返回）
+            /// 空气质量指数 0-500(extended=true 时返回)
             /// </summary>
-            public double aqi { get; set; }
+            [JsonProperty("aqi")]
+            public double AQI { get; set; }
 
             /// <summary>
-            /// 降水量 mm（extended=true 时返回）
+            /// 降水量 mm(extended=true 时返回)
             /// </summary>
-            public double precipitation { get; set; }
+            [JsonProperty("precipitation")]
+            public double Precipitation { get; set; }
 
             /// <summary>
-            /// 云量 %（extended=true 时返回）
+            /// 云量 %(extended=true 时返回)
             /// </summary>
-            public double cloud { get; set; }
+            [JsonProperty("cloud")]
+            public double Cloud { get; set; }
 
             /// <summary>
             /// 
@@ -183,17 +214,20 @@ namespace UAPI
                 /// <summary>
                 /// 等级
                 /// </summary>
-                public string level { get; set; }
+                [JsonProperty("level")]
+                public string Level { get; set; }
 
                 /// <summary>
                 /// 简述
                 /// </summary>
-                public string brief { get; set; }
+                [JsonProperty("brief")]
+                public string Brief { get; set; }
 
                 /// <summary>
                 /// 建议
                 /// </summary>
-                public string advice { get; set; }
+                [JsonProperty("advice")]
+                public string Advice { get; set; }
             }
 
             /// <summary>
@@ -202,49 +236,57 @@ namespace UAPI
             public Life_Indices life_indices { get; set; }
 
             /// <summary>
-            /// 生活指数（indices=true 时返回）
+            /// 生活指数(indices=true 时返回)
             /// </summary>
             public class Life_Indices
             {
                 /// <summary>
                 /// 穿衣指数
                 /// </summary>
-                public IndicesLevel clothing { get; set; }
+                [JsonProperty("clothing")]
+                public IndicesLevel Clothing { get; set; }
 
                 /// <summary>
                 /// 紫外线指数
                 /// </summary>
-                public IndicesLevel uv { get; set; }
+                [JsonProperty("uv")]
+                public IndicesLevel UV { get; set; }
 
                 /// <summary>
                 /// 洗车指数
                 /// </summary>
-                public IndicesLevel car_wash { get; set; }
+                [JsonProperty("car_wash")]
+                public IndicesLevel CarWash { get; set; }
 
                 /// <summary>
                 /// 晾晒指数
                 /// </summary>
-                public IndicesLevel drying { get; set; }
+                [JsonProperty("drying")]
+                public IndicesLevel Drying { get; set; }
 
                 /// <summary>
                 /// 空调指数
                 /// </summary>
-                public IndicesLevel air_conditioner { get; set; }
+                [JsonProperty("air_conditioner")]
+                public IndicesLevel AirConditioner { get; set; }
 
                 /// <summary>
                 /// 感冒指数
                 /// </summary>
-                public IndicesLevel cold_risk { get; set; }
+                [JsonProperty("cold_risk")]
+                public IndicesLevel ColdRisk { get; set; }
 
                 /// <summary>
                 /// 运动指数
                 /// </summary>
-                public IndicesLevel exercise { get; set; }
+                [JsonProperty("exercise")]
+                public IndicesLevel Exercise { get; set; }
 
                 /// <summary>
                 /// 舒适度指数
                 /// </summary>
-                public IndicesLevel comfort { get; set; }
+                [JsonProperty("comfort")]
+                public IndicesLevel Comfort { get; set; }
             }
         }
     }

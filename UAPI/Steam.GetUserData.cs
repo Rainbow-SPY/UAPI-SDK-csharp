@@ -16,20 +16,11 @@ namespace UAPI
         /// 新版请求Steam Web API Json的方法
         /// </summary>
         /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
-        /// <exception cref="UAPI.IException.Steam.SteamServiceError">Steam 上游服务异常</exception>
-        /// <exception cref="UAPI.IException.General.UAPIServerDown">UAPI服务错误</exception>
-        /// <returns><see cref="SteamType"/> 对象</returns>
-        public static async Task<SteamType> GetUserData(string SteamID) => await GetUserData(SteamID, null);
-
-        /// <summary>
-        /// 新版请求Steam Web API Json的方法
-        /// </summary>
-        /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
         /// <param name="key">Steam Web API Key</param>
         /// <exception cref="UAPI.IException.Steam.SteamServiceError">Steam 上游服务异常</exception>
         /// <exception cref="UAPI.IException.General.UAPIServerDown">UAPI服务错误</exception>
         /// <returns><see cref="SteamType"/> 对象</returns>
-        public static async Task<SteamType> GetUserData(string SteamID, string key)
+        public static async Task<SteamType> GetUserData(string SteamID, string key = null)
         {
             if (string.IsNullOrEmpty(SteamID))
             {
@@ -63,33 +54,31 @@ namespace UAPI
                     return await SendQueryMessage("steamid", SteamID, key);
                 case SteamIDType.Invalid:
                 default:
-                    if (!string.IsNullOrEmpty(_p))
+                    if (string.IsNullOrEmpty(_p)) return await SendQueryMessage("steamid", SteamID, key);
+                    WriteLog.Info(LogKind.Regex, $"正在解析个人主页链接: {SteamID}");
+                    switch (ExtractSteamID(SteamID))
                     {
-                        WriteLog.Info(LogKind.Regex, $"正在解析个人主页链接: {SteamID}");
-                        switch (ExtractSteamID(SteamID))
-                        {
-                            case null:
-                                WriteLog.Error(LogKind.Json, $"无法解析SteamID64, 错误代码: {_Json_Parse_SteamID64}");
-                                MessageBox_I.Error($"无法解析SteamID64, 错误代码: {_Json_Parse_SteamID64}", _ERROR);
+                        case null:
+                            WriteLog.Error(LogKind.Json, $"无法解析SteamID64, 错误代码: {_Json_Parse_SteamID64}");
+                            MessageBox_I.Error($"无法解析SteamID64, 错误代码: {_Json_Parse_SteamID64}", _ERROR);
+                            return null;
+                        default:
+                            if (ExtractSteamID(SteamID) == _Regex_Match_Unknow_Exception)
+                            {
+                                WriteLog.Error(LogKind.Regex,
+                                    $"{_Exception_With_xKind("Regex")}, 返回的错误代码: {_Regex_Match_Unknow_Exception} ");
                                 return null;
-                            default:
-                                if (ExtractSteamID(SteamID) == _Regex_Match_Unknow_Exception)
-                                {
-                                    WriteLog.Error(LogKind.Regex,
-                                        $"{_Exception_With_xKind("Regex")}, 返回的错误代码: {_Regex_Match_Unknow_Exception} ");
-                                    return null;
-                                }
+                            }
 
-                                if (ExtractSteamID(SteamID) == _Regex_Match_Not_Found_Any)
-                                {
-                                    WriteLog.Error(LogKind.Regex,
-                                        $"未匹配到任何 正则表达式 , 返回的错误代码: {_Regex_Match_Not_Found_Any}");
-                                    return null;
-                                }
+                            if (ExtractSteamID(SteamID) == _Regex_Match_Not_Found_Any)
+                            {
+                                WriteLog.Error(LogKind.Regex,
+                                    $"未匹配到任何 正则表达式 , 返回的错误代码: {_Regex_Match_Not_Found_Any}");
+                                return null;
+                            }
 
-                                return await SendQueryMessage("steamid", ExtractSteamID(SteamID),
-                                    key); //解析SteamID64
-                        }
+                            return await SendQueryMessage("steamid", ExtractSteamID(SteamID),
+                                key); //解析SteamID64
                     }
 
                     return await SendQueryMessage("steamid", SteamID, key);

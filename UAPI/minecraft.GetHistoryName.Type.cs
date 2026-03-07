@@ -38,7 +38,7 @@ namespace UAPI
                 public string UserName { get; set; }
 
                 /// <summary>
-                /// 玩家的UUID（带连字符格式）
+                /// 玩家的UUID(带连字符格式)
                 /// </summary>
                 [JsonProperty("uuid")]
                 public string UUID { get; set; }
@@ -80,13 +80,13 @@ namespace UAPI
             public string U_UserName { get; set; }
 
             /// <summary>
-            /// 【uuid 查询时返回】被查询玩家的UUID（带连字符格式）
+            /// 【uuid 查询时返回】被查询玩家的UUID(带连字符格式)
             /// </summary>
             [JsonProperty("uuid")]
             public string U_UUID { get; set; }
 
             /// <summary>
-            /// 【uuid 查询时返回】历史名称的总数（包含当前名称）
+            /// 【uuid 查询时返回】历史名称的总数(包含当前名称)
             /// </summary>
             [JsonProperty("name_num")]
             public int U_OldNameCount { get; set; }

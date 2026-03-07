@@ -28,7 +28,7 @@ namespace UAPI
             public int MaxPlayers { get; set; }
 
             /// <summary>
-            /// 纯文本格式的服务器MOTD（每日消息），去除了所有颜色和格式代码
+            /// 纯文本格式的服务器MOTD(每日消息)，去除了所有颜色和格式代码
             /// </summary>
             public string motd_clean { get; set; }
 

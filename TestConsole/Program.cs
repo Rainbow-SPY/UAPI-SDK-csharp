@@ -316,7 +316,7 @@ namespace TestConsole
                 WriteLog.Info($"主播间的标题: {(string.IsNullOrEmpty(a.title) ? "未开播" : a.title)}");
                 WriteLog.Info($"主播间的简介: {(string.IsNullOrEmpty(a.description) ? "未开播" : a.description)}");
                 WriteLog.Info($"主播间的标签: {(string.IsNullOrEmpty(a.tags) ? "未开播" : a.tags)}");
-                WriteLog.Info($"主播直播间的短号（靓号): {(a.short_id == 0 ? "未设置" : "")}");
+                WriteLog.Info($"主播直播间的短号(靓号): {(a.short_id == 0 ? "未设置" : "")}");
                 WriteLog.Info($"主播的粉丝: {a.Fans}");
                 WriteLog.Info($"开始直播的时间: {(a.live_time == "0000-00-00 00:00:00" ? "未开播" : a.live_time)}");
                 WriteLog.Info($"直播间的人气值:{(a.PopularValue == 0 ? "没开播" : a.PopularValue.ToString())}");
@@ -340,21 +340,21 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await Steam.GetUserData("Rainbow-SPY");
-                WriteLog.Info(LogKind.Network, $"SteamID64: {a.steamid}");
+                WriteLog.Info(LogKind.Network, $"SteamID64: {a.SteamID64}");
                 WriteLog.Info(LogKind.Network,
-                    $"个人资料可见性: {Steam.GetCommunityVisibilityState(a.communityvisibilitystate)}");
-                WriteLog.Info(LogKind.Network, $"Steam ID3: {a.steamID3}");
-                WriteLog.Info(LogKind.Network, $"Steam 用户名: {a.personaname}");
-                WriteLog.Info(LogKind.Network, $"个人资料主页链接: {a.profileurl}");
-                WriteLog.Info(LogKind.Network, $"是否填写了个人资料: {Steam.GetProfileState(a.profilestate)}");
-                WriteLog.Info(LogKind.Network, $"头像地址: {a.avatarfull}");
-                WriteLog.Info(LogKind.Network, $"在线状态: {Steam.GetPersonalState(a.personastate)}");
-                WriteLog.Info(LogKind.Network, $"真实姓名: {a.realname}");
-                WriteLog.Info(LogKind.Network, $"主要社区组ID: {a.primaryclanid}");
-                WriteLog.Info(LogKind.Network, $"账户创建时间戳: {a.timecreated}");
-                WriteLog.Info(LogKind.Network, $"账户创建时间: {a.timecreated_str}");
-                WriteLog.Info(LogKind.Network, $"账户所属国家或地区: {a.loccountrycode}");
-                WriteLog.Info(LogKind.Network, $"好友代码: {a.friendcode}");
+                    $"个人资料可见性: {a.IsCommunityVisibility}");
+                WriteLog.Info(LogKind.Network, $"Steam ID3: {a.SteamID3}");
+                WriteLog.Info(LogKind.Network, $"Steam 用户名: {a.Name}");
+                WriteLog.Info(LogKind.Network, $"个人资料主页链接: {a.ProfileUrl}");
+                WriteLog.Info(LogKind.Network, $"是否填写了个人资料: {a.IsInitialized}");
+                WriteLog.Info(LogKind.Network, $"头像地址: {a.Avatar_184x184}");
+                WriteLog.Info(LogKind.Network, $"在线状态: {a.PersonaState}");
+                WriteLog.Info(LogKind.Network, $"真实姓名: {a.RealName}");
+                WriteLog.Info(LogKind.Network, $"主要社区组ID: {a.PrimaryClanID}");
+                WriteLog.Info(LogKind.Network, $"账户创建时间戳: {a.RegisterTimeUnix}");
+                WriteLog.Info(LogKind.Network, $"账户创建时间: {a.RegisterTime}");
+                WriteLog.Info(LogKind.Network, $"账户所属国家或地区: {a.BindLocationRegionCode}");
+                WriteLog.Info(LogKind.Network, $"好友代码: {a.FriendCode}");
                 WriteLog.Info($"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
             }
             catch (Exception e)
@@ -370,9 +370,9 @@ namespace TestConsole
             {
                 var result = await Weather.GetWeatherDataJson(city: "连云港", true, true, true);
                 WriteLog.Info("Weather",
-                    $"请求位置: {result.province} {result.city} Adcode: {result.adcode}\n" +
-                    $"今日天气: {result.weather}, 气温:{result.temperature} ℃, 最高气温: {result.temp_max} ℃, 最低气温: {result.temp_min} ℃\n" +
-                    $"风向: {result.wind_direction}, 风力 {result.wind_power}, 湿度 {result.humidity}%\n" +
+                    $"请求位置: {result.Province} {result.City} Adcode: {result.Adcode}\n" +
+                    $"今日天气: {result.Weather}, 气温:{result.Temperature} ℃, 最高气温: {result.MaxTemperature} ℃, 最低气温: {result.MinTemperature} ℃\n" +
+                    $"风向: {result.WindDirection}, 风力 {result.WindPower}, 湿度 {result.Humidity}%\n" +
                     "\n");
                 // 先校验 ForecastData 是否为 null，避免空引用
                 if (result.forecast == null || result.forecast.Count == 0)
@@ -382,25 +382,25 @@ namespace TestConsole
                     WriteLog.Info("Weather", $"未来三天的天气预报");
                     foreach (var _data in result.forecast)
                         WriteLog.Info("Weather Forecast",
-                            $"{_data.date} 的天气预报:\n" + $"白天天气: {_data.weather_day}, 夜间天气: {_data.weather_night}\n" +
-                            $"最高温度: {_data.temp_max} ℃, 最低温度: {_data.temp_min} ℃\n" +
-                            $"降水量: {_data.precip} mm, 能见度: {_data.visibility} km, 紫外线指数: {_data.uv_index}");
+                            $"{_data.date} 的天气预报:\n" + $"白天天气: {_data.DayWeather}, 夜间天气: {_data.NightWeather}\n" +
+                            $"最高温度: {_data.MaxTemperature} ℃, 最低温度: {_data.MinTemperature} ℃\n" +
+                            $"降水量: {_data.Precipitation} mm, 能见度: {_data.Visibility} km, 紫外线指数: {_data.UV}");
                 }
 
                 WriteLog.Info("Weather",
-                    $"体感温度: {result.feels_like} ℃, 能见度: {result.visibility} km, 紫外线指数: {result.uv}\n" +
-                    $"空气质量指数: {result.aqi}, 降水量: {result.precipitation} mm, 云量: {result.cloud} %, 气压: {result.pressure} hPa");
+                    $"体感温度: {result.FeelsLikeTemperature} ℃, 能见度: {result.Visibility} km, 紫外线指数: {result.UV}\n" +
+                    $"空气质量指数: {result.AQI}, 降水量: {result.Precipitation} mm, 云量: {result.Cloud} %, 气压: {result.Pressure} hPa");
 
                 var b = result.life_indices;
                 WriteLog.Info("Weather Indices",
-                    $"穿衣指数: {b.clothing.level},简述: {b.clothing.brief},建议: {b.clothing.advice}\n" +
-                    $"紫外线指数: {b.uv.level},简述: {b.uv.brief},建议: {b.uv.advice}\n" +
-                    $"洗车指数: {b.car_wash.level},简述: {b.car_wash.brief},建议: {b.car_wash.advice}\n" +
-                    $"晾晒指数: {b.drying.level},简述: {b.drying.brief},建议: {b.drying.advice}\n" +
-                    $"空调指数: {b.air_conditioner.level},简述: {b.air_conditioner.brief},建议: {b.air_conditioner.advice}\n" +
-                    $"感冒指数: {b.cold_risk.level},简述: {b.cold_risk.brief},建议: {b.cold_risk.advice}\n" +
-                    $"运动指数: {b.exercise.level},简述: {b.exercise.brief},建议: {b.exercise.advice}\n" +
-                    $"舒适度指数: {b.comfort.level},简述: {b.comfort.brief},建议: {b.comfort.advice}\n" +
+                    $"穿衣指数: {b.Clothing.Level},简述: {b.Clothing.Brief},建议: {b.Clothing.Advice}\n" +
+                    $"紫外线指数: {b.UV.Level},简述: {b.UV.Brief},建议: {b.UV.Advice}\n" +
+                    $"洗车指数: {b.CarWash.Level},简述: {b.CarWash.Brief},建议: {b.CarWash.Advice}\n" +
+                    $"晾晒指数: {b.Drying.Level},简述: {b.Drying.Brief},建议: {b.Drying.Advice}\n" +
+                    $"空调指数: {b.AirConditioner.Level},简述: {b.AirConditioner.Brief},建议: {b.AirConditioner.Advice}\n" +
+                    $"感冒指数: {b.ColdRisk.Level},简述: {b.ColdRisk.Brief},建议: {b.ColdRisk.Advice}\n" +
+                    $"运动指数: {b.Exercise.Level},简述: {b.Exercise.Brief},建议: {b.Exercise.Advice}\n" +
+                    $"舒适度指数: {b.Comfort.Level},简述: {b.Comfort.Brief},建议: {b.Comfort.Advice}\n" +
                     $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
             }
             catch (Exception e)
@@ -537,20 +537,20 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await QQ.GetUserData("10001");
-                WriteLog.Info($"QQ 号: {a.qq}\n" +
-                              $"昵称: {a.nickname}\n" +
-                              $"个性签名: {a.long_nick}\n" +
-                              $"头像链接: {a.avatar_url}\n" +
-                              $"年龄: {a.age}\n" +
-                              $"性别: {a.sex}\n" +
-                              $"个性域名: {a.qid}\n" +
-                              $"QQ等级: {a.qq_level}\n" +
-                              $"地点: {a.location}\n" +
-                              $"电子邮箱: {a.email}\n" +
-                              $"是否为S/VIP: {a.is_vip}\n" +
-                              $"vip等级: {a.vip_level}\n" +
-                              $"注册时间: {a.reg_time_str}\n" +
-                              $"最后更新时间: {a.last_updated_str}\n" +
+                WriteLog.Info($"QQ 号: {a.QQ}\n" +
+                              $"昵称: {a.Name}\n" +
+                              $"个性签名: {a.CustomSignText}\n" +
+                              $"头像链接: {a.AvatarImageUrl}\n" +
+                              $"年龄: {a.Age}\n" +
+                              $"性别: {a.Sex}\n" +
+                              $"个性域名: {a.QID}\n" +
+                              $"QQ等级: {a.QQLevel}\n" +
+                              $"地点: {a.Location}\n" +
+                              $"电子邮箱: {a.Email}\n" +
+                              $"是否为S/VIP: {a.IsVip}\n" +
+                              $"vip等级: {a.VipLevel}\n" +
+                              $"注册时间: {a.RegisterTime}\n" +
+                              $"最后更新时间: {a.LastUpdatedTime}\n" +
                               $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
             }
             catch (Exception e)
@@ -567,23 +567,23 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await QQ.GetGroupData("526357265");
-                WriteLog.Info($"群ID: {a.group_id}\n" +
-                              $"群名称: {a.group_name}\n" +
-                              $"头像链接: {a.avatar_url}\n" +
-                              $"描述: {a.description}\n" +
-                              $"标签: {a.tag}\n" +
-                              $"进群链接: {a.join_url}\n" +
-                              $"最后更新时间: {a.last_updated}\n" +
-                              $"当前群人数: {a.member_count}\n" +
-                              $"最大群人数: {a.max_member_count}\n" +
-                              $"活跃群人数: {a.active_member_num}\n" +
-                              $"群主qq号: {a.owner_uin}\n" +
-                              $"群主UID: {a.owner_uid}\n" +
-                              $"创建群聊的时间戳: {a.create_time_str}\n" +
-                              $"群等级: {a.group_grade}\n" +
-                              $"群公告: {a.group_memo}\n" +
-                              $"认证类型: {a.cert_type_str}\n" +
-                              $"认证说明: {a.cert_text}\n" +
+                WriteLog.Info($"群ID: {a.ID}\n" +
+                              $"群名称: {a.Name}\n" +
+                              $"头像链接: {a.AvatarImageUrl}\n" +
+                              $"描述: {a.Description}\n" +
+                              $"标签: {a.Tag}\n" +
+                              $"进群链接: {a.JoinQRCodeUrl}\n" +
+                              $"最后更新时间: {a.LastUpdatedTime}\n" +
+                              $"当前群人数: {a.MemberCount}\n" +
+                              $"最大群人数: {a.MaxMemberCount}\n" +
+                              $"活跃群人数: {a.ActiveMemberNum}\n" +
+                              $"群主qq号: {a.OwnerUinID}\n" +
+                              $"群主UID: {a.OwnerUID}\n" +
+                              $"创建群聊的时间戳: {a.CreateTime}\n" +
+                              $"群等级: {a.GroupLevel}\n" +
+                              $"群公告: {a.Introduction}\n" +
+                              $"认证类型: {a.IsCert}\n" +
+                              $"认证说明: {a.CertDescription}\n" +
                               $"测试完毕, 共用 {_stopwatch.Elapsed.TotalSeconds} 秒");
             }
             catch (Exception e)

@@ -46,7 +46,7 @@ namespace UAPI
             catch (BadImageFormatException ex)
             {
                 LogLibraries.WriteLog.Error(
-                    $"程序集格式错误（非.NET程序集）：{_Exception_With_xKind("GetAssemblyPublicKeyToken", ex)}");
+                    $"程序集格式错误(非.NET程序集)：{_Exception_With_xKind("GetAssemblyPublicKeyToken", ex)}");
             }
             catch (Exception ex)
             {

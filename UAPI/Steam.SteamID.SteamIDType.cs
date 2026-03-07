@@ -50,20 +50,17 @@ namespace UAPI
             /// <returns>其中一种类型的<see cref="SteamIDType"/> 或返回 <see cref="SteamIDType.Invalid"/></returns>
             public static SteamIDType Identifier(string AnySteamID)
             {
-                if (string.IsNullOrWhiteSpace(AnySteamID))
-                {
-                    WriteLog.Error(LogKind.Regex, _value_Not_Is_NullOrEmpty("AnySteamID"));
-                    return SteamIDType.Invalid;
-                }
-
-                if (Regex.IsMatch(AnySteamID, _Regex_ID))
-                    return SteamIDType.SteamID;
-                if (Regex.IsMatch(AnySteamID, _Regex_ID3))
-                    return SteamIDType.SteamID3;
-                if (Regex.IsMatch(AnySteamID, _Regex_ID32))
-                    return SteamIDType.SteamID32;
-                if (Regex.IsMatch(AnySteamID, _Regex_ID64))
-                    return SteamIDType.SteamID64;
+                if (!string.IsNullOrWhiteSpace(AnySteamID))
+                    return Regex.IsMatch(AnySteamID, _Regex_ID)
+                        ? SteamIDType.SteamID
+                        : Regex.IsMatch(AnySteamID, _Regex_ID3)
+                            ? SteamIDType.SteamID3
+                            : Regex.IsMatch(AnySteamID, _Regex_ID32)
+                                ? SteamIDType.SteamID32
+                                : Regex.IsMatch(AnySteamID, _Regex_ID64)
+                                    ? SteamIDType.SteamID64
+                                    : SteamIDType.Invalid;
+                WriteLog.Error(LogKind.Regex, _value_Not_Is_NullOrEmpty("AnySteamID"));
                 return SteamIDType.Invalid;
             }
         }

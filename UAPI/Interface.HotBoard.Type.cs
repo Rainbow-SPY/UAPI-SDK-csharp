@@ -16,25 +16,25 @@ namespace UAPI
             public class HotboardInterface : TypeInterface
             {
                 /// <summary>
-                /// 查询到的热榜类型（公共属性）
+                /// 查询到的热榜类型(公共属性)
                 /// </summary>
                 public string type { get; set; }
 
                 /// <summary>
-                /// 热榜更新时间（公共属性）
+                /// 热榜更新时间(公共属性)
                 /// </summary>
                 public string update_time_str => update_time_ISO8601.Contains("T")
                     ? FormatISO8601TimeToLocal(update_time_ISO8601)
                     : update_time_ISO8601;
 
                 /// <summary>
-                /// 热榜更新时间（公共属性）
+                /// 热榜更新时间(公共属性)
                 /// </summary>
                 [JsonProperty("update_time")]
                 public string update_time_ISO8601 { get; set; }
 
                 /// <summary>
-                /// 热榜列表（公共属性，列表项为公共基类）
+                /// 热榜列表(公共属性，列表项为公共基类)
                 /// </summary>
                 public List<MainLists> list { get; set; }
             }
@@ -45,22 +45,22 @@ namespace UAPI
             public class MainLists
             {
                 /// <summary>
-                /// 序列数字（公共属性）
+                /// 序列数字(公共属性)
                 /// </summary>
                 public int index { get; set; }
 
                 /// <summary>
-                /// 标题（公共属性）
+                /// 标题(公共属性)
                 /// </summary>
                 public string title { get; set; }
 
                 /// <summary>
-                /// 链接（公共属性）
+                /// 链接(公共属性)
                 /// </summary>
                 public string url { get; set; }
 
                 /// <summary>
-                /// 热度值（公共属性）
+                /// 热度值(公共属性)
                 /// </summary>
                 public string hot_value { get; set; }
             }

@@ -11,7 +11,7 @@ namespace UAPI
         public class DetectedCarrierType : Interface.TypeInterface
         {
             /// <summary>
-            /// 其他可能的快递公司列表（如果存在）
+            /// 其他可能的快递公司列表（如果存在)
             /// </summary>
             public class AlternativesItem
             {

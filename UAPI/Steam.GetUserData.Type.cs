@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace UAPI
 {
     public partial class Steam
@@ -7,91 +9,177 @@ namespace UAPI
         /// </summary>
         public class SteamType : Interface.TypeInterface
         {
+            private int _communityvisibilitystate;
+            private int _profilestate;
+            private int _personastate;
+            private string _personastate_str;
+
             /// <summary>
             /// SteamID64
             /// </summary>
-            public string steamid { get; set; }
+            [JsonProperty("steamid")]
+            public string SteamID64 { get; set; }
 
             /// <summary>
-            /// Steam社区状态, 1 为隐藏 3为可见
+            /// Steam社区状态是否可见
             /// </summary>
-            public int communityvisibilitystate { get; set; }
+            [JsonProperty("communityvisibilitystate")]
+            public bool IsCommunityVisibility
+            {
+                get => _communityvisibilitystate == 3;
+                set => _communityvisibilitystate = value ? 3 : 1;
+            }
 
             /// <summary>
-            /// 如果为 1 , 代表用户已经填写了个人资料
+            /// 是否已经填写了个人资料
             /// </summary>
-            public int profilestate { get; set; }
+            [JsonProperty("profilestate")]
+            public bool IsInitialized
+            {
+                get => _profilestate == 1;
+                set => _profilestate = value ? 1 : _profilestate;
+            }
 
             /// <summary>
             /// Steam用户名
             /// </summary>
-            public string personaname { get; set; }
+            [JsonProperty("personaname")]
+            public string Name { get; set; }
 
             /// <summary>
             /// Steam个人主页
             /// </summary>
-            public string profileurl { get; set; }
-
+            [JsonProperty("profileurl")]
+            public string ProfileUrl { get; set; }
 
             /// <summary>
             /// Steam头像, 32*32图像
             /// </summary>
-            public string avatar { get; set; }
+            [JsonProperty("avatar")]
+            public string Avatar_32x32 { get; set; }
 
             /// <summary>
             /// Steam头像, 64*64图像
             /// </summary>
-            public string avatarmedium { get; set; }
+            [JsonProperty("avatarmedium")]
+            public string Avatar_64x64 { get; set; }
 
             /// <summary>
             /// Steam头像, 184*184图像
             /// </summary>
-            public string avatarfull { get; set; }
+            [JsonProperty("avatarfull")]
+            public string Avatar_184x184 { get; set; }
 
             /// <summary>
             /// 头像的哈希值
             /// </summary>
-            public string avatarhash { get; set; }
+            [JsonProperty("avatarhash")]
+            public string AvatarHash { get; set; }
 
             /// <summary>
-            /// Steam在线状态, 0-离线/隐私, 1-在线, 2-忙碌, 3-离开, 4-打盹, 5-想交易, 6-想玩。
+            /// Steam在线状态
             /// </summary>
-            public int personastate { get; set; }
+            [JsonProperty("personastate")]
+            public string PersonaState
+            {
+                get
+                {
+                    switch (_personastate)
+                    {
+                        case 0:
+                            return "离线或私密";
+                        case 1:
+                            return "在线";
+                        case 2:
+                            return "忙碌";
+                        case 3:
+                            return "离开";
+                        case 4:
+                            return "打盹";
+                        case 5:
+                            return "想交易";
+                        case 6:
+                            return "想玩";
+                    }
+
+                    return "未知状态";
+                }
+                set
+                {
+                    switch (value)
+                    {
+                        case "离线或私密":
+                            _personastate = 0;
+                            break;
+                        case "在线":
+                            _personastate = 1;
+                            break;
+                        case "忙碌":
+                            _personastate = 2;
+                            break;
+                        case "离开":
+                            _personastate = 3;
+                            break;
+                        case "打盹":
+                            _personastate = 4;
+                            break;
+                        case "想交易":
+                            _personastate = 5;
+                            break;
+                        case "想玩":
+                            _personastate = 6;
+                            break;
+                        case "未知状态":
+                            break;
+                    }
+                }
+            }
 
             /// <summary>
             /// Steam真实姓名
             /// </summary>
-            public string realname { get; set; }
+            [JsonProperty("realname")]
+            public string RealName { get; set; }
 
             /// <summary>
             ///  主要社区组
             /// </summary>
-            public string primaryclanid { get; set; }
-
-            /// <summary>
-            /// Steam账号创建日期的时间刻
-            /// </summary>
-            public int timecreated { get; set; }
+            [JsonProperty("primaryclanid")]
+            public string PrimaryClanID { get; set; }
 
             /// <summary>
             /// Steam账号创建日期的时间戳
             /// </summary>
-            public string timecreated_str { get; set; }
+            [JsonProperty("timecreated")]
+            public decimal RegisterTimeUnix { get; set; }
+
+            /// <summary>
+            /// Steam账号创建日期
+            /// </summary>
+            [JsonProperty("timecreated_str")]
+            public string RegisterTime { get; set; }
 
             /// <summary>
             /// Steam账号绑定区域
             /// </summary>
-            public string loccountrycode { get; set; }
+            [JsonProperty("loccountrycode")]
+            public string BindLocationRegionCode { get; set; }
 
             /// <summary>
-            /// 好友代码 （SteamID32）
+            /// 好友代码 (SteamID32)
             /// </summary>
-            public string friendcode => GetFriendCode(steamid);
+            [JsonProperty("friendcode")]
+            public string FriendCode => GetFriendCode(SteamID64);
 
             /// <summary>
             /// SteamID3
             /// </summary>
-            public string steamID3 => SteamID.Converter.ToSteamID3(steamid);
+            public string SteamID3 => SteamID.Converter.ToSteamID3(SteamID64);
+
+            /// <summary>
+            /// SteamID1
+            /// </summary>
+            public string SteamID1 => SteamID.Converter.ToSteamID(SteamID64);
         }
     }
 }
