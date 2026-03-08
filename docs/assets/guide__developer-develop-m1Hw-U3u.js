@@ -178,7 +178,7 @@ Console.WriteLine($&quot;直播间标题: {(string.IsNullOrEmpty(request.title) 
 <ul>
 <li>参数选项&amp;返回类型&amp;返回值: 详见 <a href="https://github.com/Rainbow-SPY/UAPI-SDK-csharp/blob/master/UAPI/docs" target="_blank" rel="noreferrer">Github - Rainbow-SPY/UAPI-SDK-csharp/docs/各个方法的开发文档</a></li>
 </ul>
-<div class="gfm-alert gfm-alert-tip"><div class="gfm-alert-title">Tip</div><div class="gfm-alert-body"><p>如何查找?</p>
+<div class="gfm-alert gfm-alert-tip"><div class="gfm-alert-title"><span class="gfm-alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-.63.5-1.2.92-1.68A6 6 0 1 0 8.08 12.3c.42.48.72 1.05.92 1.7"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></span><span>Tip</span></div><div class="gfm-alert-body"><p>如何查找?</p>
 <p>开发文档和接口的源代码同名, 直接按照源代码文件名搜索相关的开发文档</p>
 </div></div><p>现在你已经学会了请求接口了</p>
 <h2 id="属性列表">属性列表</h2>
