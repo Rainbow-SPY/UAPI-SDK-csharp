@@ -10,6 +10,7 @@ import {
   ArrowRight,
   Sun,
   Moon,
+  Menu,
   Check,
   Rocket,
   MessageSquare,
@@ -435,6 +436,18 @@ export default function App() {
                   <Moon className="h-5 w-5" />
                 )}{" "}
               </button>{" "}
+              {currentView === "doc" ? (
+                <button
+                  onClick={() => setIsSidebarOpen(true)}
+                  className="rounded-md p-2 text-[var(--text-muted)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)] lg:hidden"
+                  type="button"
+                  aria-label="Open sidebar"
+                  title="Open sidebar"
+                >
+                  {" "}
+                  <Menu className="h-5 w-5" />{" "}
+                </button>
+              ) : null}{" "}
             </div>{" "}
           </header>{" "}
           <div className="flex-1 min-h-0 bg-[var(--bg-header)] px-3 pb-3 transition-colors duration-500 sm:px-4 sm:pb-4">
@@ -540,13 +553,6 @@ export default function App() {
                       onClick={handleArticleClick}
                     >
                       <div className="mb-6 flex flex-wrap items-center gap-2 lg:mb-8 xl:hidden">
-                        <button
-                          onClick={() => setIsSidebarOpen(true)}
-                          className="rounded-md border border-[var(--border-subtle)] bg-[var(--bg-main)] px-3 py-2 text-sm text-[var(--text-main)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)] lg:hidden"
-                          type="button"
-                        >
-                          Browse
-                        </button>
                         {activeDoc.headings.length > 0 ? (
                           <button
                             onClick={() => setIsTocOpen(true)}
