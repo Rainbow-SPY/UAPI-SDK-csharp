@@ -9,7 +9,7 @@
   },
   "hero": {
     "title": "UAPI C# SDK 文档",
-    "description": "直接基于仓库里的 Markdown 渲染接口说明、开发文档和 README，保持现在的 UI 风格，同时让内容维护更简单。"
+    "description": "一个深度集成 UApi 的 C# SDK，由社区制作，旨在为了更好的体验而诞生。"
   },
   "repository": {
     "contentRoot": "..",
@@ -50,3 +50,4 @@
     }
   ]
 }
+
