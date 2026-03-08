@@ -1,9 +1,6 @@
 const t={slug:"social/bilibili-getreplieslist",html:`<h1 id="查询-bilibili-指定视频的评论数据">查询 bilibili 指定视频的评论数据</h1>
-<blockquote>
-<p>[!IMPORTANT]
-此页面需要补充</p>
-</blockquote>
-<h2 id="请求示例">请求示例</h2>
+<div class="gfm-alert gfm-alert-important"><div class="gfm-alert-title">Important</div><div class="gfm-alert-body"><p>此页面需要补充此页面需要补充</p>
+</div></div><h2 id="请求示例">请求示例</h2>
 <pre><code class="language-csharp">var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = &quot;0&quot;, int ps = 20, int pn = 1)
 </code></pre>
 <ul>

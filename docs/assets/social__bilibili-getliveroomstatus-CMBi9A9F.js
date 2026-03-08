@@ -1,9 +1,6 @@
 const t={slug:"social/bilibili-getliveroomstatus",html:`<h1 id="查询-bilibili-指定用户的直播间数据">查询 bilibili 指定用户的直播间数据</h1>
-<blockquote>
-<p>[!IMPORTANT]
-此页面需要补充</p>
-</blockquote>
-<h2 id="请求示例">请求示例</h2>
+<div class="gfm-alert gfm-alert-important"><div class="gfm-alert-title">Important</div><div class="gfm-alert-body"><p>此页面需要补充此页面需要补充</p>
+</div></div><h2 id="请求示例">请求示例</h2>
 <pre><code class="language-csharp">var request = await UAPI.bilibili.GetLiveRoomStatus.AsID(string mid);
  = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id);
 </code></pre>

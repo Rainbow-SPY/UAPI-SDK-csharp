@@ -1,9 +1,6 @@
 const t={slug:"games/minecraft-getuserdata",html:`<h1 id="获取-minecraft-玩家信息">获取 Minecraft 玩家信息</h1>
-<blockquote>
-<p>[!NOTE]</p>
-<p>所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 <code>404</code>等<code>StatusCode</code> .</p>
-</blockquote>
-<h2 id="请求示例">请求示例</h2>
+<div class="gfm-alert gfm-alert-note"><div class="gfm-alert-title">Note</div><div class="gfm-alert-body"><p>所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 <code>404</code>等<code>StatusCode</code> .</p>
+</div></div><h2 id="请求示例">请求示例</h2>
 <pre><code class="language-csharp">var request = await UAPI.minecraft.GetUserData(string username);
 </code></pre>
 <ul>
