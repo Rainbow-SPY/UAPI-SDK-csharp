@@ -247,9 +247,9 @@ export default function App() {
         {" "}
         <div className="flex min-h-dvh min-h-0 flex-col bg-[var(--bg-header)] font-mono text-sm text-[var(--text-main)] transition-colors duration-500 md:h-full">
           {" "}
-          <header className="relative z-50 grid shrink-0 grid-cols-1 gap-3 bg-[var(--bg-header)] px-4 py-3 transition-colors duration-500 md:h-14 md:grid-cols-[minmax(0,1fr)_minmax(280px,640px)_minmax(0,1fr)] md:items-center md:px-6 md:py-0">
+          <header className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 bg-[var(--bg-header)] px-4 py-3 transition-colors duration-500 md:h-14 md:grid-cols-[minmax(0,1fr)_minmax(280px,640px)_minmax(0,1fr)] md:px-6 md:py-0">
             {" "}
-            <div className="flex min-w-0 flex-wrap items-center gap-3 md:gap-4 md:justify-self-start">
+            <div className="flex min-w-0 items-center gap-3 md:gap-4 md:justify-self-start">
               {" "}
               <button
                 onClick={goHome}
@@ -265,7 +265,10 @@ export default function App() {
                 </span>{" "}
               </button>{" "}
             </div>{" "}
-            <div className="mx-auto flex w-full md:max-w-none" ref={searchRef}>
+            <div
+              className="col-span-2 row-start-2 mx-auto flex w-full md:col-span-1 md:row-start-auto md:max-w-none"
+              ref={searchRef}
+            >
               {" "}
               <div className="group relative flex w-full items-center">
                 {" "}
