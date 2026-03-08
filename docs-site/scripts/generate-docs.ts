@@ -589,6 +589,36 @@ function writeTypeScriptModule(filePath: string, code: string) {
   fs.writeFileSync(filePath, code, "utf8");
 }
 
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}
+
+function normalizeHeadingText(value: string) {
+  return decodeHtmlEntities(value.replace(/<[^>]+>/g, ""))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stripLeadingDuplicateTitleHeading(html: string, title: string) {
+  const match = html.match(/^\s*<h1\b[^>]*>([\s\S]*?)<\/h1>\s*/i);
+
+  if (!match) {
+    return html;
+  }
+
+  if (normalizeHeadingText(match[1]) !== normalizeHeadingText(title)) {
+    return html;
+  }
+
+  return html.slice(match[0].length).trimStart();
+}
+
 function removeStaleContentModules(expectedModuleNames: Set<string>) {
   if (!fs.existsSync(generatedContentDir)) {
     return;
@@ -715,9 +745,12 @@ function main() {
       repoRoot,
       repositoryLinkBase,
     );
-    const html = markdown.render(normalizedContent, {
-      slugCounter: new Map<string, number>(),
-    });
+    const html = stripLeadingDuplicateTitleHeading(
+      markdown.render(normalizedContent, {
+        slugCounter: new Map<string, number>(),
+      }),
+      title,
+    );
     const plainText = stripMarkdown(normalizedContent);
     const excerpt = plainText.slice(0, 160);
     const sections = extractSections(normalizedContent, title);
