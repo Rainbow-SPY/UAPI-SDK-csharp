@@ -54,7 +54,7 @@ const t={slug:"games/steam-steamid",html:`<h1 id="steamid-便携方法">SteamID 
 <li>返回值: 字符串格式的整数型好友代码</li>
 <li>异常:
 <ul>
-<li><strong>ArgumentOutOfRangeException</strong> : 值超出变量列表时引发的异常</li>
+<li><strong>ArgumentOutOfRangeException:</strong> 值超出变量列表时引发的异常</li>
 </ul>
 </li>
 </ul>
