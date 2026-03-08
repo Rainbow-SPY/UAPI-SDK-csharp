@@ -1,4 +1,4 @@
-﻿export type IconName =
+export type IconName =
   | "Rocket"
   | "MessageSquare"
   | "Settings"
@@ -16,8 +16,18 @@ export interface SiteBrandGithubConfig {
   openInNewTab?: boolean;
 }
 
+export interface SiteBrandVersionMenuConfig {
+  enabled?: boolean;
+  label: string;
+  items: string[];
+}
+
 export interface SiteBrandConfig {
   name: string;
+  browserTitle?: string;
+  versionLabel?: string;
+  versions?: string[];
+  versionMenu?: SiteBrandVersionMenuConfig;
   github?: SiteBrandGithubConfig;
 }
 

@@ -27,6 +27,14 @@ interface SiteGroupConfig {
 interface SiteConfig {
   brand: {
     name: string;
+    browserTitle?: string;
+    versionLabel?: string;
+    versions?: string[];
+    versionMenu?: {
+      enabled?: boolean;
+      label: string;
+      items: string[];
+    };
     github?: {
       href: string;
       title?: string;
@@ -145,8 +153,25 @@ function toDocSlugSegment(value: string) {
   );
 }
 
+const GFM_ALERT_LABELS = {
+  note: "Note",
+  tip: "Tip",
+  important: "Important",
+  warning: "Warning",
+  caution: "Caution",
+} as const;
+
+const GFM_ALERT_PATTERN = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(.*)$/i;
+
+function stripGfmAlertMarkers(value: string) {
+  return value.replace(
+    /^\s*>?\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/gim,
+    "",
+  );
+}
+
 function stripMarkdown(value: string) {
-  return value
+  return stripGfmAlertMarkers(value)
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
@@ -300,6 +325,84 @@ function buildMarkdownRenderer(
     typographer: true,
   });
 
+  markdown.core.ruler.after("block", "gfm-alerts", (state) => {
+    const { Token } = state;
+
+    for (let index = 0; index < state.tokens.length; index += 1) {
+      const token = state.tokens[index];
+
+      if (token.type !== "blockquote_open") {
+        continue;
+      }
+
+      let closeIndex = index;
+      let depth = 0;
+
+      while (closeIndex < state.tokens.length) {
+        const currentToken = state.tokens[closeIndex];
+
+        if (currentToken.type === "blockquote_open") {
+          depth += 1;
+        } else if (currentToken.type === "blockquote_close") {
+          depth -= 1;
+
+          if (depth === 0) {
+            break;
+          }
+        }
+
+        closeIndex += 1;
+      }
+
+      if (closeIndex >= state.tokens.length) {
+        continue;
+      }
+
+      const firstParagraphOpen = state.tokens[index + 1];
+      const firstInline = state.tokens[index + 2];
+      const firstParagraphClose = state.tokens[index + 3];
+
+      if (
+        firstParagraphOpen?.type !== "paragraph_open" ||
+        firstInline?.type !== "inline" ||
+        firstParagraphClose?.type !== "paragraph_close"
+      ) {
+        continue;
+      }
+
+      const match = firstInline.content.trim().match(GFM_ALERT_PATTERN);
+
+      if (!match) {
+        continue;
+      }
+
+      const alertType = match[1].toLowerCase() as keyof typeof GFM_ALERT_LABELS;
+      const remainingText = match[2].trim();
+      const openToken = new Token("html_block", "", 0);
+      openToken.content = `<div class="gfm-alert gfm-alert-${alertType}"><div class="gfm-alert-title">${GFM_ALERT_LABELS[alertType]}</div><div class="gfm-alert-body">`;
+      const closeToken = new Token("html_block", "", 0);
+      closeToken.content = "</div></div>";
+
+      state.tokens[index] = openToken;
+      state.tokens[closeIndex] = closeToken;
+
+      if (remainingText) {
+        firstInline.content = remainingText;
+        firstInline.children = [];
+        state.md.inline.parse(
+          remainingText,
+          state.md,
+          state.env,
+          firstInline.children,
+        );
+      } else {
+        state.tokens[index + 1] = new Token("html_block", "", 0);
+        state.tokens[index + 2] = new Token("html_block", "", 0);
+        state.tokens[index + 3] = new Token("html_block", "", 0);
+      }
+    }
+  });
+
   const defaultHeadingOpen =
     markdown.renderer.rules.heading_open ??
     ((tokens, index, options, _env, self) =>
@@ -443,7 +546,11 @@ function extractSections(markdown: string, docTitle: string) {
     }
 
     if (token.type === "inline") {
-      currentSection.text = `${currentSection.text} ${token.content}`.trim();
+      const sectionText = stripGfmAlertMarkers(token.content).trim();
+
+      if (sectionText) {
+        currentSection.text = `${currentSection.text} ${sectionText}`.trim();
+      }
     }
   }
 

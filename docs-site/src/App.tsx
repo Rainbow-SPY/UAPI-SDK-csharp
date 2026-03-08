@@ -3,6 +3,7 @@ import {
   Github,
   Search,
   Globe,
+  ChevronDown,
   ChevronRight,
   Copy,
   ArrowLeft,
@@ -49,6 +50,7 @@ export default function App() {
   const docsMap = useMemo(() => getDocsMap(), []);
   const groupsMap = useMemo(() => getGroupMap(), []);
   const [isDark, setIsDark] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentView, setCurrentView] = useState<"home" | "doc">(
     initialRoute.current.view,
   );
@@ -73,6 +75,26 @@ export default function App() {
   const searchRef = useRef<HTMLDivElement | null>(null);
   const headerGithub = docsManifest.config.brand.github;
   const shouldShowHeaderGithub = Boolean(headerGithub?.href);
+  const browserTitle =
+    docsManifest.config.brand.browserTitle ?? docsManifest.config.brand.name;
+  const legacyVersionMenu =
+    docsManifest.config.brand.versionLabel &&
+    docsManifest.config.brand.versions?.length
+      ? {
+          enabled: true,
+          label: docsManifest.config.brand.versionLabel,
+          items: docsManifest.config.brand.versions,
+        }
+      : undefined;
+  const headerVersionMenu =
+    docsManifest.config.brand.versionMenu ?? legacyVersionMenu;
+  const headerVersionMenuItems = headerVersionMenu?.items ?? [];
+  const shouldShowVersionMenu = Boolean(
+    headerVersionMenu &&
+      headerVersionMenu.enabled !== false &&
+      headerVersionMenu.label?.trim() &&
+      headerVersionMenuItems.length > 0,
+  );
   const activeDoc = docsMap.get(activeSlug) ?? docsManifest.docs[0];
   const activeGroup = groupsMap.get(activeDoc.groupId);
   const activeDocIndex = docsManifest.docs.findIndex(
@@ -169,11 +191,11 @@ export default function App() {
   }, [activeSlug, currentView]);
   useEffect(() => {
     if (currentView !== "doc") {
-      document.title = docsManifest.config.brand.name;
+      document.title = browserTitle;
       return;
     }
-    document.title = `${activeDoc.title} 锟斤拷 ${docsManifest.config.brand.name}`;
-  }, [activeDoc.title, currentView]);
+    document.title = `${activeDoc.title} - ${browserTitle}`;
+  }, [activeDoc.title, browserTitle, currentView]);
   useEffect(() => {
     if (currentView !== "doc" || isLoadingDoc) {
       return;
@@ -249,21 +271,76 @@ export default function App() {
           {" "}
           <header className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 bg-[var(--bg-header)] px-4 py-3 transition-colors duration-500 md:h-14 md:grid-cols-[minmax(0,1fr)_minmax(280px,640px)_minmax(0,1fr)] md:px-6 md:py-0">
             {" "}
-            <div className="flex min-w-0 items-center gap-3 md:gap-4 md:justify-self-start">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3 md:gap-4 md:justify-self-start">
               {" "}
               <button
                 onClick={goHome}
-                className="flex items-center gap-2 text-[var(--text-strong)] transition-colors hover:text-[var(--text-muted)]"
+                className="flex min-w-0 items-center gap-2 text-[var(--text-strong)] transition-colors hover:text-[var(--text-muted)]"
                 type="button"
               >
                 {" "}
                 {!shouldShowHeaderGithub ? (
-                  <Github className="h-8 w-8" />
+                  <Github className="h-8 w-8 shrink-0" />
                 ) : null}{" "}
-                <span className="text-lg font-semibold tracking-tight">
+                <span className="truncate text-lg font-semibold tracking-tight">
                   {docsManifest.config.brand.name}
                 </span>{" "}
               </button>{" "}
+              {shouldShowVersionMenu ? (
+                <>
+                  {" "}
+                  <div className="mx-1 hidden h-6 w-px bg-[var(--border-subtle)] transition-colors duration-500 md:mx-2 md:block" />{" "}
+                  <div className="relative min-w-0">
+                    {" "}
+                    <button
+                      onClick={() => setIsDropdownOpen((previous) => !previous)}
+                      className={`flex max-w-full items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${isDropdownOpen ? "bg-[var(--bg-hover)] text-[var(--text-strong)]" : "text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)]"}`}
+                      type="button"
+                    >
+                      {" "}
+                      <span className="truncate">{headerVersionMenu!.label}</span>{" "}
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
+                      />{" "}
+                    </button>{" "}
+                    <AnimatePresence>
+                      {" "}
+                      {isDropdownOpen ? (
+                        <>
+                          {" "}
+                          <div
+                            className="fixed inset-0 z-40"
+                            onClick={() => setIsDropdownOpen(false)}
+                          />{" "}
+                          <motion.div
+                            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                            transition={{ duration: 0.15, ease: "easeOut" }}
+                            className="absolute left-0 top-full z-50 mt-2 flex w-64 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-main)] p-1.5"
+                            style={{ boxShadow: "var(--shadow-dropdown)" }}
+                          >
+                            {" "}
+                            {headerVersionMenuItems.map((version, index) => (
+                              <button
+                                key={version}
+                                type="button"
+                                className={`flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors ${index === 0 ? "bg-[var(--accent-bg)] font-medium text-[var(--accent)]" : "text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)]"}`}
+                              >
+                                {" "}
+                                <span className="truncate">{version}</span>{" "}
+                                {index === 0 ? (
+                                  <Check className="h-4 w-4 shrink-0" />
+                                ) : null}{" "}
+                              </button>
+                            ))}{" "}
+                          </motion.div>{" "}
+                        </>
+                      ) : null}{" "}
+                    </AnimatePresence>{" "}
+                  </div>{" "}
+                </>
+              ) : null}{" "}
             </div>{" "}
             <div
               className="col-span-2 row-start-2 mx-auto flex w-full md:col-span-1 md:row-start-auto md:max-w-none"
@@ -283,7 +360,7 @@ export default function App() {
                   onFocus={() => setIsSearchOpen(Boolean(searchQuery.trim()))}
                   onKeyDown={handleSearchEnter}
                   placeholder="Search APIs, docs, and keywords"
-                  className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-main)] py-1.5 pl-9 pr-3 text-sm focus:border-[var(--accent)] focus:outline-none"
+                  className="w-full rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-main)] py-1.5 pl-9 pr-3 text-sm focus:border-[var(--accent)] focus:outline-none"
                 />{" "}
                 <AnimatePresence>
                   {" "}

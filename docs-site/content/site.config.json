@@ -1,10 +1,16 @@
-﻿{
+{
   "brand": {
     "name": "UAPI C# SDK",
     "github": {
       "href": "https://github.com/Rainbow-SPY/UAPI-SDK-csharp",
       "title": "Open GitHub repository",
       "openInNewTab": true
+    },
+    "browserTitle": "UAPI C# SDK",
+    "versionMenu": {
+      "enabled": false,
+      "label": "Version",
+      "items": []
     }
   },
   "hero": {
@@ -22,7 +28,11 @@
       "icon": "Rocket",
       "order": 1,
       "homeLinks": 4,
-      "sources": ["readme", "developer", "Interface"]
+      "sources": [
+        "readme",
+        "developer",
+        "Interface"
+      ]
     },
     {
       "id": "social",
@@ -30,7 +40,11 @@
       "icon": "MessageSquare",
       "order": 2,
       "homeLinks": 6,
-      "sources": ["bilibili", "QQ", "github"]
+      "sources": [
+        "bilibili",
+        "QQ",
+        "github"
+      ]
     },
     {
       "id": "games",
@@ -38,7 +52,11 @@
       "icon": "Building",
       "order": 3,
       "homeLinks": 6,
-      "sources": ["EpicGames", "minecraft", "Steam"]
+      "sources": [
+        "EpicGames",
+        "minecraft",
+        "Steam"
+      ]
     },
     {
       "id": "utility",
@@ -46,8 +64,12 @@
       "icon": "Settings",
       "order": 4,
       "homeLinks": 6,
-      "sources": ["misc", "network", "Weather", "hotboard"]
+      "sources": [
+        "misc",
+        "network",
+        "Weather",
+        "hotboard"
+      ]
     }
   ]
 }
-
