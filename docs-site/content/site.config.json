@@ -71,5 +71,8 @@
         "hotboard"
       ]
     }
-  ]
+  ],
+  "document": {
+    "showDescription": false
+  }
 }

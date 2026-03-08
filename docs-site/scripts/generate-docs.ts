@@ -1,4 +1,4 @@
-﻿import fs from "node:fs";
+import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import MarkdownIt from "markdown-it";
@@ -44,6 +44,9 @@ interface SiteConfig {
   hero: {
     title: string;
     description: string;
+  };
+  document?: {
+    showDescription?: boolean;
   };
   repository?: {
     contentRoot?: string;
@@ -112,6 +115,7 @@ const configPath = path.join(contentDir, "site.config.json");
 const generatedRootDir = path.join(rootDir, "src", "docs", "generated");
 const generatedContentDir = path.join(generatedRootDir, "content");
 const manifestPath = path.join(generatedRootDir, "manifest.ts");
+const searchIndexPath = path.join(generatedRootDir, "search.ts");
 
 function ensureDirectory(dirPath: string) {
   fs.mkdirSync(dirPath, { recursive: true });
@@ -573,7 +577,34 @@ function extractSections(markdown: string, docTitle: string) {
 
 function writeTypeScriptModule(filePath: string, code: string) {
   ensureDirectory(path.dirname(filePath));
+
+  if (fs.existsSync(filePath)) {
+    const existingCode = fs.readFileSync(filePath, "utf8");
+
+    if (existingCode === code) {
+      return;
+    }
+  }
+
   fs.writeFileSync(filePath, code, "utf8");
+}
+
+function removeStaleContentModules(expectedModuleNames: Set<string>) {
+  if (!fs.existsSync(generatedContentDir)) {
+    return;
+  }
+
+  for (const entry of fs.readdirSync(generatedContentDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".ts")) {
+      continue;
+    }
+
+    const moduleName = entry.name.replace(/\.ts$/, "");
+
+    if (!expectedModuleNames.has(moduleName)) {
+      fs.rmSync(path.join(generatedContentDir, entry.name), { force: true });
+    }
+  }
 }
 
 function createManifestModule(manifest: {
@@ -582,17 +613,32 @@ function createManifestModule(manifest: {
     SiteGroupConfig & { order: number; homeLinks: number; docs: string[] }
   >;
   docs: DocManifestEntry[];
-  searchIndex: SearchEntry[];
   defaultDocSlug: string;
 }) {
-  return `import type {DocsManifest} from '../types';\n\nexport const docsManifest: DocsManifest = ${JSON.stringify(manifest, null, 2)};\n`;
+  return `import type {DocsManifest} from '../types';
+
+export const docsManifest: DocsManifest = ${JSON.stringify(manifest, null, 2)};
+`;
 }
 
 function createContentModule(slug: string, html: string) {
-  return `import type {DocContent} from '../../types';\n\nconst docContent: DocContent = ${JSON.stringify({ slug, html }, null, 2)};\n\nexport default docContent;\n`;
+  return `import type {DocContent} from '../../types';
+
+const docContent: DocContent = ${JSON.stringify({ slug, html }, null, 2)};
+
+export default docContent;
+`;
+}
+
+function createSearchModule(searchIndex: SearchEntry[]) {
+  return `import type {SearchEntry} from '../types';
+
+export const searchIndex: SearchEntry[] = ${JSON.stringify(searchIndex, null, 2)};
+`;
 }
 
 function main() {
+
   const siteConfig = readJson<SiteConfig>(configPath);
   const repoRoot = path.resolve(
     rootDir,
@@ -791,8 +837,8 @@ function main() {
     return [docEntry, ...sectionEntries];
   });
 
-  fs.rmSync(generatedRootDir, { recursive: true, force: true });
   ensureDirectory(generatedContentDir);
+  removeStaleContentModules(new Set(sortedDocs.map((doc) => doc.contentModule)));
 
   for (const doc of sortedDocs) {
     writeTypeScriptModule(
@@ -806,13 +852,14 @@ function main() {
     manifestDocs[0]?.slug ??
     "";
 
+  writeTypeScriptModule(searchIndexPath, createSearchModule(searchIndex));
+
   writeTypeScriptModule(
     manifestPath,
     createManifestModule({
       config: siteConfig,
       groups,
       docs: manifestDocs,
-      searchIndex,
       defaultDocSlug,
     }),
   );

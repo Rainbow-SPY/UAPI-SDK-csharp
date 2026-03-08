@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import {
   Github,
   Search,
@@ -21,7 +21,6 @@ import {
   Cpu,
   Info,
 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import {
   buildDocUrl,
   docsManifest,
@@ -29,11 +28,12 @@ import {
   getGroupMap,
   getRouteState,
   loadDocContentBySlug,
+  preloadSearchIndex,
   prefetchDocContent,
   searchDocs,
   syncRouteState,
 } from "./docs/runtime";
-import type { DocGroup, DocManifest, IconName } from "./docs/types";
+import type { DocGroup, DocManifest, IconName, SearchResult } from "./docs/types";
 const iconMap: Record<IconName, React.ComponentType<{ className?: string }>> = {
   Rocket,
   MessageSquare,
@@ -98,6 +98,9 @@ export default function App() {
   );
   const activeDoc = docsMap.get(activeSlug) ?? docsManifest.docs[0];
   const activeGroup = groupsMap.get(activeDoc.groupId);
+  const shouldShowDocDescription =
+    docsManifest.config.document?.showDescription !== false &&
+    Boolean(activeDoc.description.trim());
   const activeDocIndex = docsManifest.docs.findIndex(
     (doc) => doc.slug === activeDoc.slug,
   );
@@ -107,7 +110,9 @@ export default function App() {
     activeDocIndex >= 0 && activeDocIndex < docsManifest.docs.length - 1
       ? docsManifest.docs[activeDocIndex + 1]
       : undefined;
-  const searchResults = useMemo(() => searchDocs(searchQuery), [searchQuery]);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const shouldShowSearchResults = isSearchOpen && searchResults.length > 0;
   const closeResponsivePanels = () => {
     setIsSidebarOpen(false);
     setIsTocOpen(false);
@@ -212,8 +217,45 @@ export default function App() {
     contentScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
   }, [activeHtml, currentView, isLoadingDoc, pendingSectionId]);
   useEffect(() => {
-    prefetchDocContent(previousDoc?.slug);
-    prefetchDocContent(nextDoc?.slug);
+    const trimmedQuery = deferredSearchQuery.trim();
+
+    if (!trimmedQuery) {
+      setSearchResults([]);
+      return;
+    }
+
+    let disposed = false;
+
+    void searchDocs(trimmedQuery)
+      .then((results) => {
+        if (!disposed) {
+          setSearchResults(results);
+        }
+      })
+      .catch(() => {
+        if (!disposed) {
+          setSearchResults([]);
+        }
+      });
+
+    return () => {
+      disposed = true;
+    };
+  }, [deferredSearchQuery]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void preloadSearchIndex();
+    }, 800);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      prefetchDocContent(previousDoc?.slug);
+      prefetchDocContent(nextDoc?.slug);
+    }, 120);
+
+    return () => window.clearTimeout(timer);
   }, [nextDoc?.slug, previousDoc?.slug]);
   const openDoc = (slug: string, sectionId?: string, replace = false) => {
     const targetDoc = docsMap.get(slug) ?? docsManifest.docs[0];
@@ -304,41 +346,31 @@ export default function App() {
                         className={`h-4 w-4 shrink-0 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
                       />{" "}
                     </button>{" "}
-                    <AnimatePresence>
+                    {isDropdownOpen ? (
+                      <div
+                        className="fixed inset-0 z-40"
+                        onClick={() => setIsDropdownOpen(false)}
+                      />
+                    ) : null}{" "}
+                    <div
+                      className={`absolute left-0 top-full z-50 mt-2 flex w-64 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-main)] p-1.5 transition-all duration-150 ${isDropdownOpen ? "visible translate-y-0 scale-100 opacity-100" : "invisible pointer-events-none -translate-y-2 scale-[0.96] opacity-0"}`}
+                      style={{ boxShadow: "var(--shadow-dropdown)" }}
+                    >
                       {" "}
-                      {isDropdownOpen ? (
-                        <>
+                      {headerVersionMenuItems.map((version, index) => (
+                        <button
+                          key={version}
+                          type="button"
+                          className={`flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors ${index === 0 ? "bg-[var(--accent-bg)] font-medium text-[var(--accent)]" : "text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)]"}`}
+                        >
                           {" "}
-                          <div
-                            className="fixed inset-0 z-40"
-                            onClick={() => setIsDropdownOpen(false)}
-                          />{" "}
-                          <motion.div
-                            initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                            transition={{ duration: 0.15, ease: "easeOut" }}
-                            className="absolute left-0 top-full z-50 mt-2 flex w-64 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-main)] p-1.5"
-                            style={{ boxShadow: "var(--shadow-dropdown)" }}
-                          >
-                            {" "}
-                            {headerVersionMenuItems.map((version, index) => (
-                              <button
-                                key={version}
-                                type="button"
-                                className={`flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors ${index === 0 ? "bg-[var(--accent-bg)] font-medium text-[var(--accent)]" : "text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)]"}`}
-                              >
-                                {" "}
-                                <span className="truncate">{version}</span>{" "}
-                                {index === 0 ? (
-                                  <Check className="h-4 w-4 shrink-0" />
-                                ) : null}{" "}
-                              </button>
-                            ))}{" "}
-                          </motion.div>{" "}
-                        </>
-                      ) : null}{" "}
-                    </AnimatePresence>{" "}
+                          <span className="truncate">{version}</span>{" "}
+                          {index === 0 ? (
+                            <Check className="h-4 w-4 shrink-0" />
+                          ) : null}{" "}
+                        </button>
+                      ))}{" "}
+                    </div>{" "}
                   </div>{" "}
                 </>
               ) : null}{" "}
@@ -348,59 +380,63 @@ export default function App() {
               ref={searchRef}
             >
               {" "}
-              <div className="group relative flex w-full items-center">
+              <div
+                className="group relative flex w-full items-center"
+                onMouseEnter={() => {
+                  void preloadSearchIndex();
+                }}
+              >
                 {" "}
                 <Search className="absolute left-3 h-4 w-4 text-[var(--text-muted)] transition-colors group-focus-within:text-[var(--accent)]" />{" "}
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(event) => {
-                    setSearchQuery(event.target.value);
-                    setIsSearchOpen(Boolean(event.target.value.trim()));
+                    const nextValue = event.target.value;
+                    const hasQuery = Boolean(nextValue.trim());
+                    setSearchQuery(nextValue);
+                    setIsSearchOpen(hasQuery);
+                    if (hasQuery) {
+                      void preloadSearchIndex();
+                    }
                   }}
-                  onFocus={() => setIsSearchOpen(Boolean(searchQuery.trim()))}
+                  onFocus={() => {
+                    void preloadSearchIndex();
+                    setIsSearchOpen(Boolean(searchQuery.trim()));
+                  }}
                   onKeyDown={handleSearchEnter}
                   placeholder="Search APIs, docs, and keywords"
                   className="w-full rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-main)] py-1.5 pl-9 pr-3 text-sm focus:border-[var(--accent)] focus:outline-none"
                 />{" "}
-                <AnimatePresence>
+                <div
+                  className={`custom-scrollbar absolute left-0 top-full z-50 mt-2 max-h-[420px] w-full overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-main)] p-2 transition-all duration-150 ${shouldShowSearchResults ? "visible translate-y-0 opacity-100" : "invisible pointer-events-none -translate-y-2 opacity-0"}`}
+                  style={{ boxShadow: "var(--shadow-dropdown)" }}
+                >
                   {" "}
-                  {isSearchOpen && searchResults.length > 0 ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.12, ease: "easeOut" }}
-                      className="custom-scrollbar absolute left-0 top-full z-50 mt-2 max-h-[420px] w-full overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-main)] p-2"
-                      style={{ boxShadow: "var(--shadow-dropdown)" }}
+                  {searchResults.map((result) => (
+                    <button
+                      key={result.id}
+                      type="button"
+                      onClick={() => openDoc(result.slug, result.sectionId)}
+                      className="flex w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-left transition-colors hover:bg-[var(--bg-hover)]"
                     >
                       {" "}
-                      {searchResults.map((result) => (
-                        <button
-                          key={result.id}
-                          type="button"
-                          onClick={() => openDoc(result.slug, result.sectionId)}
-                          className="flex w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-left transition-colors hover:bg-[var(--bg-hover)]"
-                        >
+                      <div className="flex w-full items-center justify-between gap-3">
+                        {" "}
+                        <span className="font-medium text-[var(--text-strong)]">
+                          {result.title}
+                        </span>{" "}
+                        <span className="text-xs uppercase tracking-wide text-[var(--text-muted)]">
                           {" "}
-                          <div className="flex w-full items-center justify-between gap-3">
-                            {" "}
-                            <span className="font-medium text-[var(--text-strong)]">
-                              {result.title}
-                            </span>{" "}
-                            <span className="text-xs uppercase tracking-wide text-[var(--text-muted)]">
-                              {" "}
-                              {result.kind === "doc" ? "Doc" : "Section"}{" "}
-                            </span>{" "}
-                          </div>{" "}
-                          <span className="line-clamp-2 text-sm text-[var(--text-main)]">
-                            {result.description}
-                          </span>{" "}
-                        </button>
-                      ))}{" "}
-                    </motion.div>
-                  ) : null}{" "}
-                </AnimatePresence>{" "}
+                          {result.kind === "doc" ? "Doc" : "Section"}{" "}
+                        </span>{" "}
+                      </div>{" "}
+                      <span className="line-clamp-2 text-sm text-[var(--text-main)]">
+                        {result.description}
+                      </span>{" "}
+                    </button>
+                  ))}{" "}
+                </div>{" "}
               </div>{" "}
             </div>{" "}
             <div className="flex items-center justify-end gap-2 md:justify-self-end">
@@ -590,14 +626,18 @@ export default function App() {
                           {" "}
                           {activeGroup?.title ?? activeDoc.groupId}{" "}
                         </div>{" "}
-                        <h1 className="mb-4 text-4xl font-semibold tracking-tight text-[var(--text-strong)] transition-colors duration-500 sm:text-5xl">
+                        <h1
+                          className={`text-4xl font-semibold tracking-tight text-[var(--text-strong)] transition-colors duration-500 sm:text-5xl ${shouldShowDocDescription ? "mb-4" : "mb-0"}`}
+                        >
                           {" "}
                           {activeDoc.title}{" "}
                         </h1>{" "}
-                        <p className="text-base leading-relaxed text-[var(--text-main)] transition-colors duration-500 sm:text-lg">
-                          {" "}
-                          {activeDoc.description}{" "}
-                        </p>{" "}
+                        {shouldShowDocDescription ? (
+                          <p className="text-base leading-relaxed text-[var(--text-main)] transition-colors duration-500 sm:text-lg">
+                            {" "}
+                            {activeDoc.description}{" "}
+                          </p>
+                        ) : null}{" "}
                       </header>{" "}
                       {isLoadingDoc ? (
                         <div className="space-y-4">
@@ -767,40 +807,34 @@ function SidebarGroup({
           className={`h-4 w-4 text-[var(--text-muted)] transition-transform ${isOpen ? "rotate-90" : ""}`}
         />{" "}
       </button>{" "}
-      <AnimatePresence initial={false}>
+      <div
+        className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+      >
         {" "}
-        {isOpen ? (
-          <motion.ul
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-            className="ml-4 overflow-hidden border-l border-[var(--border-subtle)] pl-5"
-          >
-            {" "}
-            {group.docs.map((slug) => {
-              const doc = docsMap.get(slug);
-              if (!doc) {
-                return null;
-              }
-              const isActive = activeSlug === doc.slug;
-              return (
-                <li key={doc.slug} className="mt-1.5">
+        <ul className="ml-4 overflow-hidden border-l border-[var(--border-subtle)] pl-5">
+          {" "}
+          {group.docs.map((slug) => {
+            const doc = docsMap.get(slug);
+            if (!doc) {
+              return null;
+            }
+            const isActive = activeSlug === doc.slug;
+            return (
+              <li key={doc.slug} className="mt-1.5">
+                {" "}
+                <button
+                  onClick={() => onOpenDoc(doc.slug)}
+                  className={`relative block w-full rounded-md px-3 py-2 text-left transition-colors ${isActive ? "bg-[var(--accent-bg)] font-semibold text-[var(--text-strong)]" : "text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)]"}`}
+                  type="button"
+                >
                   {" "}
-                  <button
-                    onClick={() => onOpenDoc(doc.slug)}
-                    className={`relative block w-full rounded-md px-3 py-2 text-left transition-colors ${isActive ? "bg-[var(--accent-bg)] font-semibold text-[var(--text-strong)]" : "text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-strong)]"}`}
-                    type="button"
-                  >
-                    {" "}
-                    {doc.title}{" "}
-                  </button>{" "}
-                </li>
-              );
-            })}{" "}
-          </motion.ul>
-        ) : null}{" "}
-      </AnimatePresence>{" "}
+                  {doc.title}{" "}
+                </button>{" "}
+              </li>
+            );
+          })}{" "}
+        </ul>{" "}
+      </div>{" "}
     </li>
   );
 }

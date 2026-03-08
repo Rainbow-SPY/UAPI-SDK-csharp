@@ -36,6 +36,10 @@ export interface SiteHeroConfig {
   description: string;
 }
 
+export interface SiteDocumentConfig {
+  showDescription?: boolean;
+}
+
 export interface SiteRepositoryConfig {
   contentRoot?: string;
   defaultBranch?: string;
@@ -53,6 +57,7 @@ export interface SiteGroupConfig {
 export interface SiteConfig {
   brand: SiteBrandConfig;
   hero: SiteHeroConfig;
+  document?: SiteDocumentConfig;
   repository?: SiteRepositoryConfig;
   groups: SiteGroupConfig[];
 }
@@ -96,11 +101,14 @@ export interface DocGroup {
   docs: string[];
 }
 
+export type SearchResult = SearchEntry & {
+  score: number;
+};
+
 export interface DocsManifest {
   config: SiteConfig;
   groups: DocGroup[];
   docs: DocManifest[];
-  searchIndex: SearchEntry[];
   defaultDocSlug: string;
 }
 
