@@ -163,6 +163,14 @@ const GFM_ALERT_LABELS = {
 
 const GFM_ALERT_PATTERN = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(.*)$/i;
 
+const GFM_ALERT_ICONS = {
+  note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>',
+  tip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-.63.5-1.2.92-1.68A6 6 0 1 0 8.08 12.3c.42.48.72 1.05.92 1.7"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>',
+  important: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10h10"></path><path d="M7 14h6"></path><path d="M17 21l-5-3-5 3V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2z"></path></svg>',
+  warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10.29 3.86-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.71-3.14l-8-14a2 2 0 0 0-3.42 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>',
+  caution: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16h.01"></path><path d="M12 8v4"></path><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>',
+} as const;
+
 function stripGfmAlertMarkers(value: string) {
   return value.replace(
     /^\s*>?\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/gim,
@@ -385,7 +393,7 @@ function buildMarkdownRenderer(
       const alertType = match[1].toLowerCase() as keyof typeof GFM_ALERT_LABELS;
       const remainingText = match[2].trim();
       const openToken = new Token("html_block", "", 0);
-      openToken.content = `<div class="gfm-alert gfm-alert-${alertType}"><div class="gfm-alert-title">${GFM_ALERT_LABELS[alertType]}</div><div class="gfm-alert-body">`;
+      openToken.content = `<div class="gfm-alert gfm-alert-${alertType}"><div class="gfm-alert-title"><span class="gfm-alert-icon">${GFM_ALERT_ICONS[alertType]}</span><span>${GFM_ALERT_LABELS[alertType]}</span></div><div class="gfm-alert-body">`;
       const closeToken = new Token("html_block", "", 0);
       closeToken.content = "</div></div>";
 
