@@ -170,8 +170,14 @@ function stripGfmAlertMarkers(value: string) {
   );
 }
 
+function normalizeLegacyMarkdown(value: string) {
+  return value
+    .replace(/\*\*([^\r\n*]+?)\s*:\s+\*\*/g, "**$1:**")
+    .replace(/\*\*([^\r\n*]+?)\*\*\s+:/g, "**$1:**");
+}
+
 function stripMarkdown(value: string) {
-  return stripGfmAlertMarkers(value)
+  return stripGfmAlertMarkers(normalizeLegacyMarkdown(value))
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
@@ -608,6 +614,7 @@ function main() {
   const parsedDocs = markdownFiles.map<ParsedDoc>((filePath) => {
     const fileContent = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(fileContent);
+    const normalizedContent = normalizeLegacyMarkdown(content);
     const sourceKey = getSourceKey(filePath, repoRoot);
     const configuredGroup = getGroupForSource(siteConfig, sourceKey);
     const groupId =
@@ -627,11 +634,11 @@ function main() {
     const title =
       typeof data.title === "string"
         ? data.title
-        : getDocTitle(content, fallbackTitle);
+        : getDocTitle(normalizedContent, fallbackTitle);
     const summary =
       typeof data.summary === "string"
         ? data.summary
-        : getDocSummary(content, title);
+        : getDocSummary(normalizedContent, title);
     const description =
       typeof data.description === "string" ? data.description : summary;
     const order =
@@ -654,12 +661,12 @@ function main() {
       repoRoot,
       repositoryLinkBase,
     );
-    const html = markdown.render(content, {
+    const html = markdown.render(normalizedContent, {
       slugCounter: new Map<string, number>(),
     });
-    const plainText = stripMarkdown(content);
+    const plainText = stripMarkdown(normalizedContent);
     const excerpt = plainText.slice(0, 160);
-    const sections = extractSections(content, title);
+    const sections = extractSections(normalizedContent, title);
 
     if (!configuredGroups.has(groupId)) {
       const fallbackGroup: SiteGroupConfig = {
@@ -677,7 +684,7 @@ function main() {
 
     return {
       filePath,
-      rawContent: content,
+      rawContent: normalizedContent,
       sourceKey,
       sourceOrder,
       slug,

@@ -458,7 +458,7 @@ ___
 ### 获取手机号码的归属地信息
 
 ```csharp
-var request = await UAPI.misc.GetPhoneInfo(string phoneNumber)
+var request = await UAPI.misc.GetPhoneInfo(string phoneNumber);
 ```
 
 * 参数选项:
@@ -533,7 +533,7 @@ var request = await UAPI.misc.DetectTrackingCarrier(string tracking_number);
 ```
 
 * 参数选项:
-    * **tracking_number: ** 快递单号
+    * **tracking_number:** 快递单号
 * **返回类型:** `Task <UAPI.misc.DetectedCarrierType>`
 * **返回值:** `DetectedCarrierType` 对象
 * **异常:**
@@ -550,7 +550,7 @@ var request = await UAPI.misc.GetLunarTime(string ts = "", string timezone = "As
 ```
 
 * 参数选项:
-    * **ts: ** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。
+    * **ts:** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。
     * **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`Shanghai`、`Beijing`）。默认 `Asia/Shanghai`。
 * **返回类型:** `Task <UAPI.misc.LunarTimeType>`
 * **返回值:** `LunarTimeType` 对象

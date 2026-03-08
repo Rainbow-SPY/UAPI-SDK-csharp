@@ -129,15 +129,15 @@ export const docsManifest: DocsManifest = {
       "order": 4,
       "homeLinks": 6,
       "docs": [
+        "utility/misc-detecttrackingcarrier",
+        "utility/misc-getphoneinfo",
         "utility/misc-gettrackinginfo",
         "utility/misc-getlunartime",
         "utility/misc-getprogrammerhistorytoday",
         "utility/misc-getworldtime",
-        "utility/misc-getphoneinfo",
         "utility/misc-getrandomnumberlist",
         "utility/misc-gettrackingcarriers",
         "utility/misc-postdatediff",
-        "utility/misc-detecttrackingcarrier",
         "utility/misc-converttimestamp",
         "utility/network-getmyip",
         "utility/weather-getweather",
@@ -1026,6 +1026,68 @@ export const docsManifest: DocsManifest = {
       "contentModule": "games__steam-steamid"
     },
     {
+      "slug": "utility/misc-detecttrackingcarrier",
+      "title": "????????????",
+      "summary": "???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut",
+      "description": "???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut",
+      "groupId": "utility",
+      "order": 999,
+      "tags": [
+        "misc",
+        "utility"
+      ],
+      "excerpt": "???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? UnauthorizedAccessExcepti",
+      "headings": [
+        {
+          "id": "section-1",
+          "text": "????",
+          "level": 2
+        },
+        {
+          "id": "section-2",
+          "text": "????",
+          "level": 2
+        },
+        {
+          "id": "section-3",
+          "text": "???",
+          "level": 3
+        }
+      ],
+      "contentModule": "utility__misc-detecttrackingcarrier"
+    },
+    {
+      "slug": "utility/misc-getphoneinfo",
+      "title": "????????????",
+      "summary": "???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ?????????? ",
+      "description": "???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ?????????? ",
+      "groupId": "utility",
+      "order": 999,
+      "tags": [
+        "misc",
+        "utility"
+      ],
+      "excerpt": "???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ?????????? UnauthorizedAccessEx",
+      "headings": [
+        {
+          "id": "section-1",
+          "text": "????",
+          "level": 2
+        },
+        {
+          "id": "section-2",
+          "text": "????",
+          "level": 2
+        },
+        {
+          "id": "section-3",
+          "text": "???",
+          "level": 3
+        }
+      ],
+      "contentModule": "utility__misc-getphoneinfo"
+    },
+    {
       "slug": "utility/misc-gettrackinginfo",
       "title": "查询快递物流信息",
       "summary": "查询快递物流信息 请求示例 参数列表 tracking number : 快递单号，通常是一串10 20位的数字或字母数字组合。 carrier code : 快递公司编码（可选）。不填写时系统会自动识别，填写后可加快查询速度。 phone : 收件人手机尾号，4位数字（可选）。",
@@ -1150,37 +1212,6 @@ export const docsManifest: DocsManifest = {
       "contentModule": "utility__misc-getworldtime"
     },
     {
-      "slug": "utility/misc-getphoneinfo",
-      "title": "获取手机号码的归属地信息",
-      "summary": "获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U",
-      "description": "获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U",
-      "groupId": "utility",
-      "order": 999,
-      "tags": [
-        "misc",
-        "utility"
-      ],
-      "excerpt": "获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessExc",
-      "headings": [
-        {
-          "id": "请求示例",
-          "text": "请求示例",
-          "level": 2
-        },
-        {
-          "id": "属性列表",
-          "text": "属性列表",
-          "level": 2
-        },
-        {
-          "id": "根属性",
-          "text": "根属性",
-          "level": 3
-        }
-      ],
-      "contentModule": "utility__misc-getphoneinfo"
-    },
-    {
       "slug": "utility/misc-getrandomnumberlist",
       "title": "获取一组随机数字",
       "summary": "获取一组随机数字 请求示例 参数选项: min: 生成随机数的最小值（包含）。 max: 生成随机数的最大值（包含）。 count: 需要生成的随机数的数量。 allow repeat: 是否允许生成的多个数字中出现重复值。 allow decimal: 是否生成小（浮点）数。如",
@@ -1274,48 +1305,17 @@ export const docsManifest: DocsManifest = {
       "contentModule": "utility__misc-postdatediff"
     },
     {
-      "slug": "utility/misc-detecttrackingcarrier",
-      "title": "通过快递单号识别快递公司",
-      "summary": "通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut",
-      "description": "通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut",
-      "groupId": "utility",
-      "order": 999,
-      "tags": [
-        "misc",
-        "utility"
-      ],
-      "excerpt": "通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessExcepti",
-      "headings": [
-        {
-          "id": "请求示例",
-          "text": "请求示例",
-          "level": 2
-        },
-        {
-          "id": "属性列表",
-          "text": "属性列表",
-          "level": 2
-        },
-        {
-          "id": "根属性",
-          "text": "根属性",
-          "level": 3
-        }
-      ],
-      "contentModule": "utility__misc-detecttrackingcarrier"
-    },
-    {
       "slug": "utility/misc-converttimestamp",
       "title": "转换 Unix 时间戳",
-      "summary": "转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U",
-      "description": "转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U",
+      "summary": "转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un",
+      "description": "转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un",
       "groupId": "utility",
       "order": 999,
       "tags": [
         "misc",
         "utility"
       ],
-      "excerpt": "转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessExc",
+      "excerpt": "转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessExce",
       "headings": [
         {
           "id": "请求示例",
@@ -1467,7 +1467,7 @@ export const docsManifest: DocsManifest = {
       "slug": "guide/overview",
       "title": "UAPI C# SDK 社区版",
       "description": "UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA",
-      "keywords": "开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UApi, Developer: Rainbow SPY. All content is protected by copyright. This project is licensed under AGPL 3.0 + Attribution + Non Commercial terms . You must : Keep original author attribution and repository link. Open source any modified versions under AGPL 3.0. You cannot : Use this code (or derivatives) for commercial purposes. See LICENSE for full terms. 版权所有 (©) AxT Team & UApi，开发者：Rainbow SPY，所有内容均受版权保护。 本项目采用 AGPL 3.0 + 署名 + 非商业附加条款 许可协议。 您必须 ： 保留原始作者署名及仓库链接。 任何修改后的版本必须以 AGPL 3.0 协议开源。 您不得 ： 将此代码（或衍生作品）用于商业用途。 完整条款参见 LICENSE 目录 1. 社交类请求 1. bilibili 相关请求 1. 请求bilibili热榜 2. 获取指定UP的所有稿件信息 3. 获取指定UP的直播间信息 4. 获取指定用户的公开账户数据 5. 获取指定视频的详细数据 6. 获取指定视频的评论区数据 2. QQ 相关请求 1. 获取QQ群相关信息 2. 获取QQ用户相关信息 2. 游戏功能性请求 1. 获取Epic Games每日免费游戏 2. 获取 Minecraft 玩家历史昵称 3. 获取 Minecraft 服务器状态 4. 获取 Minecraft 玩家信息 5. 获取 Steam 个人用户的公开数据 3. 网络类请求 1. 获取本机的公网IP地址 4. 杂项 1. 热榜请求 1. 请求bilibili热榜 2. 请求网易云音乐热榜 2. 天气请求 3. 获取全球时区时间 4. 获取手机号码的归属地信息 5. 获取一组随机数字 6. 获取程序员历史上的今天的事件 7. 转换 Unix 时间戳 8. 通过快递单号识别快递公司 9. 查询农历时间 10. 获取支持的快递公司列表 11. 查询快递物流信息 12. 计算两个日期之间的差值 社交类请求 bilibili 相关请求 请求 bilibili 热门排行榜 转到 热榜请求 请求 bilibili热榜 获取指定UP的所有稿件信息 参数选项: mid: 指定要查询的用户UID(mid) orderby: 指定以何种查询方式, 默认为 Pubdate. 可供使用的枚举有: 枚举值 注释 : : : : Pubdate 以最新发布顺序排列 Views 以播放量排列 keywords: 指定一个关键字作为查找内容并返回与之相关的内容, 默认为空. ps: 指定每页的稿件数量, 默认 20. pn: 指定一个页码并返回指定页码的稿件信息, 默认为 1. 返回类型: Task 返回值: ArchiveType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 属性列表 : 详见 bilibili.GetArchives.md 获取指定UP的直播间信息 参数选项: mid: 指定要查询的用户UID(mid) room id: 指定要查询的直播间ID, 和上述参数 mid 选其一即可. 返回类型: Task 返回值: LiveRoomType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 获取指定用户的账户数据 参数选项: mid: 指定要查询的用户UID(mid) 返回类型: Task 返回值: UserType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 获取指定视频的详细数据 参数选项: mid: 指定要查询的用户UID(mid) IDType: 指定查询视频的ID格式, 可供使用的枚举如下: 枚举值 注释 : : : : AID 视频的AV号 (aid) BVID 视频的BV号 (bvid) 返回类型: Task 返回值: VideoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 获取指定视频的评论区数据 参数选项: oid: 指定要查询的目标评论区的ID。对于视频，这通常就是它的 aid/bvid. sort: 指定查询视频的排序方式。支持 0/time（按时间）、1/like（按点赞）、2/reply（按回复数）、 3/hot/hottest/最热（按最热）。默认为0/time。 ps: 每页获取的评论数量，范围是1到20。默认为 20。 pn: 要获取的页码，从1开始。默认为 1。 返回类型: Task 返回值: RepliesListType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. QQ 相关请求 获取QQ群相关信息 参数选项: group id: 指定要查询的群ID 返回类型: Task 返回值: GroupType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.QQ.QQServiceError(): QQ 上游服务异常, 这可能是他们的服务暂时中断. 获取QQ用户相关信息 参数选项: qq: 指定要查询的用户QQ号 返回类型: Task 返回值: UserType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.QQ.QQServiceError(): QQ 上游服务异常, 这可能是他们的服务暂时中断. 获取 Github 仓库信息 参数选项: owner and repo: 指定要查询的用户+仓库, 例: \"torvalds/linux\" 返回类型: Task 返回值: ReposType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.github.GithubAPIServiceError(): Github 上游服务异常, 这可能是他们的服务暂时中断. 游戏功能性请求 获取Epic Games每日免费游戏 返回类型: Task 返回值: EpicType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.EpicGames.EpicGamesServerError: Epic Games 上游 API 服务异常 所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 404等StatusCode . 获取 Minecraft 玩家历史昵称 参数选项: param: 指定要查询的用户UUID或昵称 searchType: 指定查询的查找方式, 可供使用的枚举如下: 枚举值 注释 : : : : UUID 以UUID查找 Name 以昵称查找 返回类型: Task 返回值: HistoryType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.minecraft.MojangAPIServiceError: Mojang API 上游服务异常, 这可能是他们的服务暂时中断. 获取 Minecraft 服务器状态 参数选项: server: 指定要查询的服务器地址 port: 指定查询的服务器的端口, 默认为 25565. 返回类型: Task 返回值: ServerType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.minecraft.MojangAPIServiceError: Mojang API 上游服务异常, 这可能是他们的服务暂时中断. 获取 Minecraft 玩家信息 参数选项: username: 指定要查询的用户名 返回类型: Task 返回值: UserType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.minecraft.MojangAPIServiceError: Mojang API 上游服务异常, 这可能是他们的服务暂时中断. 获取 Steam 个人用户的公开数据 参数选项: SteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:728234856 STEAM ID3 [U:1:1456469713] STEAM ID32 1456469713 STEAM ID64 76561199416735441 Link https://steamcommunity.com/id/Rainbow SPY key: Steam Web API 所需要的 Key , 这是一个可选参数，如果提供，它将覆盖API供应商提供的全局Key。这为你提供了更大的灵活性，但请务必注意Key的保密，不要在前端暴露。 返回类型: Task 返回值: SteamType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.Steam.SteamServiceError: Steam Web API 上游服务异常, 这可能是他们的服务暂时中断. 网络类请求 获取本机的公网IP地址 参数选项: commercial: 指定是否使用商业级的数据源, 默认为 false 返回类型: Task 返回值: IPType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 HttpRequestException: 引发的异常的基类 HttpClient 和 HttpMessageHandler 类 , 使用此异常通常是这个接口没有上游服务, 多数异常来源于服务器和连接过程. 杂项 热榜请求 请求 Bilibili 热榜 返回类型: Task 返回值: bilibiliType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 Hotboard.HotboardUpstreamServiceError(): 上游服务异常, 这可能是他们的服务暂时中断. 请求网易云音乐热榜 返回类型: Task 返回值: NeteaseType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 Hotboard.HotboardUpstreamServiceError: 上游服务异常, 这可能是他们的服务暂时中断. 天气请求 参数选项: city: 指定要查询天气的城市 adcode: 指定要查询天气的城市的高德地图的6位数字城市编码 extended: 是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）, 默认为 false indices: 是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）, 默认为 false forecast: 是否返回预报数据（当日最高/最低气温及未来3天天气预报）, 默认为 false hourly : 是否返回逐小时预报 (24小时)，含温度、天气、风向风速、湿度、降水概率等 minutely :是否返回分钟级降水预报 (仅国内城市)，每5分钟一个数据点，共24个 返回类型: Task 返回值: WeatherType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.Weather.WeatherServiceError(): 天气供应商的上游服务不可用, 这可能是他们的服务暂时中断 获取全球指定时区的当地时间 参数选项: region: 指定要查询天气的城市, 格式为 七大洲之一/地区 或 直接输入地区 例: Asia/Shanghai, America/New York, Tokyo 返回类型: Task 返回值: WorldTimeType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 因为这个接口没有什么所谓的上游, 因此也不会报出其他异常. 获取手机号码的归属地信息 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 获取一组随机数字 参数选项: min: 生成随机数的最小值（包含）。 max: 生成随机数的最大值（包含）。 count: 需要生成的随机数的数量。 allow repeat: 是否允许生成的多个数字中出现重复值。 allow decimal: 是否生成小（浮点）数。如果为 false，则只生成整数。 decimal places: 如果 allow decimal=true，这里可以指定小数的位数。 返回类型: Task 返回值: RandomNumberType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException(): 未知异常 获取程序员历史上的今天的事件 返回类型: Task 返回值: HistoryTodayType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 转换 Unix 时间戳 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 通过快递单号识别快递公司 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 查询农历时间 参数选项: ts: Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 timezone : 时区名称。支持 IANA 时区（如 Asia/Shanghai）和别名（Shanghai、Beijing）。默认 Asia/Shanghai。 返回类型: Task 返回值: LunarTimeType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 获取支持的快递公司列表 返回类型: Task 返回值: CarriersType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 查询快递物流信息 参数列表 tracking number : 快递单号，通常是一串10 20位的数字或字母数字组合。 carrier code : 快递公司编码（可选）。不填写时系统会自动识别，填写后可加快查询速度。 phone : 收件人手机尾号，4位数字（可选）。部分快递公司需要验证手机尾号才能查询详细物流信息。 返回类型: Task 返回值: TrackingInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 计算两个日期之间的差值 参数列表 start date : 开始时间/日期 end date : 结束时间/日期 format : 时间格式, 默认为 YYYY MM DD 返回类型: Task 返回值: DateDiffType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 开发环境 #### IDE IntelliJ JetBrains Rider 系统要求 Windows 10 版本1809 或更高版本 64 位操作系统, 基于 x64 的处理器 .NET Framework 4.7.2 或更高版本 在 Windows 上不得禁用 强名称跳过 功能 Visual Studio 2026 系统要求 Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版 Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。 64 位操作系统, 基于 x64 的处理器 工作负荷 桌面应用和移动应用 [x] .NET 桌面开发 编译语言 C# .NET Framework 4.7.2 依赖项 第三方程序集 AntdUI 用于依赖项 Rox.Runtimes 的 Reporter 窗体渲染, 防止出现未知的异常 Newtonsoft.Json 用于 Json 反序列化解析 Rox.Runtimes 用于输出日志、引用字符串常量等 Rox.Text 用于压缩 Json .后续会集成移除 来自 Microsoft 的 NuGet 包扩展 System.Buffers System.Diagnostics.DiagnosticSource System.Memory System.Numerics.Vectors System.Runtime.CompilerServices.Unsafe System.Net.Http Copyright (C) Rainbow SPY & AxT Team & UAPI 2019 2026 , All rights reserved.",
+      "keywords": "开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UApi, Developer: Rainbow SPY. All content is protected by copyright. This project is licensed under AGPL 3.0 + Attribution + Non Commercial terms . You must : Keep original author attribution and repository link. Open source any modified versions under AGPL 3.0. You cannot : Use this code (or derivatives) for commercial purposes. See LICENSE for full terms. 版权所有 (©) AxT Team & UApi，开发者：Rainbow SPY，所有内容均受版权保护。 本项目采用 AGPL 3.0 + 署名 + 非商业附加条款 许可协议。 您必须 ： 保留原始作者署名及仓库链接。 任何修改后的版本必须以 AGPL 3.0 协议开源。 您不得 ： 将此代码（或衍生作品）用于商业用途。 完整条款参见 LICENSE 目录 1. 社交类请求 1. bilibili 相关请求 1. 请求bilibili热榜 2. 获取指定UP的所有稿件信息 3. 获取指定UP的直播间信息 4. 获取指定用户的公开账户数据 5. 获取指定视频的详细数据 6. 获取指定视频的评论区数据 2. QQ 相关请求 1. 获取QQ群相关信息 2. 获取QQ用户相关信息 2. 游戏功能性请求 1. 获取Epic Games每日免费游戏 2. 获取 Minecraft 玩家历史昵称 3. 获取 Minecraft 服务器状态 4. 获取 Minecraft 玩家信息 5. 获取 Steam 个人用户的公开数据 3. 网络类请求 1. 获取本机的公网IP地址 4. 杂项 1. 热榜请求 1. 请求bilibili热榜 2. 请求网易云音乐热榜 2. 天气请求 3. 获取全球时区时间 4. 获取手机号码的归属地信息 5. 获取一组随机数字 6. 获取程序员历史上的今天的事件 7. 转换 Unix 时间戳 8. 通过快递单号识别快递公司 9. 查询农历时间 10. 获取支持的快递公司列表 11. 查询快递物流信息 12. 计算两个日期之间的差值 社交类请求 bilibili 相关请求 请求 bilibili 热门排行榜 转到 热榜请求 请求 bilibili热榜 获取指定UP的所有稿件信息 参数选项: mid: 指定要查询的用户UID(mid) orderby: 指定以何种查询方式, 默认为 Pubdate. 可供使用的枚举有: 枚举值 注释 : : : : Pubdate 以最新发布顺序排列 Views 以播放量排列 keywords: 指定一个关键字作为查找内容并返回与之相关的内容, 默认为空. ps: 指定每页的稿件数量, 默认 20. pn: 指定一个页码并返回指定页码的稿件信息, 默认为 1. 返回类型: Task 返回值: ArchiveType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 属性列表 : 详见 bilibili.GetArchives.md 获取指定UP的直播间信息 参数选项: mid: 指定要查询的用户UID(mid) room id: 指定要查询的直播间ID, 和上述参数 mid 选其一即可. 返回类型: Task 返回值: LiveRoomType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 获取指定用户的账户数据 参数选项: mid: 指定要查询的用户UID(mid) 返回类型: Task 返回值: UserType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 获取指定视频的详细数据 参数选项: mid: 指定要查询的用户UID(mid) IDType: 指定查询视频的ID格式, 可供使用的枚举如下: 枚举值 注释 : : : : AID 视频的AV号 (aid) BVID 视频的BV号 (bvid) 返回类型: Task 返回值: VideoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. 获取指定视频的评论区数据 参数选项: oid: 指定要查询的目标评论区的ID。对于视频，这通常就是它的 aid/bvid. sort: 指定查询视频的排序方式。支持 0/time（按时间）、1/like（按点赞）、2/reply（按回复数）、 3/hot/hottest/最热（按最热）。默认为0/time。 ps: 每页获取的评论数量，范围是1到20。默认为 20。 pn: 要获取的页码，从1开始。默认为 1。 返回类型: Task 返回值: RepliesListType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.bilibili.BilibiliServiceError: bilibili API 上游服务异常, 这可能是他们的服务暂时中断. QQ 相关请求 获取QQ群相关信息 参数选项: group id: 指定要查询的群ID 返回类型: Task 返回值: GroupType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.QQ.QQServiceError(): QQ 上游服务异常, 这可能是他们的服务暂时中断. 获取QQ用户相关信息 参数选项: qq: 指定要查询的用户QQ号 返回类型: Task 返回值: UserType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.QQ.QQServiceError(): QQ 上游服务异常, 这可能是他们的服务暂时中断. 获取 Github 仓库信息 参数选项: owner and repo: 指定要查询的用户+仓库, 例: \"torvalds/linux\" 返回类型: Task 返回值: ReposType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.github.GithubAPIServiceError(): Github 上游服务异常, 这可能是他们的服务暂时中断. 游戏功能性请求 获取Epic Games每日免费游戏 返回类型: Task 返回值: EpicType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.EpicGames.EpicGamesServerError: Epic Games 上游 API 服务异常 所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 404等StatusCode . 获取 Minecraft 玩家历史昵称 参数选项: param: 指定要查询的用户UUID或昵称 searchType: 指定查询的查找方式, 可供使用的枚举如下: 枚举值 注释 : : : : UUID 以UUID查找 Name 以昵称查找 返回类型: Task 返回值: HistoryType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.minecraft.MojangAPIServiceError: Mojang API 上游服务异常, 这可能是他们的服务暂时中断. 获取 Minecraft 服务器状态 参数选项: server: 指定要查询的服务器地址 port: 指定查询的服务器的端口, 默认为 25565. 返回类型: Task 返回值: ServerType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.minecraft.MojangAPIServiceError: Mojang API 上游服务异常, 这可能是他们的服务暂时中断. 获取 Minecraft 玩家信息 参数选项: username: 指定要查询的用户名 返回类型: Task 返回值: UserType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.minecraft.MojangAPIServiceError: Mojang API 上游服务异常, 这可能是他们的服务暂时中断. 获取 Steam 个人用户的公开数据 参数选项: SteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:728234856 STEAM ID3 [U:1:1456469713] STEAM ID32 1456469713 STEAM ID64 76561199416735441 Link https://steamcommunity.com/id/Rainbow SPY key: Steam Web API 所需要的 Key , 这是一个可选参数，如果提供，它将覆盖API供应商提供的全局Key。这为你提供了更大的灵活性，但请务必注意Key的保密，不要在前端暴露。 返回类型: Task 返回值: SteamType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.Steam.SteamServiceError: Steam Web API 上游服务异常, 这可能是他们的服务暂时中断. 网络类请求 获取本机的公网IP地址 参数选项: commercial: 指定是否使用商业级的数据源, 默认为 false 返回类型: Task 返回值: IPType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 HttpRequestException: 引发的异常的基类 HttpClient 和 HttpMessageHandler 类 , 使用此异常通常是这个接口没有上游服务, 多数异常来源于服务器和连接过程. 杂项 热榜请求 请求 Bilibili 热榜 返回类型: Task 返回值: bilibiliType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 Hotboard.HotboardUpstreamServiceError(): 上游服务异常, 这可能是他们的服务暂时中断. 请求网易云音乐热榜 返回类型: Task 返回值: NeteaseType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 Hotboard.HotboardUpstreamServiceError: 上游服务异常, 这可能是他们的服务暂时中断. 天气请求 参数选项: city: 指定要查询天气的城市 adcode: 指定要查询天气的城市的高德地图的6位数字城市编码 extended: 是否返回扩展气象字段（体感温度、能见度、气压、紫外线指数、空气质量、降水量、云量）, 默认为 false indices: 是否返回生活指数（穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度）, 默认为 false forecast: 是否返回预报数据（当日最高/最低气温及未来3天天气预报）, 默认为 false hourly : 是否返回逐小时预报 (24小时)，含温度、天气、风向风速、湿度、降水概率等 minutely :是否返回分钟级降水预报 (仅国内城市)，每5分钟一个数据点，共24个 返回类型: Task 返回值: WeatherType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.Weather.WeatherServiceError(): 天气供应商的上游服务不可用, 这可能是他们的服务暂时中断 获取全球指定时区的当地时间 参数选项: region: 指定要查询天气的城市, 格式为 七大洲之一/地区 或 直接输入地区 例: Asia/Shanghai, America/New York, Tokyo 返回类型: Task 返回值: WorldTimeType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 因为这个接口没有什么所谓的上游, 因此也不会报出其他异常. 获取手机号码的归属地信息 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 获取一组随机数字 参数选项: min: 生成随机数的最小值（包含）。 max: 生成随机数的最大值（包含）。 count: 需要生成的随机数的数量。 allow repeat: 是否允许生成的多个数字中出现重复值。 allow decimal: 是否生成小（浮点）数。如果为 false，则只生成整数。 decimal places: 如果 allow decimal=true，这里可以指定小数的位数。 返回类型: Task 返回值: RandomNumberType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException(): 未知异常 获取程序员历史上的今天的事件 返回类型: Task 返回值: HistoryTodayType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 转换 Unix 时间戳 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 通过快递单号识别快递公司 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 查询农历时间 参数选项: ts: Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 timezone : 时区名称。支持 IANA 时区（如 Asia/Shanghai）和别名（Shanghai、Beijing）。默认 Asia/Shanghai。 返回类型: Task 返回值: LunarTimeType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 获取支持的快递公司列表 返回类型: Task 返回值: CarriersType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 查询快递物流信息 参数列表 tracking number : 快递单号，通常是一串10 20位的数字或字母数字组合。 carrier code : 快递公司编码（可选）。不填写时系统会自动识别，填写后可加快查询速度。 phone : 收件人手机尾号，4位数字（可选）。部分快递公司需要验证手机尾号才能查询详细物流信息。 返回类型: Task 返回值: TrackingInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 计算两个日期之间的差值 参数列表 start date : 开始时间/日期 end date : 结束时间/日期 format : 时间格式, 默认为 YYYY MM DD 返回类型: Task 返回值: DateDiffType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 开发环境 #### IDE IntelliJ JetBrains Rider 系统要求 Windows 10 版本1809 或更高版本 64 位操作系统, 基于 x64 的处理器 .NET Framework 4.7.2 或更高版本 在 Windows 上不得禁用 强名称跳过 功能 Visual Studio 2026 系统要求 Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版 Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。 64 位操作系统, 基于 x64 的处理器 工作负荷 桌面应用和移动应用 [x] .NET 桌面开发 编译语言 C# .NET Framework 4.7.2 依赖项 第三方程序集 AntdUI 用于依赖项 Rox.Runtimes 的 Reporter 窗体渲染, 防止出现未知的异常 Newtonsoft.Json 用于 Json 反序列化解析 Rox.Runtimes 用于输出日志、引用字符串常量等 Rox.Text 用于压缩 Json .后续会集成移除 来自 Microsoft 的 NuGet 包扩展 System.Buffers System.Diagnostics.DiagnosticSource System.Memory System.Numerics.Vectors System.Runtime.CompilerServices.Unsafe System.Net.Http Copyright (C) Rainbow SPY & AxT Team & UAPI 2019 2026 , All rights reserved.",
       "scoreBoost": 120
     },
     {
@@ -1706,8 +1706,8 @@ export const docsManifest: DocsManifest = {
       "slug": "guide/overview",
       "sectionId": "转换-unix-时间戳",
       "title": "转换 Unix 时间戳",
-      "description": "转换 Unix 时间戳 参数选项: **ts** : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `Ti",
-      "keywords": "UAPI C# SDK 社区版 开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide 转换 Unix 时间戳 参数选项: **ts** : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `TimestampType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
+      "description": "转换 Unix 时间戳 参数选项: **ts:** Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `Tim",
+      "keywords": "UAPI C# SDK 社区版 开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide 转换 Unix 时间戳 参数选项: **ts:** Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `TimestampType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
       "scoreBoost": 48
     },
     {
@@ -1716,8 +1716,8 @@ export const docsManifest: DocsManifest = {
       "slug": "guide/overview",
       "sectionId": "通过快递单号识别快递公司",
       "title": "通过快递单号识别快递公司",
-      "description": "通过快递单号识别快递公司 参数选项: **tracking_number: ** 快递单号 **返回类型:** `Task <UAPI.misc.DetectedCarrierType>` **返回值:** `Detec",
-      "keywords": "UAPI C# SDK 社区版 开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide 通过快递单号识别快递公司 参数选项: **tracking_number: ** 快递单号 **返回类型:** `Task <UAPI.misc.DetectedCarrierType>` **返回值:** `DetectedCarrierType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
+      "description": "通过快递单号识别快递公司 参数选项: **tracking_number:** 快递单号 **返回类型:** `Task <UAPI.misc.DetectedCarrierType>` **返回值:** `Detect",
+      "keywords": "UAPI C# SDK 社区版 开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide 通过快递单号识别快递公司 参数选项: **tracking_number:** 快递单号 **返回类型:** `Task <UAPI.misc.DetectedCarrierType>` **返回值:** `DetectedCarrierType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
       "scoreBoost": 48
     },
     {
@@ -1726,8 +1726,8 @@ export const docsManifest: DocsManifest = {
       "slug": "guide/overview",
       "sectionId": "查询农历时间",
       "title": "查询农历时间",
-      "description": "查询农历时间 参数选项: **ts: ** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名",
-      "keywords": "UAPI C# SDK 社区版 开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide 查询农历时间 参数选项: **ts: ** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`Shanghai`、`Beijing`）。默认 `Asia/Shanghai`。 **返回类型:** `Task <UAPI.misc.LunarTimeType>` **返回值:** `LunarTimeType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
+      "description": "查询农历时间 参数选项: **ts:** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（",
+      "keywords": "UAPI C# SDK 社区版 开始使用 UAPI C# SDK 社区版 介绍 一个深度集成 UApi 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生. 贡献者: &nbsp;Rainbow SPY &nbsp;Shuakami License / 许可证 Copyright (©) AxT Team & UA readme guide 查询农历时间 参数选项: **ts:** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`Shanghai`、`Beijing`）。默认 `Asia/Shanghai`。 **返回类型:** `Task <UAPI.misc.LunarTimeType>` **返回值:** `LunarTimeType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
       "scoreBoost": 48
     },
     {
@@ -2620,7 +2620,7 @@ export const docsManifest: DocsManifest = {
       "slug": "games/steam-steamid",
       "title": "SteamID 便携方法",
       "description": "SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:",
-      "keywords": "游戏服务 SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1: Steam games SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:728234856 STEAM ID3 [U:1:1456469713] STEAM ID32 1456469713 STEAM ID64 76561199416735441 Link https://steamcommunity.com/id/Rainbow SPY 返回类型: string 返回值: 字符串格式的整数型好友代码 异常: ArgumentOutOfRangeException : 值超出变量列表时引发的异常 获取指定的 Steam 用户的在线状态 请求示例 参数选项: steamType : 通过 UAPI.Steam.GetUserData() 请求返回的 SteamType 对象 PersonaState : ????? 返回类型: string 返回值: 当前的在线状态 获取指定的 Steam 用户的社区可见性状态 请求示例 参数选项: steamType : 通过 UAPI.Steam.GetUserData() 请求返回的 SteamType 对象 返回类型: string 返回值: 公开 / 私密 获取 Steam 用户的个人资料状态 请求示例 参数选项: steamType : 通过 UAPI.Steam.GetUserData() 请求返回的 SteamType 对象 返回类型: string 返回值: 已填写个人资料 / 未填写个人资料 将任意 SteamID 转换为 SteamID32 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID32. 将任意 SteamID 转换为 SteamID64 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID64. 将任意 SteamID 转换为 SteamID32 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID3. 将任意 SteamID 转换为 SteamID1 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID32. SteamID 分析器 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:728234856 STEAM ID3 [U:1:1456469713] STEAM ID32 1456469713 STEAM ID64 76561199416735441 Link https://steamcommunity.com/id/Rainbow SPY 返回类型: SteamIDType 返回值: SteamIDType 对象 ID枚举 示例 : : : SteamIDType.SteamID STEAM 1:1:728234856 SteamIDType.SteamID3 [U:1:1456469713] SteamIDType.SteamID32 1456469713 SteamIDType.SteamID64 76561199416735441 SteamIDType.Invalid 无效的 SteamID",
+      "keywords": "游戏服务 SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1: Steam games SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:728234856 STEAM ID3 [U:1:1456469713] STEAM ID32 1456469713 STEAM ID64 76561199416735441 Link https://steamcommunity.com/id/Rainbow SPY 返回类型: string 返回值: 字符串格式的整数型好友代码 异常: ArgumentOutOfRangeException: 值超出变量列表时引发的异常 获取指定的 Steam 用户的在线状态 请求示例 参数选项: steamType : 通过 UAPI.Steam.GetUserData() 请求返回的 SteamType 对象 PersonaState : ????? 返回类型: string 返回值: 当前的在线状态 获取指定的 Steam 用户的社区可见性状态 请求示例 参数选项: steamType : 通过 UAPI.Steam.GetUserData() 请求返回的 SteamType 对象 返回类型: string 返回值: 公开 / 私密 获取 Steam 用户的个人资料状态 请求示例 参数选项: steamType : 通过 UAPI.Steam.GetUserData() 请求返回的 SteamType 对象 返回类型: string 返回值: 已填写个人资料 / 未填写个人资料 将任意 SteamID 转换为 SteamID32 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID32. 将任意 SteamID 转换为 SteamID64 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID64. 将任意 SteamID 转换为 SteamID32 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID3. 将任意 SteamID 转换为 SteamID1 请求示例 参数选项: SteamID : 任意一种的 SteamID. 返回类型: string 返回值: 字符串格式的整数型 SteamID32. SteamID 分析器 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1:728234856 STEAM ID3 [U:1:1456469713] STEAM ID32 1456469713 STEAM ID64 76561199416735441 Link https://steamcommunity.com/id/Rainbow SPY 返回类型: SteamIDType 返回值: SteamIDType 对象 ID枚举 示例 : : : SteamIDType.SteamID STEAM 1:1:728234856 SteamIDType.SteamID3 [U:1:1456469713] SteamIDType.SteamID32 1456469713 SteamIDType.SteamID64 76561199416735441 SteamIDType.Invalid 无效的 SteamID",
       "scoreBoost": 80
     },
     {
@@ -2640,7 +2640,7 @@ export const docsManifest: DocsManifest = {
       "sectionId": "请求示例",
       "title": "请求示例",
       "description": "请求示例 参数选项: **AnySteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 STEAM_ID ``` Regex: ^STEAM_[0-5]:[0",
-      "keywords": "SteamID 便携方法 游戏服务 SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1: Steam games 请求示例 参数选项: **AnySteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 STEAM_ID ``` Regex: ^STEAM_[0-5]:[01]:\\d+$``` STEAM_1:1:728234856 STEAM_ID3 ``` Regex: ^\\[U:1:([0-9]+)\\]$``` [U:1:1456469713] STEAM_ID32 ``` Regex: ^[0-9]{1,16}$``` 1456469713 STEAM_ID64 ``` Regex: ^7656[0-9]*$``` 76561199416735441 Link ```Regex: https://steamcommunity.com/*``` https://steamcommunity.com/id/Rainbow-SPY 返回类型: `string` 返回值: 字符串格式的整数型好友代码 异常: **ArgumentOutOfRangeException** : 值超出变量列表时引发的异常",
+      "keywords": "SteamID 便携方法 游戏服务 SteamID 便携方法 从任意 SteamID 格式中获取 Steam 好友代码 请求示例 参数选项: AnySteamID: 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 : : : : STEAM ID STEAM 1:1: Steam games 请求示例 参数选项: **AnySteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下: ID类型 正则表达式格式 示例 STEAM_ID ``` Regex: ^STEAM_[0-5]:[01]:\\d+$``` STEAM_1:1:728234856 STEAM_ID3 ``` Regex: ^\\[U:1:([0-9]+)\\]$``` [U:1:1456469713] STEAM_ID32 ``` Regex: ^[0-9]{1,16}$``` 1456469713 STEAM_ID64 ``` Regex: ^7656[0-9]*$``` 76561199416735441 Link ```Regex: https://steamcommunity.com/*``` https://steamcommunity.com/id/Rainbow-SPY 返回类型: `string` 返回值: 字符串格式的整数型好友代码 异常: **ArgumentOutOfRangeException:** 值超出变量列表时引发的异常",
       "scoreBoost": 48
     },
     {
@@ -2804,6 +2804,84 @@ export const docsManifest: DocsManifest = {
       "scoreBoost": 48
     },
     {
+      "id": "doc:utility/misc-detecttrackingcarrier",
+      "kind": "doc",
+      "slug": "utility/misc-detecttrackingcarrier",
+      "title": "????????????",
+      "description": "???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut",
+      "keywords": "通用能力 ???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut misc utility ???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? UnauthorizedAccessException: ????????? IException.General.UAPIUnknowException: ????? ???? ??? ??? ?? ?? : : : string code ??? string message ???? Data data ????? Data data ??? ??? ?? ?? ?? : : string tracking number ??????? string carrier code ?????????? string carrier name ?????????? List alternatives ???????????????????? List alternatives ??? ??? ?? ?? ?? : : string code ?????? string name ??????",
+      "scoreBoost": 80
+    },
+    {
+      "id": "section:utility/misc-detecttrackingcarrier:section-1",
+      "kind": "section",
+      "slug": "utility/misc-detecttrackingcarrier",
+      "sectionId": "section-1",
+      "title": "????",
+      "description": "???? ????: **tracking_number:** ???? **????:** `Task <UAPI.misc.DetectedCarrierType>` **???:** `DetectedCarrie",
+      "keywords": "???????????? 通用能力 ???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut misc utility ???? ????: **tracking_number:** ???? **????:** `Task <UAPI.misc.DetectedCarrierType>` **???:** `DetectedCarrierType` ?? **??:** `IException.General.UAPIServerDown`: ?????????? `UnauthorizedAccessException`: ????????? `IException.General.UAPIUnknowException`: ?????",
+      "scoreBoost": 48
+    },
+    {
+      "id": "section:utility/misc-detecttrackingcarrier:section-2",
+      "kind": "section",
+      "slug": "utility/misc-detecttrackingcarrier",
+      "sectionId": "section-2",
+      "title": "????",
+      "description": "????",
+      "keywords": "???????????? 通用能力 ???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut misc utility ????",
+      "scoreBoost": 48
+    },
+    {
+      "id": "section:utility/misc-detecttrackingcarrier:section-3",
+      "kind": "section",
+      "slug": "utility/misc-detecttrackingcarrier",
+      "sectionId": "section-3",
+      "title": "???",
+      "description": "??? ??? ?? ?? `string` **code** ??? `string` **message** ???? `Data` **data** ?????",
+      "keywords": "???????????? 通用能力 ???????????? ???? ????: tracking number: ???? ????: Task ???: DetectedCarrierType ?? ??: IException.General.UAPIServerDown: ?????????? Unaut misc utility ??? ??? ?? ?? `string` **code** ??? `string` **message** ???? `Data` **data** ?????",
+      "scoreBoost": 48
+    },
+    {
+      "id": "doc:utility/misc-getphoneinfo",
+      "kind": "doc",
+      "slug": "utility/misc-getphoneinfo",
+      "title": "????????????",
+      "description": "???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ?????????? ",
+      "keywords": "通用能力 ???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ??????????  misc utility ???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ?????????? UnauthorizedAccessException: ????????? IException.General.UAPIUnknowException: ????? ???? ??? ??? ?? ?? : : : string province ????? string city ???????? string sp ?????",
+      "scoreBoost": 80
+    },
+    {
+      "id": "section:utility/misc-getphoneinfo:section-1",
+      "kind": "section",
+      "slug": "utility/misc-getphoneinfo",
+      "sectionId": "section-1",
+      "title": "????",
+      "description": "???? ????: **phoneNumber:** ?????????? 11 ????? **????:** `Task <UAPI.misc.PhoneInfoType>` **???:** `PhoneInfo",
+      "keywords": "???????????? 通用能力 ???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ??????????  misc utility ???? ????: **phoneNumber:** ?????????? 11 ????? **????:** `Task <UAPI.misc.PhoneInfoType>` **???:** `PhoneInfoType` ?? **??:** `IException.General.UAPIServerDown`: ?????????? `UnauthorizedAccessException`: ????????? `IException.General.UAPIUnknowException`: ?????",
+      "scoreBoost": 48
+    },
+    {
+      "id": "section:utility/misc-getphoneinfo:section-2",
+      "kind": "section",
+      "slug": "utility/misc-getphoneinfo",
+      "sectionId": "section-2",
+      "title": "????",
+      "description": "????",
+      "keywords": "???????????? 通用能力 ???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ??????????  misc utility ????",
+      "scoreBoost": 48
+    },
+    {
+      "id": "section:utility/misc-getphoneinfo:section-3",
+      "kind": "section",
+      "slug": "utility/misc-getphoneinfo",
+      "sectionId": "section-3",
+      "title": "???",
+      "description": "??? ??? ?? ?? `string` **province** ????? `string` **city** ???????? `string` **sp** ?????",
+      "keywords": "???????????? 通用能力 ???????????? ???? ????: phoneNumber: ?????????? 11 ????? ????: Task ???: PhoneInfoType ?? ??: IException.General.UAPIServerDown: ??????????  misc utility ??? ??? ?? ?? `string` **province** ????? `string` **city** ???????? `string` **sp** ?????",
+      "scoreBoost": 48
+    },
+    {
       "id": "doc:utility/misc-gettrackinginfo",
       "kind": "doc",
       "slug": "utility/misc-gettrackinginfo",
@@ -2857,8 +2935,8 @@ export const docsManifest: DocsManifest = {
       "slug": "utility/misc-getlunartime",
       "sectionId": "请求示例",
       "title": "请求示例",
-      "description": "请求示例 参数选项: **ts: ** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`",
-      "keywords": "查询农历时间 通用能力 查询农历时间 请求示例 参数选项: ts: Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 timezone : 时区名称。支持 IANA 时区（如 Asia/Shanghai）和别名（Shanghai、Beijing）。默认 Asia/Shanghai misc utility 请求示例 参数选项: **ts: ** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`Shanghai`、`Beijing`）。默认 `Asia/Shanghai`。 **返回类型:** `Task <UAPI.misc.LunarTimeType>` **返回值:** `LunarTimeType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`: 未知的异常",
+      "description": "请求示例 参数选项: **ts:** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`S",
+      "keywords": "查询农历时间 通用能力 查询农历时间 请求示例 参数选项: ts: Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 timezone : 时区名称。支持 IANA 时区（如 Asia/Shanghai）和别名（Shanghai、Beijing）。默认 Asia/Shanghai misc utility 请求示例 参数选项: **ts:** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。 **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`Shanghai`、`Beijing`）。默认 `Asia/Shanghai`。 **返回类型:** `Task <UAPI.misc.LunarTimeType>` **返回值:** `LunarTimeType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`: 未知的异常",
       "scoreBoost": 48
     },
     {
@@ -2957,45 +3035,6 @@ export const docsManifest: DocsManifest = {
       "title": "根属性",
       "description": "根属性 属性值 注释 备注 `string` **query** 查询的时区 `string` **timezone** 时区 `string` **datetime** 查询时区的当前时间 `string` **wee",
       "keywords": "获取全球指定时区的当地时间 通用能力 获取全球指定时区的当地时间 请求示例 参数选项: region: 指定要查询天气的城市, 格式为 七大洲之一/地区 或 直接输入地区 例: Asia/Shanghai, America/New York, Tokyo 返回类型: Task 返回值: WorldTimeType 对 misc utility 根属性 属性值 注释 备注 `string` **query** 查询的时区 `string` **timezone** 时区 `string` **datetime** 查询时区的当前时间 `string` **weekday** 星期 `long` **timestamp_unix** 查询时区的当前 Unix 时间 `int` **offset_seconds** 时区秒数偏移量 计算公式: 3600 x \\$UTC<br/>以北京时间 UTC+8为例: 3600 x 8 = 28800 `string` **offset_string** 查询时区的偏移字符串值 例: (UTC8)",
-      "scoreBoost": 48
-    },
-    {
-      "id": "doc:utility/misc-getphoneinfo",
-      "kind": "doc",
-      "slug": "utility/misc-getphoneinfo",
-      "title": "获取手机号码的归属地信息",
-      "description": "获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U",
-      "keywords": "通用能力 获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 属性列表 根属性 属性值 注释 备注 : : : ` $ $ 嵌套类 属性值 注释 示例 备注 : : `",
-      "scoreBoost": 80
-    },
-    {
-      "id": "section:utility/misc-getphoneinfo:请求示例",
-      "kind": "section",
-      "slug": "utility/misc-getphoneinfo",
-      "sectionId": "请求示例",
-      "title": "请求示例",
-      "description": "请求示例 参数选项: **phoneNumber:** 指定要查询的中国大陆的11位手机号码 **返回类型:** `Task <UAPI.misc.PhoneInfoType>` **返回值:** `PhoneInfoT",
-      "keywords": "获取手机号码的归属地信息 通用能力 获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 请求示例 参数选项: **phoneNumber:** 指定要查询的中国大陆的11位手机号码 **返回类型:** `Task <UAPI.misc.PhoneInfoType>` **返回值:** `PhoneInfoType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
-      "scoreBoost": 48
-    },
-    {
-      "id": "section:utility/misc-getphoneinfo:属性列表",
-      "kind": "section",
-      "slug": "utility/misc-getphoneinfo",
-      "sectionId": "属性列表",
-      "title": "属性列表",
-      "description": "属性列表",
-      "keywords": "获取手机号码的归属地信息 通用能力 获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 属性列表",
-      "scoreBoost": 48
-    },
-    {
-      "id": "section:utility/misc-getphoneinfo:根属性",
-      "kind": "section",
-      "slug": "utility/misc-getphoneinfo",
-      "sectionId": "根属性",
-      "title": "根属性",
-      "description": "根属性 属性值 注释 备注 `` **** `` **** `` ****",
-      "keywords": "获取手机号码的归属地信息 通用能力 获取手机号码的归属地信息 请求示例 参数选项: phoneNumber: 指定要查询的中国大陆的11位手机号码 返回类型: Task 返回值: PhoneInfoType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 根属性 属性值 注释 备注 `` **** `` **** `` ****",
       "scoreBoost": 48
     },
     {
@@ -3116,51 +3155,12 @@ export const docsManifest: DocsManifest = {
       "scoreBoost": 48
     },
     {
-      "id": "doc:utility/misc-detecttrackingcarrier",
-      "kind": "doc",
-      "slug": "utility/misc-detecttrackingcarrier",
-      "title": "通过快递单号识别快递公司",
-      "description": "通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut",
-      "keywords": "通用能力 通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut misc utility 通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 属性列表 根属性 属性值 注释 备注 : : : string code 返回值 string message 返回消息 Data data 返回的数据 Data data 嵌套类 属性值 注释 示例 备注 : : string tracking number 查询的快递单号 string carrier code 最可能的快递公司编码 string carrier name 最可能的快递公司名称 List alternatives 其他可能的快递公司列表（如果存在） List alternatives 嵌套类 属性值 注释 示例 备注 : : string code 快递公司编码 string name 快递公司名称",
-      "scoreBoost": 80
-    },
-    {
-      "id": "section:utility/misc-detecttrackingcarrier:请求示例",
-      "kind": "section",
-      "slug": "utility/misc-detecttrackingcarrier",
-      "sectionId": "请求示例",
-      "title": "请求示例",
-      "description": "请求示例 参数选项: **tracking_number: ** 快递单号 **返回类型:** `Task <UAPI.misc.DetectedCarrierType>` **返回值:** `DetectedCarri",
-      "keywords": "通过快递单号识别快递公司 通用能力 通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut misc utility 请求示例 参数选项: **tracking_number: ** 快递单号 **返回类型:** `Task <UAPI.misc.DetectedCarrierType>` **返回值:** `DetectedCarrierType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
-      "scoreBoost": 48
-    },
-    {
-      "id": "section:utility/misc-detecttrackingcarrier:属性列表",
-      "kind": "section",
-      "slug": "utility/misc-detecttrackingcarrier",
-      "sectionId": "属性列表",
-      "title": "属性列表",
-      "description": "属性列表",
-      "keywords": "通过快递单号识别快递公司 通用能力 通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut misc utility 属性列表",
-      "scoreBoost": 48
-    },
-    {
-      "id": "section:utility/misc-detecttrackingcarrier:根属性",
-      "kind": "section",
-      "slug": "utility/misc-detecttrackingcarrier",
-      "sectionId": "根属性",
-      "title": "根属性",
-      "description": "根属性 属性值 注释 备注 `string` **code** 返回值 `string` **message** 返回消息 `Data` **data** 返回的数据",
-      "keywords": "通过快递单号识别快递公司 通用能力 通过快递单号识别快递公司 请求示例 参数选项: tracking number: 快递单号 返回类型: Task 返回值: DetectedCarrierType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Unaut misc utility 根属性 属性值 注释 备注 `string` **code** 返回值 `string` **message** 返回消息 `Data` **data** 返回的数据",
-      "scoreBoost": 48
-    },
-    {
       "id": "doc:utility/misc-converttimestamp",
       "kind": "doc",
       "slug": "utility/misc-converttimestamp",
       "title": "转换 Unix 时间戳",
-      "description": "转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U",
-      "keywords": "通用能力 转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 属性列表 根属性 属性值 注释 备注 : : : string input 输入的值 string type 转换的类型 long unix timestamp Unix 时间戳 string datetime utc UTC+0:00 (世界协调时间) 格式的字符串 string datetime local 以IP地址推断的世界协调时间的本地时间 在中国一般指北京时间 UTC +8:00",
+      "description": "转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un",
+      "keywords": "通用能力 转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un misc utility 转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 UnauthorizedAccessException: 未经授权的请求操作 IException.General.UAPIUnknowException: 未知的异常 属性列表 根属性 属性值 注释 备注 : : : string input 输入的值 string type 转换的类型 long unix timestamp Unix 时间戳 string datetime utc UTC+0:00 (世界协调时间) 格式的字符串 string datetime local 以IP地址推断的世界协调时间的本地时间 在中国一般指北京时间 UTC +8:00",
       "scoreBoost": 80
     },
     {
@@ -3169,8 +3169,8 @@ export const docsManifest: DocsManifest = {
       "slug": "utility/misc-converttimestamp",
       "sectionId": "请求示例",
       "title": "请求示例",
-      "description": "请求示例 参数选项: **ts** : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `Timestamp",
-      "keywords": "转换 Unix 时间戳 通用能力 转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 请求示例 参数选项: **ts** : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `TimestampType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
+      "description": "请求示例 参数选项: **ts:** Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `TimestampT",
+      "keywords": "转换 Unix 时间戳 通用能力 转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un misc utility 请求示例 参数选项: **ts:** Unix 时间戳, 支持10位（秒）或13位（毫秒）。 **返回类型:** `Task <UAPI.misc.TimestampType>` **返回值:** `TimestampType` 对象 **异常:** `IException.General.UAPIServerDown`: 请求源服务器发生错误 `UnauthorizedAccessException`: 未经授权的请求操作 `IException.General.UAPIUnknowException`:  未知的异常",
       "scoreBoost": 48
     },
     {
@@ -3180,7 +3180,7 @@ export const docsManifest: DocsManifest = {
       "sectionId": "属性列表",
       "title": "属性列表",
       "description": "属性列表",
-      "keywords": "转换 Unix 时间戳 通用能力 转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 属性列表",
+      "keywords": "转换 Unix 时间戳 通用能力 转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un misc utility 属性列表",
       "scoreBoost": 48
     },
     {
@@ -3190,7 +3190,7 @@ export const docsManifest: DocsManifest = {
       "sectionId": "根属性",
       "title": "根属性",
       "description": "根属性 属性值 注释 备注 `string` **input** 输入的值 `string` **type** 转换的类型 `long` **unix_timestamp** Unix 时间戳 `string` **da",
-      "keywords": "转换 Unix 时间戳 通用能力 转换 Unix 时间戳 请求示例 参数选项: ts : Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 U misc utility 根属性 属性值 注释 备注 `string` **input** 输入的值 `string` **type** 转换的类型 `long` **unix_timestamp** Unix 时间戳 `string` **datetime_utc** UTC+0:00 (世界协调时间) 格式的字符串 `string` **datetime_local** 以IP地址推断的世界协调时间的本地时间 在中国一般指北京时间 UTC +8:00",
+      "keywords": "转换 Unix 时间戳 通用能力 转换 Unix 时间戳 请求示例 参数选项: ts: Unix 时间戳, 支持10位（秒）或13位（毫秒）。 返回类型: Task 返回值: TimestampType 对象 异常: IException.General.UAPIServerDown: 请求源服务器发生错误 Un misc utility 根属性 属性值 注释 备注 `string` **input** 输入的值 `string` **type** 转换的类型 `long` **unix_timestamp** Unix 时间戳 `string` **datetime_utc** UTC+0:00 (世界协调时间) 格式的字符串 `string` **datetime_local** 以IP地址推断的世界协调时间的本地时间 在中国一般指北京时间 UTC +8:00",
       "scoreBoost": 48
     },
     {
