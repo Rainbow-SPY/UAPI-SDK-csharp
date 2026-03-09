@@ -4,6 +4,4 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea/
-docs/
-docs-site/
 *.nupkg
