@@ -12,7 +12,7 @@ namespace UAPI
         /// </summary>
         public class ReposType : Interface.TypeInterface
         {
-            private string _visibility;
+            private string _visibility = "private";
 
             /// <summary>
             /// 完整名称
@@ -48,11 +48,12 @@ namespace UAPI
             /// 可见性
             /// </summary>
             [JsonProperty("visibility")]
-            public bool Visibility
-            {
-                get => _visibility == "Public";
-                set => _visibility = value ? "public" : _visibility;
-            }
+            public string Visibility { get; set; }
+
+            /// <summary>
+            /// 仓库是否为公开
+            /// </summary>
+            public bool IsPublic => Visibility == "public";
 
             /// <summary>
             /// 是否归档

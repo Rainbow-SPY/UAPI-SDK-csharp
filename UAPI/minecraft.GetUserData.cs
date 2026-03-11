@@ -14,11 +14,13 @@ namespace UAPI
         /// 获取 Minecraft 正版 Mojang 账号的数据
         /// </summary>
         /// <param name="username">Minecraft 用户名</param>
+        /// <param name="Authentication">API Token</param>
         /// <exception cref="UAPI.IException.minecraft.MojangAPIServiceError()"> Mojang API 上游服务异常, 这可能是他们的服务暂时中断.</exception>
         /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string username)
+        public static async Task<UserType> GetUserData(string username, string Authentication = "")
         {
-            var (result, statusCode) = await Interface.GetResult<UserType>($"{requestUrl}?username={username}");
+            var (result, statusCode) =
+                await Interface.GetResult<UserType>($"{requestUrl}?username={username}", Authentication);
             if (!Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",
                     IException.minecraft._Mojang_API_Service_Error))

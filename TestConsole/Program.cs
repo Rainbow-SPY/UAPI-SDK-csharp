@@ -16,8 +16,6 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
-            ASs();
-            Console.ReadLine();
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
             Thread.Sleep((2000));
@@ -32,7 +30,7 @@ namespace TestConsole
             TestQQGroupData().Wait();
             TestSteamUserData().Wait();
             TestWeatherData().Wait();
-            Task.Run(EpicGames.GetDataJson).Wait();
+            TestEpic().Wait();
             TestGithubRepoData().Wait();
             _stopwatch.Reset();
         }
@@ -43,9 +41,14 @@ namespace TestConsole
             Thread.Sleep(2000);
         }
 
+        public static async Task TestEpic()
+        {
+            var a = await EpicGames.GetDataJson();
+        }
+
         public static void ASs()
         {
-            string text = "1f74bf9079b58865";
+            const string text = "1f74bf9079b58865";
             WriteLog.Info($"token: {text}");
             WriteLog.Info("公钥: " + Interface.GetAssemblyPublicKeyToken("Rox.Runtimes.dll"));
             var en = Interface.Security.EncryptAPIKey(text);
@@ -202,7 +205,7 @@ namespace TestConsole
                 }
 
                 message += $"\n视频所属子分区: {(string.IsNullOrEmpty(a.tname) ? "其他" : a.tname)}, ID: {a.tid}" +
-                           $"\n视频版权: {a.Copyright}" +
+                           $"\n视频版权: {a.CopyrightType}" +
                            $"\n视频封面链接: {a.CoverImageUrl}" +
                            $"\n视频标题: {a.title}" +
                            $"\n视频单P弹幕ID: {a.cid}" +
@@ -613,7 +616,8 @@ namespace TestConsole
                               $"默认分支: {a.DefaultBranch}\n" +
                               $"默认分支SHA值: {a.DefaultBranchSHAHash}\n" +
                               $"主要分支: {a.PrimaryBranch}\n" +
-                              $"可见性: {a.Visibility}\n" +
+                              $"可见性: {a?.Visibility}\n" +
+                              $"仓库是否为公开: {a.IsPublic}\n" +
                               $"是否为存档: {a.IsArchived}\n" +
                               $"是否禁用: {a.IsDisabled}\n" +
                               $"是否为Fork的仓库: {a.IsForked}\n" +
@@ -641,7 +645,8 @@ namespace TestConsole
             }
             catch (Exception e)
             {
-                CatchAnyException("GetGithubRepos Data", e);
+                //CatchAnyException("GetGithubRepos Data", e);
+                throw;
             }
         }
     }

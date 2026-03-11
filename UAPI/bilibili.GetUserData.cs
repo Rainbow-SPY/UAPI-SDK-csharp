@@ -22,10 +22,12 @@ namespace UAPI
         /// 获取bilibili用户的相关公开数据
         /// </summary>
         /// <param name="uid">bilibili UUID</param>
+        /// <param name="Authentication">API Token</param>
         /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string uid)
+        public static async Task<UserType> GetUserData(string uid, string Authentication = "")
         {
-            var (result, statuscode) = await Interface.GetResult<UserType>($"{requestUrl_Main}userinfo?uid={uid}");
+            var (result, statuscode) =
+                await Interface.GetResult<UserType>($"{requestUrl_Main}userinfo?uid={uid}", Authentication);
             if (!Interface.IsGetSuccessful(result, "uid", statuscode, new IException.bilibili.BilibiliServiceError(),
                     "bilibili", IException.bilibili._Bilibili_Service_Error)) LogLibraries.WriteLog.Info("请求错误,请重试");
             return result;

@@ -12,11 +12,13 @@ namespace UAPI
         /// <param name="ts">Unix 时间戳</param>
         /// <returns><see cref="TimestampType"/> 对象</returns>
         [Obsolete("这个接口已被新的 /convert/unixtime 取代。新接口功能更强大，支持双向转换。我们建议你迁移到新接口")]
-        public static async Task<TimestampType> CovertTimestamp(string ts)
+        public static async Task<TimestampType> CovertTimestamp(string ts, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<TimestampType>($"https://uapis.cn/api/v1/misc/timestamp?ts={ts}");
-            if (!Interface.IsGetSuccessful(result,"ts",statusCode,new IException.General.UAPIUnknowException(),"ConvertTimestamp",IException.General._UAPI_Server_Down))
+                await Interface.GetResult<TimestampType>($"https://uapis.cn/api/v1/misc/timestamp?ts={ts}",
+                    Authentication);
+            if (!Interface.IsGetSuccessful(result, "ts", statusCode, new IException.General.UAPIUnknowException(),
+                    "ConvertTimestamp", IException.General._UAPI_Server_Down))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;
         }

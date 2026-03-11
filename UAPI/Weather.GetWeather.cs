@@ -50,10 +50,11 @@ namespace UAPI
         /// <param name="forecast">是否返回预报数据(当日最高/最低气温及未来3天天气预报)。</param>
         /// <param name="hourly">逐小时预报 (24小时)，含温度、天气、风向风速、湿度、降水概率等</param>
         /// <param name="minutely">分钟级降水预报 (仅国内城市)，每5分钟一个数据点，共24个</param>
+        /// <param name="AuthenticationAPITokenKey">API Token</param>
         /// <returns><see cref="WeatherType"/> 类型的 <see cref="Json"/> 对象</returns>
         private static async Task<WeatherType> SendMessageRequest(string city_Or_adcode, string param,
             bool extended = false, bool indices = false, bool forecast = false, bool hourly = false,
-            bool minutely = false)
+            bool minutely = false, string AuthenticationAPITokenKey = "")
         {
             var requestUrl = $"https://uapis.cn/api/v1/misc/weather?{param}={city_Or_adcode}" +
                              (extended ? "&extended=true" : "") +
@@ -61,7 +62,7 @@ namespace UAPI
                              (forecast ? "&forecast=true" : "") +
                              (hourly ? "&hourly=true" : "") +
                              (minutely ? "&minutely=true" : "");
-            var (result, statusCode) = await Interface.GetResult<WeatherType>(requestUrl);
+            var (result, statusCode) = await Interface.GetResult<WeatherType>(requestUrl, AuthenticationAPITokenKey);
             if (!Interface.IsGetSuccessful(result, "city_or_adcode", statusCode,
                     new IException.Weather.WeatherServiceError(), "天气供应商", _Weather_Service_Error))
                 WriteLog.Error(("请求失败, 请重试"));

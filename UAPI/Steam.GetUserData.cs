@@ -17,10 +17,11 @@ namespace UAPI
         /// </summary>
         /// <param name="SteamID"> 其中一种的 <see cref="SteamIDType"/></param>
         /// <param name="key">Steam Web API Key</param>
+        /// <param name="Authentication">API Token</param>
         /// <exception cref="UAPI.IException.Steam.SteamServiceError">Steam 上游服务异常</exception>
         /// <exception cref="UAPI.IException.General.UAPIServerDown">UAPI服务错误</exception>
         /// <returns><see cref="SteamType"/> 对象</returns>
-        public static async Task<SteamType> GetUserData(string SteamID, string key = null)
+        public static async Task<SteamType> GetUserData(string SteamID, string key = null, string Authentication = "")
         {
             if (string.IsNullOrEmpty(SteamID))
             {
@@ -85,11 +86,12 @@ namespace UAPI
             }
         }
 
-        private static async Task<SteamType> SendQueryMessage(string Type, string SteamID64, string key)
+        private static async Task<SteamType> SendQueryMessage(string Type, string SteamID64, string key,
+            string Authentication = "")
         {
             var requestUrl =
                 $"https://uapis.cn/api/v1/game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";
-            var (result, statusCode) = await Interface.GetResult<SteamType>(requestUrl);
+            var (result, statusCode) = await Interface.GetResult<SteamType>(requestUrl, Authentication);
             if (!Interface.IsGetSuccessful(result, "SteamID", statusCode,
                     new IException.Steam.SteamServiceError(), "Steam", _Steam_Service_Error))
                 WriteLog.Error("请求失败,请重试");

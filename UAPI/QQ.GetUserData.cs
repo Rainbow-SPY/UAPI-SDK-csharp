@@ -31,9 +31,10 @@ namespace UAPI
         /// 获取QQ用户公开摘要
         /// </summary>
         /// <param name="qq">QQ号</param>
+        /// <param name="Authentication">API Token</param>
         /// <exception cref="UAPI.IException.QQ.QQServiceError()">QQ 上游服务发生异常, 这可能是他们的服务暂时中断</exception>
         /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string qq)
+        public static async Task<UserType> GetUserData(string qq, string Authentication = "")
         {
             if (string.IsNullOrEmpty(qq))
             {
@@ -41,7 +42,8 @@ namespace UAPI
                 return null;
             }
 
-            var (result, statusCode) = await Interface.GetResult<UserType>($"{_UAPI_Request_Url}userinfo?qq={qq}");
+            var (result, statusCode) =
+                await Interface.GetResult<UserType>($"{_UAPI_Request_Url}userinfo?qq={qq}", Authentication);
             if (!Interface.IsGetSuccessful(result, "qq", statusCode, new IException.QQ.QQServiceError(),
                     "QQ", IException.QQ._QQ_Service_Error))
                 WriteLog.Error(LogKind.Http, "请求失败, 请重试");

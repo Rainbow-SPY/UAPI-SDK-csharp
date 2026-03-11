@@ -109,7 +109,7 @@ namespace UAPI
                 /// <summary>
                 /// 是否为充电视频, 直接返回字符串 免费 or 付费
                 /// </summary>
-                public string IsPayVideo_str => IsPayVideo ? "免费" : "付费";
+                public string IsPayVideo_str => IsPayVideo ? "付费" : "免费";
 
                 /// <summary>
                 /// 是否为共创视频

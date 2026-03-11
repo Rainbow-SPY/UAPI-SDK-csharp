@@ -43,7 +43,7 @@ namespace UAPI
             /// <summary>
             /// 视频版权类型 原创/转载
             /// </summary>
-            public string Copyright => _copyright == 1
+            public string CopyrightType => _copyright == 1
                 ? "原创"
                 : (_copyright == 2
                     ? "转载"

@@ -15,9 +15,10 @@ namespace UAPI
         /// 获取网易云音乐歌曲的热榜
         /// </summary>
         /// <returns></returns>
-        public static async Task<NeteaseType> GetNeteaseMusicHotboard()
+        public static async Task<NeteaseType> GetNeteaseMusicHotboard(string Authentication = "")
         {
-            var (result, statusCode) = await Interface.GetResult<NeteaseType>($"{_Request_Url}?type=netease-music");
+            var (result, statusCode) =
+                await Interface.GetResult<NeteaseType>($"{_Request_Url}?type=netease-music", Authentication);
             if (!Interface.IsGetSuccessful(result, "none", statusCode,
                     new Hotboard.HotboardUpstreamServiceError(), "Netease-Music Hotboard"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试!");
