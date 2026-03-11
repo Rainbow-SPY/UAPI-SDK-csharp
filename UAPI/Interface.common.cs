@@ -87,8 +87,9 @@ namespace UAPI
             }
             catch (Exception e)
             {
-                LogLibraries.WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
-                return (null, -1);
+                //LogLibraries.WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
+                //return (null, -1);
+                throw;
             }
         }
 

@@ -11,11 +11,14 @@ namespace UAPI
         /// <param name="_param">昵称或UUID</param>
         /// <exception cref="UAPI.IException.minecraft.MojangAPIServiceError()"> Mojang API 上游服务异常, 这可能是他们的服务暂时中断.</exception>
         /// <param name="searchType">指定以何种方式查询</param>
+        /// <param name="Authentication">API Token</param>
         /// <returns></returns>
-        public static async Task<HistoryType> GetHistoryName(string _param, SearchType searchType)
+        public static async Task<HistoryType> GetHistoryName(string _param, SearchType searchType,
+            string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<HistoryType>(
-                $"https://uapis.cn/api/v1/game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}");
+                $"https://uapis.cn/api/v1/game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}",
+                Authentication);
             if (!Interface.IsGetSuccessful(result, "name_or_uuid", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",
                     IException.minecraft._Mojang_API_Service_Error))

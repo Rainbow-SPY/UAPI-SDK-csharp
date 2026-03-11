@@ -10,10 +10,11 @@ namespace UAPI
         /// 获取程序员历史上的今天的事件
         /// </summary>
         /// <returns><see cref="HistoryTodayType"/> 对象</returns>
-        public static async Task<HistoryTodayType> GetProgrammerHistoryToday()
+        public static async Task<HistoryTodayType> GetProgrammerHistoryToday(string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<HistoryTodayType>($"https://uapis.cn/api/v1/history/programmer/today");
+                await Interface.GetResult<HistoryTodayType>($"https://uapis.cn/api/v1/history/programmer/today",
+                    Authentication);
             if (!Interface.IsGetSuccessful(result, "none", statusCode, new General.UAPIUnknowException(),
                     "GetProgrammerHistoryToday"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");

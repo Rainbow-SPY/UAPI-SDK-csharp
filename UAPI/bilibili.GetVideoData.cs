@@ -10,11 +10,14 @@ namespace UAPI
         /// </summary>
         /// <param name="video_id">视频AID/BVID</param>
         /// <param name="IDType">视频ID的类型</param>
+        /// <param name="Authentication">API Token</param>
         /// <returns><see cref="VideoType"/> 对象</returns>
-        public static async Task<VideoType> GetVideoData(string video_id, BiliVideoIDType IDType)
+        public static async Task<VideoType> GetVideoData(string video_id, BiliVideoIDType IDType,
+            string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<VideoType>(
-                $"https://uapis.cn/api/v1/social/bilibili/videoinfo?{(IDType.ToString().ToLower() == "bvid" ? "bvid" : "aid")}={video_id}");
+                $"https://uapis.cn/api/v1/social/bilibili/videoinfo?{(IDType.ToString().ToLower() == "bvid" ? "bvid" : "aid")}={video_id}",
+                Authentication);
             if (!Interface.IsGetSuccessful(result, "aid_or_bvid", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",
                     IException.bilibili._Bilibili_Service_Error)) LogLibraries.WriteLog.Error("请求失败,请重试!");

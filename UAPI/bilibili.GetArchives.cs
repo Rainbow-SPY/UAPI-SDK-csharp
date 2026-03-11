@@ -27,13 +27,15 @@ namespace UAPI
         /// <param name="orderby">以何种方式排列</param>
         /// <param name="ps">每页的条数,默认20</param>
         /// <param name="pn">页码,默认1</param>
+        /// <param name="Authentication">API Token</param>
         /// <returns><see cref="ArchiveType"/> 对象</returns>
         public static async Task<ArchiveType> GetArchives(string mid,
             ArchivesSearchType orderby = ArchivesSearchType.Pubdate, string keywords = "",
-            int ps = 20, int pn = 1)
+            int ps = 20, int pn = 1, string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<ArchiveType>(
-                $"{requestUrl_Main}archives?mid={mid}&orderby={orderby}&ps={ps}&pn={pn}&keywords={keywords}");
+                $"{requestUrl_Main}archives?mid={mid}&orderby={orderby}&ps={ps}&pn={pn}&keywords={keywords}",
+                Authentication);
             if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",
                     IException.bilibili._Bilibili_Service_Error))

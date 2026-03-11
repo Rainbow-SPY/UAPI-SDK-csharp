@@ -15,12 +15,14 @@ namespace UAPI
         /// <param name="allow_repeat">是否允许生成的多个数字中出现重复值。</param>
         /// <param name="allow_decimal">是否生成小(浮点)数。如果为 false，则只生成整数。</param>
         /// <param name="decimal_places">如果 allow_decimal=true，这里可以指定小数的位数。</param>
-        /// <returns></returns>
+        /// <param name="Authentication">API Token</param>
+        /// <returns><see cref="RandomNumberType"/> Object</returns>
         public static async Task<RandomNumberType> GetRandomNumberList(int min = 0, int max = 0, int count = 0,
-            bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0)
+            bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0, string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<RandomNumberType>(
-                $"{_Request_Url}randomnumber?min={min}&max={max}&count={count}&allow_repeat={allow_repeat}&allow_decimal={allow_decimal}&decimal_places={decimal_places}");
+                $"{_Request_Url}randomnumber?min={min}&max={max}&count={count}&allow_repeat={allow_repeat}&allow_decimal={allow_decimal}&decimal_places={decimal_places}",
+                Authentication);
             if (!Interface.IsGetSuccessful(result, "number", statusCode, new General.UAPIUnknowException(),
                     "GetRandomNumberList"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");
