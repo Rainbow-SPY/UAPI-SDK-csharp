@@ -32,13 +32,14 @@ namespace UAPI
         /// <returns>泛式对象 <see cref="T"/></returns>
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl,
             SendRequestType type = SendRequestType.GET, string postContent = "",
-            string contentType = "application/json",string AuthenticationAPITokenKey = "") where T : class
+            string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
                     HttpResponseMessage response;
                     if (type == SendRequestType.GET)
                         response = await httpClient.GetAsync(requestUrl);
@@ -91,6 +92,30 @@ namespace UAPI
             }
         }
 
+        /// <summary>
+        /// 公共API 获取请求
+        /// </summary>
+        /// <param name="requestUrl">请求的API Url</param>
+        /// <param name="AuthenticationAPITokenKey">API Token Key</param>
+        /// <typeparam name="T">泛式类型</typeparam>
+        /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
+        /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
+        /// <returns>泛式对象 <see cref="T"/></returns>
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl,
+            string AuthenticationAPITokenKey = "") where T : class => await
+            GetResult<T>(requestUrl, SendRequestType.GET, "", "application/json", AuthenticationAPITokenKey);
+
+        /// <summary>
+        /// 公共API 获取请求, 默认为 GET 请求
+        /// </summary>
+        /// <param name="requestUrl">请求的API Url</param>
+        /// <typeparam name="T">泛式类型</typeparam>
+        /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
+        /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
+        /// <returns>泛式对象 <see cref="T"/></returns>
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
+            GetResult<T>(requestUrl, SendRequestType.GET, "", "application/json", "");
+
         internal enum SendRequestType
         {
             GET,
@@ -133,8 +158,11 @@ namespace UAPI
                     LogLibraries.WriteLog.Error("UnAuthorized", "未经授权的操作");
                     throw new UnauthorizedAccessException("未经授权的操作");
                 case 429:
-                    LogLibraries.WriteLog.Error("Too Many Requests",$"因请求量太大, 限制了您的请求, 错误代码: 429 Too Many Requests, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
-                    LogLibraries.MessageBox_I.Error($"因请求量太大, 限制了您的请求, 错误代码: 429 Too Many Requests, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",_ERROR);
+                    LogLibraries.WriteLog.Error("Too Many Requests",
+                        $"因请求量太大, 限制了您的请求, 错误代码: 429 Too Many Requests, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+                    LogLibraries.MessageBox_I.Error(
+                        $"因请求量太大, 限制了您的请求, 错误代码: 429 Too Many Requests, 错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
+                        _ERROR);
                     break;
                 case 403:
                     LogLibraries.WriteLog.Warning(LogLibraries.LogKind.Network, "您已被限制请求, 因 请求量过大.");

@@ -17,10 +17,10 @@ namespace UAPI
         /// 请求Epic Games 当前免费游戏的方法
         /// </summary>
         /// <returns><see cref="EpicType"/> 对象</returns>
-        public static async Task<EpicType> GetDataJson()
+        public static async Task<EpicType> GetDataJson(string AuthenticationAPITokenKey = "")
         {
             const string requestUrl = @"https://uapis.cn/api/v1/game/epic-free";
-            var (result, statuscode) = await Interface.GetResult<EpicType>(requestUrl);
+            var (result, statuscode) = await Interface.GetResult<EpicType>(requestUrl, AuthenticationAPITokenKey);
             if (!Interface.IsGetSuccessful(result, "", statuscode,
                     new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games"))
                 WriteLog.Error("请求失败, 请重试");
