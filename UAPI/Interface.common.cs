@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -87,9 +88,8 @@ namespace UAPI
             }
             catch (Exception e)
             {
-                //LogLibraries.WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
-                //return (null, -1);
-                throw;
+                LogLibraries.WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
+                return (null, -1);
             }
         }
 
@@ -117,10 +117,82 @@ namespace UAPI
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
             GetResult<T>(requestUrl, SendRequestType.GET, "", "application/json", "");
 
+        internal static async Task<(List<>)>
+
         internal enum SendRequestType
         {
             GET,
             POST
+        }
+
+        internal class Header
+        {
+            //访客：
+            //UAPI-Billing-Source: visitor
+            //X-UAPI-Debit-Status: applied | exempt | quota_exhausted | skipped_non_2xx | free_endpoint
+            //X-UAPI-Credits-Requested: <本次应扣积分>
+            //X-UAPI-Credits-Charged: <本次实际扣掉的积分>
+            //X-UAPI-Credits-Exempt: 0 | 1
+            //X-UAPI-Quota-Remaining: <访客月剩余额度>
+            //X-UAPI-Balance-Remaining: 0
+            //X-UAPI-Quota-Active-Buckets: 1
+            //X-UAPI-Stop-On-Empty: 1
+            //X-RateLimit-Limit: 1500
+            //X-RateLimit-Remaining: <访客月剩余额度>
+            //X-RateLimit-Reset: <RFC3339 时间>
+            //X-RateLimit-Type: visitor
+            //
+            //有资源包：
+            //X-UAPI-Billing-Source: api | web
+            //X-UAPI-Debit-Status: applied | exempt | failed | skipped_non_2xx | free_endpoint
+            //X-UAPI-Credits-Requested: <本次应扣积分>
+            //X-UAPI-Credits-Charged: <本次实际扣掉的积分>
+            //X-UAPI-Credits-Exempt: 0 | 1
+            //X-UAPI-Quota-Remaining: <所有有效资源包剩余额度总和>
+            //X-UAPI-Balance-Remaining: <账户余额>
+            //X-UAPI-Quota-Active-Buckets: <当前有效资源包数量>
+            //X-UAPI-Stop-On-Empty: 0 | 1
+            /// <summary>
+            /// 访客/用户(有资源包)
+            /// </summary>
+            internal string RateLimitType;
+
+            /// <summary>
+            /// 访客月剩余额度
+            /// </summary>
+            internal string Remaining;
+
+            /// <summary>
+            /// 访客月免费额度重置的RFC3339时间
+            /// </summary>
+            internal string RemainingResetTime;
+
+            /// <summary>
+            /// 访客每月额度
+            /// </summary>
+            internal string RateLimit;
+
+            /// <summary>
+            /// 本次应扣积分
+            /// </summary>
+            internal string RequestedCredits;
+
+            /// <summary>
+            /// 实际扣除积分
+            /// </summary>
+            internal string ChargedCredits;
+
+            /// <summary>
+            /// 所有有效资源包剩余额度综合
+            /// </summary>
+            internal string QuotaRemaining;
+
+            /// <summary>
+            /// 账户余额
+            /// </summary>
+            internal string BalanceRemaining;
+
+            internal string QuotaResourcePack
         }
 
         /// <summary>
