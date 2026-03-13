@@ -2,8 +2,8 @@ const n={slug:"guide/overview",html:`<h2 id="介绍">介绍</h2>
 <p>一个深度集成 <a href="https://uapis.cn" target="_blank" rel="noreferrer">UApi</a> 的C# SDK, 由社区制作, 旨在为了更好的体验而诞生.</p>
 <h3 id="贡献者">贡献者:</h3>
 <ul>
-<li><img src="http://q.qlogo.cn/g?b=qq&nk=2716842407&s=640" width=48 height=48 alt=""/> <a href="https://github.com/Rainbow-SPY" target="_blank" rel="noreferrer">Rainbow-SPY</a></li>
-<li><img src="http://q.qlogo.cn/g?b=qq&nk=12519212&s=640" width=48 height=48 alt=""/> <a href="https://github.com/shuakami/" target="_blank" rel="noreferrer">Shuakami</a></li>
+<li><img src="docs/rainbow-spy.jpg" alt="" style="zoom: 8%;"/> <a href="https://github.com/Rainbow-SPY" target="_blank" rel="noreferrer">Rainbow-SPY</a></li>
+<li><img src="docs/shuakami.jpg" alt="" style="zoom:8%;"/> <a href="https://github.com/shuakami/" target="_blank" rel="noreferrer">Shuakami</a></li>
 </ul>
 <h2 id="license-许可证">License / 许可证</h2>
 <p>Copyright (©) AxT-Team &amp; UApi, Developer: Rainbow-SPY. All content is protected by copyright.</p>
