@@ -90,12 +90,12 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <tr>
 <td style="text-align:left"><code>int</code> <strong>IsCopyrightOwner</strong></td>
 <td style="text-align:left">是否为版权拥有者</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>copyright</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>CoverImageUrl</strong></td>
 <td style="text-align:left">稿件封面图片的URL</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>pic</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>title</strong></td>
@@ -135,7 +135,7 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsDeleted</strong></td>
 <td style="text-align:left">视频是否被删除</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>state</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>state_str</strong></td>
@@ -235,13 +235,13 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>string</code> <strong>Text</strong></td>
 <td>简介文本</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>raw_text</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Type</strong></td>
 <td></td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>type</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>biz_id</strong></td>
@@ -266,67 +266,67 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>bool</code> <strong>IsBangumiPay</strong></td>
 <td>是否可以承包/付费 (老番剧字段)</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>bp</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowElectronicPay</strong></td>
 <td>是否允许付费充电</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>elec</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowDownload</strong></td>
 <td>是否允许缓存/下载</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>download</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsMovie</strong></td>
 <td>是否是电影</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>movie</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsPay</strong></td>
 <td>是否需要付费观看</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>pay</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsHighBitrate</strong></td>
 <td>(古早字段) 是否有高码率</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>hd5</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowReprint</strong></td>
 <td>是否允许转载</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>no_reprint</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowAutoPlay</strong></td>
 <td>是否允许自动播放</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>autoplay</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsUGCPay</strong></td>
 <td>是否为UGC 付费</td>
 <td style="text-align:left"></td>
-<td>&quot;B站课堂&quot;之类的付费课程</td>
+<td>原始<code>Json</code>传入:<code>ugc_pay</code><br/>&quot;B站课堂&quot;之类的付费课程</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsCooperation</strong></td>
 <td>是否为合作视频</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>is_cooperation</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowPayPreview</strong></td>
 <td>是否允许付费视频预览</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>ugc_pay_preview</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>no_background</strong></td>
@@ -338,37 +338,37 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>bool</code> <strong>IsCleanMode</strong></td>
 <td>是否为纯净模式</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>clean_mode</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsSteinGate</strong></td>
 <td>???</td>
 <td style="text-align:left"></td>
-<td>???</td>
+<td>原始<code>Json</code>传入:<code>s_stein_gate</code><br/>???</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>Is360PanoramicVideo</strong></td>
 <td>是否为360°全景视频</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>is_360</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowShare</strong></td>
 <td>是否允许分享</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>no_share</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsArcPayVideo</strong></td>
 <td>是否为付费视频</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>arc_pay</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsAllowFreePreviewInPayVideo</strong></td>
 <td>是否允许付费视频中的免费试看</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>free_watch</code></td>
 </tr>
 </tbody>
 </table>
@@ -393,13 +393,13 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td>UP主昵称</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>name</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>AvatarImageUrl</strong></td>
 <td>UP主头像的URL</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>face</code></td>
 </tr>
 </tbody>
 </table>
@@ -424,65 +424,65 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>int</code> <strong>Views</strong></td>
 <td>播放量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>view</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Danmaku</strong></td>
 <td>弹幕量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>danmaku</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Like</strong></td>
 <td>点赞量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>like</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>reply</strong></td>
 <td>评论量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>reply</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Favorite</strong></td>
 <td>收藏量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>favorite</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Coin</strong></td>
 <td>投币量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>coin</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Share</strong></td>
 <td>分享量</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>share</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>NowRank</strong></td>
 <td>当前全站/分区排名</td>
 <td style="text-align:left">无排名<br/>/ <code>int.Parse(NowRank)</code></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>now_rank</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>HistoryRank</strong></td>
 <td>历史排名</td>
 <td style="text-align:left">无排名<br/>/ <code>int.Parse(HistoryRank)</code></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>his_rank</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>dislike</strong></td>
-<td>点踩量</td>
+<td>(古早字段) 点踩量</td>
 <td style="text-align:left">0</td>
 <td>API 通常返回 0，前端不显示</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>evaluation</strong></td>
-<td>评分/评估</td>
+<td>(古早字段) 评分/评估</td>
 <td style="text-align:left">&lt;empty&gt;</td>
 <td>通常为空，古早版本用于视频评分</td>
 </tr>
@@ -490,7 +490,7 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>int</code> <strong>VideoType_old</strong></td>
 <td>(古早字段) 视频类型</td>
 <td style="text-align:left">0</td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>vt</code></td>
 </tr>
 </tbody>
 </table>
@@ -509,19 +509,19 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>int</code> <strong>Width</strong></td>
 <td>视频宽度</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>width</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Height</strong></td>
 <td>视频高度</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>height</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Rotate</strong></td>
 <td>旋转角度</td>
 <td style="text-align:left">“正常” <br/>“90度旋转” (通常手机拍摄上传会有此标记)</td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>rotate</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>VideoDimension</strong></td>
@@ -558,13 +558,13 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>string</code> <strong>SourceWhere</strong></td>
 <td style="text-align:left">来源</td>
 <td style="text-align:left">B站直传</td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>from</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>PartTitle</strong></td>
 <td style="text-align:left">分P的标题</td>
 <td style="text-align:left"></td>
-<td>对于单P视频, 通常是视频主标题</td>
+<td>原始<code>Json</code>传入:<code>part</code><br/>对于单P视频, 通常是视频主标题</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>long</code> <strong>duration</strong></td>
@@ -579,10 +579,10 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td>如果 <code>SourceWhere</code> 不是&quot;B站直传&quot;, 则为外部视频源ID</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> ****</td>
+<td style="text-align:left"><code>string</code> <strong>weblink</strong></td>
 <td style="text-align:left">跳转外部链接</td>
 <td style="text-align:left"></td>
-<td>极少用到</td>
+<td>原始<code>Json</code>传入:<code>weblink</code><br/>极少用到</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>Dimension</code> <strong>dimension</strong></td>
@@ -607,7 +607,7 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>bool</code> <strong>IsAllowSubmitSubtitle</strong></td>
 <td>允许观众投稿 CC 字幕</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>allow_submit</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Name</strong></td>
@@ -644,13 +644,13 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>string</code> <strong>LanguageCode</strong></td>
 <td>语言代码</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>lan</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>LanguageName</strong></td>
 <td>语言名称</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>lan_doc</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>is_lock</strong></td>
@@ -702,10 +702,10 @@ const t={slug:"social/bilibili-getvideodata",html:`<h2 id="请求示例">请求�
 <td></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>AvatorImageUrl</strong></td>
+<td style="text-align:left"><code>string</code> <strong>AvatarImageUrl</strong></td>
 <td>作者头像链接</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>face</code></td>
 </tr>
 </tbody>
 </table>

@@ -142,7 +142,7 @@ const t={slug:"social/bilibili-getreplieslist",html:`<div class="gfm-alert gfm-a
 <td style="text-align:left"><code>long</code> <strong>ReplyID</strong></td>
 <td>评论的唯一ID (Reply ID)</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>rpid</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>long</code> <strong>oid</strong></td>
@@ -208,13 +208,13 @@ const t={slug:"social/bilibili-getreplieslist",html:`<div class="gfm-alert gfm-a
 <td style="text-align:left"><code>bool</code> <strong>IsHidden</strong></td>
 <td>是否被系统隐藏</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>state</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsHadFanTag</strong></td>
 <td>是否具有粉丝标签</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>fansgrade</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>attr</strong></td>
@@ -293,13 +293,13 @@ const t={slug:"social/bilibili-getreplieslist",html:`<div class="gfm-alert gfm-a
 <td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td>用户昵称</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>uname</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Sex</strong></td>
 <td>用户性别</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>sex</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>sign</strong></td>
@@ -311,7 +311,7 @@ const t={slug:"social/bilibili-getreplieslist",html:`<div class="gfm-alert gfm-a
 <td style="text-align:left"><code>string</code> <strong>AvatarUrl</strong></td>
 <td></td>
 <td style="text-align:left"></td>
-<td></td>
+<td>avatar</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>rank</strong></td>

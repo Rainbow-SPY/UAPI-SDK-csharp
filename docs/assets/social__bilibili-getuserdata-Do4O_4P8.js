@@ -36,17 +36,17 @@ const t={slug:"social/bilibili-getuserdata",html:`<h2 id="请求示例">请求�
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td style="text-align:left">昵称</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>name</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Sex</strong></td>
 <td style="text-align:left">性别</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>sex</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>AvatarImageUrl</strong></td>
 <td style="text-align:left">头像链接</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>face</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>sign</strong></td>
@@ -81,7 +81,7 @@ const t={slug:"social/bilibili-getuserdata",html:`<h2 id="请求示例">请求�
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Fans</strong></td>
 <td style="text-align:left">粉丝数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>follower</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>archive_count</strong></td>

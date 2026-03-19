@@ -35,7 +35,7 @@ const t={slug:"social/bilibili-getliveroomstatus",html:`<div class="gfm-alert gf
 <tr>
 <td style="text-align:left"><code>long</code> <strong>LiveroomID</strong></td>
 <td style="text-align:left">直播间的真实房间号（长号）</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>LiveroomID</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>long</code> <strong>short_id</strong></td>
@@ -45,12 +45,12 @@ const t={slug:"social/bilibili-getliveroomstatus",html:`<div class="gfm-alert gf
 <tr>
 <td style="text-align:left"><code>long</code> <strong>Fans</strong></td>
 <td style="text-align:left">主播的粉丝数（关注数量）</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>attention</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>long</code> <strong>PopularValue</strong></td>
 <td style="text-align:left">直播间当前的人气值, 注意! 这不是真实在线人数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>online</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>is_portrait</strong></td>
@@ -90,7 +90,7 @@ const t={slug:"social/bilibili-getliveroomstatus",html:`<div class="gfm-alert gf
 <tr>
 <td style="text-align:left"><code>string</code> <strong>BackgroundImageUrl</strong></td>
 <td style="text-align:left">直播间背景图的URL</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>background</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>title</strong></td>
@@ -100,7 +100,7 @@ const t={slug:"social/bilibili-getliveroomstatus",html:`<div class="gfm-alert gf
 <tr>
 <td style="text-align:left"><code>string</code> <strong>CoverImageUrl</strong></td>
 <td style="text-align:left">用户设置的直播间封面URL</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>user_cover</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>description</strong></td>

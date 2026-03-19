@@ -161,13 +161,13 @@ const t={slug:"social/bilibili-getarchives",html:`<h2 id="请求示例">请求�
 <td style="text-align:left"><code>string</code> <strong>IsPayVideo_str</strong></td>
 <td>是否为充电视频 (<strong>字符串</strong>格式)</td>
 <td style="text-align:left">免费/付费</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入: <code>is_ugc_pay</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsInteractive</strong></td>
 <td>是否为共创视频</td>
 <td style="text-align:left"><code>True</code>/<code>False</code></td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入: <code>is_interactive</code></td>
 </tr>
 </tbody>
 </table>

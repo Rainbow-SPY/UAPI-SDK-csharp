@@ -31,117 +31,117 @@ const t={slug:"social/github-getrepodata",html:`<h2 id="请求示例">请求示�
 <tr>
 <td style="text-align:left"><code>string</code> <strong>FullName</strong></td>
 <td style="text-align:left">仓库完整名称</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>full_name</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Description</strong></td>
 <td style="text-align:left">简介</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>description</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>HomePage</strong></td>
 <td style="text-align:left">主页链接</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>homepage</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>DefaultBranch</strong></td>
 <td style="text-align:left">默认分支</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>default_branch</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>PrimaryBranch</strong></td>
 <td style="text-align:left">主要分支</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>primary_branch</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>Visibility</strong></td>
 <td style="text-align:left">可见性</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>visibility</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsArchived</strong></td>
 <td style="text-align:left">是否归档</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>archived</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsDisabled</strong></td>
 <td style="text-align:left">是否禁用</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>disabled</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>vip_status</strong></td>
 <td style="text-align:left">大会员状态</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>fork</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>MainLanguage</strong></td>
 <td style="text-align:left">主要语言</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">l原始<code>Json</code>传入:<code>anguage</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>List&lt;string&gt;</code> <strong>Topics</strong></td>
 <td style="text-align:left">话题</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>topics</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>License</strong></td>
 <td style="text-align:left">许可证</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>license</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Stargazers</strong></td>
 <td style="text-align:left">星星数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>stargazers</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Forks</strong></td>
 <td style="text-align:left">Fork 数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>forks</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>OpenIssues</strong></td>
 <td style="text-align:left">开放问题数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>open_issues</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>Watchers</strong></td>
 <td style="text-align:left">关注者数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>watchers</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>PushedTime_ISO8601</strong></td>
 <td style="text-align:left">最后推送时间（ISO 8601 格式）</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>pushed_at</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>CreatedTime_ISO8601</strong></td>
 <td style="text-align:left">创建时间（ISO 8601 格式）</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>created_at</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>UpdatedTime_ISO8601</strong></td>
 <td style="text-align:left">更新时间（ISO 8601 格式）</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>updated_at</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code> Dictionary&lt;string, int&gt;</code> <strong>LanguagesStats</strong></td>
 <td style="text-align:left">语言统计</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>languages</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>object</code> <strong>Collaborators</strong></td>
 <td style="text-align:left">协作者</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>collaborators</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>Maintainer[]</code> <strong>Maintainers</strong></td>
 <td style="text-align:left">维护者</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>maintainers</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>DefaultBranchSHAHash</strong></td>
 <td style="text-align:left">默认分支的 SHA 值</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>maintainers</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>PushedTime_String</strong></td>
