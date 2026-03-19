@@ -363,7 +363,7 @@ namespace UAPI
                 set => _ugcPayPreview = value ? 1 : _ugcPayPreview;
             }
 
-            private int no_background { get; set; }
+            public int no_background { get; set; }
 
             /// <summary>
             /// 是否为纯净模式
@@ -535,12 +535,14 @@ namespace UAPI
 
             /// <summary>
             /// 点踩量 (API 通常返回 0，前端不显示)
-            /// </summary>
+            /// </summary>\
+            [Obsolete]
             public int dislike { get; set; }
 
             /// <summary>
             /// 评分/评估	通常为空，古早版本用于视频评分
             /// </summary>
+            [Obsolete]
             public string evaluation { get; set; }
 
             /// <summary>
@@ -732,7 +734,7 @@ namespace UAPI
             /// 作者头像链接
             /// </summary>
             [JsonProperty("face")]
-            public string AvatorImageUrl { get; set; }
+            public string AvatarImageUrl { get; set; }
         }
 
         #endregion
@@ -747,13 +749,13 @@ namespace UAPI
             /// <summary>
             /// 视频所得荣誉
             /// </summary>
-            public List<Honnors> honor { get; set; }
+            public List<Honors> honor { get; set; }
         }
 
         /// <summary>
         /// 视频所得荣誉信息
         /// </summary>
-        public class Honnors
+        public class Honors
         {
             /// <summary>
             /// 荣誉名称

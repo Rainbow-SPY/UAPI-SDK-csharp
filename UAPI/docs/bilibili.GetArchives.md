@@ -43,7 +43,7 @@ ___
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------------|--------|:-----------------------|:----------------|
-| `long` **aid** | 视频的AID | `AV55`<br/>2020年后的a<head/>v号将突破 `Int_MAX`<br/>例:`av116114575072948` | 经典老版的 A<head/>V 号 | <!--占位符, 避免触发违禁词-->
+| `long` **aid** | 视频的AID | `AV55`<br/>2020年后的a<head/>v号将突破 `Int_MAX`<br/>例:`av116114575072948` | 经典老版的 A<head/>V 号 |
 | `string` **bvid** | 视频的bv号 | `BV1xx411c7Ug` (同上转换得来) | 2020年3月23日 之后更新的 BV 号<br/>如 |
 | `int` **title** | 视频的标题 | 【天哥版】最春哥 | |
 | `int` **cover** | 视频的封面 ( Url ) | `http://i1.hdslb.com/bfs/archive/$MD5...jpg` | |
@@ -53,7 +53,7 @@ ___
 | `string` **publish_time_str** | 视频发布的时间 (**字符串**格式) | 2009/7/13 22:41:34 | |
 | `long` **create_time** | 视频创建的时间 (**时间戳**格式) | 1247496094 | |
 | `string` **create_time_str** | 视频创建的时间 (**字符串**格式) | 2009/7/13 22:41:34 | |
-| `int` **state** | 当前状态 | 0 |
-| `bool` **IsPayVideo** | 是否为充电视频 | `True`/`False` |
-| `string` **IsPayVideo_str** | 是否为充电视频 (**字符串**格式) | 免费/付费 |
-| `bool` **IsInteractive** | 是否为共创视频 | `True`/`False` |
+| `int` **state** | 当前状态 | 0 ||
+| `bool` **IsPayVideo** | 是否为充电视频 | `True`/`False` ||
+| `string` **IsPayVideo_str** | 是否为充电视频 (**字符串**格式) | 免费/付费 |原始`Json`传入: `is_ugc_pay`|
+| `bool` **IsInteractive** | 是否为共创视频 | `True`/`False` |原始`Json`传入: `is_interactive`|

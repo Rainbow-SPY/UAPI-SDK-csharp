@@ -21,29 +21,29 @@ var request = await UAPI.github.GetReposData(string owner_and_repo)
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **FullName**| 仓库完整名称 | |
-|`string` **Description**| 简介 | |
-|`string` **HomePage**| 主页链接 | |
-|`string` **DefaultBranch**| 默认分支 | |
-|`string` **PrimaryBranch**| 主要分支 | |
-|`bool` **Visibility**| 可见性 |      |
-|`bool` **IsArchived**| 是否归档 | |
-|`bool` **IsDisabled**| 是否禁用 | |
-|`bool` **vip_status**| 大会员状态 | |
-|`string` **MainLanguage**| 主要语言 | |
-|`List<string>` **Topics**| 话题 | |
-|`string` **License**| 许可证 | |
-|`int` **Stargazers**| 星星数 | |
-|`int` **Forks**| Fork 数 | |
-|`int` **OpenIssues**| 开放问题数 | |
-|`int` **Watchers**| 关注者数 | |
-|`string` **PushedTime_ISO8601**| 最后推送时间（ISO 8601 格式） | |
-|`string` **CreatedTime_ISO8601**| 创建时间（ISO 8601 格式） | |
-|`string` **UpdatedTime_ISO8601**| 更新时间（ISO 8601 格式） | |
-|` Dictionary<string, int>` **LanguagesStats**| 语言统计 | |
-|`object` **Collaborators**| 协作者 | |
-|`Maintainer[]` **Maintainers**| 维护者 | |
-|`string` **DefaultBranchSHAHash**| 默认分支的 SHA 值 | |
+|`string` **FullName**| 仓库完整名称 | 原始`Json`传入:`full_name` |
+|`string` **Description**| 简介 | 原始`Json`传入:`description` |
+|`string` **HomePage**| 主页链接 | 原始`Json`传入:`homepage` |
+|`string` **DefaultBranch**| 默认分支 | 原始`Json`传入:`default_branch` |
+|`string` **PrimaryBranch**| 主要分支 | 原始`Json`传入:`primary_branch` |
+|`bool` **Visibility**| 可见性 | 原始`Json`传入:`visibility` |
+|`bool` **IsArchived**| 是否归档 | 原始`Json`传入:`archived` |
+|`bool` **IsDisabled**| 是否禁用 | 原始`Json`传入:`disabled` |
+|`bool` **vip_status**| 大会员状态 | 原始`Json`传入:`fork` |
+|`string` **MainLanguage**| 主要语言 | l原始`Json`传入:`anguage` |
+|`List<string>` **Topics**| 话题 | 原始`Json`传入:`topics` |
+|`string` **License**| 许可证 | 原始`Json`传入:`license` |
+|`int` **Stargazers**| 星星数 | 原始`Json`传入:`stargazers` |
+|`int` **Forks**| Fork 数 | 原始`Json`传入:`forks` |
+|`int` **OpenIssues**| 开放问题数 | 原始`Json`传入:`open_issues` |
+|`int` **Watchers**| 关注者数 | 原始`Json`传入:`watchers` |
+|`string` **PushedTime_ISO8601**| 最后推送时间（ISO 8601 格式） | 原始`Json`传入:`pushed_at` |
+|`string` **CreatedTime_ISO8601**| 创建时间（ISO 8601 格式） | 原始`Json`传入:`created_at` |
+|`string` **UpdatedTime_ISO8601**| 更新时间（ISO 8601 格式） | 原始`Json`传入:`updated_at` |
+|` Dictionary<string, int>` **LanguagesStats**| 语言统计 | 原始`Json`传入:`languages` |
+|`object` **Collaborators**| 协作者 | 原始`Json`传入:`collaborators` |
+|`Maintainer[]` **Maintainers**| 维护者 | 原始`Json`传入:`maintainers` |
+|`string` **DefaultBranchSHAHash**| 默认分支的 SHA 值 | 原始`Json`传入:`maintainers` |
 |`string` **PushedTime_String**| 最后推送时间 (字符串格式) | |
 |`string` **CreatedTime_String**| 创建时间 (字符串格式) | |
 |`string` **UpdatedTime_Str**| 更新时间 (字符串格式) | |

@@ -28,14 +28,14 @@ var request = await UAPI.EpicGames.GetDataJson();
 |:------|:----|:-----|
 |`string` **id**| 游戏的唯一标识ID | |
 |`string` **title**| 游戏的完整标题名称 | |
-|`string` **CoverImageUrl**| 游戏封面图片的URL地址 | |
+|`string` **CoverImageUrl**| 游戏封面图片的URL地址 | 原始`Json`传入:`cover` |
 |`int` **original_price**| 游戏的原价 | 单位: 人民币 |
 |`string` **original_price_desc**| 格式化后的原价描述字符串 | |
 |`string` **description**| 游戏的简介描述 | |
 |`string` **seller**| 发行商 | |
-|`bool` **IsFreeNow**| 当前是否处于免费状态 | |
-|`string` **FreeStartTime**| 免费开始时间, 可读字符串格式 | |
-|`long` **FreeStartTimeUnix**| 免费开始时间, 13位毫秒时间戳 | |
-|`string` **FreeEndTime**| 免费结束时间的可读字符串格式 | |
-|`long` **FreeEndTimeUnix**| 免费结束时间的13位毫秒时间戳 | |
+|`bool` **IsFreeNow**| 当前是否处于免费状态 | 原始`Json`传入:`is_free_now` |
+|`string` **FreeStartTime**| 免费开始时间, 可读字符串格式 | 原始`Json`传入:`free_start` |
+|`long` **FreeStartTimeUnix**| 免费开始时间, 13位毫秒时间戳 | 原始`Json`传入:`free_start_at` |
+|`string` **FreeEndTime**| 免费结束时间的可读字符串格式 | 原始`Json`传入:`free_end` |
+|`long` **FreeEndTimeUnix**| 免费结束时间的13位毫秒时间戳 | 原始`Json`传入:`free_end_at` |
 |`string` **link**| 游戏在Epic Games商店的详情页链接 | |

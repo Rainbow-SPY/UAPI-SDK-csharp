@@ -278,7 +278,7 @@ namespace TestConsole
                                    $"\n\t\t????: {i.subtitle_url}" +
                                    $"\n\t\t字幕作者UID: {i.author.mid}" +
                                    $"\n\t\t字幕作者昵称: {i.author.name}" +
-                                   $"\n\t\t字幕作者头像链接: {i.author.AvatorImageUrl}";
+                                   $"\n\t\t字幕作者头像链接: {i.author.AvatarImageUrl}";
                     }
                 }
 

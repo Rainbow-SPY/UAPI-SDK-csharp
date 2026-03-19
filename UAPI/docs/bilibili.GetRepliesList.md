@@ -54,7 +54,7 @@ ___
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`long` **ReplyID**| 评论的唯一ID (Reply ID) | | |
+|`long` **ReplyID**| 评论的唯一ID (Reply ID) | | 原始`Json`传入:`rpid` |
 |`long` **oid**| 评论区对象ID，即视频的aid | | |
 |`string` **ReplyLocaleType**| 以字符串格式返回评论区父级分类, 参见 [评论区父级分类](#评论区父级分类) | | |
 |`int` **type**| 评论区父级分类代码, 参见 [评论区父级分类](#评论区父级分类) | | |
@@ -65,8 +65,8 @@ ___
 |`int` **dialog**| 回复对方 rpid | | |
 |`int` **count**| 这条评论下的回复（楼中楼）数量 | | |
 |`int` **rcount**| 回复评论条数 | | |
-|`bool` **IsHidden**| 是否被系统隐藏 | | |
-|`bool` **IsHadFanTag**| 是否具有粉丝标签 | | |
+|`bool` **IsHidden**| 是否被系统隐藏 | | 原始`Json`传入:`state` |
+|`bool` **IsHadFanTag**| 是否具有粉丝标签 | | 原始`Json`传入:`fansgrade` |
 |`int` **attr**| ??? | ??? | ??? |
 |`int` **ctime**| 评论发送时间的Unix时间戳（秒） | | |
 |`int` **like**| 该评论获得的点赞数 | | |
@@ -82,10 +82,10 @@ ___
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
 |`string` **mid**| 用户的 UID | | |
-|`string` **Name**| 用户昵称 | | |
-|`string` **Sex**| 用户性别 | | |
+|`string` **Name**| 用户昵称 | | uname |
+|`string` **Sex**| 用户性别 | | sex |
 |`string` **sign**| ??? | ??? | ??? |
-|`string` **AvatarUrl**|  | | |
+|`string` **AvatarUrl**|  | | avatar |
 |`string` **rank**| ??? | ??? | ??? |
 |`Level_info` **level_info**|  用户的B站等级 | | |
 |`Official_verify` **official_verify**| ??? | ??? | ??? |
