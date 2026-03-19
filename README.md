@@ -6,8 +6,8 @@
 
 ### 贡献者:
 
-- <img src="http://q.qlogo.cn/g?b=qq&nk=2716842407&s=640" width=48 height=48 alt=""/>&nbsp;[Rainbow-SPY](https://github.com/Rainbow-SPY)
-- <img src="http://q.qlogo.cn/g?b=qq&nk=12519212&s=640" width=48 height=48 alt=""/>&nbsp;[Shuakami](https://github.com/shuakami/)
+- <img src="docs/rainbow-spy.jpg" alt="" style="zoom: 8%;"/>&nbsp;[Rainbow-SPY](https://github.com/Rainbow-SPY)
+- <img src="docs/shuakami.jpg" alt="" style="zoom:8%;"/>&nbsp;[Shuakami](https://github.com/shuakami/)
 
 ## License / 许可证
 
@@ -668,8 +668,7 @@ var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,st
       - System.Numerics.Vectors
     
       - System.Runtime.CompilerServices.Unsafe
-    
-    
+
       - System.Net.Http
 
 ___
