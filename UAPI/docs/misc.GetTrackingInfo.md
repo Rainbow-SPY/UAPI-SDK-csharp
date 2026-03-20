@@ -23,8 +23,8 @@ var request = await UAPI.misc.GetTrackingInfo(string tracking_number, string car
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **code**| 状态码 | |
-|`string` **message**| 消息 | |
+|`string` **Code**| 状态码 | 原始`Json`传入:`code` |
+|`string` **Message**| 消息 | 原始`Json`传入:`message` |
 |`Data` **data**| 返回的数据 | |
 
 ___
@@ -32,16 +32,16 @@ ___
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **tracking_number**| 快递公司编码 | ||
-|`string` **carrier_code**| 快递公司编码 | ||
-|`string` **carrier_name**| 快递公司名称 | ||
-|`int` **track_count**| 物流轨迹数量 | ||
-|`List<TracksItem>` **tracks**| 物流轨迹列表 | | 按时间倒序排列 |
+|`string` **TrackingNumber**| 快递公司编码 | |原始`Json`传入:`tracking_number`|
+|`string` **CarrierCode**| 快递公司编码 | |原始`Json`传入:`carrier_code`|
+|`string` **CarrierName**| 快递公司名称 | |原始`Json`传入:`carrier_name`|
+|`int` **TrackCount**| 物流轨迹数量 | |原始`Json`传入:`track_count`|
+|`List<TracksItem>` **Tracks**| 物流轨迹列表 | | 原始`Json`传入:`tracks`<br/>按时间倒序排列 |
 ___
 
 #### `List<TracksItem>` **tracks** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **time**| 物流更新时间 | | |
-|`string` **context**| 物流状态描述 | | |
+|`string` **Time**| 物流更新时间 | | 原始`Json`传入:`time` |
+|`string` **Context**| 物流状态描述 | | 原始`Json`传入:`context` |

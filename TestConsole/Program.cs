@@ -91,7 +91,7 @@ namespace TestConsole
                          $"\n\t评论量: {i.extra.stat.Reply_str}" +
                          $"\n\n视频UP主信息:" +
                          $"\n\t昵称: {i.extra.owner.Name}" +
-                         $"\n\tUID: {i.extra.owner.Mid}" +
+                         $"\n\tUID: {i.extra.owner.mid}" +
                          $"\n\t头像链接: {i.extra.owner.AvatarImageUrl}";
                 }
 
@@ -116,7 +116,7 @@ namespace TestConsole
                 {
                     b += $"\n\t排名: {i.index}" +
                          $"\n\t{i.extra.artist_names} - {i.title}, 时长: {i.extra.duration_text}, 热度值: {i.hot_value}" +
-                         $"\n\tID: {i.extra.id}" +
+                         $"\n\tID: {i.extra.ID}" +
                          $"\n\t专辑名称: {i.extra.album}" +
                          $"\n\t专辑链接: {i.url}" +
                          $"\n\t专辑封面: {i.CoverImageUrl}" +

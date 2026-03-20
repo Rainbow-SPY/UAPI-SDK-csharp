@@ -19,26 +19,26 @@ namespace UAPI
                 /// 快递公司编码，用于API调用时的carrier_code参数
                 /// </summary>
                 [JsonProperty("code")]
-                public string code { get; set; }
+                public string Code { get; set; }
 
                 /// <summary>
                 /// 快递公司中文名称，用于界面显示
                 /// </summary>
                 [JsonProperty("name")]
-                public string name { get; set; }
+                public string Name { get; set; }
             }
 
             /// <summary>
             /// 快递公司列表
             /// </summary>
             [JsonProperty("carriers")]
-            public List<CarriersItem> carriers { get; set; }
+            public List<CarriersItem> Carriers { get; set; }
 
             /// <summary>
             /// 支持的快递公司总数
             /// </summary>
             [JsonProperty("total")]
-            public int total { get; set; }
+            public int Total { get; set; }
         }
     }
 }

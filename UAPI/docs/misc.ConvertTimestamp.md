@@ -23,8 +23,8 @@ ___
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **input**| 输入的值 | |
-|`string` **type**| 转换的类型 | |
-|`long` **unix_timestamp**| Unix 时间戳 | |
-|`string` **datetime_utc**| UTC+0:00 (世界协调时间) 格式的字符串 | |
-|`string` **datetime_local**| 以IP地址推断的世界协调时间的本地时间 | 在中国一般指北京时间 UTC +8:00 |
+|`string` **InputValue**| 输入的值 | 原始`Json`传入:`input` |
+|`string` **Type**| 转换的类型 | 原始`Json`传入:`type` |
+|`long` **UnixTimestamp**| Unix 时间戳 | 原始`Json`传入:`unix_timestamp` |
+|`string` **DateTime_UTC**| UTC+0:00 (世界协调时间) 格式的字符串 | 原始`Json`传入:`datetime_utc` |
+|`string` **DateTime_Local**| 以IP地址推断的世界协调时间的本地时间 | 原始`Json`传入:`datetime_local`<br/>在中国一般指北京时间 UTC +8:00 |

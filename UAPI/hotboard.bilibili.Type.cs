@@ -34,17 +34,18 @@ namespace UAPI
                 /// <summary>
                 /// 头像链接
                 /// </summary>
-                [JsonProperty("Face")]
+                [JsonProperty("face")]
                 public string AvatarImageUrl { get; set; }
 
                 /// <summary>
                 /// UID
                 /// </summary>
-                public long Mid { get; set; }
+                public long mid { get; set; }
 
                 /// <summary>
                 /// 昵称
                 /// </summary>
+                [JsonProperty("name")]
                 public string Name { get; set; }
             }
 
@@ -54,7 +55,7 @@ namespace UAPI
             public class Stat
             {
                 /// <summary>
-                /// 投币量
+                /// 格式化单位为'万'的投币量
                 /// </summary>
                 public string Coin_str => Interface.FormatPlayCount(Coin_int);
 
@@ -65,7 +66,7 @@ namespace UAPI
                 public int Coin_int { get; set; }
 
                 /// <summary>
-                /// 弹幕量
+                /// 格式化单位为'万'弹幕量
                 /// </summary>
                 public string Danmaku_str => Interface.FormatPlayCount(Danmaku_int);
 
@@ -76,7 +77,7 @@ namespace UAPI
                 public int Danmaku_int { get; set; }
 
                 /// <summary>
-                /// 收藏量
+                /// 格式化单位为'万'收藏量
                 /// </summary>
                 public string Favorite_str => Interface.FormatPlayCount(Favorite_int);
 
@@ -87,7 +88,7 @@ namespace UAPI
                 public int Favorite_int { get; set; }
 
                 /// <summary>
-                /// 点赞量
+                /// 格式化单位为'万'点赞量
                 /// </summary>
                 public string Like_str => Interface.FormatPlayCount(Like_int);
 
@@ -98,7 +99,7 @@ namespace UAPI
                 public int Like_int { get; set; }
 
                 /// <summary>
-                /// 评论量
+                /// 格式化单位为'万'评论量
                 /// </summary>
                 public string Reply_str => Interface.FormatPlayCount(Reply_int);
 
@@ -109,7 +110,7 @@ namespace UAPI
                 public int Reply_int { get; set; }
 
                 /// <summary>
-                /// 分享量
+                /// 格式化单位为'万'分享量
                 /// </summary>
                 public string Share_str => Interface.FormatPlayCount(Share_int);
 
@@ -120,7 +121,7 @@ namespace UAPI
                 public int Share_int { get; set; }
 
                 /// <summary>
-                /// 观看量
+                /// 格式化单位为'万'观看量
                 /// </summary>
                 public string view_str => Interface.FormatPlayCount(View_int);
 

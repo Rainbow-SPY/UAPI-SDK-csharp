@@ -6,8 +6,8 @@
 
 ### 贡献者:
 
-- <img src="docs/rainbow-spy.jpg" alt="" style="zoom: 8%;"/>&nbsp;[Rainbow-SPY](https://github.com/Rainbow-SPY)
-- <img src="docs/shuakami.jpg" alt="" style="zoom:8%;"/>&nbsp;[Shuakami](https://github.com/shuakami/)
+- <img src="UAPI/docs/rainbow-spy.jpg" alt="" style="zoom: 8%;"/>&nbsp;[Rainbow-SPY](https://github.com/Rainbow-SPY)
+- <img src="UAPI/docs/shuakami.jpg" alt="" style="zoom:8%;"/>&nbsp;[Shuakami](https://github.com/shuakami/)
 
 ## License / 许可证
 

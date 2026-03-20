@@ -30,4 +30,4 @@ var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0,
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`List<decimal>` **numbers**| 生成的随机数组 | |
+|`List<decimal>` **Numbers**| 生成的随机数组 | 原始`Json`传入:`numbers`<br/> |

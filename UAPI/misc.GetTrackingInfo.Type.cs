@@ -11,23 +11,23 @@ namespace UAPI
         public class TrackingInfoType : Interface.TypeInterface
         {
             /// <summary>
-            /// 物流更新状态列表
+            /// 状态码
             /// </summary>
-            public class TracksItem
-            {
-                /// <summary>
-                /// 物流更新时间
-                /// </summary>
-                [JsonProperty("time")]
-                public string time { get; set; }
+            [JsonProperty("code")]
+            public string Code { get; set; }
 
-                /// <summary>
-                /// 物流状态描述
-                /// </summary>
-                [JsonProperty("context")]
-                public string context { get; set; }
-            }
+            /// <summary>
+            /// 消息
+            /// </summary>
+            [JsonProperty("message")]
+            public string Message { get; set; }
 
+            /// <summary>
+            /// 返回的数据
+            /// </summary>
+            [JsonProperty("data")]
+            public Data data { get; set; }
+            
             /// <summary>
             /// 返回的数据
             /// </summary>
@@ -37,50 +37,50 @@ namespace UAPI
                 /// 快递公司编码
                 /// </summary>
                 [JsonProperty("tracking_number")]
-                public string tracking_number { get; set; }
+                public string TrackingNumber { get; set; }
 
                 /// <summary>
                 /// 快递公司编码
                 /// </summary>
                 [JsonProperty("carrier_code")]
-                public string carrier_code { get; set; }
+                public string CarrierCode { get; set; }
 
                 /// <summary>
                 /// 快递公司名称
                 /// </summary>
                 [JsonProperty("carrier_name")]
-                public string carrier_name { get; set; }
+                public string CarrierName { get; set; }
 
                 /// <summary>
                 /// 物流轨迹数量
                 /// </summary>
                 [JsonProperty("track_count")]
-                public int track_count { get; set; }
+                public int TrackCount { get; set; }
 
                 /// <summary>
                 /// 物流轨迹列表，按时间倒序排列
                 /// </summary>
                 [JsonProperty("tracks")]
-                public List<TracksItem> tracks { get; set; }
+                public List<TracksItem> Tracks { get; set; }
+                
+                /// <summary>
+                /// 物流更新状态列表
+                /// </summary>
+                public class TracksItem
+                {
+                    /// <summary>
+                    /// 物流更新时间
+                    /// </summary>
+                    [JsonProperty("time")]
+                    public string Time { get; set; }
+
+                    /// <summary>
+                    /// 物流状态描述
+                    /// </summary>
+                    [JsonProperty("context")]
+                    public string Context { get; set; }
+                }
             }
-
-            /// <summary>
-            /// 状态码
-            /// </summary>
-            [JsonProperty("code")]
-            public new string code { get; set; }
-
-            /// <summary>
-            /// 消息
-            /// </summary>
-            [JsonProperty("message")]
-            public new string message { get; set; }
-
-            /// <summary>
-            /// 返回的数据
-            /// </summary>
-            [JsonProperty("data")]
-            public Data data { get; set; }
         }
     }
 }

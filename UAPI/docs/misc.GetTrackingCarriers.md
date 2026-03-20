@@ -19,13 +19,13 @@ var request = await UAPI.misc.GetTrackingCarriers();
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`List<CarriersItem>` **carriers**| 快递公司列表 | |
-|`int` **total**| 支持的快递公司总数 | |
+|`List<CarriersItem>` **Carriers**| 快递公司列表 | 原始`Json`传入:`carriers` |
+|`int` **Total**| 支持的快递公司总数 | 原始`Json`传入:`total` |
 
 ___
 #### `List<CarriersItem>` **carriers** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **code**| 快递公司编码，用于API调用时的 `carrier_code` 参数 | |
-|`string` **name**| 快递公司中文名称，用于界面显示 | |
+|`string` **Code**| 快递公司编码，用于API调用时的 `carrier_code` 参数 | 原始`Json`传入:`code` |
+|`string` **Name**| 快递公司中文名称，用于界面显示 | 原始`Json`传入:`name` |

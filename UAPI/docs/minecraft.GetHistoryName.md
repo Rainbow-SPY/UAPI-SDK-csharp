@@ -38,18 +38,18 @@ var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType sear
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **NUserName**| 查询的用户名 | |
-|`int` **NCount**| 匹配到的用户数量 | 为 0 时表示未找到 |
-|`List<ResultsItem>` **NResults**| 匹配到的用户列表 | 包含当前用户名或曾用名匹配的所有玩家 |
+|`string` **NUserName**| 查询的用户名 | 原始`Json`传入:`query` |
+|`int` **NCount**| 匹配到的用户数量 | 原始`Json`传入:`count`<br/>为 0 时表示未找到 |
+|`List<ResultsItem>` **NResults**| 匹配到的用户列表 | 原始`Json`传入:`results`<br/>包含当前用户名或曾用名匹配的所有玩家 |
 
 ___
 ##### `List<ResultsItem>` **NResults** 嵌套类
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **UserName**| 玩家当前的用户名 | ||
-|`string` **UUID**| 玩家的UUID | |带连字符格式|
-|`int` **OldNameCount**| 历史名称的总数 | ||
+|`string` **UserName**| 玩家当前的用户名 | |原始`Json`传入:`id`|
+|`string` **UUID**| 玩家的UUID | |原始`Json`传入:`uuid`<br/>带连字符格式|
+|`int` **OldNameCount**| 历史名称的总数 | |原始`Json`传入:`name_num`|
 |`List<History>` **history**| 历史用户名数组 | ||
 ___
 ###### `List<History>` **history** 嵌套类
@@ -65,10 +65,10 @@ ___
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **U_UserName**| 玩家当前的用户名 | |
-|`string` **U_UUID**| 被查询玩家的UUID | 带连字符格式 |
-|`int` **U_OldNameCount**| 历史名称的总数 | 包含当前用户名 |
-|`List<History>` **U_HistoryList**| 包含所有历史用户名的数组 | 按时间倒序排列 |
+|`string` **U_UserName**| 玩家当前的用户名 | 原始`Json`传入:`id` |
+|`string` **U_UUID**| 被查询玩家的UUID | 原始`Json`传入:`uuid`<br/>带连字符格式 |
+|`int` **U_OldNameCount**| 历史名称的总数 | 原始`Json`传入:`name_num`<br/>包含当前用户名 |
+|`List<History>` **U_HistoryList**| 包含所有历史用户名的数组 | 原始`Json`传入:`history`<br/>按时间倒序排列 |
 
 ___
 ##### `List<History>` **history** 嵌套类

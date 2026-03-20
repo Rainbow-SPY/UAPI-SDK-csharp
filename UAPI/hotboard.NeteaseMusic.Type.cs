@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -54,7 +55,8 @@ namespace UAPI
                     /// <summary>
                     /// 歌曲在网易云音乐的唯一ID
                     /// </summary>
-                    public long id { get; set; }
+                    [JsonProperty("id")]
+                    public long ID { get; set; }
 
                     /// <summary>
                     /// 上次的热榜排名
@@ -64,7 +66,8 @@ namespace UAPI
                     /// <summary>
                     /// 受欢迎程度 (暂时没有具体用法)
                     /// </summary>
-                    internal int Popularity { get; set; }
+                    [Obsolete]
+                    public int popularity { get; set; }
                 }
             }
         }

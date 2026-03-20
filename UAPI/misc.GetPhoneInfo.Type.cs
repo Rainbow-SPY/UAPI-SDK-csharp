@@ -13,19 +13,19 @@ namespace UAPI
             /// 省份归属地
             /// </summary>
             [JsonProperty("province")]
-            public string province { get; set; }
+            public string Province { get; set; }
 
             /// <summary>
             /// 城市/地区归属地
             /// </summary>
             [JsonProperty("city")]
-            public string city { get; set; }
+            public string City { get; set; }
 
             /// <summary>
             /// 运营商名称
             /// </summary>
             [JsonProperty("sp")]
-            public string sp { get; set; }
+            public string LSP { get; set; }
         }
     }
 }

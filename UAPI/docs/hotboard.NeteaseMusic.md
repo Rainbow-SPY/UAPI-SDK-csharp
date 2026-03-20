@@ -26,7 +26,7 @@ ___
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **CoverImageUrl**| 歌曲专辑封面链接 | ||
+|`string` **CoverImageUrl**| 歌曲专辑封面链接 | |原始`Json`传入:`cover`|
 |`Extra` **extra**| 歌曲额外元数据 | ||
 
 ___
@@ -37,6 +37,6 @@ ___
 |`string` **album**| 专辑名称 | ||
 |`string` **artist_names**| 歌手名称 | ||
 |`string` **duration_text**| 歌曲时长 | ||
-|`long` **id**| 歌曲在网易云音乐的唯一ID | ||
+|`long` **ID**| 歌曲在网易云音乐的唯一ID | |原始`Json`传入:`id`|
 |`int` **last_rank**| 上次的热榜排名 | ||
-|`int` **Popularity**| 受欢迎程度 | |暂时没有具体用法|
+|`int` **popularity**| 受欢迎程度 | |暂时没有具体用法|

@@ -25,6 +25,6 @@ var request = await UAPI.minecraft.GetUserData(string username);
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **UserName**| 用户名 | |
-|`string` **UUID**| 玩家的32位无破折号UUID | |
-|`string` **SkinImageUrl**| 玩家当前使用的皮肤图片URL | |
+|`string` **UserName**| 用户名 | 原始`Json`传入:`username` |
+|`string` **UUID**| 玩家的32位无破折号UUID | 原始`Json`传入:`uuid` |
+|`string` **SkinImageUrl**| 玩家当前使用的皮肤图片URL | 原始`Json`传入:`skin_url` |

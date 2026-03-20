@@ -117,7 +117,7 @@ namespace UAPI
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
             GetResult<T>(requestUrl, SendRequestType.GET, "", "application/json", "");
 
-        internal static async Task<(List<>)>
+      //  internal static async Task<(List<>)>
 
         internal enum SendRequestType
         {
@@ -192,7 +192,7 @@ namespace UAPI
             /// </summary>
             internal string BalanceRemaining;
 
-            internal string QuotaResourcePack
+            internal string QuotaResourcePack;
         }
 
         /// <summary>

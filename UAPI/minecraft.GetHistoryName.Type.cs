@@ -26,6 +26,26 @@ namespace UAPI
                 public string changedToAt { get; set; }
             }
 
+            #region Name
+
+            /// <summary>
+            /// 【name 查询时返回】查询的用户名
+            /// </summary>
+            [JsonProperty("query")]
+            public string NUserName { get; set; }
+
+            /// <summary>
+            /// 【name 查询时返回】匹配到的用户数量，为 0 时表示未找到
+            /// </summary>
+            [JsonProperty("count")]
+            public int NCount { get; set; }
+
+            /// <summary>
+            /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家
+            /// </summary>
+            [JsonProperty("results")]
+            public List<ResultsItem> NResults { get; set; }
+
             /// <summary>
             /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家
             /// </summary>
@@ -55,23 +75,9 @@ namespace UAPI
                 public List<History> history { get; set; }
             }
 
-            /// <summary>
-            /// 【name 查询时返回】查询的用户名
-            /// </summary>
-            [JsonProperty("query")]
-            public string NUserName { get; set; }
+            #endregion
 
-            /// <summary>
-            /// 【name 查询时返回】匹配到的用户数量，为 0 时表示未找到
-            /// </summary>
-            [JsonProperty("count")]
-            public int NCount { get; set; }
-
-            /// <summary>
-            /// 【name 查询时返回】匹配用户列表，包含当前用户名或曾用名匹配的所有玩家
-            /// </summary>
-            [JsonProperty("results")]
-            public List<ResultsItem> NResults { get; set; }
+            #region UUID
 
             /// <summary>
             /// 【uuid 查询时返回】玩家当前的用户名
@@ -96,6 +102,8 @@ namespace UAPI
             /// </summary>
             [JsonProperty("history")]
             public List<History> U_HistoryList { get; set; }
+
+            #endregion
         }
     }
 }

@@ -19,19 +19,19 @@ namespace UAPI
                 /// 年
                 /// </summary>
                 [JsonProperty("year")]
-                public int year { get; set; }
+                public int Year { get; set; }
 
                 /// <summary>
                 /// 月
                 /// </summary>
                 [JsonProperty("month")]
-                public int month { get; set; }
+                public int Month { get; set; }
 
                 /// <summary>
                 /// 日
                 /// </summary>
                 [JsonProperty("day")]
-                public int day { get; set; }
+                public int Day { get; set; }
 
                 /// <summary>
                 /// 标题
@@ -49,7 +49,7 @@ namespace UAPI
                 /// 类型
                 /// </summary>
                 [JsonProperty("category")]
-                public string category { get; set; }
+                public string Category { get; set; }
 
                 /// <summary>
                 /// 标签
@@ -67,20 +67,20 @@ namespace UAPI
                 /// 数据源
                 /// </summary>
                 [JsonProperty("source")]
-                public string source { get; set; }
+                public string Source { get; set; }
             }
 
             /// <summary>
             /// 今日日期
             /// </summary>
             [JsonProperty("date")]
-            public string date { get; set; }
+            public string Date { get; set; }
 
             /// <summary>
             /// 事件
             /// </summary>
             [JsonProperty("events")]
-            public List<EventsItem> events { get; set; }
+            public List<EventsItem> Events { get; set; }
         }
     }
 }

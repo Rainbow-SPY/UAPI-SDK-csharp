@@ -14,7 +14,7 @@ namespace UAPI
             /// 生成的随机数组
             /// </summary>
             [JsonProperty("numbers")]
-            public List<decimal> numbers { get; set; }
+            public List<decimal> Numbers { get; set; }
         }
     }
 }

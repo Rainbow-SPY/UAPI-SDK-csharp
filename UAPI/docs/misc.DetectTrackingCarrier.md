@@ -23,8 +23,8 @@ ____
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **code**| 返回值 | |
-|`string` **message**| 返回消息 | |
+|`string` **Code**| 返回值 | 原始`Json`传入:`code` |
+|`string` **Message**| 返回消息 | 原始`Json`传入:`message` |
 |`Data` **data**| 返回的数据 | |
 
 ___
@@ -32,9 +32,9 @@ ___
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **tracking_number**| 查询的快递单号 | | |
-|`string` **carrier_code**| 最可能的快递公司编码 | | |
-|`string` **carrier_name**| 最可能的快递公司名称 | | |
+|`string` **TrackingNumber**| 查询的快递单号 | | 原始`Json`传入:`tracking_number` |
+|`string` **CarrierCode**| 最可能的快递公司编码 | | 原始`Json`传入:`carrier_code` |
+|`string` **CarrierName**| 最可能的快递公司名称 | | 原始`Json`传入:`carrier_name` |
 |`List<AlternativesItem>` **alternatives**| 其他可能的快递公司列表，如果存在就会返回 | | |
 
 ___
@@ -42,5 +42,5 @@ ___
 
 | 属性值 | 注释 | 示例 | 备注 |
 |:------|-----|:-----|-----|
-|`string` **code**| 快递公司编码 | | |
-|`string` **name**| 快递公司名称 | | |
+|`string` **Code**| 快递公司编码 | | 原始`Json`传入:`code` |
+|`string` **Name**| 快递公司名称 | | 原始`Json`传入:`name` |

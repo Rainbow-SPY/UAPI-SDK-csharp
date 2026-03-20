@@ -21,6 +21,6 @@ var request = await UAPI.misc.GetPhoneInfo(string phoneNumber);
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **province**| 省份归属地 | |
-|`string` **city**| 城市或地区归属地 | |
-|`string` **sp**| 运营商名称 | |
+|`string` **Province**| 省份归属地 | 原始`Json`传入:`province` |
+|`string` **City**| 城市或地区归属地 | 原始`Json`传入:`city` |
+|`string` **LSP**| 运营商名称 | 原始`Json`传入:`sp` |

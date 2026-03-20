@@ -19,13 +19,13 @@ namespace UAPI
                 /// 快递公司编码
                 /// </summary>
                 [JsonProperty("code")]
-                public string code { get; set; }
+                public string Code { get; set; }
 
                 /// <summary>
                 /// 快递公司名称
                 /// </summary>
                 [JsonProperty("name")]
-                public string name { get; set; }
+                public string Name { get; set; }
             }
 
             /// <summary>
@@ -37,19 +37,19 @@ namespace UAPI
                 /// 查询的快递单号
                 /// </summary>
                 [JsonProperty("tracking_number")]
-                public string tracking_number { get; set; }
+                public string TrackingNumber { get; set; }
 
                 /// <summary>
                 /// 最可能的快递公司编码
                 /// </summary>
                 [JsonProperty("carrier_code")]
-                public string carrier_code { get; set; }
+                public string CarrierCode { get; set; }
 
                 /// <summary>
                 /// 最可能的快递公司名称
                 /// </summary>
                 [JsonProperty("carrier_name")]
-                public string carrier_name { get; set; }
+                public string CarrierName { get; set; }
 
                 /// <summary>
                 /// 其他可能的快递公司列表（如果存在）
@@ -62,13 +62,13 @@ namespace UAPI
             /// 返回值
             /// </summary>
             [JsonProperty("code")]
-            public new string code { get; set; }
+            public new string Code { get; set; }
 
             /// <summary>
             /// 返回消息
             /// </summary>
             [JsonProperty("message")]
-            public new string message { get; set; }
+            public new string Message { get; set; }
 
             /// <summary>
             /// 返回的数据
