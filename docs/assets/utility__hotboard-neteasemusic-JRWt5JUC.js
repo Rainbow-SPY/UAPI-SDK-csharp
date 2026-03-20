@@ -46,7 +46,7 @@ const t={slug:"utility/hotboard-neteasemusic",html:`<h2 id="请求示例">请求
 <td style="text-align:left"><code>string</code> <strong>CoverImageUrl</strong></td>
 <td>歌曲专辑封面链接</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>cover</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>Extra</code> <strong>extra</strong></td>
@@ -87,10 +87,10 @@ const t={slug:"utility/hotboard-neteasemusic",html:`<h2 id="请求示例">请求
 <td></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>long</code> <strong>id</strong></td>
+<td style="text-align:left"><code>long</code> <strong>ID</strong></td>
 <td>歌曲在网易云音乐的唯一ID</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>id</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>last_rank</strong></td>
@@ -99,7 +99,7 @@ const t={slug:"utility/hotboard-neteasemusic",html:`<h2 id="请求示例">请求
 <td></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>int</code> <strong>Popularity</strong></td>
+<td style="text-align:left"><code>int</code> <strong>popularity</strong></td>
 <td>受欢迎程度</td>
 <td style="text-align:left"></td>
 <td>暂时没有具体用法</td>

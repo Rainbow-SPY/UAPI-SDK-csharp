@@ -30,14 +30,14 @@ const t={slug:"utility/misc-detecttrackingcarrier",html:`<h2 id="请求示例">�
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>code</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Code</strong></td>
 <td style="text-align:left">返回值</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>code</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>message</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Message</strong></td>
 <td style="text-align:left">返回消息</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>message</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>Data</code> <strong>data</strong></td>
@@ -59,22 +59,22 @@ const t={slug:"utility/misc-detecttrackingcarrier",html:`<h2 id="请求示例">�
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>tracking_number</strong></td>
+<td style="text-align:left"><code>string</code> <strong>TrackingNumber</strong></td>
 <td>查询的快递单号</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>tracking_number</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>carrier_code</strong></td>
+<td style="text-align:left"><code>string</code> <strong>CarrierCode</strong></td>
 <td>最可能的快递公司编码</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>carrier_code</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>carrier_name</strong></td>
+<td style="text-align:left"><code>string</code> <strong>CarrierName</strong></td>
 <td>最可能的快递公司名称</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>carrier_name</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>List&lt;AlternativesItem&gt;</code> <strong>alternatives</strong></td>
@@ -97,16 +97,16 @@ const t={slug:"utility/misc-detecttrackingcarrier",html:`<h2 id="请求示例">�
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>code</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Code</strong></td>
 <td>快递公司编码</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>code</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>name</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td>快递公司名称</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>name</code></td>
 </tr>
 </tbody>
 </table>

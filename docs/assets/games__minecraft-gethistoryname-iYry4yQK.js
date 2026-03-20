@@ -63,17 +63,17 @@ const t={slug:"games/minecraft-gethistoryname",html:`<div class="gfm-alert gfm-a
 <tr>
 <td style="text-align:left"><code>string</code> <strong>NUserName</strong></td>
 <td style="text-align:left">查询的用户名</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>query</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>NCount</strong></td>
 <td style="text-align:left">匹配到的用户数量</td>
-<td style="text-align:left">为 0 时表示未找到</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>count</code><br/>为 0 时表示未找到</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>List&lt;ResultsItem&gt;</code> <strong>NResults</strong></td>
 <td style="text-align:left">匹配到的用户列表</td>
-<td style="text-align:left">包含当前用户名或曾用名匹配的所有玩家</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>results</code><br/>包含当前用户名或曾用名匹配的所有玩家</td>
 </tr>
 </tbody>
 </table>
@@ -93,19 +93,19 @@ const t={slug:"games/minecraft-gethistoryname",html:`<div class="gfm-alert gfm-a
 <td style="text-align:left"><code>string</code> <strong>UserName</strong></td>
 <td>玩家当前的用户名</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>id</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>UUID</strong></td>
 <td>玩家的UUID</td>
 <td style="text-align:left"></td>
-<td>带连字符格式</td>
+<td>原始<code>Json</code>传入:<code>uuid</code><br/>带连字符格式</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>OldNameCount</strong></td>
 <td>历史名称的总数</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>name_num</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>List&lt;History&gt;</code> <strong>history</strong></td>
@@ -155,22 +155,22 @@ const t={slug:"games/minecraft-gethistoryname",html:`<div class="gfm-alert gfm-a
 <tr>
 <td style="text-align:left"><code>string</code> <strong>U_UserName</strong></td>
 <td style="text-align:left">玩家当前的用户名</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>id</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>U_UUID</strong></td>
 <td style="text-align:left">被查询玩家的UUID</td>
-<td style="text-align:left">带连字符格式</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>uuid</code><br/>带连字符格式</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>U_OldNameCount</strong></td>
 <td style="text-align:left">历史名称的总数</td>
-<td style="text-align:left">包含当前用户名</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>name_num</code><br/>包含当前用户名</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>List&lt;History&gt;</code> <strong>U_HistoryList</strong></td>
 <td style="text-align:left">包含所有历史用户名的数组</td>
-<td style="text-align:left">按时间倒序排列</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>history</code><br/>按时间倒序排列</td>
 </tr>
 </tbody>
 </table>

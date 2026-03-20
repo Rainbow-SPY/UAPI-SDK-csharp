@@ -24,14 +24,14 @@ const t={slug:"utility/misc-getprogrammerhistorytoday",html:`<h2 id="请求示�
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>date</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Date</strong></td>
 <td style="text-align:left">今日日期</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>date</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>List&lt;EventItem&gt;</code> <strong>events</strong></td>
+<td style="text-align:left"><code>List&lt;EventItem&gt;</code> <strong>Events</strong></td>
 <td style="text-align:left">事件列表</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>events</code></td>
 </tr>
 </tbody>
 </table>
@@ -48,58 +48,58 @@ const t={slug:"utility/misc-getprogrammerhistorytoday",html:`<h2 id="请求示�
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>int</code> <strong>year</strong></td>
+<td style="text-align:left"><code>int</code> <strong>Year</strong></td>
 <td>年</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>year</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>int</code> <strong>month</strong></td>
+<td style="text-align:left"><code>int</code> <strong>Month</strong></td>
 <td>月</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>month</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>int</code> <strong>day</strong></td>
+<td style="text-align:left"><code>int</code> <strong>Day</strong></td>
 <td>日</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>day</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Title</strong></td>
 <td>标题</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>title</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Description</strong></td>
 <td>描述</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>description</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>category</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Category</strong></td>
 <td>类型</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>category</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>List&lt;string&gt;</code> <strong>Tags</strong></td>
 <td>标签</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>tags</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>ImportanceLevel</strong></td>
 <td>重要等级</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>importance</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>source</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Source</strong></td>
 <td>数据源</td>
 <td style="text-align:left"></td>
-<td></td>
+<td>原始<code>Json</code>传入:<code>source</code></td>
 </tr>
 </tbody>
 </table>

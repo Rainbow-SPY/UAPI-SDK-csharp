@@ -24,14 +24,14 @@ const t={slug:"utility/misc-gettrackingcarriers",html:`<h2 id="请求示例">请
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>List&lt;CarriersItem&gt;</code> <strong>carriers</strong></td>
+<td style="text-align:left"><code>List&lt;CarriersItem&gt;</code> <strong>Carriers</strong></td>
 <td style="text-align:left">快递公司列表</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>carriers</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>int</code> <strong>total</strong></td>
+<td style="text-align:left"><code>int</code> <strong>Total</strong></td>
 <td style="text-align:left">支持的快递公司总数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>total</code></td>
 </tr>
 </tbody>
 </table>
@@ -48,15 +48,15 @@ const t={slug:"utility/misc-gettrackingcarriers",html:`<h2 id="请求示例">请
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>code</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Code</strong></td>
 <td>快递公司编码，用于API调用时的 <code>carrier_code</code> 参数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>code</code></td>
 <td></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>name</strong></td>
+<td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td>快递公司中文名称，用于界面显示</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>name</code></td>
 <td></td>
 </tr>
 </tbody>

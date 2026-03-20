@@ -38,9 +38,9 @@ const n={slug:"utility/misc-getrandomnumberlist",html:`<h2 id="请求示例">请
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>List&lt;decimal&gt;</code> <strong>numbers</strong></td>
+<td style="text-align:left"><code>List&lt;decimal&gt;</code> <strong>Numbers</strong></td>
 <td style="text-align:left">生成的随机数组</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>numbers</code><br/></td>
 </tr>
 </tbody>
 </table>

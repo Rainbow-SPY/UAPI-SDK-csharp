@@ -32,17 +32,17 @@ const t={slug:"games/minecraft-getuserdata",html:`<div class="gfm-alert gfm-aler
 <tr>
 <td style="text-align:left"><code>string</code> <strong>UserName</strong></td>
 <td style="text-align:left">用户名</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>username</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>UUID</strong></td>
 <td style="text-align:left">玩家的32位无破折号UUID</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>uuid</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>SkinImageUrl</strong></td>
 <td style="text-align:left">玩家当前使用的皮肤图片URL</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>skin_url</code></td>
 </tr>
 </tbody>
 </table>
