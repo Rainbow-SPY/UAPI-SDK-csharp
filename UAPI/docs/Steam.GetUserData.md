@@ -3,11 +3,11 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.Steam.GetUserData(string SteamID, string key);
+var request = await UAPI.Steam.GetUserData(string SteamID, string key, string Authentication = "");
 ```
 
 - 参数选项:
-
+   * **Authentication**: API Token, 默认为空
   - **SteamID:** 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下:
 
      | ID类型 | 正则表达式格式 | 示例 |
@@ -36,21 +36,21 @@ var request = await UAPI.Steam.GetUserData(string SteamID, string key);
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **SteamID64**| SteamID64 | |
-|`bool` **IsCommunityVisibility**| Steam社区状态是否可见 | |
-|`bool` **IsInitialized**| 是否已经填写了个人资料 | |
-|`string` **Name**| Steam用户名 | |
-|`string` **ProfileUrl**| Steam个人主页 | |
-|`string` **Avatar_32x32**| Steam头像 | 32\*32图像 |
-|`string` **Avatar_64x64**| Steam头像 | 64\*64图像 |
-|`string` **Avatar_184x184**| Steam头像 | 184\*184图像 |
-|`string` **AvatarHash**| 头像的哈希值 | |
-|`string` **PersonaState**| Steam在线状态 | |
-|`string` **RealName**| Steam真实姓名 | |
-|`string` **PrimaryClanID**| 主要社区组 | 挂在主页的第一个社区组的ID |
-|`decimal` **RegisterTimeUnix**| Steam账号创建日期的时间戳 | |
-|`string` **RegisterTime**| Steam账号创建日期 | |
-|`string` **BindLocationRegionCode**| Steam账号绑定区域 | |
-|`string` **FriendCode**| 好友代码 (SteamID32) | |
-|`string` **SteamID3**| SteamID3 | |
-|`string` **SteamID1**| SteamID1 | |
+|`string` **SteamID64**| SteamID64 | 原始`Json`传入:`steamid` |
+|`bool` **IsCommunityVisibility**| Steam社区状态是否可见 | 原始`Json`传入:`communityvisibilitystate` |
+|`bool` **IsInitialized**| 是否已经填写了个人资料 | 原始`Json`传入:`profilestate` |
+|`string` **Name**| Steam用户名 | 原始`Json`传入:`personaname` |
+|`string` **ProfileUrl**| Steam个人主页 | 原始`Json`传入:`profileurl` |
+|`string` **Avatar_32x32**| Steam头像 | 原始`Json`传入:`avatar`<br/>32\*32图像 |
+|`string` **Avatar_64x64**| Steam头像 | 原始`Json`传入:`avatarmedium`<br/>64\*64图像 |
+|`string` **Avatar_184x184**| Steam头像 | 原始`Json`传入:`avatarfull`<br/>184\*184图像 |
+|`string` **AvatarHash**| 头像的哈希值 | 原始`Json`传入:`avatarhash` |
+|`string` **PersonaState**| Steam在线状态 | 原始`Json`传入:`personastate` |
+|`string` **RealName**| Steam真实姓名 | 原始`Json`传入:`realname` |
+|`string` **PrimaryClanID**| 主要社区组 | 原始`Json`传入:`primaryclanid`<br/>挂在主页的第一个社区组的ID |
+|`decimal` **RegisterTimeUnix**| Steam账号创建日期的时间戳 | 原始`Json`传入:`timecreated` |
+|`string` **RegisterTime**| Steam账号创建日期 | 原始`Json`传入:`timecreated_str` |
+|`string` **BindLocationRegionCode**| Steam账号绑定区域 | 原始`Json`传入:`loccountrycode` |
+|`string` **FriendCode**| 好友代码 (SteamID32) | 原始`Json`传入:`friendcode` |
+|`string` **SteamID3**| SteamID3 |  |
+|`string` **SteamID1**| SteamID1 |  |

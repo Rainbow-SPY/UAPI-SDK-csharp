@@ -7,7 +7,7 @@ var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0,
               int count = 0,
               bool allow_repeat = false,
               bool allow_decimal = false, 
-              int decimal_places = 0);
+              int decimal_places = 0, string Authentication = "");
 ```
 
 * 参数选项:
@@ -17,6 +17,7 @@ var request = await UAPI.misc.GetRandomNumberList(int min = 0, int max = 0,
   * **allow_repeat:** 是否允许生成的多个数字中出现重复值。
   * **allow_decimal:** 是否生成小（浮点）数。如果为 `false`，则只生成整数。
   * **decimal_places:** 如果 `allow_decimal=true`，这里可以指定小数的位数。
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.misc.RandomNumberType>`
 * **返回值:** `RandomNumberType` 对象
 * **异常:**

@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.misc.GetPhoneInfo(string phoneNumber);
+var request = await UAPI.misc.GetPhoneInfo(string phoneNumber, string Authentication = "");
 ```
 
 - 参数选项:
   - **phoneNumber:** 指定要查询的中国大陆 11 位手机号码
+  - **Authentication**: API Token, 默认为空
 - **返回类型:** `Task <UAPI.misc.PhoneInfoType>`
 - **返回值:** `PhoneInfoType` 对象
 - **异常:**

@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.QQ.GetUserData(string qq);
+var request = await UAPI.QQ.GetUserData(string qq, string Authentication = "");
 ```
 
 * 参数选项:
   * **qq:** 指定要查询的用户QQ号
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.QQ.UserType>`
 * **返回值:** `UserType` 对象
 * **异常:**
@@ -21,19 +22,19 @@ var request = await UAPI.QQ.GetUserData(string qq);
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **QQ**| QQ号 | |
-|`string` **Name**| 昵称 | |
-|`string` **CustomSignText**| 个性签名 | |
-|`string` **AvatarImageUrl**| 头像链接 | |
-|`int` **Age**| 年龄 | |
-|`string` **Sex**| 性别 | |
-|`string` **QID**| QQ个性域名 | |
-|`int` **QQLevel**| QQ等级 | |
-|`string` **Location**| 地理位置 | |
-|`string` **Email**| 电子邮箱 | |
-|`bool` **IsVip**| 是否开通了SVIP | |
-|`int` **VipLevel**| 会员等级 | |
-|`string` **RegisterTime_ISO8601**| 注册时间 | ISO 8601 格式 |
+|`string` **QQ**| QQ号 | 原始`Json`传入:`qq` |
+|`string` **Name**| 昵称 | 原始`Json`传入:`nickname` |
+|`string` **CustomSignText**| 个性签名 | 原始`Json`传入:`long_nick` |
+|`string` **AvatarImageUrl**| 头像链接 | 原始`Json`传入:`avatar_url` |
+|`int` **Age**| 年龄 | 原始`Json`传入:`age` |
+|`string` **Sex**| 性别 | 原始`Json`传入:`sex` |
+|`string` **QID**| QQ个性域名 | 原始`Json`传入:`qid` |
+|`int` **QQLevel**| QQ等级 | 原始`Json`传入:`qq_level` |
+|`string` **Location**| 地理位置 | 原始`Json`传入:`location` |
+|`string` **Email**| 电子邮箱 | 原始`Json`传入:`email` |
+|`bool` **IsVip**| 是否开通了SVIP | 原始`Json`传入:`is_vip` |
+|`int` **VipLevel**| 会员等级 | 原始`Json`传入:`vip_level` |
+|`string` **RegisterTime_ISO8601**| 注册时间 | 原始`Json`传入:`reg_time`<br/>ISO 8601 格式 |
 |`string` **RegisterTime**| 注册时间 | 字符串格式 |
-|`string` **LastUpdatedTime_ISO8601**| 最后更新时间 | ISO 8601 格式 |
+|`string` **LastUpdatedTime_ISO8601**| 最后更新时间 | 原始`Json`传入:`last_updated`<br/>ISO 8601 格式 |
 |`string` **LastUpdatedTime**| 最后更新时间 | 字符串格式 |

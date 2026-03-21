@@ -6,26 +6,34 @@
 var request = await UAPI.bilibili.GetArchives(string mid,
  ArchivesSearchType orderby = ArchivesSearchType.Pubdate,
  string keywords = "",
- int ps = 20, int pn = 1)
+ int ps = 20, int pn = 1, string Authentication = "")
 ```
 
 * 参数选项:
- * **mid:** 指定要查询的用户UID(mid)
- * **orderby:** 指定以何种查询方式, 默认为 `Pubdate`. 可供使用的枚举有:
+    * **mid:** 指定要查询的用户UID(mid)
+    * **orderby:** 指定以何种查询方式, 默认为 `Pubdate`. 可供使用的枚举有:
 
- | 枚举值 | 注释 |
- |:---------:|:---------:|
- | `Pubdate` | 以最新发布顺序排列 |
- | `Views` | 以播放量排列 |
- * **keywords:** 指定一个关键字作为查找内容并返回与之相关的内容, 默认为空.
- * **ps:** 指定每页的稿件数量, 默认 `20`.
- * **pn:** 指定一个页码并返回指定页码的稿件信息, 默认为 `1`.
+
+|  枚举值   |        注释        |
+| :-------: | :----------------: |
+| `Pubdate` | 以最新发布顺序排列 |
+|  `Views`  |    以播放量排列    |
+
+- **keywords:** 指定一个关键字作为查找内容并返回与之相关的内容, 默认为空.
+  * **ps:** 指定每页的稿件数量, 默认 `20`.
+  * **pn:** 指定一个页码并返回指定页码的稿件信息, 默认为 `1`.
+  * **Authentication**: API Token, 默认为空
+
 * **返回类型:** `Task <UAPI.bilibili.ArchiveType>`
 * **返回值:** `ArchiveType` 对象
 * **异常:**
- - `IException.General.UAPIServerDown`: 请求源服务器发生错误
- - `UnauthorizedAccessException`: 未经授权的请求操作
- - `IException.bilibili.BilibiliServiceError`: bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
+
+   - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+
+   - `UnauthorizedAccessException`: 未经授权的请求操作
+
+   - `IException.bilibili.BilibiliServiceError`: bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
+
 
 ## 属性列表
 

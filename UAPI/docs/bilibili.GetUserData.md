@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.bilibili.GetUserData(string mid);
+var request = await UAPI.bilibili.GetUserData(string mid, string Authentication = "");
 ```
 
 * 参数选项:
   * **mid:** 指定要查询的用户UID(mid)
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.bilibili.UserType>`
 * **返回值:** `UserType` 对象
 * **异常:**

@@ -385,7 +385,7 @@ namespace TestConsole
                     WriteLog.Info("Weather", $"未来三天的天气预报");
                     foreach (var _data in result.forecast)
                         WriteLog.Info("Weather Forecast",
-                            $"{_data.date} 的天气预报:\n" + $"白天天气: {_data.DayWeather}, 夜间天气: {_data.NightWeather}\n" +
+                            $"{_data.Date} 的天气预报:\n" + $"白天天气: {_data.DayWeather}, 夜间天气: {_data.NightWeather}\n" +
                             $"最高温度: {_data.MaxTemperature} ℃, 最低温度: {_data.MinTemperature} ℃\n" +
                             $"降水量: {_data.Precipitation} mm, 能见度: {_data.Visibility} km, 紫外线指数: {_data.UV}");
                 }

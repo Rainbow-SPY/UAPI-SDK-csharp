@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.misc.DetectTrackingCarrier(string tracking_number);
+var request = await UAPI.misc.DetectTrackingCarrier(string tracking_number, string Authentication = "");
 ```
 
 - 参数选项:
   - **tracking_number:** 快递单号
+  - **Authentication**: API Token, 默认为空
 - **返回类型:** `Task <UAPI.misc.DetectedCarrierType>`
 - **返回值:** `DetectedCarrierType` 对象
 - **异常:**

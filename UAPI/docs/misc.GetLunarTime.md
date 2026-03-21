@@ -3,13 +3,14 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.misc.GetLunarTime(string ts = "", string timezone = "Asia/Shanghai")
+var request = await UAPI.misc.GetLunarTime(string ts = "", string timezone = "Asia/Shanghai", string Authentication = "")
 ```
 
 * 参数选项:
 
   * **ts: ** Unix 时间戳，支持 10 位秒级或 13 位毫秒级。默认以当前时间。
   * **timezone**: 时区名称。支持 IANA 时区（如 `Asia/Shanghai`）和别名（`Shanghai`、`Beijing`）。默认 `Asia/Shanghai`。
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.misc.LunarTimeType>`
 * **返回值:** `LunarTimeType` 对象
 * **异常:**

@@ -3,9 +3,11 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.hotboard.GetBilibiliHotboard();
+var request = await UAPI.hotboard.GetBilibiliHotboard(string Authentication = "");
 ```
 
+* **参数选项**: 
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.hotboard.bilibiliType>`
 * **返回值:** `bilibiliType` 对象
 * **异常:**

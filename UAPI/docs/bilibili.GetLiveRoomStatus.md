@@ -6,13 +6,14 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.bilibili.GetLiveRoomStatus.AsID(string mid);
- = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id);
+var request = await UAPI.bilibili.GetLiveRoomStatus.AsID(string mid, string Authentication = "");
+ = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id, string Authentication = "");
 ```
 
 * 参数选项:
  * **mid:** 指定要查询的用户UID(mid)
  * **room_id:** 指定要查询的直播间ID, 和上述参数 `mid` 选其一即可.
+ * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.bilibili.LiveRoomType>`
 * **返回值:** `LiveRoomType` 对象
 * **异常:**

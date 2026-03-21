@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.misc.CovertTimestamp(string ts);
+var request = await UAPI.misc.CovertTimestamp(string ts, string Authentication = "");
 ```
 
 * 参数选项:
   * **ts** : Unix 时间戳, 支持10位（秒）或13位（毫秒）。
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.misc.TimestampType>`
 * **返回值:** `TimestampType` 对象
 * **异常:**

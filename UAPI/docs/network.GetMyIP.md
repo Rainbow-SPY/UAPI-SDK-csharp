@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.Network.GetMyIP(bool commercial = false);
+var request = await UAPI.Network.GetMyIP(bool commercial = false, string Authentication = "");
 ```
 
 * 参数选项:
   * **commercial:** 指定是否使用商业级的数据源, 默认为 `false`
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.Network.IPType>`
 * **返回值:** `IPType` 对象
 * **异常:**
@@ -20,13 +21,13 @@ var request = await UAPI.Network.GetMyIP(bool commercial = false);
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **ip**| 你的公网IP地址 | |
-|`string` **BeginAddress**| IP段起始地址 | |
-|`string` **EndAddress**| IP段结束地址 | |
-|`string` **Region**| 地理位置 | 格式：国家 省份 城市 |
-|`string` **ISP**| 运营商名称 | |
-|`string` **ASN**| 自治系统编号 | |
-|`string` **LLC**| 归属机构 | |
-|`decimal` **Latitude**| 纬度 | |
-|`decimal` **Longitude**| 经度 | |
-|`string` **District_Pro**| 行政区 | **仅限商业查询** |
+|`string` **IP**| 你的公网IP地址 | 原始`Json`传入:`ip` |
+|`string` **BeginAddress**| IP段起始地址 | 原始`Json`传入:`beginip` |
+|`string` **EndAddress**| IP段结束地址 | 原始`Json`传入:`endip` |
+|`string` **Region**| 地理位置 | 原始`Json`传入:`region`<br/>格式：国家 省份 城市 |
+|`string` **ISP**| 运营商名称 | 原始`Json`传入:`isp` |
+|`string` **ASN**| 自治系统编号 | 原始`Json`传入:`asn` |
+|`string` **LLC**| 归属机构 | 原始`Json`传入:`llc` |
+|`decimal` **Latitude**| 纬度 | 原始`Json`传入:`latitude` |
+|`decimal` **Longitude**| 经度 | 原始`Json`传入:`longitude` |
+|`string` **District_Pro**| 行政区 | 原始`Json`传入:`district`<br/>**仅限商业查询** |

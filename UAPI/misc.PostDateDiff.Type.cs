@@ -13,37 +13,37 @@ namespace UAPI
             /// 总天数
             /// </summary>
             [JsonProperty("days")]
-            public long days { get; set; }
+            public long Days { get; set; }
 
             /// <summary>
             /// 总小时数
             /// </summary>
             [JsonProperty("hours")]
-            public long hours { get; set; }
+            public long Hours { get; set; }
 
             /// <summary>
             /// 总分钟数
             /// </summary>
             [JsonProperty("minutes")]
-            public long minutes { get; set; }
+            public long Minutes { get; set; }
 
             /// <summary>
             /// 总秒数
             /// </summary>
             [JsonProperty("seconds")]
-            public long seconds { get; set; }
+            public long Seconds { get; set; }
 
             /// <summary>
             /// 总周数
             /// </summary>
             [JsonProperty("weeks")]
-            public long weeks { get; set; }
+            public long Weeks { get; set; }
 
             /// <summary>
             /// 人性化显示格式
             /// </summary>
             [JsonProperty("human_readable")]
-            public string human_readable { get; set; }
+            public string HumanReadable { get; set; }
         }
     }
 }

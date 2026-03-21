@@ -7,11 +7,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.minecraft.GetUserData(string username);
+var request = await UAPI.minecraft.GetUserData(string username, string Authentication = "");
 ```
 
 * 参数选项:
   * **username:** 指定要查询的用户名
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.minectaft.UserType>`
 * **返回值:** `UserType` 对象
 * **异常:**

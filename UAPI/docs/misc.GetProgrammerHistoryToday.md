@@ -3,8 +3,11 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.misc.GetProgrammerHistoryToday();
+var request = await UAPI.misc.GetProgrammerHistoryToday(string Authentication = "");
 ```
+
+* **参数选项:**
+  * **Authentication**: API Token, 默认为空
 
 * **返回类型:** `Task <UAPI.misc.HistoryTodayType>`
 * **返回值:** `HistoryTodayType` 对象
@@ -12,7 +15,7 @@ var request = await UAPI.misc.GetProgrammerHistoryToday();
   - `IException.General.UAPIServerDown`: 请求源服务器发生错误
   - `UnauthorizedAccessException`: 未经授权的请求操作
   - `IException.General.UAPIUnknowException`:  未知的异常
-  
+
 
 ## 属性列表
 

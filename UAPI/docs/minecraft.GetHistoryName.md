@@ -4,12 +4,14 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType searchType);
+var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType searchType, string Authentication = "");
 ```
 
 * 参数选项:
 
   * **_param:** 指定要查询的用户UUID或昵称
+
+  * **Authentication**: API Token, 默认为空
 
   * **searchType:** 指定查询的查找方式, 可供使用的枚举如下:
 

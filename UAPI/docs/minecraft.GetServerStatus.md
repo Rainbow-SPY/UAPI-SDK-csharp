@@ -3,13 +3,14 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.minecraft.GetServerStatus(string server, int port=25565);
+var request = await UAPI.minecraft.GetServerStatus(string server, int port=25565, string Authentication = "");
 ```
 
 * 参数选项:
 
   * **server:** 指定要查询的服务器地址
   * **port:** 指定查询的服务器的端口, 默认为 `25565`.
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.minecraft.ServerType>`
 * **返回值:** `ServerType` 对象
 * **异常:**

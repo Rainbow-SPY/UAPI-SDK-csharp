@@ -296,7 +296,8 @@ namespace UAPI
                 /// <summary>
                 /// 预报时间
                 /// </summary>
-                public string time { get; set; }
+                [JsonProperty("time")]
+                public string Time { get; set; }
 
                 /// <summary>
                 /// 降水量
@@ -499,13 +500,14 @@ namespace UAPI
                 /// <summary>
                 /// 预告日期
                 /// </summary>
-                public string date { get; set; }
+                [JsonProperty("date")]
+                public string Date { get; set; }
 
                 /// <summary>
                 /// 星期几
                 /// </summary>
                 [JsonProperty("week")]
-                public string week { get; set; }
+                public string Week { get; set; }
 
                 /// <summary>
                 /// <see langword="double"/> 一天中的最高温度

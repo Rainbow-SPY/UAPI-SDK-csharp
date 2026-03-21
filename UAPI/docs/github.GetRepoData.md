@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.github.GetReposData(string owner_and_repo)
+var request = await UAPI.github.GetReposData(string owner_and_repo, string Authentication = "")
 ```
 
 * 参数选项:
     * **owner_and_repo:** 指定要查询的用户+仓库, 例: `"torvalds/linux"`
+    * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.github.ReposType>`
 * **返回值:** `ReposType` 对象
 * **异常:**

@@ -3,14 +3,14 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType IDType)
+var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType IDType, string Authentication = "")
 ```
 
 * 参数选项:
+  * **mid:** 指定要查询的用户UID(mid)
+  * **Authentication**: API Token, 默认为空
+  * **IDType:** 指定查询视频的ID格式, 可供使用的枚举如下:
 
- * **mid:** 指定要查询的用户UID(mid)
-
- * **IDType:** 指定查询视频的ID格式, 可供使用的枚举如下:
 
  | 枚举值 | 注释 |
  | :----: | :---------------: |
@@ -23,9 +23,12 @@ var request = await UAPI.bilibili.GetVideoData(string video_id, BiliVideoIDType 
 
 * **异常:**
 
- - `IException.General.UAPIServerDown`: 请求源服务器发生错误
- - `UnauthorizedAccessException`: 未经授权的请求操作
- - `IException.bilibili.BilibiliServiceError`: bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
+   - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+
+   - `UnauthorizedAccessException`: 未经授权的请求操作
+
+   - `IException.bilibili.BilibiliServiceError`: bilibili API 上游服务异常, 这可能是他们的服务暂时中断.
+
 
 ## 属性列表
 

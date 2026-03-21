@@ -6,7 +6,7 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = "0", int ps = 20, int pn = 1)
+var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = "0", int ps = 20, int pn = 1, string Authentication = "")
 ```
 
 * 参数选项:
@@ -14,6 +14,7 @@ var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = "0", 
     * **sort:** 指定查询视频的排序方式支持 `0/time（按时间）`、`1/like（按点赞）`、`2/reply（按回复数）`、`3/hot/hottest/最热（按最热）`默认为`0/time`
     * **ps:** 每页获取的评论数量，范围是`1`到`20`默认为 `20`
     * **pn:** 要获取的页码，从`1`开始默认为 `1`
+    * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.bilibili.RepliesListType>`
 * **返回值:** `RepliesListType` 对象
 * **异常:**

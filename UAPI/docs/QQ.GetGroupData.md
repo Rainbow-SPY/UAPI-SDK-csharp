@@ -3,11 +3,12 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.QQ.GetGroupData(string group_id);
+var request = await UAPI.QQ.GetGroupData(string group_id, string Authentication = "");
 ```
 
 * 参数选项:
   * **group_id:** 指定要查询的群ID
+  * **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.QQ.GroupType>`
 * **返回值:** `GroupType` 对象
 * **异常:**
@@ -25,21 +26,21 @@ var request = await UAPI.QQ.GetGroupData(string group_id);
 
 | 属性值 | 注释 | 备注 |
 |:------|:----|:-----|
-|`string` **ID**| 群ID | |
-|`string` **Name**| 群名称 | |
-|`string` **AvatarImageUrl**| 群头像链接地址 | |
-|`string` **Description**| 群简介 | |
-|`string` **Tag**| 群标签 | |
-|`string` **JoinQRCodeUrl**| 群QR码地址 | |
-|`string` **LastUpdatedTime**| 最后更新时间 (ISO 8601) | |
-|`int` **MemberCount**| 当前成员数 | |
-|`int` **MaxMemberCount**| 最大成员数量 | |
-|`int` **ActiveMemberNum**| 活跃成员数(可选，部分群有此数据) | |
-|`string` **OwnerUinID**| 群主QQ号(可选) | |
-|`string` **OwnerUID**| 群主UID(可选) | |
-|`string` **CreateTimeUnix**| 建群时间戳(Unix时间戳，可选) | |
-|`string` **CreateTime**| 建群时间格式化字符串(可选) | |
-|`int` **GroupLevel**| 群等级(可选) | |
-|`string` **Introduction**| 群公告/简介(可选) | |
-|`bool` **IsCert**| 是否认证 | |
-|`string` **CertDescription**| 认证说明文本(可选) | |
+|`string` **ID**| 群ID | 原始`Json`传入:`group_id` |
+|`string` **Name**| 群名称 | 原始`Json`传入:`group_name` |
+|`string` **AvatarImageUrl**| 群头像链接地址 | 原始`Json`传入:`avatar_url` |
+|`string` **Description**| 群简介 | 原始`Json`传入:`description` |
+|`string` **Tag**| 群标签 | 原始`Json`传入:`tag` |
+|`string` **JoinQRCodeUrl**| 群QR码地址 | 原始`Json`传入:`join_url` |
+|`string` **LastUpdatedTime**| 最后更新时间 (ISO 8601) | 原始`Json`传入:`last_updated` |
+|`int` **MemberCount**| 当前成员数 | 原始`Json`传入:`member_count` |
+|`int` **MaxMemberCount**| 最大成员数量 | 原始`Json`传入:`max_member_count` |
+|`int` **ActiveMemberNum**| 活跃成员数(可选，部分群有此数据) | 原始`Json`传入:`ActiveMemberNum` |
+|`string` **OwnerUinID**| 群主QQ号(可选) | 原始`Json`传入:`owner_uin` |
+|`string` **OwnerUID**| 群主UID(可选) | 原始`Json`传入:`owner_uid` |
+|`string` **CreateTimeUnix**| 建群时间戳(Unix时间戳，可选) | 原始`Json`传入:`create_time` |
+|`string` **CreateTime**| 建群时间格式化字符串(可选) | 原始`Json`传入:`create_time_str` |
+|`int` **GroupLevel**| 群等级(可选) | 原始`Json`传入:`group_grade` |
+|`string` **Introduction**| 群公告/简介(可选) | 原始`Json`传入:`group_memo` |
+|`bool` **IsCert**| 是否认证 | 原始`Json`传入:`cert_type` |
+|`string` **CertDescription**| 认证说明文本(可选) | 原始`Json`传入:`cert_text` |

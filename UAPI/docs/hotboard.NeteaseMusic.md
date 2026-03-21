@@ -3,8 +3,11 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.hotboard.GetNeteaseMusicHotboard();
+var request = await UAPI.hotboard.GetNeteaseMusicHotboard(string Authentication = "");
 ```
+
+* **参数选项**: 
+  * **Authentication**: API Token, 默认为空
 
 * **返回类型:** `Task <UAPI.hotboard.NeteaseType>`
 * **返回值:** `NeteaseType` 对象

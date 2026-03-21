@@ -3,13 +3,14 @@
 ## 请求示例
 
 ```csharp
-var request = await UAPI.misc.GetTrackingInfo(string tracking_number, string carrier_code = "",string phone = "");
+var request = await UAPI.misc.GetTrackingInfo(string tracking_number, string carrier_code = "",string phone = "", string Authentication = "");
 ```
 
 * 参数列表
   - **tracking_number**: 快递单号，通常是一串10-20位的数字或字母数字组合。
   - **carrier_code**: 快递公司编码（可选）。不填写时系统会自动识别，填写后可加快查询速度。
   - **phone**: 收件人手机尾号，4位数字（可选）。部分快递公司需要验证手机尾号才能查询详细物流信息。
+  - **Authentication**: API Token, 默认为空
 * **返回类型:** `Task <UAPI.misc.TrackingInfoType>`
 * **返回值:** `TrackingInfoType` 对象
 * **异常:**
