@@ -1,6 +1,6 @@
 const t={slug:"social/bilibili-getreplieslist",html:`<div class="gfm-alert gfm-alert-important"><div class="gfm-alert-title"><span class="gfm-alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10h10"></path><path d="M7 14h6"></path><path d="M17 21l-5-3-5 3V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2z"></path></svg></span><span>Important</span></div><div class="gfm-alert-body"><p>此页面需要补充此页面需要补充</p>
 </div></div><h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = &quot;0&quot;, int ps = 20, int pn = 1)
+<pre><code class="language-csharp">var request = await UAPI.bilibili.GetRepliesList(string oid, string sort = &quot;0&quot;, int ps = 20, int pn = 1, string Authentication = &quot;&quot;)
 </code></pre>
 <ul>
 <li>参数选项:
@@ -9,6 +9,7 @@ const t={slug:"social/bilibili-getreplieslist",html:`<div class="gfm-alert gfm-a
 <li><strong>sort:</strong> 指定查询视频的排序方式支持 <code>0/time（按时间）</code>、<code>1/like（按点赞）</code>、<code>2/reply（按回复数）</code>、<code>3/hot/hottest/最热（按最热）</code>默认为<code>0/time</code></li>
 <li><strong>ps:</strong> 每页获取的评论数量，范围是<code>1</code>到<code>20</code>默认为 <code>20</code></li>
 <li><strong>pn:</strong> 要获取的页码，从<code>1</code>开始默认为 <code>1</code></li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.bilibili.RepliesListType&gt;</code></li>

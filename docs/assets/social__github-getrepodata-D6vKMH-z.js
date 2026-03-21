@@ -1,10 +1,11 @@
 const t={slug:"social/github-getrepodata",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.github.GetReposData(string owner_and_repo)
+<pre><code class="language-csharp">var request = await UAPI.github.GetReposData(string owner_and_repo, string Authentication = &quot;&quot;)
 </code></pre>
 <ul>
 <li>参数选项:
 <ul>
 <li><strong>owner_and_repo:</strong> 指定要查询的用户+仓库, 例: <code>&quot;torvalds/linux&quot;</code></li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.github.ReposType&gt;</code></li>

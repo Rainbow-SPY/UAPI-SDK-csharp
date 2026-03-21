@@ -3,7 +3,7 @@ const n={slug:"utility/misc-getrandomnumberlist",html:`<h2 id="请求示例">请
               int count = 0,
               bool allow_repeat = false,
               bool allow_decimal = false, 
-              int decimal_places = 0);
+              int decimal_places = 0, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>参数选项:
@@ -14,6 +14,7 @@ const n={slug:"utility/misc-getrandomnumberlist",html:`<h2 id="请求示例">请
 <li><strong>allow_repeat:</strong> 是否允许生成的多个数字中出现重复值。</li>
 <li><strong>allow_decimal:</strong> 是否生成小（浮点）数。如果为 <code>false</code>，则只生成整数。</li>
 <li><strong>decimal_places:</strong> 如果 <code>allow_decimal=true</code>，这里可以指定小数的位数。</li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.misc.RandomNumberType&gt;</code></li>

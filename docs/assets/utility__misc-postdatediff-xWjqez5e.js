@@ -1,5 +1,5 @@
 const t={slug:"utility/misc-postdatediff",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,string format = &quot;YYYY-MM-DD&quot;);
+<pre><code class="language-csharp">var request = await UAPI.misc.PostDateDiff(string start_date, string end_date,string format = &quot;YYYY-MM-DD&quot;, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>参数列表
@@ -7,6 +7,7 @@ const t={slug:"utility/misc-postdatediff",html:`<h2 id="请求示例">请求示�
 <li><strong>start_date</strong>: 开始时间/日期</li>
 <li><strong>end_date</strong>: 结束时间/日期</li>
 <li><strong>format</strong>: 时间格式, 默认为 <code>YYYY-MM-DD</code></li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.misc.DateDiffType&gt;</code></li>
@@ -31,34 +32,34 @@ const t={slug:"utility/misc-postdatediff",html:`<h2 id="请求示例">请求示�
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><code>long</code> <strong>days</strong></td>
+<td style="text-align:left"><code>long</code> <strong>Days</strong></td>
 <td style="text-align:left">总天数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>days</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>long</code> <strong>hours</strong></td>
+<td style="text-align:left"><code>long</code> <strong>Hours</strong></td>
 <td style="text-align:left">总小时数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>hours</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>long</code> <strong>minutes</strong></td>
+<td style="text-align:left"><code>long</code> <strong>Minutes</strong></td>
 <td style="text-align:left">总分钟数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>minutes</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>long</code> <strong>seconds</strong></td>
+<td style="text-align:left"><code>long</code> <strong>Seconds</strong></td>
 <td style="text-align:left">总秒数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>seconds</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>long</code> <strong>weeks</strong></td>
+<td style="text-align:left"><code>long</code> <strong>Weeks</strong></td>
 <td style="text-align:left">总周数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>weeks</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><code>string</code> <strong>human_readable</strong></td>
+<td style="text-align:left"><code>string</code> <strong>HumanReadable</strong></td>
 <td style="text-align:left">人性化显示格式</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>human_readable</code></td>
 </tr>
 </tbody>
 </table>

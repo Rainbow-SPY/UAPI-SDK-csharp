@@ -1,10 +1,11 @@
 const t={slug:"social/bilibili-getuserdata",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.bilibili.GetUserData(string mid);
+<pre><code class="language-csharp">var request = await UAPI.bilibili.GetUserData(string mid, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>参数选项:
 <ul>
 <li><strong>mid:</strong> 指定要查询的用户UID(mid)</li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.bilibili.UserType&gt;</code></li>

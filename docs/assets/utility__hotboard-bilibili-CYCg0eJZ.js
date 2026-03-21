@@ -1,7 +1,12 @@
 const t={slug:"utility/hotboard-bilibili",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.hotboard.GetBilibiliHotboard();
+<pre><code class="language-csharp">var request = await UAPI.hotboard.GetBilibiliHotboard(string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
+<li><strong>参数选项</strong>:
+<ul>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
+</ul>
+</li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.hotboard.bilibiliType&gt;</code></li>
 <li><strong>返回值:</strong> <code>bilibiliType</code> 对象</li>
 <li><strong>异常:</strong>

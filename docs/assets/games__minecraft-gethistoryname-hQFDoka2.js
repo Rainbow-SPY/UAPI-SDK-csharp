@@ -1,6 +1,6 @@
 const t={slug:"games/minecraft-gethistoryname",html:`<div class="gfm-alert gfm-alert-note"><div class="gfm-alert-title"><span class="gfm-alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></span><span>Note</span></div><div class="gfm-alert-body"><p>所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 <code>404</code>等<code>StatusCode</code> .所有 Minecraft 相关被请求查询的用户必须均为正版, 否则没有官方数据会返回 <code>404</code>等<code>StatusCode</code> .</p>
 </div></div><h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType searchType);
+<pre><code class="language-csharp">var request = await UAPI.minecraft.GetHistoryName(string _param, SearchType searchType, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>
@@ -8,6 +8,9 @@ const t={slug:"games/minecraft-gethistoryname",html:`<div class="gfm-alert gfm-a
 <ul>
 <li>
 <p><strong>_param:</strong> 指定要查询的用户UUID或昵称</p>
+</li>
+<li>
+<p><strong>Authentication</strong>: API Token, 默认为空</p>
 </li>
 <li>
 <p><strong>searchType:</strong> 指定查询的查找方式, 可供使用的枚举如下:</p>

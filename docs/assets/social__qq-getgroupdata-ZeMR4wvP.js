@@ -1,10 +1,11 @@
 const t={slug:"social/qq-getgroupdata",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.QQ.GetGroupData(string group_id);
+<pre><code class="language-csharp">var request = await UAPI.QQ.GetGroupData(string group_id, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>参数选项:
 <ul>
 <li><strong>group_id:</strong> 指定要查询的群ID</li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.QQ.GroupType&gt;</code></li>
@@ -32,92 +33,92 @@ const t={slug:"social/qq-getgroupdata",html:`<h2 id="请求示例">请求示例<
 <tr>
 <td style="text-align:left"><code>string</code> <strong>ID</strong></td>
 <td style="text-align:left">群ID</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>group_id</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td style="text-align:left">群名称</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>group_name</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>AvatarImageUrl</strong></td>
 <td style="text-align:left">群头像链接地址</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>avatar_url</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Description</strong></td>
 <td style="text-align:left">群简介</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>description</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Tag</strong></td>
 <td style="text-align:left">群标签</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>tag</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>JoinQRCodeUrl</strong></td>
 <td style="text-align:left">群QR码地址</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>join_url</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>LastUpdatedTime</strong></td>
 <td style="text-align:left">最后更新时间 (ISO 8601)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>last_updated</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>MemberCount</strong></td>
 <td style="text-align:left">当前成员数</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>member_count</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>MaxMemberCount</strong></td>
 <td style="text-align:left">最大成员数量</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>max_member_count</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>ActiveMemberNum</strong></td>
 <td style="text-align:left">活跃成员数(可选，部分群有此数据)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>ActiveMemberNum</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>OwnerUinID</strong></td>
 <td style="text-align:left">群主QQ号(可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>owner_uin</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>OwnerUID</strong></td>
 <td style="text-align:left">群主UID(可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>owner_uid</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>CreateTimeUnix</strong></td>
 <td style="text-align:left">建群时间戳(Unix时间戳，可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>create_time</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>CreateTime</strong></td>
 <td style="text-align:left">建群时间格式化字符串(可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>create_time_str</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>int</code> <strong>GroupLevel</strong></td>
 <td style="text-align:left">群等级(可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>group_grade</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Introduction</strong></td>
 <td style="text-align:left">群公告/简介(可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>group_memo</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsCert</strong></td>
 <td style="text-align:left">是否认证</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>cert_type</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>CertDescription</strong></td>
 <td style="text-align:left">认证说明文本(可选)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>cert_text</code></td>
 </tr>
 </tbody>
 </table>

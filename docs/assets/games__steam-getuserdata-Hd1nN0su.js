@@ -1,9 +1,12 @@
 const t={slug:"games/steam-getuserdata",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.Steam.GetUserData(string SteamID, string key);
+<pre><code class="language-csharp">var request = await UAPI.Steam.GetUserData(string SteamID, string key, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>
 <p>参数选项:</p>
+<ul>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
+</ul>
 <ul>
 <li>
 <p><strong>SteamID:</strong> 指定要查询的用户ID, 有多重枚举类型的ID可供选择, 如下:</p>
@@ -78,82 +81,82 @@ const t={slug:"games/steam-getuserdata",html:`<h2 id="请求示例">请求示例
 <tr>
 <td style="text-align:left"><code>string</code> <strong>SteamID64</strong></td>
 <td style="text-align:left">SteamID64</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>steamid</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsCommunityVisibility</strong></td>
 <td style="text-align:left">Steam社区状态是否可见</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>communityvisibilitystate</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>bool</code> <strong>IsInitialized</strong></td>
 <td style="text-align:left">是否已经填写了个人资料</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>profilestate</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Name</strong></td>
 <td style="text-align:left">Steam用户名</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>personaname</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>ProfileUrl</strong></td>
 <td style="text-align:left">Steam个人主页</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>profileurl</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Avatar_32x32</strong></td>
 <td style="text-align:left">Steam头像</td>
-<td style="text-align:left">32*32图像</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>avatar</code><br/>32*32图像</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Avatar_64x64</strong></td>
 <td style="text-align:left">Steam头像</td>
-<td style="text-align:left">64*64图像</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>avatarmedium</code><br/>64*64图像</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>Avatar_184x184</strong></td>
 <td style="text-align:left">Steam头像</td>
-<td style="text-align:left">184*184图像</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>avatarfull</code><br/>184*184图像</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>AvatarHash</strong></td>
 <td style="text-align:left">头像的哈希值</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>avatarhash</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>PersonaState</strong></td>
 <td style="text-align:left">Steam在线状态</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>personastate</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>RealName</strong></td>
 <td style="text-align:left">Steam真实姓名</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>realname</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>PrimaryClanID</strong></td>
 <td style="text-align:left">主要社区组</td>
-<td style="text-align:left">挂在主页的第一个社区组的ID</td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>primaryclanid</code><br/>挂在主页的第一个社区组的ID</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>decimal</code> <strong>RegisterTimeUnix</strong></td>
 <td style="text-align:left">Steam账号创建日期的时间戳</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>timecreated</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>RegisterTime</strong></td>
 <td style="text-align:left">Steam账号创建日期</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>timecreated_str</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>BindLocationRegionCode</strong></td>
 <td style="text-align:left">Steam账号绑定区域</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>loccountrycode</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>FriendCode</strong></td>
 <td style="text-align:left">好友代码 (SteamID32)</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">原始<code>Json</code>传入:<code>friendcode</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>string</code> <strong>SteamID3</strong></td>

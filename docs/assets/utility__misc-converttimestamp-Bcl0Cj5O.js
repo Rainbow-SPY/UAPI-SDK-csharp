@@ -1,10 +1,11 @@
 const t={slug:"utility/misc-converttimestamp",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.misc.CovertTimestamp(string ts);
+<pre><code class="language-csharp">var request = await UAPI.misc.CovertTimestamp(string ts, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>参数选项:
 <ul>
 <li><strong>ts:</strong> Unix 时间戳, 支持10位（秒）或13位（毫秒）。</li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 </ul>
 </li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.misc.TimestampType&gt;</code></li>

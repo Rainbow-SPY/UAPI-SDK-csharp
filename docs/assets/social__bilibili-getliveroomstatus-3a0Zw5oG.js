@@ -1,12 +1,13 @@
 const t={slug:"social/bilibili-getliveroomstatus",html:`<div class="gfm-alert gfm-alert-important"><div class="gfm-alert-title"><span class="gfm-alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10h10"></path><path d="M7 14h6"></path><path d="M17 21l-5-3-5 3V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2z"></path></svg></span><span>Important</span></div><div class="gfm-alert-body"><p>此页面需要补充此页面需要补充</p>
 </div></div><h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.bilibili.GetLiveRoomStatus.AsID(string mid);
- = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id);
+<pre><code class="language-csharp">var request = await UAPI.bilibili.GetLiveRoomStatus.AsID(string mid, string Authentication = &quot;&quot;);
+ = await UAPI.bilibili.GetLiveRoomStatus.AsLiveroomID(string room_id, string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
 <li>参数选项:</li>
 <li><strong>mid:</strong> 指定要查询的用户UID(mid)</li>
 <li><strong>room_id:</strong> 指定要查询的直播间ID, 和上述参数 <code>mid</code> 选其一即可.</li>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
 <li><strong>返回类型:</strong> <code>Task &lt;UAPI.bilibili.LiveRoomType&gt;</code></li>
 <li><strong>返回值:</strong> <code>LiveRoomType</code> 对象</li>
 <li><strong>异常:</strong></li>

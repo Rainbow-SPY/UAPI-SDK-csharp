@@ -1,10 +1,21 @@
 const t={slug:"utility/hotboard-neteasemusic",html:`<h2 id="请求示例">请求示例</h2>
-<pre><code class="language-csharp">var request = await UAPI.hotboard.GetNeteaseMusicHotboard();
+<pre><code class="language-csharp">var request = await UAPI.hotboard.GetNeteaseMusicHotboard(string Authentication = &quot;&quot;);
 </code></pre>
 <ul>
-<li><strong>返回类型:</strong> <code>Task &lt;UAPI.hotboard.NeteaseType&gt;</code></li>
-<li><strong>返回值:</strong> <code>NeteaseType</code> 对象</li>
-<li><strong>异常:</strong>
+<li>
+<p><strong>参数选项</strong>:</p>
+<ul>
+<li><strong>Authentication</strong>: API Token, 默认为空</li>
+</ul>
+</li>
+<li>
+<p><strong>返回类型:</strong> <code>Task &lt;UAPI.hotboard.NeteaseType&gt;</code></p>
+</li>
+<li>
+<p><strong>返回值:</strong> <code>NeteaseType</code> 对象</p>
+</li>
+<li>
+<p><strong>异常:</strong></p>
 <ul>
 <li><code>IException.General.UAPIServerDown</code>: 请求源服务器发生错误</li>
 <li><code>UnauthorizedAccessException</code>: 未经授权的请求操作</li>
