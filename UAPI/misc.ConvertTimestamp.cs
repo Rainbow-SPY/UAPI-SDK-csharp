@@ -15,7 +15,7 @@ namespace UAPI
         public static async Task<TimestampType> CovertTimestamp(string ts, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<TimestampType>($"https://uapis.cn/api/v1/misc/timestamp?ts={ts}",
+                await Interface.GetResult<TimestampType>($"{Interface._UAPI_Request_Url}misc/timestamp?ts={ts}",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "ts", statusCode, new IException.General.UAPIUnknowException(),
                     "ConvertTimestamp", IException.General._UAPI_Server_Down))

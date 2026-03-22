@@ -18,7 +18,7 @@ namespace UAPI
             string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<DetectedCarrierType>(
-                $"https://uapis.cn/api/v1/misc/tracking/detect?tracking_number={tracking_number}", Authentication);
+                $"{Interface._UAPI_Request_Url}misc/tracking/detect?tracking_number={tracking_number}", Authentication);
             if (!Interface.IsGetSuccessful(result, "tracking_number", statusCode, new General.UAPIUnknowException(),
                     "DetectTrackingCarrier", General._UAPI_Unknown_Exception))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");

@@ -22,11 +22,6 @@ namespace UAPI
     public partial class bilibili
     {
         /// <summary>
-        /// 请求地址
-        /// </summary>
-        public const string requestUrl_Main = @"https://uapis.cn/api/v1/social/bilibili/";
-
-        /// <summary>
         /// 获取bilibili直播间的信息
         /// </summary>
         public class GetLiveroomStatus
@@ -55,7 +50,7 @@ namespace UAPI
         {
             var (result, statusCode) =
                 await Interface.GetResult<LiveroomType>(
-                    $@"{requestUrl_Main}liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}",
+                    $@"{Interface._UAPI_Request_Url}social/bilibili/liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",

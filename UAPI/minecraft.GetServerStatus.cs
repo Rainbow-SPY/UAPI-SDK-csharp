@@ -35,7 +35,7 @@ namespace UAPI
             string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<ServerType>(
-                $"https://uapis.cn/api/v1/game/minecraft/serverstatus?server={server}{(port == -1 ? "" : $":{port}")}",
+                $"{Interface._UAPI_Request_Url}game/minecraft/serverstatus?server={server}{(port == -1 ? "" : $":{port}")}",
                 Authentication);
             if (!Interface.IsGetSuccessful(result, "server", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",

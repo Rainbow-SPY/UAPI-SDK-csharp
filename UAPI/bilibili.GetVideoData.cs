@@ -16,7 +16,7 @@ namespace UAPI
             string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<VideoType>(
-                $"https://uapis.cn/api/v1/social/bilibili/videoinfo?{(IDType.ToString().ToLower() == "bvid" ? "bvid" : "aid")}={video_id}",
+                $"{Interface._UAPI_Request_Url}social/bilibili/videoinfo?{(IDType.ToString().ToLower() == "bvid" ? "bvid" : "aid")}={video_id}",
                 Authentication);
             if (!Interface.IsGetSuccessful(result, "aid_or_bvid", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",

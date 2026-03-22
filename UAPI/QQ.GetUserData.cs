@@ -23,11 +23,6 @@ namespace UAPI
     public partial class QQ
     {
         /// <summary>
-        /// UAPI公用请求API地址
-        /// </summary>
-        public const string _UAPI_Request_Url = @"https://uapis.cn/api/v1/social/qq/";
-
-        /// <summary>
         /// 获取QQ用户公开摘要
         /// </summary>
         /// <param name="qq">QQ号</param>
@@ -43,7 +38,8 @@ namespace UAPI
             }
 
             var (result, statusCode) =
-                await Interface.GetResult<UserType>($"{_UAPI_Request_Url}userinfo?qq={qq}", Authentication);
+                await Interface.GetResult<UserType>($"{Interface._UAPI_Request_Url}social/qq/userinfo?qq={qq}",
+                    Authentication);
             if (!Interface.IsGetSuccessful(result, "qq", statusCode, new IException.QQ.QQServiceError(),
                     "QQ", IException.QQ._QQ_Service_Error))
                 WriteLog.Error(LogKind.Http, "请求失败, 请重试");

@@ -13,7 +13,7 @@ namespace UAPI
         public static async Task<CarriersType> GetTrackingCarriers(string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<CarriersType>("https://uapis.cn/api/v1/misc/tracking/carriers",
+                await Interface.GetResult<CarriersType>("{Interface._UAPI_Request_Url}misc/tracking/carriers",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "", statusCode, new General.UAPIUnknowException(),
                     "GetTrackingCarriers", General._UAPI_Unknown_Exception))

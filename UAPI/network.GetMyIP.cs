@@ -12,7 +12,7 @@ namespace UAPI
         /// <summary>
         /// 请求地址
         /// </summary>
-        public const string _Request_Url = @"https://uapis.cn/api/v1/network/";
+        public const string _Request_Url = @"{Interface._UAPI_Request_Url}network/";
 
         /// <summary>
         /// 获取本机的IP地址

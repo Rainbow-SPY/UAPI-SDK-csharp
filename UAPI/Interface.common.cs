@@ -20,6 +20,10 @@ namespace UAPI
     public partial class Interface
     {
         /// <summary>
+        /// UAPI API 基础请求地址
+        /// </summary>
+        public const string _UAPI_Request_Url = @"https://uapis.cn/api/v1/";
+        /// <summary>
         /// 公共API 获取请求
         /// </summary>
         /// <param name="requestUrl">请求的API Url</param>

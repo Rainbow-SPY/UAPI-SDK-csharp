@@ -8,8 +8,6 @@ namespace UAPI
     /// </summary>
     public partial class minecraft
     {
-        internal const string requestUrl = @"https://uapis.cn/api/v1/game/minecraft/userinfo";
-
         /// <summary>
         /// 获取 Minecraft 正版 Mojang 账号的数据
         /// </summary>
@@ -20,7 +18,8 @@ namespace UAPI
         public static async Task<UserType> GetUserData(string username, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<UserType>($"{requestUrl}?username={username}", Authentication);
+                await Interface.GetResult<UserType>(
+                    $"{Interface._UAPI_Request_Url}game/minecraft/userinfo?username={username}", Authentication);
             if (!Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",
                     IException.minecraft._Mojang_API_Service_Error))

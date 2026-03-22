@@ -19,7 +19,7 @@ namespace UAPI
         /// <returns><see cref="EpicType"/> 对象</returns>
         public static async Task<EpicType> GetDataJson(string AuthenticationAPITokenKey = "")
         {
-            const string requestUrl = @"https://uapis.cn/api/v1/game/epic-free";
+            var requestUrl = $@"{Interface._UAPI_Request_Url}game/epic-free";
             var (result, statuscode) = await Interface.GetResult<EpicType>(requestUrl, AuthenticationAPITokenKey);
             if (!Interface.IsGetSuccessful(result, "", statuscode,
                     new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games"))

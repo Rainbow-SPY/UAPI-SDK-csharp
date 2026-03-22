@@ -17,7 +17,7 @@ namespace UAPI
             string phone = "", string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<TrackingInfoType>(
-                $"https://uapis.cn/api/v1/misc/tracking/query?tracking_number={tracking_number}" +
+                $"{Interface._UAPI_Request_Url}misc/tracking/query?tracking_number={tracking_number}" +
                 carrier_code ?? $"&carrier_code={carrier_code}" +
                 phone ?? $"&phone={phone}", Authentication);
             if (!Interface.IsGetSuccessful(result, $"tracking_number", statusCode,

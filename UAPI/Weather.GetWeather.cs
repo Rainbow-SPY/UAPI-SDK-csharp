@@ -19,11 +19,13 @@ namespace UAPI
         /// <param name="forecast">是否返回预报数据(当日最高/最低气温及未来3天天气预报)。</param>
         /// <param name="hourly">逐小时预报 (24小时)，含温度、天气、风向风速、湿度、降水概率等</param>
         /// <param name="minutely">分钟级降水预报 (仅国内城市)，每5分钟一个数据点，共24个</param>
+        /// <param name="Authentication">API Token</param>
         /// <exception cref="IException.Weather.WeatherServiceError()">天气供应商的上游服务不可用, 这可能是他们的服务暂时中断</exception>
         /// <returns><see cref="WeatherType"/> 类型的 <see cref="Json"/> 对象</returns>
         public static async Task<WeatherType> GetWeatherDataJson(string city, bool extended = false,
-            bool indices = false, bool forecast = false, bool hourly = false, bool minutely = false) =>
-            await SendMessageRequest(city, "city", extended, indices, forecast, hourly, minutely);
+            bool indices = false, bool forecast = false, bool hourly = false, bool minutely = false,
+            string Authentication = "") =>
+            await SendMessageRequest(city, "city", extended, indices, forecast, hourly, minutely, Authentication);
 
         /// <summary>
         /// 获取天气信息
@@ -33,12 +35,15 @@ namespace UAPI
         /// <param name="indices">是否返回生活指数(穿衣、紫外线、洗车、晾晒、空调、感冒、运动、舒适度)。</param>
         /// <param name="forecast">是否返回预报数据(当日最高/最低气温及未来3天天气预报)。</param>
         /// <param name="hourly">逐小时预报 (24小时)，含温度、天气、风向风速、湿度、降水概率等</param>
+        /// <param name="Authentication">API Token</param>
         /// <param name="minutely">分钟级降水预报 (仅国内城市)，每5分钟一个数据点，共24个</param>
         /// <exception cref="IException.Weather.WeatherServiceError()">天气供应商的上游服务不可用, 这可能是他们的服务暂时中断</exception>
         /// <returns><see cref="WeatherType"/> 类型的 <see cref="Json"/> 对象</returns>
         public static async Task<WeatherType> GetWeatherDataJson(int adcode, bool extended = false,
-            bool indices = false, bool forecast = false, bool hourly = false, bool minutely = false) =>
-            await SendMessageRequest(adcode.ToString(), "adcode", extended, indices, forecast, hourly, minutely);
+            bool indices = false, bool forecast = false, bool hourly = false, bool minutely = false,
+            string Authentication = "") =>
+            await SendMessageRequest(adcode.ToString(), "adcode", extended, indices, forecast, hourly, minutely,
+                Authentication);
 
         /// <summary>
         /// 获取天气信息
@@ -56,7 +61,7 @@ namespace UAPI
             bool extended = false, bool indices = false, bool forecast = false, bool hourly = false,
             bool minutely = false, string AuthenticationAPITokenKey = "")
         {
-            var requestUrl = $"https://uapis.cn/api/v1/misc/weather?{param}={city_Or_adcode}" +
+            var requestUrl = $"{Interface._UAPI_Request_Url}misc/weather?{param}={city_Or_adcode}" +
                              (extended ? "&extended=true" : "") +
                              (indices ? "&indices=true" : "") +
                              (forecast ? "&forecast=true" : "") +

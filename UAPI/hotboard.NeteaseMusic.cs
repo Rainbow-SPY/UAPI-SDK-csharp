@@ -9,7 +9,7 @@ namespace UAPI
     /// </summary>
     public partial class hotboard
     {
-        internal const string _Request_Url = @"https://uapis.cn/api/v1/misc/hotboard/";
+        internal const string _Request_Url = @"{Interface._UAPI_Request_Url}misc/hotboard/";
 
         /// <summary>
         /// 获取网易云音乐歌曲的热榜

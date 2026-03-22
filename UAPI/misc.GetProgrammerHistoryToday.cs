@@ -13,7 +13,7 @@ namespace UAPI
         public static async Task<HistoryTodayType> GetProgrammerHistoryToday(string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<HistoryTodayType>($"https://uapis.cn/api/v1/history/programmer/today",
+                await Interface.GetResult<HistoryTodayType>($"{Interface._UAPI_Request_Url}history/programmer/today",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "none", statusCode, new General.UAPIUnknowException(),
                     "GetProgrammerHistoryToday"))

@@ -17,7 +17,7 @@ namespace UAPI
             string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<HistoryType>(
-                $"https://uapis.cn/api/v1/game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}",
+                $"{Interface._UAPI_Request_Url}game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}",
                 Authentication);
             if (!Interface.IsGetSuccessful(result, "name_or_uuid", statusCode,
                     new IException.minecraft.MojangAPIServiceError(), "Mojang",

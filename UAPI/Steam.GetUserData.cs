@@ -90,7 +90,7 @@ namespace UAPI
             string Authentication = "")
         {
             var requestUrl =
-                $"https://uapis.cn/api/v1/game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";
+                $"{Interface._UAPI_Request_Url}game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";
             var (result, statusCode) = await Interface.GetResult<SteamType>(requestUrl, Authentication);
             if (!Interface.IsGetSuccessful(result, "SteamID", statusCode,
                     new IException.Steam.SteamServiceError(), "Steam", _Steam_Service_Error))

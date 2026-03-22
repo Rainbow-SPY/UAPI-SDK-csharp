@@ -8,8 +8,6 @@ namespace UAPI
     /// </summary>
     public partial class github
     {
-        internal const string _UAPI_Request_Url = @"https://uapis.cn/api/v1/github/";
-
         /// <summary>
         /// 获取github仓库数据
         /// </summary>
@@ -20,7 +18,8 @@ namespace UAPI
         public static async Task<ReposType> GetReposData(string owner_and_repo, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<ReposType>($"{_UAPI_Request_Url}repo?repo={owner_and_repo}", Authentication);
+                await Interface.GetResult<ReposType>($"{Interface._UAPI_Request_Url}github/repo?repo={owner_and_repo}",
+                    Authentication);
             if (!Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
                     new IException.github.GithubAPIServiceError(), "Github", IException.github._Github_ServiceError))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
