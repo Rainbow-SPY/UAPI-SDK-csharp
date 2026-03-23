@@ -9,8 +9,6 @@ namespace UAPI
     /// </summary>
     public partial class hotboard
     {
-        internal const string _Request_Url = @"{Interface._UAPI_Request_Url}misc/hotboard/";
-
         /// <summary>
         /// 获取网易云音乐歌曲的热榜
         /// </summary>
@@ -18,7 +16,7 @@ namespace UAPI
         public static async Task<NeteaseType> GetNeteaseMusicHotboard(string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<NeteaseType>($"{_Request_Url}?type=netease-music", Authentication);
+                await Interface.GetResult<NeteaseType>($"{Interface._UAPI_Request_Url}misc/hotboard/?type=netease-music", Authentication);
             if (!Interface.IsGetSuccessful(result, "none", statusCode,
                     new Hotboard.HotboardUpstreamServiceError(), "Netease-Music Hotboard"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试!");

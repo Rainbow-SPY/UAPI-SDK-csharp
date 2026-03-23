@@ -34,7 +34,7 @@ namespace UAPI
             int ps = 20, int pn = 1, string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<ArchiveType>(
-                $"{requestUrl_Main}archives?mid={mid}&orderby={orderby}&ps={ps}&pn={pn}&keywords={keywords}",
+                $"{Interface._UAPI_Request_Url}archives?mid={mid}&orderby={orderby}&ps={ps}&pn={pn}&keywords={keywords}",
                 Authentication);
             if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",

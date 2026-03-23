@@ -16,8 +16,7 @@ namespace UAPI
         public static async Task<DateDiffType> PostDateDiff(string start_date, string end_date,
             string format = "YYYY-MM-DD")
         {
-            var (result, statusCode) = await Interface.GetResult<DateDiffType>("{Interface._UAPI_Request_Url}misc/date-diff",
-                Interface.SendRequestType.POST,
+            var (result, statusCode) = await Interface.GetResult<DateDiffType>($"{Interface._UAPI_Request_Url}misc/date-diff", Interface.SendRequestType.POST,
                 $@"{{ ""start_date"": ""{start_date}"",""end_date"": ""{end_date}"",""format"": ""{format}"" }}");
             if (!Interface.IsGetSuccessful(result, "start_date or end_date", statusCode,
                     new General.UAPIUnknowException(), "PostDateDiff", IException.General._UAPI_Unknown_Exception))

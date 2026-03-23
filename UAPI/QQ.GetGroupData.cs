@@ -15,7 +15,7 @@ namespace UAPI
         public static async Task<GroupType> GetGroupData(string group_id, string AuthenticationAPITokenKey = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<GroupType>($"{_UAPI_Request_Url}groupinfo?group_id={group_id}",
+                await Interface.GetResult<GroupType>($"{Interface._UAPI_Request_Url}groupinfo?group_id={group_id}",
                     AuthenticationAPITokenKey);
             if (!Interface.IsGetSuccessful(result, "group_id", statusCode,
                     new IException.QQ.QQServiceError(), "QQ",

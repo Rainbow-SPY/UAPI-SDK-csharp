@@ -10,11 +10,6 @@ namespace UAPI
     public partial class Network
     {
         /// <summary>
-        /// 请求地址
-        /// </summary>
-        public const string _Request_Url = @"{Interface._UAPI_Request_Url}network/";
-
-        /// <summary>
         /// 获取本机的IP地址
         /// </summary>
         /// <param name="commercial">指定是否使用商业级的数据源, 默认为 false </param>
@@ -23,7 +18,7 @@ namespace UAPI
         public static async Task<IPType> GetMyIP(bool commercial = false, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<IPType>($"{_Request_Url}myip?{(commercial ? "source=commercial" : "")}",
+                await Interface.GetResult<IPType>($"{Interface._UAPI_Request_Url}network/myip?{(commercial ? "source=commercial" : "")}",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "", statusCode, new HttpRequestException("请求错误"), "IP"))
                 LogLibraries.WriteLog.Error("请求错误, 请重试!");
