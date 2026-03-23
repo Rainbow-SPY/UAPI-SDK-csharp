@@ -48,8 +48,13 @@ namespace UAPI
                     WriteLog.Info(LogKind.Http, $"新建 HttpClient 实例");
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
-                    WriteLog.Info(LogKind.Http,
-                        $"添加请求头: {string.Concat(MD5.Create().ComputeHash(Encoding.Default.GetBytes(AuthenticationAPITokenKey)).Select(b => b.ToString("x2")))}");
+                    WriteLog.Info("+" + AuthenticationAPITokenKey + "+");
+                    if (!string.IsNullOrWhiteSpace(AuthenticationAPITokenKey))
+                    {
+                        WriteLog.Info(LogKind.Http,
+                            $"添加请求头: {AuthenticationAPITokenKey?.Substring(0, 6)}");
+                    }
+
                     var response = type == SendRequestType.GET
                         ? await httpClient.GetAsync(requestUrl)
                         : await httpClient.PostAsync(requestUrl,

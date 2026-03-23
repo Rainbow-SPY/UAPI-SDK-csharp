@@ -12,7 +12,7 @@ namespace UAPI
         public static async Task<bilibiliType> GetBilibiliHotboard(string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<bilibiliType>($"{Interface._UAPI_Request_Url}?type=bilibili", Authentication);
+                await Interface.GetResult<bilibiliType>($"{Interface._UAPI_Request_Url}misc/hotboard?type=bilibili", Authentication);
             if (!Interface.IsGetSuccessful(result, "", statusCode, new IException.bilibili.BilibiliServiceError(),
                     "bilibili", IException.bilibili._Bilibili_Service_Error))
                 LogLibraries.WriteLog.Error("请求失败, 请重试!");
