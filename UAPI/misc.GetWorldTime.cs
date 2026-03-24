@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using UAPI.IException;
 
 namespace UAPI
 {
@@ -22,7 +23,7 @@ namespace UAPI
         {
             var (result, statusCode) =
                 await Interface.GetResult<WorldTimeType>($"{_Request_Url}worldtime?city={region}", Authentication);
-            if (!Interface.IsGetSuccessful(result, "region", statusCode, new IException.General.UAPIUnknowException(),
+            if (!Interface.IsGetSuccessful(result, "region", statusCode, new General.UAPIUnknowException(),
                     "GetWorldTime"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");
             return result;

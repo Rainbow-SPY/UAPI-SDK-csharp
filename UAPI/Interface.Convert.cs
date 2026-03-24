@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace UAPI
 {
@@ -46,6 +47,21 @@ namespace UAPI
                 : throw new ArgumentException(
                     $"无效的ISO 8601时间格式：{iso8601Time}，请确保格式为 YYYY-MM-DDTHH:mm:ss[.fff]Z",
                     nameof(iso8601Time));
+        }
+
+        internal class BooleanConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType) => objectType == typeof(bool);
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+                JsonSerializer serializer)
+            {
+                var value = reader.Value?.ToString()?.Trim();
+                return value == "1" || value == "true";
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+                writer.WriteValue(value is bool b && b ? 1 : 0);
         }
 
         /// <summary>

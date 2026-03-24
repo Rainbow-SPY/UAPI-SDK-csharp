@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using UAPI.IException;
 
 namespace UAPI
 {
@@ -16,7 +17,7 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<PhoneInfoType>($"{_Request_Url}phoneinfo?phone={phoneNumber}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "phone", statusCode, new IException.General.UAPIUnknowException(),
+            if (!Interface.IsGetSuccessful(result, "phone", statusCode, new General.UAPIUnknowException(),
                     "GetPhoneInfo"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");
             return result;

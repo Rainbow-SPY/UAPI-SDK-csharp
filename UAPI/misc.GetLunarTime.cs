@@ -20,7 +20,7 @@ namespace UAPI
                 await Interface.GetResult<LunarTimeType>(
                     $"{Interface._UAPI_Request_Url}misc/lunartime?ts={ts}&timezone={timezone}", Authentication);
             if (!Interface.IsGetSuccessful(result, "", statusCode, new General.UAPIUnknowException(), "GetLunarTime",
-                    IException.General._UAPI_Unknown_Exception))
+                    General._UAPI_Unknown_Exception))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;
         }

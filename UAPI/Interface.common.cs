@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -45,7 +44,7 @@ namespace UAPI
             {
                 using (var httpClient = new HttpClient())
                 {
-                    WriteLog.Info(LogKind.Http, $"新建 HttpClient 实例");
+                    WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
                     WriteLog.Info("+" + AuthenticationAPITokenKey + "+");
@@ -65,7 +64,10 @@ namespace UAPI
                     {
                         var Headers = JsonConvert.DeserializeObject<Response.Headers>(
                             JsonConvert.SerializeObject(response.Headers.ToDictionary(h => h.Key,
-                                h => string.Join(",", h.Value))));
+                                h => string.Join(",", h.Value))), new JsonSerializerSettings
+                            {
+                                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                            });
                         WriteLog.Info("ToDictionary", "响应标头转换为字典");
                         WriteLog.Info(LogKind.Json, "序列化字典");
                         WriteLog.Info(LogKind.Json, "反序列化序列化的字典");
@@ -89,7 +91,7 @@ namespace UAPI
                                 {
                                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                                 });
-                            WriteLog.Info(LogKind.Json, $"反序列化Json");
+                            WriteLog.Info(LogKind.Json, "反序列化Json");
                         }
                         catch (JsonSerializationException ex)
                         {
@@ -165,7 +167,7 @@ namespace UAPI
             where T : class
         {
             var (result, statuscode, _) = await
-                GetResultWithHeaders<T>(requestUrl, SendRequestType.GET);
+                GetResultWithHeaders<T>(requestUrl);
             return (result, statuscode);
         }
 

@@ -84,9 +84,10 @@ namespace UAPI
                 /// </summary>
                 /// <returns> 0 / 1 => <see langword="true"/> / <see langword="false"/></returns>
                 [JsonProperty("x-uapi-credits-exempt")]
+                [JsonConverter(typeof(BooleanConverter))]
                 public bool CreditsExempt
                 {
-                    get => _creditsExempt == 0;
+                    get => Equals(_creditsExempt, 0) || Equals(_creditsExempt.ToString(), "0");
                     set => _creditsExempt = value ? 1 : 0;
                 }
 
@@ -160,6 +161,7 @@ namespace UAPI
                 /// 资源包用完后是否停止服务
                 /// </summary>
                 [JsonProperty("x-uapi-stop-on-empty")]
+                [JsonConverter(typeof(BooleanConverter))]
                 public bool StopServiceWhenRemainingEmpty
                 {
                     get => _stopOnEmpty == 1;

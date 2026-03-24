@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using UAPI.IException;
 
 namespace UAPI
 {
@@ -20,9 +21,9 @@ namespace UAPI
                 $"{Interface._UAPI_Request_Url}misc/tracking/query?tracking_number={tracking_number}" +
                 carrier_code ?? $"&carrier_code={carrier_code}" +
                 phone ?? $"&phone={phone}", Authentication);
-            if (!Interface.IsGetSuccessful(result, $"tracking_number", statusCode,
-                    new IException.General.UAPIUnknowException(), "GetTrackingInfo",
-                    IException.General._UAPI_Unknown_Exception))
+            if (!Interface.IsGetSuccessful(result, "tracking_number", statusCode,
+                    new General.UAPIUnknowException(), "GetTrackingInfo",
+                    General._UAPI_Unknown_Exception))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;
         }

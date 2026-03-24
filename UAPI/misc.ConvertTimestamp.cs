@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using UAPI.IException;
 
 namespace UAPI
 {
@@ -18,8 +19,8 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<TimestampType>($"{Interface._UAPI_Request_Url}misc/timestamp?ts={ts}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "ts", statusCode, new IException.General.UAPIUnknowException(),
-                    "ConvertTimestamp", IException.General._UAPI_Server_Down))
+            if (!Interface.IsGetSuccessful(result, "ts", statusCode, new General.UAPIUnknowException(),
+                    "ConvertTimestamp", General._UAPI_Server_Down))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;
         }
