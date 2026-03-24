@@ -70,7 +70,7 @@ namespace UAPI
                 /// 账户余额
                 /// </summary>
                 [JsonProperty("x-uapi-balance-remaining")]
-                public int BalanceRemaining { get; set; }
+                public double BalanceRemaining { get; set; }
 
                 /// <summary>
                 /// 以何种方式请求
@@ -155,7 +155,7 @@ namespace UAPI
                 /// 所有有效资源包剩余额度总和
                 /// </summary>
                 [JsonProperty("x-uapi-quota-remaining")]
-                public int ActivatedResourcePackagesRemainingTotal { get; set; }
+                public double ActivatedResourcePackagesRemainingTotal { get; set; }
 
                 /// <summary>
                 /// 资源包用完后是否停止服务

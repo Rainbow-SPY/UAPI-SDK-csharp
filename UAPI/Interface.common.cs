@@ -68,9 +68,25 @@ namespace UAPI
                             {
                                 ContractResolver = new CamelCasePropertyNamesContractResolver()
                             });
-                        WriteLog.Info("ToDictionary", "响应标头转换为字典");
+                        WriteLog.Info("ToDictionary", $"响应标头转换为字典+{response.Headers.ToString()}+");
                         WriteLog.Info(LogKind.Json, "序列化字典");
                         WriteLog.Info(LogKind.Json, "反序列化序列化的字典");
+                        var message = $"\n\t本次请求是否被豁免扣费: {Headers.CreditsExempt}" +
+                                      $"\n\t以何种方式请求: {Headers.SourceWhere}" +
+                                      $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus.ToString()}" +
+                                      $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                                      $"\n\t实际扣除积分: {Headers.CreditsCharged}";
+                        message += Headers.SourceWhere.ToLower() == "web" || Headers.SourceWhere.ToLower() == "api"
+                            ? $"\n\t每月额度: {Headers.RateLimit}" +
+                              $"\n\t额度类型: {Headers.RateType}" +
+                              $"\n\t账户余额: {Headers.BalanceRemaining}" +
+                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}" +
+                              $"\n\t所有有效资源包剩余额度总和: {Headers.ActivatedResourcePackagesRemainingTotal}"
+                            : $"\n\t免费额度重置日期: {Headers.RateLimitResetDateTime}" +
+                              $"\n\t每月额度: {Headers.RateLimit}" +
+                              //  $"\n\t额度类型: {Headers.RateType}" +
+                              $"\n\t访客月剩余额度: {Headers.RateLimitRemaining}";
+                        WriteLog.Info("ResponseHeader", message);
                         var statusCode = (int)response.StatusCode;
                         WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
                         var responseData = await response.Content.ReadAsStringAsync();
