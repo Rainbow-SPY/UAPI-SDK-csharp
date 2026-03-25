@@ -2,7 +2,7 @@
 
 为了让SDK更好的使用, 我们制作了这个开发文档
 
-> Copyright (C) Rainbow-SPY & AxT-Team 2019-2026,All rights reserved.
+> Copyright © Rainbow-SPY & AxT-Team 2019-2026,All rights reserved.
 
 ## 了解这个项目SDK
 
@@ -24,7 +24,7 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
   - Open-source any modified versions under AGPL-3.0.
 - **You cannot**:
   - Use this code (or derivatives) for commercial purposes.
-- See [LICENSE](LICENSE) for full terms.
+- See [LICENSE](../../LICENSE) for full terms.
 
 版权所有 (©) AxT-Team & UApi，开发者：Rainbow-SPY，所有内容均受版权保护。
 
@@ -35,7 +35,7 @@ This project is licensed under **AGPL-3.0 + Attribution + Non-Commercial terms**
   - 任何修改后的版本必须以 AGPL-3.0 协议开源。
 - **您不得**：
   - 将此代码（或衍生作品）用于商业用途。
-- 完整条款参见 [LICENSE](LICENSE)
+- 完整条款参见 [LICENSE](../../LICENSE))
 
 ## 添加包
 
@@ -66,62 +66,40 @@ https://github.com/Rainbow-SPY/UAPI-SDK-csharp/releases
 
 ## 开发环境
 
-- #### IDE
-
+- IDE
   - [IntelliJ JetBrains Rider](https://www.jetbrains.com/zh-cn/rider/)
     - [系统要求](https://www.jetbrains.com.cn/dotnet/download/system-requirements/)
       - Windows 10 版本1809 或更高版本
       - 64 位操作系统, 基于 x64 的处理器
       - .NET Framework 4.7.2 或更高版本
       - 在 Windows 上不得禁用**强名称跳过**功能
-
   - [Visual Studio 2026](https://visualstudio.microsoft.com/zh-hans/vs)
     - [系统要求](https://learn.microsoft.com/zh-cn/visualstudio/releases/2026/vs-system-requirements)
       - Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版
       - Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。
       - 64 位操作系统, 基于 x64 的处理器
-
     - 工作负荷
       - 桌面应用和移动应用
         - [x] .NET 桌面开发
-
 - 编译语言
-
   - C# .NET Framework 4.7.2
 - 依赖项
-
   - 第三方程序集
-
     - AntdUI
-
       用于依赖项 Rox.Runtimes 的 `Reporter` 窗体渲染, 防止出现未知的异常
-
     - Newtonsoft.Json
-
       用于 `Json` 反序列化解析
-
     - Rox.Runtimes
-
       用于输出日志、引用字符串常量等
-
     - Rox.Text
-
       用于压缩 `Json` .后续会集成移除
-
   - 来自 Microsoft 的 NuGet 包扩展
-
       - System.Buffers
-
       - System.Diagnostics.DiagnosticSource
-
       - System.Memory
-
       - System.Numerics.Vectors
-
       - System.Runtime.CompilerServices.Unsafe
-
       - System.Net.Http
-  
 
 ## 撰写一个基础请求方法
 
@@ -141,38 +119,14 @@ Console.WriteLine($"直播间标题: {(string.IsNullOrEmpty(request.title) ? "�
 // 		直播间标题: 未开播
 ```
 
-* 参数选项&返回类型&返回值: 详见 [Github - Rainbow-SPY/UAPI-SDK-csharp/docs/各个方法的开发文档](https://github.com/Rainbow-SPY/UAPI-SDK-csharp/blob/master/UAPI/docs)
+* 参数选项&返回类型&返回值: 详见 [Github Pages - Rainbow-SPY/UAPI-SDK-csharp](https://rainbow-spy.github.io/UAPI-SDK-csharp/)
 
 > [!TIP] 
 >
 > 如何查找?
 >
 > 开发文档和接口的源代码同名, 直接按照源代码文件名搜索相关的开发文档
+> 
+> 在 Github Page 上可用
 
 现在你已经学会了请求接口了
-
-
-
-
-
-
-
-## 属性列表
-
-### 根属性
-
-| 属性值 | 注释 | 备注 |
-|:------|:----|:-----|
-|`` ****|  | |
-|`` ****|  | |
-|`` ****|  | |
-
-___
-#### `$` **$** 嵌套类
-
-| 属性值 | 注释 | 示例 | 备注 |
-|:------|-----|:-----|-----|
-|`` ****|  | ||
-|`` ****|  | ||
-|`` ****|  | ||
-|`` ****|  | ||
