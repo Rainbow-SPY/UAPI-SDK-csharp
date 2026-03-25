@@ -200,6 +200,7 @@
       <Content Include="docs\hotboard.NeteaseMusic.md" />
       <Content Include="docs\Interface.common.md" />
       <Content Include="docs\Interface.Convert.md" />
+      <Content Include="docs\Interface.Response.Header.md" />
       <Content Include="docs\minecraft.GetHistoryName.md" />
       <Content Include="docs\minecraft.GetServerStatus.md" />
       <Content Include="docs\minecraft.GetUserData.md" />
