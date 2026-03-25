@@ -3,10 +3,7 @@ const t={slug:"guide/interface-common",html:`<blockquote>
 </blockquote>
 <h2 id="公共api获取请求">公共API获取请求</h2>
 <h3 id="请求示例">请求示例</h3>
-<pre><code class="language-csharp">var (result, statuscode) = await Interface.GetResult&lt;T&gt;(string requestUrl,
-            SendRequestType type = SendRequestType.GET, string postContent = &quot;&quot;,
-            string contentType = &quot;application/json&quot;,
-            string AuthenticationAPITokenKey = &quot;&quot;)
+<pre><code class="language-csharp">var (result, statuscode) = await Interface.GetResult&lt;T&gt;(string requestUrl, SendRequestType type = SendRequestType.GET, string postContent = &quot;&quot;, string contentType = &quot;application/json&quot;, string AuthenticationAPITokenKey = &quot;&quot;)
 </code></pre>
 <ul>
 <li>
@@ -38,12 +35,47 @@ const t={slug:"guide/interface-common",html:`<blockquote>
 </ul>
 </li>
 </ul>
+<h3 id="t-result-泛式类型对象属性列表"><code>T Result</code> 泛式类型对象属性列表</h3>
+<p>继承于 <code>Interface.TypeInterface</code> 基类, 继承属性如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">code</td>
+<td style="text-align:left">错误代码</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">error</td>
+<td style="text-align:left">错误代码</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">message</td>
+<td style="text-align:left">错误消息</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">details</td>
+<td style="text-align:left">详细错误信息</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">Headers</td>
+<td style="text-align:left">响应头</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
 <h2 id="检查是否请求成功的分析方法">检查是否请求成功的分析方法</h2>
 <h3 id="请求示例-1">请求示例</h3>
-<pre><code class="language-csharp">bool result = Interface.common.IsGetSuccessful&lt;T&gt;(T Type, string NullValue,
-			int StatusCode, Exception _Exception,
-            string _Error_Type,
-            string Error_Code = &quot;&quot;)
+<pre><code class="language-csharp">bool result = Interface.common.IsGetSuccessful&lt;T&gt;(T Type, string NullValue, int StatusCode, Exception _Exception, string _Error_Type, string Error_Code = &quot;&quot;)
 </code></pre>
 <ul>
 <li>参数选项:
