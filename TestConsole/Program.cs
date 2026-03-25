@@ -64,7 +64,7 @@ namespace TestConsole
                 var a = await hotboard.GetBilibiliHotboard();
                 var b = $"\n\n查询类型: {a.type}" +
                         $"\n更新时间: {a.update_time_str}" +
-                        $"\n排行榜信息: ";
+                        $"\n排行榜信息: {a.Headers.RateLimit}";
                 foreach (var i in a.list)
                 {
                     b += $"\n\t排名: {i.index}" +
@@ -72,7 +72,7 @@ namespace TestConsole
                          $"\n\t视频链接: {i.url}" +
                          $"\n\t视频短链接: {i.extra.short_link}" +
                          $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.hot_value.Replace("播放", ""), out var p) ? p : 0)}" +
-                         $"\n\n视频详细信息:" +
+                         "\n\n视频详细信息:" +
                          $"\n\tAV号: {i.extra.aid}" +
                          $"\n\tBV号: {i.extra.bvid}" +
                          $"\n\t简介: {i.extra.desc}" +
@@ -81,7 +81,7 @@ namespace TestConsole
                          $"\n\t发布时间: {i.extra.pubdate_str}" +
                          $"\n\t荣誉: {i.extra.rcmd_reason}" +
                          $"\n\t视频分区: {i.extra.tname}" +
-                         $"\n\n视频统计信息:" +
+                         "\n\n视频统计信息:" +
                          $"\n\t播放量: {i.extra.stat.view_str}" +
                          $"\n\t点赞量: {i.extra.stat.Like_str}" +
                          $"\n\t投币量: {i.extra.stat.Coin_str}" +
@@ -89,7 +89,7 @@ namespace TestConsole
                          $"\n\t分享量: {i.extra.stat.Share_str}" +
                          $"\n\t弹幕量: {i.extra.stat.Danmaku_str}" +
                          $"\n\t评论量: {i.extra.stat.Reply_str}" +
-                         $"\n\n视频UP主信息:" +
+                         "\n\n视频UP主信息:" +
                          $"\n\t昵称: {i.extra.owner.Name}" +
                          $"\n\tUID: {i.extra.owner.mid}" +
                          $"\n\t头像链接: {i.extra.owner.AvatarImageUrl}";
@@ -111,7 +111,7 @@ namespace TestConsole
                 var a = await hotboard.GetNeteaseMusicHotboard();
                 var b = $"\n\n查询类型: {a.type}" +
                         $"\n更新时间: {a.update_time_str}" +
-                        $"\n排行榜信息: ";
+                        "\n排行榜信息: ";
                 foreach (var i in a.list)
                 {
                     b += $"\n\t排名: {i.index}" +
@@ -214,11 +214,10 @@ namespace TestConsole
                            $"\n投稿附带的动态文字: {a.dynamic}" +
                            "\n视频简介:";
                 foreach (var i in a.desc_v2)
-                {
                     message += $"\n\t简介文字: {i.Text}" +
                                $"\n\t节点类型: {i.Type}" +
                                $"\n\t业务ID: {i.biz_id}";
-                }
+
 
                 message += $"\n视频状态: {a.state_str}" +
                            $"\n视频总长: {Interface.FormatSecondsTime((int)a.duration)}" +
@@ -327,6 +326,24 @@ namespace TestConsole
                 WriteLog.Info($"分区名称: {a.parent_area_name}:{a.area_name}, ID: {a.area_id}");
                 WriteLog.Info($"热词: {string.Join("、", a.hot_words ?? new List<string>())}");
                 _stopwatch.Stop();
+                var Headers = a.Headers;
+                var message = $"\n\t本次请求是否被豁免扣费: {Headers.CreditsExempt}" +
+                              $"\n\t以何种方式请求: {Headers.SourceWhere}" +
+                              $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus.ToString()}" +
+                              $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                              $"\n\t实际扣除积分: {Headers.CreditsCharged}";
+                message += Headers.SourceWhere.ToLower() == "web" || Headers.SourceWhere.ToLower() == "api"
+                    ? $"\n\t每月额度: {Headers.RateLimit}" +
+                      $"\n\t额度类型: {Headers.RateType}" +
+                      $"\n\t账户余额: {Headers.BalanceRemaining}" +
+                      $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}" +
+                      $"\n\t所有有效资源包剩余额度总和: {Headers.ActivatedResourcePackagesRemainingTotal}"
+                    : $"\n\t免费额度重置日期: {Headers.RateLimitResetDateTime}" +
+                      $"\n\t每月额度: {Headers.RateLimit}" +
+                      //  $"\n\t额度类型: {Headers.RateType}" +
+                      $"\n\t访客月剩余额度: {Headers.RateLimitRemaining}";
+                WriteLog.Info("ResponseHeader", message);
+
                 WriteLog.Info($"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
             }
             catch (Exception e)
@@ -382,7 +399,7 @@ namespace TestConsole
                     WriteLog.Warning("Weather", "未来三天天气预报数据为空，跳过遍历");
                 else
                 {
-                    WriteLog.Info("Weather", $"未来三天的天气预报");
+                    WriteLog.Info("Weather", "未来三天的天气预报");
                     foreach (var _data in result.forecast)
                         WriteLog.Info("Weather Forecast",
                             $"{_data.Date} 的天气预报:\n" + $"白天天气: {_data.DayWeather}, 夜间天气: {_data.NightWeather}\n" +
@@ -598,56 +615,48 @@ namespace TestConsole
         public static async Task TestGithubRepoData()
         {
             WriteLog.Info("测试github仓库");
-            try
-            {
-                _stopwatch.Reset();
-                _stopwatch.Start();
-                var a = await github.GetReposData("torvalds/linux");
-                var _topics = "";
-                for (var i = 0; i < a.Topics?.Count; i++)
-                    _topics += $"{(i == 0 ? "" : ",")}{a.Topics?[i]}";
-                var _languages = a.LanguagesStats.Aggregate("",
-                    (current, v) =>
-                        current + $"{(v.Equals(a.LanguagesStats.First()) ? "\n" : "")}\t{v.Key}: {v.Value} 行代码\n");
+            _stopwatch.Reset();
+            _stopwatch.Start();
+            var a = await github.GetReposData("torvalds/linux");
+            var _topics = "";
+            for (var i = 0; i < a.Topics?.Count; i++)
+                _topics += $"{(i == 0 ? "" : ",")}{a.Topics?[i]}";
+            var _languages = a.LanguagesStats.Aggregate("",
+                (current, v) =>
+                    current + $"{(v.Equals(a.LanguagesStats.First()) ? "\n" : "")}\t{v.Key}: {v.Value} 行代码\n");
 
-                WriteLog.Info($"完整名称: {a.FullName}\n" +
-                              $"描述: {a.Description}\n" +
-                              $"主页: {a.HomePage}\n" +
-                              $"默认分支: {a.DefaultBranch}\n" +
-                              $"默认分支SHA值: {a.DefaultBranchSHAHash}\n" +
-                              $"主要分支: {a.PrimaryBranch}\n" +
-                              $"可见性: {a?.Visibility}\n" +
-                              $"仓库是否为公开: {a.IsPublic}\n" +
-                              $"是否为存档: {a.IsArchived}\n" +
-                              $"是否禁用: {a.IsDisabled}\n" +
-                              $"是否为Fork的仓库: {a.IsForked}\n" +
-                              $"主要代码语言: {a.MainLanguage}\n" +
-                              $"话题: {_topics}\n" +
-                              $"许可证: {a.License}\n" +
-                              $"Star 数量: {a.Stargazers}\n" +
-                              $"Fork 的数量: {a.Forks}\n" +
-                              $"打开的Issue: {a.OpenIssues}\n" +
-                              $"关注人数: {a.Watchers}\n" +
-                              $"推送时间: {a.PushedTime_String}\n" +
-                              $"创建仓库时间: {a.CreatedTime_String}\n" +
-                              $"更新时间: {a.UpdatedTime_Str}\n" +
-                              $"代码语言: {_languages}\n" +
-                              $"仓库协作者: {a.Collaborators}\n");
-                foreach (var t in a.Maintainers)
-                {
-                    WriteLog.Info($"协作者: {t.login}\n" +
-                                  $"名称: {t.name}\n" +
-                                  $"邮箱: {t.email}\n" +
-                                  $"个人主页: {t.url}\n\n");
-                }
-
-                WriteLog.Info($"测试完毕, 共用时 {_stopwatch.Elapsed.TotalSeconds} 秒");
-            }
-            catch (Exception e)
+            WriteLog.Info($"完整名称: {a.FullName}\n" +
+                          $"描述: {a.Description}\n" +
+                          $"主页: {a.HomePage}\n" +
+                          $"默认分支: {a.DefaultBranch}\n" +
+                          $"默认分支SHA值: {a.DefaultBranchSHAHash}\n" +
+                          $"主要分支: {a.PrimaryBranch}\n" +
+                          $"可见性: {a?.Visibility}\n" +
+                          $"仓库是否为公开: {a.IsPublic}\n" +
+                          $"是否为存档: {a.IsArchived}\n" +
+                          $"是否禁用: {a.IsDisabled}\n" +
+                          $"是否为Fork的仓库: {a.IsForked}\n" +
+                          $"主要代码语言: {a.MainLanguage}\n" +
+                          $"话题: {_topics}\n" +
+                          $"许可证: {a.License}\n" +
+                          $"Star 数量: {a.Stargazers}\n" +
+                          $"Fork 的数量: {a.Forks}\n" +
+                          $"打开的Issue: {a.OpenIssues}\n" +
+                          $"关注人数: {a.Watchers}\n" +
+                          $"推送时间: {a.PushedTime_String}\n" +
+                          $"创建仓库时间: {a.CreatedTime_String}\n" +
+                          $"更新时间: {a.UpdatedTime_Str}\n" +
+                          $"代码语言: {_languages}\n" +
+                          $"仓库协作者: {a.Collaborators}\n");
+            foreach (var t in a.Maintainers)
             {
-                //CatchAnyException("GetGithubRepos Data", e);
-                throw;
+                WriteLog.Info($"协作者: {t.login}\n" +
+                              $"名称: {t.name}\n" +
+                              $"邮箱: {t.email}\n" +
+                              $"个人主页: {t.url}\n\n");
             }
+
+            WriteLog.Info($"测试完毕, 共用时 {_stopwatch.Elapsed.TotalSeconds} 秒");
         }
     }
 }

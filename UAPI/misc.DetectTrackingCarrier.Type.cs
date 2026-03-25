@@ -62,13 +62,13 @@ namespace UAPI
             /// 返回值
             /// </summary>
             [JsonProperty("code")]
-            public new string Code { get; set; }
+            public string Code { get; set; }
 
             /// <summary>
             /// 返回消息
             /// </summary>
             [JsonProperty("message")]
-            public new string Message { get; set; }
+            public string Message { get; set; }
 
             /// <summary>
             /// 返回的数据

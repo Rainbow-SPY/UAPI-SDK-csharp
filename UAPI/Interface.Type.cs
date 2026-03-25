@@ -32,6 +32,11 @@ namespace UAPI
             /// </summary>
             [JsonProperty("details")]
             public string details { get; set; }
+
+            /// <summary>
+            /// 响应头
+            /// </summary>
+            public Response.Headers Headers { get; set; }
         }
     }
 }

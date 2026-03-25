@@ -12,7 +12,6 @@ namespace UAPI
             private int _communityvisibilitystate;
             private int _profilestate;
             private int _personastate;
-            private string _personastate_str;
 
             /// <summary>
             /// SteamID64

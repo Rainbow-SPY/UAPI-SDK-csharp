@@ -71,18 +71,13 @@ namespace UAPI
                                 return null;
                             }
 
-                            if (ExtractSteamID(SteamID) == _Regex_Match_Not_Found_Any)
-                            {
-                                WriteLog.Error(LogKind.Regex,
-                                    $"未匹配到任何 正则表达式 , 返回的错误代码: {_Regex_Match_Not_Found_Any}");
-                                return null;
-                            }
-
-                            return await SendQueryMessage("steamid", ExtractSteamID(SteamID),
-                                key); //解析SteamID64
+                            if (ExtractSteamID(SteamID) != _Regex_Match_Not_Found_Any)
+                                return await SendQueryMessage("steamid", ExtractSteamID(SteamID),
+                                    key); //解析SteamID64
+                            WriteLog.Error(LogKind.Regex,
+                                $"未匹配到任何 正则表达式 , 返回的错误代码: {_Regex_Match_Not_Found_Any}");
+                            return null;
                     }
-
-                    return await SendQueryMessage("steamid", SteamID, key);
             }
         }
 

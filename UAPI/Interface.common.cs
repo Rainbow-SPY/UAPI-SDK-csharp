@@ -36,7 +36,7 @@ namespace UAPI
         /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
         /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
         /// <returns>泛式对象 <see cref="T"/></returns>
-        internal static async Task<(T Result, int StatusCode, Response.Headers headers)> GetResultWithHeaders<T>(
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(
             string requestUrl, SendRequestType type = SendRequestType.GET, string postContent = "",
             string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
         {
@@ -68,25 +68,9 @@ namespace UAPI
                             {
                                 ContractResolver = new CamelCasePropertyNamesContractResolver()
                             });
-                        WriteLog.Info("ToDictionary", $"响应标头转换为字典+{response.Headers.ToString()}+");
+                        WriteLog.Info("ToDictionary", $"响应标头转换为字典");
                         WriteLog.Info(LogKind.Json, "序列化字典");
                         WriteLog.Info(LogKind.Json, "反序列化序列化的字典");
-                        var message = $"\n\t本次请求是否被豁免扣费: {Headers.CreditsExempt}" +
-                                      $"\n\t以何种方式请求: {Headers.SourceWhere}" +
-                                      $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus.ToString()}" +
-                                      $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
-                                      $"\n\t实际扣除积分: {Headers.CreditsCharged}";
-                        message += Headers.SourceWhere.ToLower() == "web" || Headers.SourceWhere.ToLower() == "api"
-                            ? $"\n\t每月额度: {Headers.RateLimit}" +
-                              $"\n\t额度类型: {Headers.RateType}" +
-                              $"\n\t账户余额: {Headers.BalanceRemaining}" +
-                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}" +
-                              $"\n\t所有有效资源包剩余额度总和: {Headers.ActivatedResourcePackagesRemainingTotal}"
-                            : $"\n\t免费额度重置日期: {Headers.RateLimitResetDateTime}" +
-                              $"\n\t每月额度: {Headers.RateLimit}" +
-                              //  $"\n\t额度类型: {Headers.RateType}" +
-                              $"\n\t访客月剩余额度: {Headers.RateLimitRemaining}";
-                        WriteLog.Info("ResponseHeader", message);
                         var statusCode = (int)response.StatusCode;
                         WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
                         var responseData = await response.Content.ReadAsStringAsync();
@@ -95,7 +79,7 @@ namespace UAPI
                         {
                             WriteLog.Error(LogKind.Http,
                                 _void_value_null("GetResult<T>.HttpClient", "Content"));
-                            return (null, statusCode, Headers);
+                            return (null, statusCode);
                         }
 
                         WriteLog.Info(LogKind.Json, "压缩 Json");
@@ -107,6 +91,16 @@ namespace UAPI
                                 {
                                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                                 });
+                            // 反射获取 Headers 属性
+                            var headersProperty = result.GetType().GetProperty("Headers");
+                            // 验证属性存在且类型匹配
+                            if (headersProperty != null && headersProperty.PropertyType == typeof(Response.Headers))
+                            {
+                                // 给 Headers 属性赋值
+                                headersProperty.SetValue(result, Headers);
+                                WriteLog.Info(LogKind.Reflection, $"成功给 {typeof(T).FullName} 赋值 Headers 属性");
+                            }
+
                             WriteLog.Info(LogKind.Json, "反序列化Json");
                         }
                         catch (JsonSerializationException ex)
@@ -115,7 +109,7 @@ namespace UAPI
                                 $"JSON反序列化失败！类型：{typeof(T).FullName}，错误：{ex.Message}，堆栈：{ex.StackTrace}");
                         }
 
-                        return (result, statusCode, Headers);
+                        return (result, statusCode);
                     }
                 }
             }
@@ -123,36 +117,15 @@ namespace UAPI
             {
                 WriteLog.Error(LogKind.Http,
                     $"HttpClient 请求失败, 请检查您的网络连接或反馈工单给工作人员: {e.Message} - {e.StackTrace}");
-                return (null, -1, null);
+                return (null, -1);
             }
             catch (Exception e)
             {
                 WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
-                return (null, -1, null);
+                return (null, -1);
             }
         }
 
-        /// <summary>
-        /// 公共API 获取请求
-        /// </summary>
-        /// <param name="requestUrl">请求的API Url</param>
-        /// <param name="postContent">POST 请求内容</param>
-        /// <param name="contentType">POST请求内容类型</param>
-        /// <param name="type">请求的方式</param>
-        /// <param name="AuthenticationAPITokenKey">API Token Key</param>
-        /// <typeparam name="T">泛式类型</typeparam>
-        /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
-        /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
-        /// <returns>泛式对象 <see cref="T"/></returns>
-        internal static async Task<(T Result, int StatusCode)> GetResult<T>(
-            string requestUrl, SendRequestType type = SendRequestType.GET, string postContent = "",
-            string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
-        {
-            // 调用3元素版本，只返回前两个值
-            var (result, statusCode, _) = await GetResultWithHeaders<T>(
-                requestUrl, type, postContent, contentType, AuthenticationAPITokenKey);
-            return (result, statusCode);
-        }
 
         /// <summary>
         /// 公共API 获取请求
@@ -164,30 +137,20 @@ namespace UAPI
         /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
         /// <returns>泛式对象 <see cref="T"/></returns>
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl,
-            string AuthenticationAPITokenKey = "") where T : class
-        {
-            var (result, statuscode, _) = await GetResultWithHeaders<T>(requestUrl, SendRequestType.GET, "",
+            string AuthenticationAPITokenKey = "") where T : class =>
+            await GetResult<T>(requestUrl, SendRequestType.GET, "",
                 "application/json", AuthenticationAPITokenKey);
-            return (result, statuscode);
-        }
 
         /// <summary>
-        /// 公共API 获取请求, 默认为 GET 请求
+        /// 公共API 获取请求, 访客请求API, 无 Authentication API Token Key
         /// </summary>
         /// <param name="requestUrl">请求的API Url</param>
         /// <typeparam name="T">泛式类型</typeparam>
         /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
         /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
         /// <returns>泛式对象 <see cref="T"/></returns>
-        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl)
-            where T : class
-        {
-            var (result, statuscode, _) = await
-                GetResultWithHeaders<T>(requestUrl);
-            return (result, statuscode);
-        }
-
-        //  internal static async Task<(List<>)>
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
+            GetResult<T>(requestUrl, SendRequestType.GET);
 
         internal enum SendRequestType
         {
@@ -210,9 +173,7 @@ namespace UAPI
         /// <exception cref="UnauthorizedAccessException">未经授权的操作引发的异常</exception>
         /// <exception cref="_Exception">指定为继承 <see cref="System.Exception"/> 的自定义异常</exception>
         internal static bool IsGetSuccessful<T>(T Type, string NullValue, int StatusCode, Exception _Exception,
-            string _Error_Type,
-            string Error_Code = "")
-            where T : TypeInterface
+            string _Error_Type, string Error_Code = "") where T : TypeInterface
         {
             if (Type == null) return false;
             switch (StatusCode)

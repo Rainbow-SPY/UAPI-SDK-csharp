@@ -12,8 +12,6 @@ namespace UAPI
         /// </summary>
         public class ReposType : Interface.TypeInterface
         {
-            private string _visibility = "private";
-
             /// <summary>
             /// 完整名称
             /// </summary>
