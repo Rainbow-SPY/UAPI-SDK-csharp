@@ -24,7 +24,7 @@ const n={slug:"guide/developer-develop",html:`<p>为了让SDK更好的使用, �
 <li>Use this code (or derivatives) for commercial purposes.</li>
 </ul>
 </li>
-<li>See <a href="LICENSE">LICENSE</a> for full terms.</li>
+<li>See <a href="https://github.com/Rainbow-SPY/UAPI-SDK-csharp/blob/master/LICENSE" target="_blank" rel="noreferrer">LICENSE</a> for full terms.</li>
 </ul>
 <p>版权所有 (©) AxT-Team &amp; UApi，开发者：Rainbow-SPY，所有内容均受版权保护。</p>
 <p>本项目采用 <strong>AGPL-3.0 + 署名 + 非商业附加条款</strong> 许可协议。</p>
@@ -40,7 +40,7 @@ const n={slug:"guide/developer-develop",html:`<p>为了让SDK更好的使用, �
 <li>将此代码（或衍生作品）用于商业用途。</li>
 </ul>
 </li>
-<li>完整条款参见 <a href="LICENSE">LICENSE</a></li>
+<li>完整条款参见 <a href="https://github.com/Rainbow-SPY/UAPI-SDK-csharp/blob/master/LICENSE" target="_blank" rel="noreferrer">LICENSE</a>)</li>
 </ul>
 <h2 id="添加包">添加包</h2>
 <h3 id="在-nuget-cli-添加包">在 NuGet CLi 添加包</h3>
@@ -63,11 +63,9 @@ const n={slug:"guide/developer-develop",html:`<p>为了让SDK更好的使用, �
 </ul>
 <h2 id="开发环境">开发环境</h2>
 <ul>
-<li>
-<h4 id="ide">IDE</h4>
+<li>IDE
 <ul>
-<li>
-<p><a href="https://www.jetbrains.com/zh-cn/rider/" target="_blank" rel="noreferrer">IntelliJ JetBrains Rider</a></p>
+<li><a href="https://www.jetbrains.com/zh-cn/rider/" target="_blank" rel="noreferrer">IntelliJ JetBrains Rider</a>
 <ul>
 <li><a href="https://www.jetbrains.com.cn/dotnet/download/system-requirements/" target="_blank" rel="noreferrer">系统要求</a>
 <ul>
@@ -79,19 +77,16 @@ const n={slug:"guide/developer-develop",html:`<p>为了让SDK更好的使用, �
 </li>
 </ul>
 </li>
-<li>
-<p><a href="https://visualstudio.microsoft.com/zh-hans/vs" target="_blank" rel="noreferrer">Visual Studio 2026</a></p>
+<li><a href="https://visualstudio.microsoft.com/zh-hans/vs" target="_blank" rel="noreferrer">Visual Studio 2026</a>
 <ul>
-<li>
-<p><a href="https://learn.microsoft.com/zh-cn/visualstudio/releases/2026/vs-system-requirements" target="_blank" rel="noreferrer">系统要求</a></p>
+<li><a href="https://learn.microsoft.com/zh-cn/visualstudio/releases/2026/vs-system-requirements" target="_blank" rel="noreferrer">系统要求</a>
 <ul>
 <li>Windows 11 版本 21H2 或更高版本：家庭版、专业版、专业教育版、专业工作站版、企业版和教育版</li>
 <li>Windows 10 版本 1909 或更高版本：家庭版、专业版、教育版和企业版。</li>
 <li>64 位操作系统, 基于 x64 的处理器</li>
 </ul>
 </li>
-<li>
-<p>工作负荷</p>
+<li>工作负荷
 <ul>
 <li>桌面应用和移动应用
 <ul>
@@ -104,57 +99,33 @@ const n={slug:"guide/developer-develop",html:`<p>为了让SDK更好的使用, �
 </li>
 </ul>
 </li>
-<li>
-<p>编译语言</p>
+<li>编译语言
 <ul>
 <li>C# .NET Framework 4.7.2</li>
 </ul>
 </li>
-<li>
-<p>依赖项</p>
+<li>依赖项
 <ul>
-<li>
-<p>第三方程序集</p>
+<li>第三方程序集
 <ul>
-<li>
-<p>AntdUI</p>
-<p>用于依赖项 Rox.Runtimes 的 <code>Reporter</code> 窗体渲染, 防止出现未知的异常</p>
-</li>
-<li>
-<p>Newtonsoft.Json</p>
-<p>用于 <code>Json</code> 反序列化解析</p>
-</li>
-<li>
-<p>Rox.Runtimes</p>
-<p>用于输出日志、引用字符串常量等</p>
-</li>
-<li>
-<p>Rox.Text</p>
-<p>用于压缩 <code>Json</code> .后续会集成移除</p>
-</li>
+<li>AntdUI
+用于依赖项 Rox.Runtimes 的 <code>Reporter</code> 窗体渲染, 防止出现未知的异常</li>
+<li>Newtonsoft.Json
+用于 <code>Json</code> 反序列化解析</li>
+<li>Rox.Runtimes
+用于输出日志、引用字符串常量等</li>
+<li>Rox.Text
+用于压缩 <code>Json</code> .后续会集成移除</li>
 </ul>
 </li>
-<li>
-<p>来自 Microsoft 的 NuGet 包扩展</p>
+<li>来自 Microsoft 的 NuGet 包扩展
 <ul>
-<li>
-<p>System.Buffers</p>
-</li>
-<li>
-<p>System.Diagnostics.DiagnosticSource</p>
-</li>
-<li>
-<p>System.Memory</p>
-</li>
-<li>
-<p>System.Numerics.Vectors</p>
-</li>
-<li>
-<p>System.Runtime.CompilerServices.Unsafe</p>
-</li>
-<li>
-<p>System.Net.Http</p>
-</li>
+<li>System.Buffers</li>
+<li>System.Diagnostics.DiagnosticSource</li>
+<li>System.Memory</li>
+<li>System.Numerics.Vectors</li>
+<li>System.Runtime.CompilerServices.Unsafe</li>
+<li>System.Net.Http</li>
 </ul>
 </li>
 </ul>
@@ -175,75 +146,10 @@ Console.WriteLine($&quot;直播间标题: {(string.IsNullOrEmpty(request.title) 
 // 		直播间标题: 未开播
 </code></pre>
 <ul>
-<li>参数选项&amp;返回类型&amp;返回值: 详见 <a href="https://github.com/Rainbow-SPY/UAPI-SDK-csharp/blob/master/UAPI/docs" target="_blank" rel="noreferrer">Github - Rainbow-SPY/UAPI-SDK-csharp/docs/各个方法的开发文档</a></li>
+<li>参数选项&amp;返回类型&amp;返回值: 详见 <a href="https://rainbow-spy.github.io/UAPI-SDK-csharp/" target="_blank" rel="noreferrer">Github Pages - Rainbow-SPY/UAPI-SDK-csharp</a></li>
 </ul>
 <div class="gfm-alert gfm-alert-tip"><div class="gfm-alert-title"><span class="gfm-alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-.63.5-1.2.92-1.68A6 6 0 1 0 8.08 12.3c.42.48.72 1.05.92 1.7"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></span><span>Tip</span></div><div class="gfm-alert-body"><p>如何查找?</p>
 <p>开发文档和接口的源代码同名, 直接按照源代码文件名搜索相关的开发文档</p>
+<p>在 Github Page 上可用</p>
 </div></div><p>现在你已经学会了请求接口了</p>
-<h2 id="属性列表">属性列表</h2>
-<h3 id="根属性">根属性</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">属性值</th>
-<th style="text-align:left">注释</th>
-<th style="text-align:left">备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h4 id="嵌套类"><code>$</code> <strong>$</strong> 嵌套类</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">属性值</th>
-<th>注释</th>
-<th style="text-align:left">示例</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td></td>
-<td style="text-align:left"></td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td></td>
-<td style="text-align:left"></td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td></td>
-<td style="text-align:left"></td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:left">\`\` ****</td>
-<td></td>
-<td style="text-align:left"></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 `};export{n as default};
