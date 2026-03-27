@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
+using Rox.Runtimes;
 using static Rox.Runtimes.LogLibraries;
 using static Rox.Text.Json;
 
@@ -23,6 +24,8 @@ namespace UAPI
         /// UAPI API 基础请求地址
         /// </summary>
         public const string _UAPI_Request_Url = "https://uapis.cn/api/v1/";
+
+        internal const string _2UAPI_Request_Url = "https://b1.uapis.cn/api/v1/";
 
         /// <summary>
         /// 公共API 获取请求
@@ -54,12 +57,20 @@ namespace UAPI
                             $"添加请求头: {AuthenticationAPITokenKey?.Substring(0, 6)}");
                     }
 
+                    var targetUrl = requestUrl;
+                    if (!Network_I.Ping("uapis.cn"))
+                    {
+                        if (requestUrl.StartsWith(_UAPI_Request_Url))
+                            targetUrl = _2UAPI_Request_Url + requestUrl.Substring(_UAPI_Request_Url.Length);
+                        WriteLog.Warning(LogKind.Http, $"requestUrl {requestUrl} 不包含基础前缀，无法切换到备用地址");
+                    }
+
                     var response = type == SendRequestType.GET
-                        ? await httpClient.GetAsync(requestUrl)
-                        : await httpClient.PostAsync(requestUrl,
+                        ? await httpClient.GetAsync(targetUrl)
+                        : await httpClient.PostAsync(targetUrl,
                             new StringContent(postContent, Encoding.UTF8, contentType));
                     WriteLog.Info(LogKind.Http,
-                        $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {requestUrl}");
+                        $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
                     using (response)
                     {
                         var Headers = JsonConvert.DeserializeObject<Response.Headers>(
