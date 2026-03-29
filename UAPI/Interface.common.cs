@@ -50,7 +50,6 @@ namespace UAPI
                     WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
-                    WriteLog.Info("+" + AuthenticationAPITokenKey + "+");
                     if (!string.IsNullOrWhiteSpace(AuthenticationAPITokenKey))
                     {
                         WriteLog.Info(LogKind.Http,
@@ -58,7 +57,7 @@ namespace UAPI
                     }
 
                     var targetUrl = requestUrl;
-                    if (!Network_I.Ping("uapis.cn"))
+                    if (!Network_I.PingAsync("uapis.cn").Result.IsSuccess)
                     {
                         if (requestUrl.StartsWith(_UAPI_Request_Url))
                             targetUrl = _2UAPI_Request_Url + requestUrl.Substring(_UAPI_Request_Url.Length);
@@ -132,7 +131,7 @@ namespace UAPI
             }
             catch (Exception e)
             {
-                WriteLog.Error(_Exception_With_xKind("GetResult<T>()", e));
+                WriteLog.Error(LogKind.Exception, _Exception_With_xKind("GetResult<T>()", e));
                 return (null, -1);
             }
         }

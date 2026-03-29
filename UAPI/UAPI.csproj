@@ -137,6 +137,8 @@
         <Compile Include="misc.ConvertTimestamp.cs" />
         <Compile Include="misc.DetectTrackingCarrier.cs" />
         <Compile Include="misc.DetectTrackingCarrier.Type.cs" />
+        <Compile Include="misc.GetHolidayCalendar.cs" />
+        <Compile Include="misc.GetHolidayCalendar.Type.cs" />
         <Compile Include="misc.GetLunarTime.cs" />
         <Compile Include="misc.GetLunarTime.Type.cs" />
         <Compile Include="misc.GetPhoneInfo.cs" />
