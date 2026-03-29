@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -43,6 +44,27 @@ namespace UAPI
             string requestUrl, SendRequestType type = SendRequestType.GET, string postContent = "",
             string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
         {
+            var targetUrl = requestUrl;
+            if (Network_I.PingAsync("uapis.cn").Result.IsSuccess)
+                try
+                {
+                    WriteLog.Info(LogKind.Downloader, "尝试下载 uapis.cn:443 界面资源...");
+                    using (var webClient = new WebClient())
+                        webClient.DownloadFile("https://uapis.cn:443", Path.GetTempFileName());
+                }
+                catch (WebException)
+                {
+                    WriteLog.Info("无法连接到 uapis.cn, 切换到备用站点使用");
+                    goto awa;
+                }
+
+            goto qwq;
+            awa:
+            if (requestUrl.StartsWith(_UAPI_Request_Url))
+                targetUrl = _2UAPI_Request_Url + requestUrl.Substring(_UAPI_Request_Url.Length);
+            else
+                WriteLog.Warning(LogKind.Http, $"requestUrl {requestUrl} 不包含基础前缀，无法切换到备用地址");
+            qwq:
             try
             {
                 using (var httpClient = new HttpClient())
@@ -53,15 +75,7 @@ namespace UAPI
                     if (!string.IsNullOrWhiteSpace(AuthenticationAPITokenKey))
                     {
                         WriteLog.Info(LogKind.Http,
-                            $"添加请求头: {AuthenticationAPITokenKey?.Substring(0, 6)}");
-                    }
-
-                    var targetUrl = requestUrl;
-                    if (!Network_I.PingAsync("uapis.cn").Result.IsSuccess)
-                    {
-                        if (requestUrl.StartsWith(_UAPI_Request_Url))
-                            targetUrl = _2UAPI_Request_Url + requestUrl.Substring(_UAPI_Request_Url.Length);
-                        WriteLog.Warning(LogKind.Http, $"requestUrl {requestUrl} 不包含基础前缀，无法切换到备用地址");
+                            $"添加请求头: {AuthenticationAPITokenKey.Substring(0, 6)}");
                     }
 
                     var response = type == SendRequestType.GET
