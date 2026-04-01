@@ -235,11 +235,12 @@ namespace UAPI
                     throw _Exception;
                 case 503:
                     WriteLog.Error(
-                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
+                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? (Type.code ?? "")} - {Type.details}");
                     MessageBox_I.Error(
                         $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
                         _ERROR);
-                    throw new General.UAPIServiceUnavailable();
+                    throw new General.UAPIServiceUnavailable(
+                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
                 case -1:
                     WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
                     MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
