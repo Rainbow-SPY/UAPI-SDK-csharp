@@ -21,7 +21,7 @@ namespace UAPI
             bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0, string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<RandomNumberType>(
-                $"{_Request_Url}randomnumber?min={min}&max={max}&count={count}&allow_repeat={allow_repeat}&allow_decimal={allow_decimal}&decimal_places={decimal_places}",
+                $"{_Request_Url}misc/randomnumber?min={min}&max={max}&count={count}&allow_repeat={allow_repeat}&allow_decimal={allow_decimal}&decimal_places={decimal_places}",
                 Authentication);
             if (!Interface.IsGetSuccessful(result, "number", statusCode, new General.UAPIUnknowException(),
                     "GetRandomNumberList"))

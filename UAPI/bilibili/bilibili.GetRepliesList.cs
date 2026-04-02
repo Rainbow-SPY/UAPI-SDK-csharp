@@ -18,7 +18,7 @@ namespace UAPI
             string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<RepliesListType>(
-                $"{Interface._UAPI_Request_Url}replies?oid={oid}&sort={sort}&ps={ps}&pn={pn}", Authentication);
+                $"{Interface._UAPI_Request_Url}social/bilibili/replies?oid={oid}&sort={sort}&ps={ps}&pn={pn}", Authentication);
             if (!Interface.IsGetSuccessful(result, "oid", statusCode, new IException.bilibili.BilibiliServiceError(),
                     "bilibili replies", IException.bilibili._Bilibili_Service_Error))
                 LogLibraries.WriteLog.Error("请求错误, 请重试");

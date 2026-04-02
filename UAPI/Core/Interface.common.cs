@@ -1,16 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
-using Rox.Runtimes;
 using static Rox.Runtimes.LogLibraries;
 using static Rox.Text.Json;
 
@@ -28,6 +31,12 @@ namespace UAPI
 
         internal const string _2UAPI_Request_Url = "https://b1.uapis.cn/api/v1/";
 
+        /// 泛型缓存容器
+        private static readonly Dictionary<Type, PropertyInfo> _headersPropertyCache =
+            new Dictionary<Type, PropertyInfo>();
+
+        private static readonly object _cacheLock = new object();
+
         /// <summary>
         /// 公共API 获取请求
         /// </summary>
@@ -39,102 +48,148 @@ namespace UAPI
         /// <typeparam name="T">泛式类型</typeparam>
         /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
         /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
+        /// <exception cref="ArgumentNullException">传参异常</exception>
+        /// <exception cref="AmbiguousMatchException">当绑定到成员导致多个成员匹配绑定条件时引发的异常。</exception>
         /// <returns>泛式对象 <see cref="T"/></returns>
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(
             string requestUrl, SendRequestType type = SendRequestType.GET, string postContent = "",
             string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
         {
             var targetUrl = requestUrl;
-            if (Network_I.PingAsync("uapis.cn").Result.IsSuccess)
+
+            #region PingTest
+
+            var res = await Network_I.PingAsync("uapis.cn");
+            var tempFile = Path.GetTempFileName();
+            if (res.IsSuccess)
                 try
                 {
                     WriteLog.Info(LogKind.Downloader, "尝试下载 uapis.cn:443 界面资源...");
                     using (var webClient = new WebClient())
-                        webClient.DownloadFile("https://uapis.cn:443", Path.GetTempFileName());
+                        await webClient.DownloadFileTaskAsync(new Uri("https://uapis.cn:443"), tempFile);
                 }
                 catch (WebException)
                 {
-                    WriteLog.Info("无法连接到 uapis.cn, 切换到备用站点使用");
-                    goto awa;
+                    WriteLog.Warning(LogKind.Downloader, "无法连接到 uapis.cn, 切换到备用站点使用");
+                    targetUrl = SwitchToBackupUrl(requestUrl);
                 }
-
-            goto qwq;
-            awa:
-            if (requestUrl.StartsWith(_UAPI_Request_Url))
-                targetUrl = _2UAPI_Request_Url + requestUrl.Substring(_UAPI_Request_Url.Length);
+                finally
+                {
+                    // 清理临时文件
+                    if (File.Exists(tempFile))
+                        try
+                        {
+                            File.Delete(tempFile);
+                        }
+                        catch (IOException ex)
+                        {
+                            WriteLog.Warning(LogKind.File, $"清理临时文件失败: {_Exception_With_xKind("File.Delete", ex)}");
+                        }
+                }
             else
-                WriteLog.Warning(LogKind.Http, $"requestUrl {requestUrl} 不包含基础前缀，无法切换到备用地址");
-            qwq:
+            {
+                WriteLog.Warning(LogKind.Downloader, "uapis.cn Ping 失败, 切换到备用站点使用");
+                targetUrl = SwitchToBackupUrl(requestUrl);
+            }
+
+            #endregion
+
+            WriteLog.Info(LogKind.Http, "配置 ServicePointManager 连接参数");
             try
             {
-                using (var httpClient = new HttpClient())
+                var httpClient = _httpClient.Value;
+                WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
+                if (!string.IsNullOrEmpty(AuthenticationAPITokenKey))
                 {
-                    WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
-                    if (!string.IsNullOrWhiteSpace(AuthenticationAPITokenKey))
+                    //       httpClient.DefaultRequestHeaders.Add("Bearer", AuthenticationAPITokenKey);
+                    WriteLog.Info(LogKind.Http,
+                        $"添加请求头: {AuthenticationAPITokenKey.Substring(0, 6)}");
+                }
+
+                var response = type == SendRequestType.GET
+                    ? await httpClient.GetAsync(targetUrl)
+                    : await httpClient.PostAsync(targetUrl,
+                        new StringContent(postContent, Encoding.UTF8, contentType));
+                WriteLog.Info(LogKind.Http,
+                    $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
+                using (response)
+                {
+                    var Headers = JsonConvert.DeserializeObject<Response.Headers>(
+                        JsonConvert.SerializeObject(response.Headers.ToDictionary(h => h.Key,
+                            h => string.Join(",", h.Value))), new JsonSerializerSettings
+                        {
+                            ContractResolver = new CamelCasePropertyNamesContractResolver()
+                        });
+                    WriteLog.Info("ToDictionary", "响应标头转换为字典");
+                    WriteLog.Info(LogKind.Json, "序列化字典");
+                    WriteLog.Info(LogKind.Json, "反序列化字典");
+                    var statusCode = (int)response.StatusCode;
+                    WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    WriteLog.Info(LogKind.Http, "异步读取响应内容");
+                    if (string.IsNullOrEmpty(responseData))
                     {
-                        WriteLog.Info(LogKind.Http,
-                            $"添加请求头: {AuthenticationAPITokenKey.Substring(0, 6)}");
+                        WriteLog.Error(LogKind.Http,
+                            _void_value_null("GetResult<T>.HttpClient", "Content"));
+                        return (null, statusCode);
                     }
 
-                    var response = type == SendRequestType.GET
-                        ? await httpClient.GetAsync(targetUrl)
-                        : await httpClient.PostAsync(targetUrl,
-                            new StringContent(postContent, Encoding.UTF8, contentType));
-                    WriteLog.Info(LogKind.Http,
-                        $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
-                    using (response)
+                    WriteLog.Info(LogKind.Json, "压缩 Json");
+                    T result = null;
+                    try
                     {
-                        var Headers = JsonConvert.DeserializeObject<Response.Headers>(
-                            JsonConvert.SerializeObject(response.Headers.ToDictionary(h => h.Key,
-                                h => string.Join(",", h.Value))), new JsonSerializerSettings
+                        result = JsonConvert.DeserializeObject<T>(CompressJson(responseData),
+                            new JsonSerializerSettings
                             {
                                 ContractResolver = new CamelCasePropertyNamesContractResolver()
                             });
-                        WriteLog.Info("ToDictionary", $"响应标头转换为字典");
-                        WriteLog.Info(LogKind.Json, "序列化字典");
-                        WriteLog.Info(LogKind.Json, "反序列化序列化的字典");
-                        var statusCode = (int)response.StatusCode;
-                        WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        WriteLog.Info(LogKind.Http, "异步读取响应内容");
-                        if (string.IsNullOrEmpty(responseData))
-                        {
-                            WriteLog.Error(LogKind.Http,
-                                _void_value_null("GetResult<T>.HttpClient", "Content"));
-                            return (null, statusCode);
-                        }
 
-                        WriteLog.Info(LogKind.Json, "压缩 Json");
-                        T result = null;
-                        try
+                        if (result != null)
                         {
-                            result = JsonConvert.DeserializeObject<T>(CompressJson(responseData),
-                                new JsonSerializerSettings
+                            var headerType = result.GetType();
+                            PropertyInfo headersProperty;
+                            // 加锁保证缓存线程安全
+                            lock (_cacheLock)
+                                // 优先从缓存获取，避免重复反射
+                                if (!_headersPropertyCache.TryGetValue(headerType, out headersProperty))
                                 {
-                                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                                });
-                            // 反射获取 Headers 属性
-                            var headersProperty = result.GetType().GetProperty("Headers");
-                            // 验证属性存在且类型匹配
-                            if (headersProperty != null && headersProperty.PropertyType == typeof(Response.Headers))
+                                    // 反射获取 Headers 属性
+                                    headersProperty = headerType.GetProperty("Headers");
+                                    // 验证属性存在且类型匹配后再缓存
+                                    if (headersProperty != null &&
+                                        headersProperty.PropertyType == typeof(Response.Headers))
+                                    {
+                                        _headersPropertyCache[headerType] = headersProperty;
+                                        WriteLog.Info(LogKind.Reflection,
+                                            $"缓存 {headerType.FullName} 的 Headers 属性信息");
+                                    }
+                                    else
+                                        // 若属性不存在/类型不匹配，缓存null避免重复检查
+                                        _headersPropertyCache[headerType] = null;
+                                }
+
+                            // 若缓存中存在有效属性则赋值
+                            if (headersProperty != null)
                             {
-                                // 给 Headers 属性赋值
                                 headersProperty.SetValue(result, Headers);
-                                WriteLog.Info(LogKind.Reflection, $"成功给 {typeof(T).FullName} 赋值 Headers 属性");
+                                WriteLog.Info(LogKind.Reflection, $"成功给 {headerType.FullName} 赋值 Headers 属性");
                             }
-
-                            WriteLog.Info(LogKind.Json, "反序列化Json");
-                        }
-                        catch (JsonSerializationException ex)
-                        {
-                            WriteLog.Error(LogKind.Json,
-                                $"JSON反序列化失败！类型：{typeof(T).FullName}，错误：{ex.Message}，堆栈：{ex.StackTrace}");
+                            else
+                                WriteLog.Warning(LogKind.Reflection,
+                                    $"{headerType.FullName} 不存在有效的 Headers 属性（属性不存在或类型不匹配）");
                         }
 
-                        return (result, statusCode);
+                        WriteLog.Info(LogKind.Json, "反序列化Json");
                     }
+                    catch (JsonSerializationException ex)
+                    {
+                        WriteLog.Error(LogKind.Json,
+                            $"JSON反序列化失败！类型：{typeof(T).FullName}，错误：{ex.Message}，堆栈：{ex.StackTrace}");
+                    }
+
+                    return (result, statusCode);
                 }
             }
             catch (HttpRequestException e)
@@ -248,7 +303,7 @@ namespace UAPI
                     throw _Exception;
                 case 503:
                     WriteLog.Error(
-                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? (Type.code ?? "")} - {Type.details}");
+                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}");
                     MessageBox_I.Error(
                         $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {General._UAPI_Service_Unavailable},错误信息: {Type.code ?? Type.code ?? ""} - {Type.details}",
                         _ERROR);
@@ -265,6 +320,45 @@ namespace UAPI
             }
 
             return false;
+        }
+
+        private static string SwitchToBackupUrl(string originalUrl)
+        {
+            if (originalUrl.StartsWith(_UAPI_Request_Url))
+                return _2UAPI_Request_Url + originalUrl.Substring(_UAPI_Request_Url.Length);
+
+            WriteLog.Warning(LogKind.Http, $"requestUrl {originalUrl} 不包含基础前缀，无法切换到备用地址");
+            return originalUrl;
+        }
+
+        // 静态 HttpClient 实例
+        private static readonly Lazy<HttpClient> _httpClient = new Lazy<HttpClient>(() =>
+            new HttpClient(CreateOptimizedHttpClientHandler(), disposeHandler: false)
+            {
+                Timeout = TimeSpan.FromSeconds(10)
+            });
+
+        // 优化 HttpClientHandler 配置
+        internal static HttpClientHandler CreateOptimizedHttpClientHandler()
+        {
+            WriteLog.Info(LogKind.Http, "创建优化的 HttpClientHandler 实例");
+            // 关闭 Nagle 算法
+            ServicePointManager.UseNagleAlgorithm = false;
+            // 关闭 100-Continue 握手
+            ServicePointManager.Expect100Continue = false;
+
+            return new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseCookies = true,
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                // 连接池配置
+                MaxConnectionsPerServer = 100,
+                // TLS 配置）
+                SslProtocols = SslProtocols.Tls12 |
+                               SslProtocols.Tls11 |
+                               SslProtocols.Tls
+            };
         }
     }
 }

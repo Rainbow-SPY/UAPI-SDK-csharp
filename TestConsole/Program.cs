@@ -41,10 +41,7 @@ namespace TestConsole
             Thread.Sleep(2000);
         }
 
-        public static async Task TestEpic()
-        {
-            var a = await EpicGames.GetDataJson();
-        }
+        public static async Task TestEpic() => await EpicGames.GetDataJson();
 
         public static void ASs()
         {
@@ -64,7 +61,7 @@ namespace TestConsole
                 var a = await hotboard.GetBilibiliHotboard();
                 var b = $"\n\n查询类型: {a.type}" +
                         $"\n更新时间: {a.update_time_str}" +
-                        $"\n排行榜信息: {a.Headers.RateLimit}";
+                        "\n排行榜信息";
                 foreach (var i in a.list)
                 {
                     b += $"\n\t排名: {i.index}" +
@@ -290,6 +287,13 @@ namespace TestConsole
                                    $"\n\t荣誉类型:{i.type}";
                     }
                 }
+                var Headers = a.Headers;
+                var messa1ge = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
+                              $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                              $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
+                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
+                WriteLog.Info("ResponseHeader", messa1ge);
+
 
                 WriteLog.Info(message);
             }
@@ -327,21 +331,10 @@ namespace TestConsole
                 WriteLog.Info($"热词: {string.Join("、", a.hot_words ?? new List<string>())}");
                 _stopwatch.Stop();
                 var Headers = a.Headers;
-                var message = $"\n\t本次请求是否被豁免扣费: {Headers.CreditsExempt}" +
-                              $"\n\t以何种方式请求: {Headers.SourceWhere}" +
-                              $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus.ToString()}" +
+                var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
                               $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
-                              $"\n\t实际扣除积分: {Headers.CreditsCharged}";
-                message += Headers.SourceWhere.ToLower() == "web" || Headers.SourceWhere.ToLower() == "api"
-                    ? $"\n\t每月额度: {Headers.RateLimit}" +
-                      $"\n\t额度类型: {Headers.RateType}" +
-                      $"\n\t账户余额: {Headers.BalanceRemaining}" +
-                      $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}" +
-                      $"\n\t所有有效资源包剩余额度总和: {Headers.ActivatedResourcePackagesRemainingTotal}"
-                    : $"\n\t免费额度重置日期: {Headers.RateLimitResetDateTime}" +
-                      $"\n\t每月额度: {Headers.RateLimit}" +
-                      //  $"\n\t额度类型: {Headers.RateType}" +
-                      $"\n\t访客月剩余额度: {Headers.RateLimitRemaining}";
+                              $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
+                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
                 WriteLog.Info("ResponseHeader", message);
 
                 WriteLog.Info($"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
@@ -376,6 +369,14 @@ namespace TestConsole
                 WriteLog.Info(LogKind.Network, $"账户所属国家或地区: {a.BindLocationRegionCode}");
                 WriteLog.Info(LogKind.Network, $"好友代码: {a.FriendCode}");
                 WriteLog.Info($"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒运行");
+                var Headers = a.Headers;
+                var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
+                              $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                              $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
+                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
+                WriteLog.Info("ResponseHeader", message);
+
+
             }
             catch (Exception e)
             {
@@ -412,6 +413,14 @@ namespace TestConsole
                     $"空气质量指数: {result.AQI}, 降水量: {result.Precipitation} mm, 云量: {result.Cloud} %, 气压: {result.Pressure} hPa");
 
                 var b = result.life_indices;
+                var Headers = result.Headers;
+                var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
+                              $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                              $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
+                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
+                WriteLog.Info("ResponseHeader", message);
+
+
                 WriteLog.Info("Weather Indices",
                     $"穿衣指数: {b.Clothing.Level},简述: {b.Clothing.Brief},建议: {b.Clothing.Advice}\n" +
                     $"紫外线指数: {b.UV.Level},简述: {b.UV.Brief},建议: {b.UV.Advice}\n" +
@@ -451,6 +460,14 @@ namespace TestConsole
                               $"稿件数量: {a.archive_count}\n" +
                               $"文章数量: {a.article_count}\n\n" +
                               $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
+                var Headers = a.Headers ?? throw new ArgumentNullException("a.Headers");
+                var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
+                              $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                              $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
+                      $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
+                WriteLog.Info("ResponseHeader", message);
+
+
             }
             catch (Exception e)
             {
@@ -631,7 +648,7 @@ namespace TestConsole
                           $"默认分支: {a.DefaultBranch}\n" +
                           $"默认分支SHA值: {a.DefaultBranchSHAHash}\n" +
                           $"主要分支: {a.PrimaryBranch}\n" +
-                          $"可见性: {a?.Visibility}\n" +
+                          $"可见性: {a.Visibility}\n" +
                           $"仓库是否为公开: {a.IsPublic}\n" +
                           $"是否为存档: {a.IsArchived}\n" +
                           $"是否禁用: {a.IsDisabled}\n" +

@@ -27,7 +27,7 @@ namespace UAPI
                 await Interface.GetResult<HolidayCalendarType>($"{Interface._UAPI_Request_Url}misc/holiday-calendar",
                     Interface.SendRequestType.GET, "", "application/json", Authentication);
             if (!Interface.IsGetSuccessful(result, "", statuscode, new General.UAPIUnknowException(),
-                    "GetHolidayCalendar()", IException.General._UAPI_Unknown_Exception))
+                    "GetHolidayCalendar()", General._UAPI_Unknown_Exception))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");
             return result;
         }

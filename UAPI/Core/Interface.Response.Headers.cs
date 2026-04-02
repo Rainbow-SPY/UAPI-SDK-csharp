@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace UAPI
@@ -45,6 +46,7 @@ namespace UAPI
                 /// </summary>
                 /// <remarks>Nullable: <see langword="null"/></remarks>
                 [JsonProperty("x-ratelimit-remaining")]
+                [Obsolete]
                 public double? RateLimitRemaining { get; set; }
 
                 /// <summary>
@@ -52,24 +54,28 @@ namespace UAPI
                 /// </summary>
                 /// <remarks>Nullable: <see langword="null"/></remarks>
                 [JsonProperty("x-ratelimit-reset")]
+                [Obsolete]
                 public string RateLimitResetDateTime { get; set; }
 
                 /// <summary>
                 /// 每月额度
                 /// </summary>
                 [JsonProperty("x-ratelimit-limit")]
+                [Obsolete]
                 public double RateLimit { get; set; }
 
                 /// <summary>
                 /// 额度类型
                 /// </summary>
                 [JsonProperty("x-ratelimit-type")]
+                [Obsolete]
                 public string RateType { get; set; }
 
                 /// <summary>
                 /// 账户余额
                 /// </summary>
                 [JsonProperty("x-uapi-balance-remaining")]
+                [Obsolete]
                 public double BalanceRemaining { get; set; }
 
                 /// <summary>
@@ -77,6 +83,7 @@ namespace UAPI
                 /// </summary>
                 /// <returns>Web / API / visitor</returns>
                 [JsonProperty("x-uapi-billing-source")]
+                [Obsolete]
                 public string SourceWhere { get; set; }
 
                 /// <summary>
@@ -85,6 +92,7 @@ namespace UAPI
                 /// <returns> 0 / 1 => <see langword="true"/> / <see langword="false"/></returns>
                 [JsonProperty("x-uapi-credits-exempt")]
                 [JsonConverter(typeof(BooleanConverter))]
+                [Obsolete]
                 public bool CreditsExempt
                 {
                     get => Equals(_creditsExempt, 0) || Equals(_creditsExempt.ToString(), "0");
@@ -94,19 +102,19 @@ namespace UAPI
                 /// <summary>
                 /// 本次应扣积分
                 /// </summary>
-                [JsonProperty("x-uapi-credits-requested")]
+                [JsonProperty("uapi-credits-requested")]
                 public int RequestedCredits { get; set; }
 
                 /// <summary>
                 /// 本次实际扣除的积分
                 /// </summary>
-                [JsonProperty("x-uapi-credits-charged")]
+                [JsonProperty("uapi-credits-charged")]
                 public int CreditsCharged { get; set; }
 
                 /// <summary>
                 /// 本次请求的扣费结果状态
                 /// </summary>
-                [JsonProperty("x-uapi-debit-status")]
+                [JsonProperty("uapi-debit-status")]
                 public Debit? DebitStatus
                 {
                     get
@@ -148,19 +156,20 @@ namespace UAPI
                 /// <summary>
                 /// 当前有效的资源包数量
                 /// </summary>
-                [JsonProperty("x-uapi-quota-active-buckets")]
+                [JsonProperty("uapi-quota-active-buckets")]
                 public int ActivatedResourcePackagesCount { get; set; }
 
                 /// <summary>
                 /// 所有有效资源包剩余额度总和
                 /// </summary>
                 [JsonProperty("x-uapi-quota-remaining")]
+                [Obsolete]
                 public double ActivatedResourcePackagesRemainingTotal { get; set; }
 
                 /// <summary>
                 /// 资源包用完后是否停止服务
                 /// </summary>
-                [JsonProperty("x-uapi-stop-on-empty")]
+                [JsonProperty("uapi-stop-on-empty")]
                 [JsonConverter(typeof(BooleanConverter))]
                 public bool StopServiceWhenRemainingEmpty
                 {

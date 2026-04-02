@@ -15,7 +15,7 @@ namespace UAPI
         public static async Task<PhoneInfoType> GetPhoneInfo(string phoneNumber, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<PhoneInfoType>($"{_Request_Url}phoneinfo?phone={phoneNumber}",
+                await Interface.GetResult<PhoneInfoType>($"{_Request_Url}misc/phoneinfo?phone={phoneNumber}",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "phone", statusCode, new General.UAPIUnknowException(),
                     "GetPhoneInfo"))

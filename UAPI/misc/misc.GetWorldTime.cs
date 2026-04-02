@@ -22,7 +22,7 @@ namespace UAPI
         public static async Task<WorldTimeType> GetWorldTime(string region, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<WorldTimeType>($"{_Request_Url}worldtime?city={region}", Authentication);
+                await Interface.GetResult<WorldTimeType>($"{_Request_Url}misc/worldtime?city={region}", Authentication);
             if (!Interface.IsGetSuccessful(result, "region", statusCode, new General.UAPIUnknowException(),
                     "GetWorldTime"))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");
