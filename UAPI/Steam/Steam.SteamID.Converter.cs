@@ -32,13 +32,13 @@ namespace UAPI
                 /// <summary>
                 /// SteamID32 (好友代码) 的 正则表达式 <see cref="System.Text.RegularExpressions.Regex"/> 
                 /// </summary>
-                internal const string _Regex_ID32 = @"^[0-9]{1,16}$";
+                internal const string _Regex_ID32 = "^[0-9]{1,16}$";
 
 
                 /// <summary>
                 /// SteamID64 的 正则表达式 <see cref="System.Text.RegularExpressions.Regex"/> 
                 /// </summary>
-                internal const string _Regex_ID64 = @"^7656[0-9]*$";
+                internal const string _Regex_ID64 = "^7656[0-9]*$";
 
 
                 /// <summary>
@@ -186,7 +186,7 @@ namespace UAPI
                             throw new ArgumentOutOfRangeException(nameof(SteamID), "不是可以解析的 SteamID");
                     }
 
-                    return $"STEAM_0:{SteamID32 & 1}:{(SteamID32 - ((SteamID32) & 1)) / 2}";
+                    return $"STEAM_0:{SteamID32 & 1}:{(SteamID32 - (SteamID32 & 1)) / 2}";
                 }
             }
         }

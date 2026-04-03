@@ -39,7 +39,7 @@ namespace UAPI
             /// <summary>
             /// 以昵称查找
             /// </summary>
-            Name,
+            Name
         }
     }
 }

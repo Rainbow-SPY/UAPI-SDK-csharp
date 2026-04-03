@@ -12,13 +12,13 @@ namespace TestConsole
 {
     internal class Program
     {
-        internal static Stopwatch _stopwatch = new Stopwatch();
+        internal static readonly Stopwatch _stopwatch = new Stopwatch();
 
         public static void Main(string[] args)
         {
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
-            Thread.Sleep((2000));
+            Thread.Sleep(2000);
             TestBiliVideoData().Wait();
             TestMinecraftServerStatus().Wait();
             TestMinecraftHistoryName().Wait();
@@ -37,7 +37,7 @@ namespace TestConsole
 
         private static void CatchAnyException(string _void, Exception e)
         {
-            WriteLog.Error((_Exception_With_xKind(_void, e)));
+            WriteLog.Error(_Exception_With_xKind(_void, e));
             Thread.Sleep(2000);
         }
 
@@ -59,38 +59,27 @@ namespace TestConsole
             try
             {
                 var a = await hotboard.GetBilibiliHotboard();
-                var b = $"\n\n查询类型: {a.type}" +
-                        $"\n更新时间: {a.update_time_str}" +
-                        "\n排行榜信息";
-                foreach (var i in a.list)
-                {
-                    b += $"\n\t排名: {i.index}" +
-                         $"\n\t视频标题: {i.title}" +
-                         $"\n\t视频链接: {i.url}" +
-                         $"\n\t视频短链接: {i.extra.short_link}" +
-                         $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.hot_value.Replace("播放", ""), out var p) ? p : 0)}" +
-                         "\n\n视频详细信息:" +
-                         $"\n\tAV号: {i.extra.aid}" +
-                         $"\n\tBV号: {i.extra.bvid}" +
-                         $"\n\t简介: {i.extra.desc}" +
-                         $"\n\t总计时长: {i.extra.durations}" +
-                         $"\n\t视频封面: {i.extra.CoverImageUrl}" +
-                         $"\n\t发布时间: {i.extra.pubdate_str}" +
-                         $"\n\t荣誉: {i.extra.rcmd_reason}" +
-                         $"\n\t视频分区: {i.extra.tname}" +
-                         "\n\n视频统计信息:" +
-                         $"\n\t播放量: {i.extra.stat.view_str}" +
-                         $"\n\t点赞量: {i.extra.stat.Like_str}" +
-                         $"\n\t投币量: {i.extra.stat.Coin_str}" +
-                         $"\n\t收藏量: {i.extra.stat.Favorite_str}" +
-                         $"\n\t分享量: {i.extra.stat.Share_str}" +
-                         $"\n\t弹幕量: {i.extra.stat.Danmaku_str}" +
-                         $"\n\t评论量: {i.extra.stat.Reply_str}" +
-                         "\n\n视频UP主信息:" +
-                         $"\n\t昵称: {i.extra.owner.Name}" +
-                         $"\n\tUID: {i.extra.owner.mid}" +
-                         $"\n\t头像链接: {i.extra.owner.AvatarImageUrl}";
-                }
+                var b = $"\n\t查询类型: {a.type}" +
+                        $"\n\t更新时间: {a.update_time_str}" +
+                        "\n\t排行榜信息";
+                b = a.list.Aggregate(b,
+                    (current, i) => current + $"\n\t排名: {i.index}" + $"\n\t视频标题: {i.title}" + $"\n\t视频链接: {i.url}" +
+                                    $"\n\t视频短链接: {i.extra.short_link}" +
+                                    $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.hot_value.Replace("播放", ""), out var p) ? p : 0)}" +
+                                    "\n\n\t视频详细信息:" + $"\n\tAV号: {i.extra.aid}" +
+                                    $"\n\tBV号: {i.extra.bvid}" + $"\n\t简介: {i.extra.desc}" +
+                                    $"\n\t总计时长: {i.extra.durations}" + $"\n\t视频封面: {i.extra.CoverImageUrl}" +
+                                    $"\n\t发布时间: {i.extra.pubdate_str}" + $"\n\t荣誉: {i.extra.rcmd_reason}" +
+                                    $"\n\t视频分区: {i.extra.tname}" + "\n\n\t视频统计信息:" +
+                                    $"\n\t播放量: {i.extra.stat.view_str}" +
+                                    $"\n\t点赞量: {i.extra.stat.Like_str}" +
+                                    $"\n\t投币量: {i.extra.stat.Coin_str}" +
+                                    $"\n\t收藏量: {i.extra.stat.Favorite_str}" +
+                                    $"\n\t分享量: {i.extra.stat.Share_str}" +
+                                    $"\n\t弹幕量: {i.extra.stat.Danmaku_str}" +
+                                    $"\n\t评论量: {i.extra.stat.Reply_str}" + "\n\n\t视频UP主信息:" +
+                                    $"\n\t昵称: {i.extra.owner.Name}" + $"\n\tUID: {i.extra.owner.mid}" +
+                                    $"\n\t头像链接: {i.extra.owner.AvatarImageUrl}");
 
                 WriteLog.Info(b);
             }
@@ -109,16 +98,12 @@ namespace TestConsole
                 var b = $"\n\n查询类型: {a.type}" +
                         $"\n更新时间: {a.update_time_str}" +
                         "\n排行榜信息: ";
-                foreach (var i in a.list)
-                {
-                    b += $"\n\t排名: {i.index}" +
-                         $"\n\t{i.extra.artist_names} - {i.title}, 时长: {i.extra.duration_text}, 热度值: {i.hot_value}" +
-                         $"\n\tID: {i.extra.ID}" +
-                         $"\n\t专辑名称: {i.extra.album}" +
-                         $"\n\t专辑链接: {i.url}" +
-                         $"\n\t专辑封面: {i.CoverImageUrl}" +
-                         $"\n\t上次的热榜排名: {i.extra.last_rank}\n";
-                }
+                b = a.list.Aggregate(b,
+                    (current, i) => current + $"\n\t排名: {i.index}" +
+                                    $"\n\t{i.extra.artist_names} - {i.title}, 时长: {i.extra.duration_text}, 热度值: {i.hot_value}" +
+                                    $"\n\tID: {i.extra.ID}" + $"\n\t专辑名称: {i.extra.album}" +
+                                    $"\n\t专辑链接: {i.url}" + $"\n\t专辑封面: {i.CoverImageUrl}" +
+                                    $"\n\t上次的热榜排名: {i.extra.last_rank}\n");
 
                 WriteLog.Info(b);
             }
@@ -184,21 +169,19 @@ namespace TestConsole
                 if (a.videos != 1)
                 {
                     message += $"\n视频分集: {a.videos}P";
-                    foreach (var i in a.pages)
-                    {
-                        message += $"\n\nP{i.page}: " +
-                                   $"\n\t分P ID: {i.cid}" +
-                                   $"\n\t从哪里上传: {i.SourceWhere}" +
-                                   $"\n\t标题: {i.PartTitle}" +
-                                   $"\n\t总计时长: {Interface.FormatSecondsTime((int)i.duration)}" +
-                                   (string.IsNullOrEmpty(i.vid)
-                                       ? ""
-                                       : $"\n\t外部视频源: {i.vid}") +
-                                   (string.IsNullOrEmpty(i.WebLink)
-                                       ? ""
-                                       : $"\n\t外部链接: {i.WebLink}") +
-                                   $"\n\t分辨率: {i.dimension.Width}x{i.dimension.Height},{(i.dimension.Rotate == "正常" ? "" : $"旋转角度: {i.dimension.Rotate}")}";
-                    }
+                    message = a.pages.Aggregate(message, (current, i)
+                        => current + $"\n\nP{i.page}: " +
+                           $"\n\t分P ID: {i.cid}" +
+                           $"\n\t从哪里上传: {i.SourceWhere}" +
+                           $"\n\t标题: {i.PartTitle}" +
+                           $"\n\t总计时长: {Interface.FormatSecondsTime((int)i.duration)}" +
+                           (string.IsNullOrEmpty(i.vid)
+                               ? ""
+                               : $"\n\t外部视频源: {i.vid}") +
+                           (string.IsNullOrEmpty(i.WebLink)
+                               ? ""
+                               : $"\n\t外部链接: {i.WebLink}") +
+                           $"\n\t分辨率: {i.dimension.Width}x{i.dimension.Height},{(i.dimension.Rotate == "正常" ? "" : $"旋转角度: {i.dimension.Rotate}")}");
                 }
 
                 message += $"\n视频所属子分区: {(string.IsNullOrEmpty(a.tname) ? "其他" : a.tname)}, ID: {a.tid}" +
@@ -210,10 +193,9 @@ namespace TestConsole
                            $"\nUP投稿时间: {a.ctime_str}" +
                            $"\n投稿附带的动态文字: {a.dynamic}" +
                            "\n视频简介:";
-                foreach (var i in a.desc_v2)
-                    message += $"\n\t简介文字: {i.Text}" +
-                               $"\n\t节点类型: {i.Type}" +
-                               $"\n\t业务ID: {i.biz_id}";
+                message = a.desc_v2.Aggregate(message,
+                    (current, i) =>
+                        current + $"\n\t简介文字: {i.Text}" + $"\n\t节点类型: {i.Type}" + $"\n\t业务ID: {i.biz_id}");
 
 
                 message += $"\n视频状态: {a.state_str}" +
@@ -254,11 +236,8 @@ namespace TestConsole
                 if (a.staff != null)
                 {
                     message += "\n\n共创信息: ";
-                    foreach (var i in a.staff)
-                    {
-                        if (i == null) continue;
-                        message += $"\n\t合作人: {i}";
-                    }
+                    message = a.staff.Where(i => i != null)
+                        .Aggregate(message, (current, i) => current + $"\n\t合作人: {i}");
                 }
 
                 if (a.subtitle.list != null)
@@ -266,32 +245,26 @@ namespace TestConsole
                     message += "\n\n字幕信息: " +
                                $"\n\t是否允许观众提交CC字幕: {a.subtitle.IsAllowSubmitSubtitle}" +
                                "\n\t字幕列表:";
-                    foreach (var i in a.subtitle.list)
-                    {
-                        message += $"\n\n\t\t字幕ID: {i.id}" +
-                                   $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
-                                   $"\n\t\t????: {i.is_lock}" +
-                                   $"\n\t\t????: {i.subtitle_url}" +
-                                   $"\n\t\t字幕作者UID: {i.author.mid}" +
-                                   $"\n\t\t字幕作者昵称: {i.author.name}" +
-                                   $"\n\t\t字幕作者头像链接: {i.author.AvatarImageUrl}";
-                    }
+                    message = a.subtitle.list.Aggregate(message,
+                        (current, i) => current + $"\n\n\t\t字幕ID: {i.id}" +
+                                        $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
+                                        $"\n\t\t????: {i.is_lock}" + $"\n\t\t????: {i.subtitle_url}" +
+                                        $"\n\t\t字幕作者UID: {i.author.mid}" + $"\n\t\t字幕作者昵称: {i.author.name}" +
+                                        $"\n\t\t字幕作者头像链接: {i.author.AvatarImageUrl}");
                 }
 
                 if (a.honor_reply?.honor != null)
                 {
                     message += "\n视频所得荣誉: ";
-                    foreach (var i in a.honor_reply.honor)
-                    {
-                        message += $"\n\t荣誉名称: {i.desc}" +
-                                   $"\n\t荣誉类型:{i.type}";
-                    }
+                    message = a.honor_reply.honor.Aggregate(message,
+                        (current, i) => current + $"\n\t荣誉名称: {i.desc}" + $"\n\t荣誉类型:{i.type}");
                 }
+
                 var Headers = a.Headers;
                 var messa1ge = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
-                              $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
-                              $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
-                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
+                               $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
+                               $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
+                               $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
                 WriteLog.Info("ResponseHeader", messa1ge);
 
 
@@ -326,7 +299,7 @@ namespace TestConsole
                 WriteLog.Info($"主播的粉丝: {a.Fans}");
                 WriteLog.Info($"开始直播的时间: {(a.live_time == "0000-00-00 00:00:00" ? "未开播" : a.live_time)}");
                 WriteLog.Info($"直播间的人气值:{(a.PopularValue == 0 ? "没开播" : a.PopularValue.ToString())}");
-                WriteLog.Info($"在线状态: {(a.live_status == 0 ? "未开播" : (a.live_status == 1 ? "直播中" : "轮播中"))}");
+                WriteLog.Info($"在线状态: {(a.live_status == 0 ? "未开播" : a.live_status == 1 ? "直播中" : "轮播中")}");
                 WriteLog.Info($"分区名称: {a.parent_area_name}:{a.area_name}, ID: {a.area_id}");
                 WriteLog.Info($"热词: {string.Join("、", a.hot_words ?? new List<string>())}");
                 _stopwatch.Stop();
@@ -375,8 +348,6 @@ namespace TestConsole
                               $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
                               $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
                 WriteLog.Info("ResponseHeader", message);
-
-
             }
             catch (Exception e)
             {
@@ -460,14 +431,12 @@ namespace TestConsole
                               $"稿件数量: {a.archive_count}\n" +
                               $"文章数量: {a.article_count}\n\n" +
                               $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
-                var Headers = a.Headers ?? throw new ArgumentNullException("a.Headers");
+                var Headers = a.Headers ?? throw new ArgumentNullException();
                 var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
                               $"\n\t本次应扣积分: {Headers.RequestedCredits}" +
                               $"\n\t实际扣除积分: {Headers.CreditsCharged}" +
-                      $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
+                              $"\n\t当前有效的资源包数量: {Headers.ActivatedResourcePackagesCount}";
                 WriteLog.Info("ResponseHeader", message);
-
-
             }
             catch (Exception e)
             {

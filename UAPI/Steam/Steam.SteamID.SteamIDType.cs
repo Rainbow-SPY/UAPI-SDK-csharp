@@ -40,7 +40,7 @@ namespace UAPI
                 /// <summary>
                 /// 未识别到任何 <see cref="SteamIDType"/>, 等效于 <see langword="null"/>
                 /// </summary>
-                Invalid,
+                Invalid
             }
 
             /// <summary>

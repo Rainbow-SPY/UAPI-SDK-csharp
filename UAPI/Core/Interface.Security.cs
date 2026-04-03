@@ -73,7 +73,7 @@ namespace UAPI
             {
                 if (bytes == null || bytes.Length == 0 || shift <= 0) return bytes;
 
-                shift = shift % bytes.Length;
+                shift %= bytes.Length;
                 if (shift == 0) return bytes;
 
                 var result = new byte[bytes.Length];
@@ -100,7 +100,7 @@ namespace UAPI
             private static byte[] _0x7e(byte[] bytes, int shift)
             {
                 if (bytes == null || bytes.Length == 0 || shift <= 0) return bytes;
-                shift = shift % bytes.Length;
+                shift %= bytes.Length;
                 if (shift == 0) return bytes;
 
                 var result = new byte[bytes.Length];

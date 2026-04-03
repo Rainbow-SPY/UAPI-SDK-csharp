@@ -56,7 +56,7 @@ namespace UAPI
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
                 JsonSerializer serializer)
             {
-                var value = reader.Value?.ToString()?.Trim();
+                var value = reader.Value?.ToString().Trim();
                 return value == "1" || value == "true";
             }
 

@@ -37,7 +37,7 @@ namespace UAPI
             /// <summary>
             /// 视频的BV号 (bvid)
             /// </summary>
-            BVID,
+            BVID
         }
     }
 }

@@ -70,7 +70,7 @@ namespace UAPI
             var (result, statusCode) = await Interface.GetResult<WeatherType>(requestUrl, AuthenticationAPITokenKey);
             if (!Interface.IsGetSuccessful(result, "city_or_adcode", statusCode,
                     new IException.Weather.WeatherServiceError(), "天气供应商", _Weather_Service_Error))
-                WriteLog.Error(("请求失败, 请重试"));
+                WriteLog.Error("请求失败, 请重试");
             return result;
         }
     }

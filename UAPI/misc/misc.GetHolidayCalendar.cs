@@ -24,7 +24,8 @@ namespace UAPI
             int nearby_limit = 7, string Authentication = "")
         {
             var (result, statuscode) =
-                await Interface.GetResult<HolidayCalendarType>($"{Interface._UAPI_Request_Url}misc/holiday-calendar",
+                await Interface.GetResult<HolidayCalendarType>(
+                    $"{Interface._UAPI_Request_Url}misc/holiday-calendar&date={date}&month={month}&year={year}&timezone={timezone}&holiday_type={HolidayType}&include_nearby={include_nearby}&nearby_limit={nearby_limit}",
                     Interface.SendRequestType.GET, "", "application/json", Authentication);
             if (!Interface.IsGetSuccessful(result, "", statuscode, new General.UAPIUnknowException(),
                     "GetHolidayCalendar()", General._UAPI_Unknown_Exception))

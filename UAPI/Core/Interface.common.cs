@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Authentication;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -103,9 +104,31 @@ namespace UAPI
                 {
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
-                    //       httpClient.DefaultRequestHeaders.Add("Bearer", AuthenticationAPITokenKey);
                     WriteLog.Info(LogKind.Http,
                         $"添加请求头: {AuthenticationAPITokenKey.Substring(0, 6)}");
+                    var headerDict = new Dictionary<string, string>();
+
+                    foreach (var header in httpClient.DefaultRequestHeaders)
+                    {
+                        var key = header.Key;
+                        var value = string.Join(",", header.Value);
+                        if (key.Equals("Authorization", StringComparison.OrdinalIgnoreCase)
+                            && value.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var encryptedToken = BitConverter.ToString(SHA256.Create()
+                                    .ComputeHash(Encoding.UTF8.GetBytes(value.Substring("Bearer ".Length).Trim())))
+                                .Replace("-", "").ToLower();
+                            value = $"Bearer SHA256: {encryptedToken}";
+                        }
+
+                        headerDict[key] = value;
+                    }
+
+                    var headersJson = JsonConvert.SerializeObject(
+                        headerDict,
+                        Formatting.Indented
+                    );
+                    WriteLog.Info("HttpRequestHeaders", headersJson);
                 }
 
                 var response = type == SendRequestType.GET

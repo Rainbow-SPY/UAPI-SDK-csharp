@@ -9,7 +9,7 @@ namespace UAPI
     /// </summary>
     public partial class misc
     {
-        internal const string _Request_Url = @"uapis.cn/api/v1/misc/";
+        internal const string _Request_Url = "uapis.cn/api/v1/misc/";
 
         /// <summary>
         /// 请求获取全球时区的时间

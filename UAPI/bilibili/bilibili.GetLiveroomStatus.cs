@@ -50,7 +50,7 @@ namespace UAPI
         {
             var (result, statusCode) =
                 await Interface.GetResult<LiveroomType>(
-                    $@"{Interface._UAPI_Request_Url}social/bilibili/liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}",
+                    $"{Interface._UAPI_Request_Url}social/bilibili/liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                     new IException.bilibili.BilibiliServiceError(), "bilibili",

@@ -19,8 +19,7 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<TrackingInfoType>(
                 $"{Interface._UAPI_Request_Url}misc/tracking/query?tracking_number={tracking_number}" +
-                carrier_code ?? $"&carrier_code={carrier_code}" +
-                phone ?? $"&phone={phone}", Authentication);
+                carrier_code, Authentication);
             if (!Interface.IsGetSuccessful(result, "tracking_number", statusCode,
                     new General.UAPIUnknowException(), "GetTrackingInfo",
                     General._UAPI_Unknown_Exception))

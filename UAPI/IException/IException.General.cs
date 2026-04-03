@@ -43,7 +43,7 @@ namespace UAPI.IException
             /// 未知异常, 请联系管理员或反馈工单 <see href="https://uapis.cn/docs/getting-started/about-us"/>
             /// </summary>
             public UAPIUnknowException(
-                string message = @"未知异常, 请联系管理员或反馈工单: https://uapis.cn/docs/getting-started/about-us") : base(message)
+                string message = "未知异常, 请联系管理员或反馈工单: https://uapis.cn/docs/getting-started/about-us") : base(message)
             {
             }
 

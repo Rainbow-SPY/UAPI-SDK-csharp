@@ -44,18 +44,19 @@ namespace UAPI
             {
                 case SteamIDType.SteamID:
                     WriteLog.Info(LogKind.Regex, "输入的SteamID为: SteamID");
-                    return await SendQueryMessage("steamid", SteamID, key);
+                    return await SendQueryMessage("steamid", SteamID, key, Authentication);
                 case SteamIDType.SteamID32:
                 case SteamIDType.SteamID3:
                     WriteLog.Info(LogKind.Regex,
                         $"输入的SteamID为: {(Identifier(SteamID) == SteamIDType.SteamID3 ? "SteamID3" : "好友代码")}");
-                    return await SendQueryMessage("id3", SteamID, key);
+                    return await SendQueryMessage("id3", SteamID, key, Authentication);
                 case SteamIDType.SteamID64:
                     WriteLog.Info(LogKind.Regex, "输入的SteamID为: SteamID64");
-                    return await SendQueryMessage("steamid", SteamID, key);
+                    return await SendQueryMessage("steamid", SteamID, key, Authentication);
                 case SteamIDType.Invalid:
                 default:
-                    if (string.IsNullOrEmpty(_p)) return await SendQueryMessage("steamid", SteamID, key);
+                    if (string.IsNullOrEmpty(_p))
+                        return await SendQueryMessage("steamid", SteamID, key, Authentication);
                     WriteLog.Info(LogKind.Regex, $"正在解析个人主页链接: {SteamID}");
                     switch (ExtractSteamID(SteamID))
                     {
@@ -73,7 +74,7 @@ namespace UAPI
 
                             if (ExtractSteamID(SteamID) != _Regex_Match_Not_Found_Any)
                                 return await SendQueryMessage("steamid", ExtractSteamID(SteamID),
-                                    key); //解析SteamID64
+                                    key, Authentication); //解析SteamID64
                             WriteLog.Error(LogKind.Regex,
                                 $"未匹配到任何 正则表达式 , 返回的错误代码: {_Regex_Match_Not_Found_Any}");
                             return null;
@@ -82,7 +83,7 @@ namespace UAPI
         }
 
         private static async Task<SteamType> SendQueryMessage(string Type, string SteamID64, string key,
-            string Authentication = "")
+            string Authentication)
         {
             var requestUrl =
                 $"{Interface._UAPI_Request_Url}game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";

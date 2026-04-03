@@ -45,9 +45,9 @@ namespace UAPI
             /// </summary>
             public string CopyrightType => _copyright == 1
                 ? "原创"
-                : (_copyright == 2
+                : _copyright == 2
                     ? "转载"
-                    : "未知");
+                    : "未知";
 
             /// <summary>
             /// 是否为版权拥有者
@@ -121,7 +121,7 @@ namespace UAPI
             /// <summary>
             /// 视频状态
             /// </summary>
-            public string state_str => _state == 1 ? "正常" : (_state == -6 ? "被删除" : "未知");
+            public string state_str => _state == 1 ? "正常" : _state == -6 ? "被删除" : "未知";
 
             /// <summary>
             /// 稿件总时长（所有分P累加），单位为秒
@@ -213,13 +213,13 @@ namespace UAPI
             {
                 get => _type == 1
                     ? "提到了某人"
-                    : (_type == 2
+                    : _type == 2
                         ? "普通连接"
-                        : "其他关联");
+                        : "其他关联";
                 set => _type =
                     value == "提到了某人"
                         ? 1
-                        : (value == "普通连接" ? 2 : _type);
+                        : value == "普通连接" ? 2 : _type;
             }
 
             /// <summary>
@@ -580,9 +580,9 @@ namespace UAPI
             {
                 get => _rotate == 0
                     ? "正常"
-                    : (_rotate == 1
+                    : _rotate == 1
                         ? "90度旋转"
-                        : "未知");
+                        : "未知";
                 set => _rotate =
                     value == "正常"
                         ? 0

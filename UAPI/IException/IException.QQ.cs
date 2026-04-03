@@ -20,7 +20,7 @@ namespace UAPI.IException
     /// </summary>
     public class QQ
     {
-        internal const string _QQ_Service_Error = @"QQ_Service_Error;HttpClient return 502";
+        internal const string _QQ_Service_Error = "QQ_Service_Error;HttpClient return 502";
 
         /// <summary>
         /// QQ 在线API服务错误或无法请求
