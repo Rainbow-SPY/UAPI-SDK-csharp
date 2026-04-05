@@ -15,7 +15,6 @@ namespace UAPI
             /// </summary>
             public class Headers
             {
-                private int _creditsExempt;
                 private int _stopOnEmpty;
                 private string _debitStatus;
                 [JsonProperty("age")] public string Age { get; set; }
@@ -41,63 +40,6 @@ namespace UAPI
 
                 [JsonProperty("x-powered-by")] public string XPoweredBy { get; set; }
 
-                /// <summary>
-                /// 访客月剩余额度
-                /// </summary>
-                /// <remarks>Nullable: <see langword="null"/></remarks>
-                [JsonProperty("x-ratelimit-remaining")]
-                [Obsolete]
-                public double? RateLimitRemaining { get; set; }
-
-                /// <summary>
-                /// 免费额度重置日期, 只在访客可用
-                /// </summary>
-                /// <remarks>Nullable: <see langword="null"/></remarks>
-                [JsonProperty("x-ratelimit-reset")]
-                [Obsolete]
-                public string RateLimitResetDateTime { get; set; }
-
-                /// <summary>
-                /// 每月额度
-                /// </summary>
-                [JsonProperty("x-ratelimit-limit")]
-                [Obsolete]
-                public double RateLimit { get; set; }
-
-                /// <summary>
-                /// 额度类型
-                /// </summary>
-                [JsonProperty("x-ratelimit-type")]
-                [Obsolete]
-                public string RateType { get; set; }
-
-                /// <summary>
-                /// 账户余额
-                /// </summary>
-                [JsonProperty("x-uapi-balance-remaining")]
-                [Obsolete]
-                public double BalanceRemaining { get; set; }
-
-                /// <summary>
-                /// 以何种方式请求
-                /// </summary>
-                /// <returns>Web / API / visitor</returns>
-                [JsonProperty("x-uapi-billing-source")]
-                [Obsolete]
-                public string SourceWhere { get; set; }
-
-                /// <summary>
-                /// 本次请求是否被豁免扣费
-                /// </summary>
-                /// <returns> 0 / 1 => <see langword="true"/> / <see langword="false"/></returns>
-                [JsonProperty("x-uapi-credits-exempt")]
-                [JsonConverter(typeof(BooleanConverter))]
-                [Obsolete]
-                public bool CreditsExempt
-                {
-                    get => Equals(_creditsExempt, 0) || Equals(_creditsExempt.ToString(), "0");
-                    set => _creditsExempt = value ? 1 : 0;
-                }
 
                 /// <summary>
                 /// 本次应扣积分
@@ -160,11 +102,121 @@ namespace UAPI
                 public int ActivatedResourcePackagesCount { get; set; }
 
                 /// <summary>
-                /// 所有有效资源包剩余额度总和
+                /// 请求唯一 ID，用来排查日志和问题
                 /// </summary>
-                [JsonProperty("x-uapi-quota-remaining")]
-                [Obsolete]
-                public double ActivatedResourcePackagesRemainingTotal { get; set; }
+                [JsonProperty("x-request-id")]
+                public string RequestID { get; set; }
+
+                /// <summary>
+                /// 被限流，或者访客月额度耗尽时返回	客户端至少要等待多久再重试
+                /// </summary>
+                [JsonProperty("retry-after")]
+                public string RetryAfter { get; set; }
+
+                /// <summary>
+                /// 命中 Billing、访客额度、QPS 限流相关逻辑时返回	当前生效的额度上限或速率上限
+                /// </summary>
+                [JsonProperty("ratelimit-policy")]
+                public string RateLimitPolicyRaw { get; set; }
+
+                /// <summary>
+                /// 命中 Billing、访客额度、QPS 限流相关逻辑时返回	当前剩余额度、剩余余额、剩余请求数
+                /// </summary>
+                [JsonProperty("ratelimit")]
+                public string RateLimitRaw { get; set; }
+
+                /// <summary>
+                /// 命中特殊计价时返回	当前扣费为何不是原价
+                /// </summary>
+                [JsonProperty("uapi-credits-pricing")]
+                public string CreditsPricing { get; set; }
+
+                /// <summary>
+                /// Billing Key 或访客额度逻辑返回时返回	当前还有多少个有效额度桶参与计算
+                /// </summary>
+                [JsonProperty("uapi-quota-active-buckets")]
+                public int ActiveResourcePackagesCount { get; set; }
+
+                /// <summary>
+                /// Billing Key 当前生效的请求速率规则
+                /// </summary>
+                [JsonIgnore]
+                public decimal BillingKeyRequestLimit => ParseRate("billing-key-rate");
+
+                /// <summary>
+                /// Billing Key 下单 IP 的请求速率规则
+                /// </summary>
+                [JsonIgnore]
+                public decimal BillingKeyRequestIPLimit => ParseRate("billing-ip-rate");
+
+                /// <summary>
+                /// 当前可用资源包额度总上限
+                /// </summary>
+                [JsonIgnore]
+                public decimal BillingQuotaLimit => ParsePolicy("billing-quota");
+
+                /// <summary>
+                /// 当前可用余额上限，单位是分
+                /// </summary>
+                [JsonIgnore]
+                public decimal ActivatedResourcePackagesRemainingTotal => ParsePolicy("billing-balance");
+
+                /// <summary>
+                /// 访客模式当前月度免费额度上限
+                /// </summary>
+                [JsonIgnore]
+                public decimal VisitorQuotaLimit => ParsePolicy("visitor-rate");
+
+
+                /// <summary>
+                /// 判断是否为访客请求
+                /// 规则：VisitorQuotaLimit 和 VisitorQuotaRemaining 任意一个不为0 → 是访客
+                /// <remarks>两个都为0 → API请求（不是访客）</remarks>
+                /// <returns>是否为访客请求</returns>
+                /// </summary>
+                [JsonIgnore]
+                public bool IsVisitor => !(VisitorQuotaLimit == 0 && VisitorQuotaRemaining == 0);
+
+                /// <summary>
+                /// 访客模式当前月度免费额度上限
+                /// </summary>
+                [JsonIgnore]
+                public decimal VisitorQuotaRemaining => ParseRate("visitor-quota");
+
+                /// <summary>
+                /// 是否命中半价
+                /// </summary>
+                [JsonIgnore]
+                public bool IsCacheHalfPrice => CreditsPricing == "cache-hit-half-price";
+
+                private decimal ParsePolicy(string name) => Parse(RateLimitPolicyRaw, name, "q");
+                private decimal ParseRate(string name) => Parse(RateLimitRaw, name, "r");
+
+                private static decimal Parse(string header, string name, string key)
+                {
+                    try
+                    {
+                        if (string.IsNullOrEmpty(header)) return 0;
+                        foreach (var item in header.Split(','))
+                        {
+                            var part = item.Trim();
+                            if (!part.StartsWith($"\"{name}\"")) continue;
+                            foreach (var k in part.Split(';'))
+                            {
+                                var t = k.Trim().Split('=');
+                                if (t.Length == 2 && t[0] == key && decimal.TryParse(t[1].Replace("\"", ""), out var v))
+                                    return v;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+
+                    return 0;
+                }
+
 
                 /// <summary>
                 /// 资源包用完后是否停止服务

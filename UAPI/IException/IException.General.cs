@@ -20,13 +20,6 @@ namespace UAPI.IException
     /// </summary>
     public class General
     {
-        internal const string _UAPI_Unknown_Exception = "UAPI_Unknown_Exception";
-
-        internal const string _UAPI_Server_Down =
-            "UAPI_Server_Down;HttpClient return 500;";
-
-        internal const string _UAPI_Service_Unavailable = "SERVICE_UNAVAILABLE;HttpClient return 503";
-
         /// <summary>
         /// 未知异常, 请联系管理员或反馈工单 <see href="https://uapis.cn/docs/getting-started/about-us"/>
         /// </summary>

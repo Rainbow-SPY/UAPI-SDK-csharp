@@ -16,7 +16,7 @@ namespace UAPI
                 await Interface.GetResult<CarriersType>($"{Interface._UAPI_Request_Url}misc/tracking/carriers",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "", statusCode, new General.UAPIUnknowException(),
-                    "GetTrackingCarriers", General._UAPI_Unknown_Exception))
+                    "GetTrackingCarriers", Core._UAPI_Unknown_Exception))
                 LogLibraries.WriteLog.Error("请求失败, 请重试");
             return result;
         }

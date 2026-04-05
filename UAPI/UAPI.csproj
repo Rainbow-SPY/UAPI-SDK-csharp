@@ -11,7 +11,7 @@
         <RootNamespace>UAPI</RootNamespace>
         <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <BaseVersion>0.21.0</BaseVersion>
+        <BaseVersion>0.22.0</BaseVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <FileAlignment>512</FileAlignment>
         <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -115,6 +115,7 @@
         <Compile Include="hotboard.bilibili.Type.cs" />
         <Compile Include="hotboard.NeteaseMusic.cs" />
         <Compile Include="hotboard.NeteaseMusic.Type.cs" />
+        <Compile Include="IException\IException.Core.cs" />
         <Compile Include="IException\IException.EpicGames.cs" />
         <Compile Include="IException\IException.Hotboard.cs" />
         <Compile Include="IException\IException.minecraft.cs" />

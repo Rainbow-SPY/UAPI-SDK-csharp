@@ -20,7 +20,7 @@ namespace UAPI
                 await Interface.GetResult<TimestampType>($"{Interface._UAPI_Request_Url}misc/timestamp?ts={ts}",
                     Authentication);
             if (!Interface.IsGetSuccessful(result, "ts", statusCode, new General.UAPIUnknowException(),
-                    "ConvertTimestamp", General._UAPI_Server_Down))
+                    "ConvertTimestamp", Core.INTERNAL_SERVER_ERROR))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;
         }

@@ -22,7 +22,7 @@ namespace UAPI
                 carrier_code, Authentication);
             if (!Interface.IsGetSuccessful(result, "tracking_number", statusCode,
                     new General.UAPIUnknowException(), "GetTrackingInfo",
-                    General._UAPI_Unknown_Exception))
+                    Core._UAPI_Unknown_Exception))
                 LogLibraries.WriteLog.Error("请求失败,请重试");
             return result;
         }
