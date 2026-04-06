@@ -18,11 +18,13 @@ namespace UAPI
         public static async Task<IPType> GetMyIP(bool commercial = false, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<IPType>($"{Interface._UAPI_Request_Url}network/myip?{(commercial ? "source=commercial" : "")}",
+                await Interface.GetResult<IPType>(
+                    $"{Interface._UAPI_Request_Url}network/myip?{(commercial ? "source=commercial" : "")}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "", statusCode, new HttpRequestException("请求错误"), "IP"))
-                LogLibraries.WriteLog.Error("请求错误, 请重试!");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "", statusCode, new HttpRequestException("请求错误"), "IP");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace UAPI
@@ -37,6 +38,18 @@ namespace UAPI
             /// 响应头
             /// </summary>
             public Response.Headers Headers { get; set; }
+        }
+
+        public class FailedList
+        {
+            public int StatusCode { get; set; }
+            public bool IsRequestSuccessfully { get; set; }
+            public string FailedReason { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public Exception FailedException { get; set; } = null;
         }
     }
 }

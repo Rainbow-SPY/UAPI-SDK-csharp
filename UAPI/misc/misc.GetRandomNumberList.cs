@@ -23,10 +23,11 @@ namespace UAPI
             var (result, statusCode) = await Interface.GetResult<RandomNumberType>(
                 $"{_Request_Url}misc/randomnumber?min={min}&max={max}&count={count}&allow_repeat={allow_repeat}&allow_decimal={allow_decimal}&decimal_places={decimal_places}",
                 Authentication);
-            if (!Interface.IsGetSuccessful(result, "number", statusCode, new General.UAPIUnknowException(),
-                    "GetRandomNumberList"))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "number", statusCode, new General.UAPIUnknowException(),
+                "GetRandomNumberList");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

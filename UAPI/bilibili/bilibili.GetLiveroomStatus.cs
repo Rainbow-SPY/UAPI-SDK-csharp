@@ -52,11 +52,12 @@ namespace UAPI
                 await Interface.GetResult<LiveroomType>(
                     $"{Interface._UAPI_Request_Url}social/bilibili/liveroom?{(mid != null ? $"mid={mid}" : $"room_id={room_id}")}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
-                    new IException.bilibili.BilibiliServiceError(), "bilibili",
-                    IException.bilibili._Bilibili_Service_Error))
-                WriteLog.Error(LogKind.Network, $"请求失败, 请重试, 返回值: {statusCode}");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
+                new IException.bilibili.BilibiliServiceError(), "bilibili",
+                IException.bilibili._Bilibili_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                WriteLog.Error(LogKind.Network, $"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

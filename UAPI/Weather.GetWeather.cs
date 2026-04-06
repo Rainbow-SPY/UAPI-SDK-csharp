@@ -68,10 +68,11 @@ namespace UAPI
                              (hourly ? "&hourly=true" : "") +
                              (minutely ? "&minutely=true" : "");
             var (result, statusCode) = await Interface.GetResult<WeatherType>(requestUrl, AuthenticationAPITokenKey);
-            if (!Interface.IsGetSuccessful(result, "city_or_adcode", statusCode,
-                    new IException.Weather.WeatherServiceError(), "天气供应商", _Weather_Service_Error))
-                WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "city_or_adcode", statusCode,
+                new IException.Weather.WeatherServiceError(), "天气供应商", _Weather_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

@@ -15,13 +15,16 @@ namespace UAPI
         public static async Task<GroupType> GetGroupData(string group_id, string AuthenticationAPITokenKey = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<GroupType>($"{Interface._UAPI_Request_Url}social/qq/groupinfo?group_id={group_id}",
+                await Interface.GetResult<GroupType>(
+                    $"{Interface._UAPI_Request_Url}social/qq/groupinfo?group_id={group_id}",
                     AuthenticationAPITokenKey);
-            if (!Interface.IsGetSuccessful(result, "group_id", statusCode,
-                    new IException.QQ.QQServiceError(), "QQ",
-                    IException.QQ._QQ_Service_Error))
-                LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network, "请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "group_id", statusCode,
+                new IException.QQ.QQServiceError(), "QQ",
+                IException.QQ._QQ_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error(LogLibraries.LogKind.Network,
+                    $"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

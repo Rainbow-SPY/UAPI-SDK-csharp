@@ -130,13 +130,7 @@ namespace UAPI
                 /// </summary>
                 [JsonProperty("uapi-credits-pricing")]
                 public string CreditsPricing { get; set; }
-
-                /// <summary>
-                /// Billing Key 或访客额度逻辑返回时返回	当前还有多少个有效额度桶参与计算
-                /// </summary>
-                [JsonProperty("uapi-quota-active-buckets")]
-                public int ActiveResourcePackagesCount { get; set; }
-
+                
                 /// <summary>
                 /// Billing Key 当前生效的请求速率规则
                 /// </summary>

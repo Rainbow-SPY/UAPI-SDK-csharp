@@ -15,10 +15,11 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<HistoryTodayType>($"{Interface._UAPI_Request_Url}history/programmer/today",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "none", statusCode, new General.UAPIUnknowException(),
-                    "GetProgrammerHistoryToday"))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "none", statusCode, new General.UAPIUnknowException(),
+                "GetProgrammerHistoryToday");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

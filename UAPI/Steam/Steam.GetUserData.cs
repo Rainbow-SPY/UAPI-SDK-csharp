@@ -88,10 +88,11 @@ namespace UAPI
             var requestUrl =
                 $"{Interface._UAPI_Request_Url}game/steam/summary?{Type}={SteamID64}{(!string.IsNullOrEmpty(key) ? $"&key={key}" : "")}";
             var (result, statusCode) = await Interface.GetResult<SteamType>(requestUrl, Authentication);
-            if (!Interface.IsGetSuccessful(result, "SteamID", statusCode,
-                    new IException.Steam.SteamServiceError(), "Steam", _Steam_Service_Error))
-                WriteLog.Error("请求失败,请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "SteamID", statusCode,
+                new IException.Steam.SteamServiceError(), "Steam", _Steam_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                WriteLog.Error($"请求失败,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
 
         /// <summary>

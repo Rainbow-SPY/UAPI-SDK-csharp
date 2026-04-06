@@ -40,10 +40,11 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<UserType>($"{Interface._UAPI_Request_Url}social/qq/userinfo?qq={qq}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "qq", statusCode, new IException.QQ.QQServiceError(),
-                    "QQ", IException.QQ._QQ_Service_Error))
-                WriteLog.Error(LogKind.Http, "请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "qq", statusCode, new IException.QQ.QQServiceError(),
+                "QQ", IException.QQ._QQ_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                WriteLog.Error(LogKind.Http, $"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

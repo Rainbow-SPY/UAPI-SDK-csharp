@@ -19,10 +19,12 @@ namespace UAPI
         {
             var (result, statusCode) = await Interface.GetResult<DetectedCarrierType>(
                 $"{Interface._UAPI_Request_Url}misc/tracking/detect?tracking_number={tracking_number}", Authentication);
-            if (!Interface.IsGetSuccessful(result, "tracking_number", statusCode, new General.UAPIUnknowException(),
-                    "DetectTrackingCarrier", Core._UAPI_Unknown_Exception))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "tracking_number", statusCode,
+                new General.UAPIUnknowException(),
+                "DetectTrackingCarrier", Core._UAPI_Unknown_Exception);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

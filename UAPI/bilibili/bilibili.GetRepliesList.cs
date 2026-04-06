@@ -18,11 +18,14 @@ namespace UAPI
             string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<RepliesListType>(
-                $"{Interface._UAPI_Request_Url}social/bilibili/replies?oid={oid}&sort={sort}&ps={ps}&pn={pn}", Authentication);
-            if (!Interface.IsGetSuccessful(result, "oid", statusCode, new IException.bilibili.BilibiliServiceError(),
-                    "bilibili replies", IException.bilibili._Bilibili_Service_Error))
-                LogLibraries.WriteLog.Error("请求错误, 请重试");
-            return result;
+                $"{Interface._UAPI_Request_Url}social/bilibili/replies?oid={oid}&sort={sort}&ps={ps}&pn={pn}",
+                Authentication);
+            var list = Interface.IsGetSuccessful(result, "oid", statusCode,
+                new IException.bilibili.BilibiliServiceError(),
+                "bilibili replies", IException.bilibili._Bilibili_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

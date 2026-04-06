@@ -275,15 +275,27 @@ namespace UAPI
         /// <exception cref="General.UAPIServerDown">UAPI 请求源服务器异常</exception>
         /// <exception cref="UnauthorizedAccessException">未经授权的操作引发的异常</exception>
         /// <exception cref="_Exception">指定为继承 <see cref="System.Exception"/> 的自定义异常</exception>
-        internal static bool IsGetSuccessful<T>(T Type, string NullValue, int StatusCode, Exception _Exception,
+        internal static FailedList IsGetSuccessful<T>(T Type, string NullValue, int StatusCode,
+            Exception _Exception,
             string _Error_Type, string Error_Code = "") where T : TypeInterface
         {
-            if (Type == null) return false;
+            var list = new FailedList
+            {
+                StatusCode = StatusCode,
+                IsRequestSuccessfully = false
+            };
+            if (Type == null)
+            {
+                list.FailedReason = "Type = null";
+                return list;
+            }
+
             switch (StatusCode)
             {
                 case 200:
                     WriteLog.Info(LogKind.Network, "请求成功");
-                    return true;
+                    list.IsRequestSuccessfully = true;
+                    return list;
                 case 400:
                     switch (GetErrorOrCode(Type))
                     {
@@ -293,6 +305,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"传递的参数 {NullValue ?? "%s"} 在转换时失败! \n\t{_ERROR_CODE}: {CONVERSION_FAILED}, 错误信息: {GetMessageOrDetails(Type)}\n\t{GetFailedReportDetails(Type)}",
                                 "CONVERSION_FAILED");
+                            list.FailedReason = CONVERSION_FAILED;
                             break;
                         case "FILE_REQUIRED":
                             WriteLog.Error(
@@ -300,6 +313,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"{NullValue ?? "%s"} 缺少文件参数, 没有找到上传的文件! \n\t{_ERROR_CODE}: {FILE_REQUIRED}, 错误信息: {GetMessageOrDetails(Type)}\n\t{GetFailedReportDetails(Type)}",
                                 "FILE_REQUIRED");
+                            list.FailedReason = FILE_REQUIRED;
                             break;
                         case "INVALID_PARAMETER":
                             WriteLog.Error(
@@ -307,6 +321,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"{NullValue ?? "%s"} 参数校验失败!\n\t{_ERROR_CODE}: {INVALID_PARAMETER}, 错误信息: {GetMessageOrDetails(Type)}\n\t{GetFailedReportDetails(Type)}",
                                 "INVALID_PARAMETER");
+                            list.FailedReason = INVALID_PARAMETER;
                             break;
                         case "INVALID_PARAMS":
                             WriteLog.Error(
@@ -314,6 +329,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"{NullValue ?? "%s"} 参数校验失败!\n\t{_ERROR_CODE}: {INVALID_PARAMS}, 错误信息: {GetMessageOrDetails(Type)}\n\t{GetFailedReportDetails(Type)}",
                                 "INVALID_PARAMS");
+                            list.FailedReason = INVALID_PARAMS;
                             break;
                         case "UNSUPPORTED_FORMAT":
                             WriteLog.Error(
@@ -321,28 +337,33 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"{NullValue ?? "%s"} 的文件、文本或参数格式不支持!\n\t{_ERROR_CODE}: {UNSUPPORTED_FORMAT}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "UNSUPPORTED_FORMAT");
+                            list.FailedReason = UNSUPPORTED_FORMAT;
                             break;
                     }
 
-                    break;
+                    return list;
                 case 401:
                     WriteLog.Error("UnAuthorized",
                         $"未经授权的操作!\n\t{_ERROR_CODE}: {UNAUTHORIZED}, 错误信息: {GetMessageOrDetails(Type)}\n\t{GetFailedReportDetails(Type)}");
-                    throw new UnauthorizedAccessException("未经授权的操作");
+                    list.FailedException = new UnauthorizedAccessException("未经授权的操作");
+                    list.FailedReason = UNAUTHORIZED;
+                    return list;
                 case 402:
                     WriteLog.Error(
                         $"账户积分不足, 无法完成请求!\n\t{_ERROR_CODE}: {INSUFFICIENT_CREDITS}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Error(
                         $"账户积分不足, 无法完成请求!\n\t{_ERROR_CODE}: {INSUFFICIENT_CREDITS}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         "INSUFFICIENT_CREDITS");
-                    break;
+                    list.FailedReason = INSUFFICIENT_CREDITS;
+                    return list;
                 case 403:
                     WriteLog.Warning(LogKind.Network,
                         $"您已被限制请求, 因 请求量过大!\n\t:{_ERROR_CODE}: HttpClient 403, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Warning(
                         $"您已被限制请求, 因 请求量过大!\n\t:{_ERROR_CODE}: HttpClient 403, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         _ERROR);
-                    break;
+                    list.FailedReason = "Too Much Request";
+                    return list;
                 case 404:
                     switch (GetErrorOrCode(Type))
                     {
@@ -352,6 +373,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"未找到 {NullValue ?? "%s"} 请求的头像资源!\n\t{_ERROR_CODE}: {AVATAR_NOT_FOUND}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "AVATAR_NOT_FOUND");
+                            list.FailedReason = AVATAR_NOT_FOUND;
                             break;
                         case "NOT_FOUND":
                             WriteLog.Error(
@@ -359,6 +381,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"未找到 {NullValue ?? "%s"} 请求的资源!\n\t{_ERROR_CODE}: {NOT_FOUND}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "NOT_FOUND");
+                            list.FailedReason = NOT_FOUND;
                             break;
                         case "NO_MATCH":
                             WriteLog.Warning(
@@ -366,6 +389,7 @@ namespace UAPI
                             MessageBox_I.Warning(
                                 $"没有查询到 {NullValue ?? "%s"} 相关的结果!\n\t{_ERROR_CODE}: {NO_MATCH}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "NO_MATCH");
+                            list.FailedReason = NO_MATCH;
                             break;
                         case "NO_TRACKING_DATA":
                             WriteLog.Warning(
@@ -373,6 +397,7 @@ namespace UAPI
                             MessageBox_I.Warning(
                                 $"没有查询到 {NullValue ?? "%s"} 的物流轨迹!\n\t{_ERROR_CODE}: {NO_TRACKING_DATA}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "NO_TRACKING_DATA");
+                            list.FailedReason = NO_TRACKING_DATA;
                             break;
                         case "RECOGNITION_FAILED":
                             WriteLog.Error(
@@ -380,6 +405,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"{NullValue ?? "%s"} 识别失败!\n\t{_ERROR_CODE}: {RECOGNITION_FAILED}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "RECOGNITION_FAILED");
+                            list.FailedReason = RECOGNITION_FAILED;
                             break;
                         case "TIMEZONE_NOT_FOUND":
                             WriteLog.Error(
@@ -387,6 +413,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"时区查询失败! 请确认 {NullValue ?? "%s"} 是标准合法的 IANA 时区数据库名称\n\t{_ERROR_CODE}: {TIMEZONE_NOT_FOUND}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "TIMEZONE_NOT_FOUND");
+                            list.FailedReason = TIMEZONE_NOT_FOUND;
                             break;
                         case "UNSUPPORTED_CARRIER":
                             WriteLog.Error(
@@ -394,17 +421,19 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"不支持的物流公司! 请确认 {NullValue ?? "%s"} 是存在的物流公司名称\n\t{_ERROR_CODE}: {UNSUPPORTED_CARRIER}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "UNSUPPORTED_CARRIER");
+                            list.FailedReason = UNSUPPORTED_CARRIER;
                             break;
                     }
 
-                    break;
+                    return list;
                 case 413:
                     WriteLog.Error(
                         $"请求量过大, 可能是由于 {NullValue ?? "%s"} 的上传体积过大!\n\t{_ERROR_CODE}: {REQUEST_ENTITY_TOO_LARGE}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Error(
                         $"请求量过大, 可能是由于 {NullValue ?? "%s"} 的上传体积过大!\n\t{_ERROR_CODE}: {REQUEST_ENTITY_TOO_LARGE}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         "REQUEST_ENTITY_TOO_LARGE");
-                    break;
+                    list.FailedReason = REQUEST_ENTITY_TOO_LARGE;
+                    return list;
                 case 429:
                     switch (GetErrorOrCode(Type))
                     {
@@ -414,6 +443,7 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"因请求量太大, 限制了您的请求!\n\t{_ERROR_CODE}: {SERVICE_BUSY}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "SERVICE_BUSY");
+                            list.FailedReason = SERVICE_BUSY;
                             break;
                         case "VISITOR_MONTHLY_QUOTA_EXHAUSTED":
                             WriteLog.Error(
@@ -421,10 +451,11 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"访客额度已消耗殆尽! 请尝试购买资源包或等待下个免费额度重置时间.\n\t{_ERROR_CODE}: {VISITOR_MONTHLY_QUOTA_EXHAUSTED}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "VISITOR_MONTHLY_QUOTA_EXHAUSTED");
+                            list.FailedReason = VISITOR_MONTHLY_QUOTA_EXHAUSTED;
                             break;
                     }
 
-                    break;
+                    return list;
                 case 500:
                     switch (GetErrorOrCode(Type))
                     {
@@ -434,51 +465,57 @@ namespace UAPI
                             MessageBox_I.Error(
                                 $"服务器处理文件 {NullValue ?? "%s"} 时发生未知的异常, 请联系管理员解决问题!\n\t{_ERROR_CODE}: {FILE_OPEN_ERROR}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "FILE_OPEN_ERROR");
-                            break;
+                            list.FailedReason = FILE_OPEN_ERROR;
+                            return list;
                         case "PHONE_INFO_FAILED":
                             WriteLog.Error(
                                 $"手机号归属地查询失败或上游服务查询失败, 请确认 {NullValue ?? "%s"} 参数为中国大陆地区合法的11位手机号!\n\t{_ERROR_CODE}: {PHONE_INFO_FAILED}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                             MessageBox_I.Error(
                                 $"手机号归属地查询失败或上游服务查询失败, 请确认 {NullValue ?? "%s"} 参数为中国大陆地区合法的11位手机号!\n\t{_ERROR_CODE}: {PHONE_INFO_FAILED}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "PHONE_INFO_FAILED");
-                            break;
+                            list.FailedReason = PHONE_INFO_FAILED;
+                            return list;
                         default:
                             WriteLog.Error(
                                 $"服务器内部错误, 请联系管理员或反馈工单, {_ERROR_CODE}: {INTERNAL_SERVER_ERROR}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                             MessageBox_I.Error(
                                 $"服务器内部错误, 请联系管理员或反馈工单, {_ERROR_CODE}: {INTERNAL_SERVER_ERROR}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 _ERROR);
-                            throw new General.UAPIServerDown(
+                            list.FailedException = new General.UAPIServerDown(
                                 $"服务器内部错误, 请联系管理员或反馈工单, {_ERROR_CODE}: {INTERNAL_SERVER_ERROR}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
+                            list.FailedReason = INTERNAL_SERVER_ERROR;
+                            return list;
                     }
 
-                    break;
                 case 502:
                     WriteLog.Error(LogKind.Network,
                         $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Error(
                         $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         _ERROR);
-                    throw _Exception;
+                    list.FailedException = _Exception;
+                    list.FailedReason = "Upstream Error";
+                    return list;
                 case 503:
                     WriteLog.Error(
                         $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Error(
                         $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         _ERROR);
-                    throw new General.UAPIServiceUnavailable(
+                    list.FailedException = new General.UAPIServiceUnavailable(
                         $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
+                    list.FailedReason = _UAPI_Service_Unavailable;
+                    return list;
                 case -1:
                     WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
                     MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
-                    break;
+                    list.FailedReason = "Request Failed";
+                    return list;
                 default:
                     WriteLog.Error(LogKind.Http, "未知错误");
                     MessageBox_I.Error("发生了未知错误", _ERROR);
-                    break;
+                    return list;
             }
-
-            return false;
         }
 
         private static string SwitchToBackupUrl(string originalUrl)

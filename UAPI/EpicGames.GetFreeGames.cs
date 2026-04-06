@@ -21,9 +21,11 @@ namespace UAPI
         {
             var requestUrl = $"{Interface._UAPI_Request_Url}game/epic-free";
             var (result, statuscode) = await Interface.GetResult<EpicType>(requestUrl, AuthenticationAPITokenKey);
-            if (!Interface.IsGetSuccessful(result, "", statuscode,
-                    new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games"))
+            var list = Interface.IsGetSuccessful(result, "", statuscode,
+                new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games");
+            if (!list.IsRequestSuccessfully)
                 WriteLog.Error("请求失败, 请重试");
+            if (result.data == null) return list.FailedException != null ? throw list.FailedException : result;
             foreach (var game in result.data)
             {
                 WriteLog.Info(_au, $"游戏唯一ID {game.id}");
@@ -37,7 +39,7 @@ namespace UAPI
                 WriteLog.Info(_au, $"游戏介绍: {game.description}");
             }
 
-            return result;
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

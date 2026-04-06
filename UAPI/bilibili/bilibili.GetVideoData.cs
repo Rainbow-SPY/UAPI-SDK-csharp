@@ -18,10 +18,12 @@ namespace UAPI
             var (result, statusCode) = await Interface.GetResult<VideoType>(
                 $"{Interface._UAPI_Request_Url}social/bilibili/videoinfo?{(IDType.ToString().ToLower() == "bvid" ? "bvid" : "aid")}={video_id}",
                 Authentication);
-            if (!Interface.IsGetSuccessful(result, "aid_or_bvid", statusCode,
-                    new IException.bilibili.BilibiliServiceError(), "bilibili",
-                    IException.bilibili._Bilibili_Service_Error)) LogLibraries.WriteLog.Error("请求失败,请重试!");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "aid_or_bvid", statusCode,
+                new IException.bilibili.BilibiliServiceError(), "bilibili",
+                IException.bilibili._Bilibili_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
 
         /// <summary>

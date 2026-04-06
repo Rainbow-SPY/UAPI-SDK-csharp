@@ -19,11 +19,12 @@ namespace UAPI
             var (result, statusCode) = await Interface.GetResult<HistoryType>(
                 $"{Interface._UAPI_Request_Url}game/minecraft/historyid?{searchType.ToString().ToLower()}={_param}",
                 Authentication);
-            if (!Interface.IsGetSuccessful(result, "name_or_uuid", statusCode,
-                    new IException.minecraft.MojangAPIServiceError(), "Mojang",
-                    IException.minecraft._Mojang_API_Service_Error))
-                LogLibraries.WriteLog.Error("请求失败,请重试!");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "name_or_uuid", statusCode,
+                new IException.minecraft.MojangAPIServiceError(), "Mojang",
+                IException.minecraft._Mojang_API_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
 
         /// <summary>

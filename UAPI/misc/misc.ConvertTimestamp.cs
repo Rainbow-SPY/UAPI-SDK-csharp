@@ -19,10 +19,11 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<TimestampType>($"{Interface._UAPI_Request_Url}misc/timestamp?ts={ts}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "ts", statusCode, new General.UAPIUnknowException(),
-                    "ConvertTimestamp", Core.INTERNAL_SERVER_ERROR))
-                LogLibraries.WriteLog.Error("请求失败,请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "ts", statusCode, new General.UAPIUnknowException(),
+                "ConvertTimestamp", Core.INTERNAL_SERVER_ERROR);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

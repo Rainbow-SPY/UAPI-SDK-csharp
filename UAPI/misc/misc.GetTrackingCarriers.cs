@@ -15,10 +15,11 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<CarriersType>($"{Interface._UAPI_Request_Url}misc/tracking/carriers",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "", statusCode, new General.UAPIUnknowException(),
-                    "GetTrackingCarriers", Core._UAPI_Unknown_Exception))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "", statusCode, new General.UAPIUnknowException(),
+                "GetTrackingCarriers", Core._UAPI_Unknown_Exception);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

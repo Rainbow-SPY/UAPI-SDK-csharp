@@ -23,10 +23,11 @@ namespace UAPI
         {
             var (result, statusCode) =
                 await Interface.GetResult<WorldTimeType>($"{_Request_Url}misc/worldtime?city={region}", Authentication);
-            if (!Interface.IsGetSuccessful(result, "region", statusCode, new General.UAPIUnknowException(),
-                    "GetWorldTime"))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "region", statusCode, new General.UAPIUnknowException(),
+                "GetWorldTime");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

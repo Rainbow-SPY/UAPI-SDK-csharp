@@ -20,10 +20,11 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<ReposType>($"{Interface._UAPI_Request_Url}github/repo?repo={owner_and_repo}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
-                    new IException.github.GithubAPIServiceError(), "Github", IException.github._Github_ServiceError))
-                LogLibraries.WriteLog.Error("请求失败,请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
+                new IException.github.GithubAPIServiceError(), "Github", IException.github._Github_ServiceError);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

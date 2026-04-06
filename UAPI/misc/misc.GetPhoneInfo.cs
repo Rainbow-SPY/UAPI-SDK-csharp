@@ -17,10 +17,11 @@ namespace UAPI
             var (result, statusCode) =
                 await Interface.GetResult<PhoneInfoType>($"{_Request_Url}misc/phoneinfo?phone={phoneNumber}",
                     Authentication);
-            if (!Interface.IsGetSuccessful(result, "phone", statusCode, new General.UAPIUnknowException(),
-                    "GetPhoneInfo"))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "phone", statusCode, new General.UAPIUnknowException(),
+                "GetPhoneInfo");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

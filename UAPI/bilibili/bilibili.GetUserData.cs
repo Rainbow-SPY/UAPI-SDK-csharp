@@ -27,10 +27,14 @@ namespace UAPI
         public static async Task<UserType> GetUserData(string uid, string Authentication = "")
         {
             var (result, statuscode) =
-                await Interface.GetResult<UserType>($"{Interface._UAPI_Request_Url}social/bilibili/userinfo?uid={uid}", Authentication);
-            if (!Interface.IsGetSuccessful(result, "uid", statuscode, new IException.bilibili.BilibiliServiceError(),
-                    "bilibili", IException.bilibili._Bilibili_Service_Error)) LogLibraries.WriteLog.Info("请求错误,请重试");
-            return result;
+                await Interface.GetResult<UserType>($"{Interface._UAPI_Request_Url}social/bilibili/userinfo?uid={uid}",
+                    Authentication);
+            var list = Interface.IsGetSuccessful(result, "uid", statuscode,
+                new IException.bilibili.BilibiliServiceError(),
+                "bilibili", IException.bilibili._Bilibili_Service_Error);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Info($"请求错误,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }

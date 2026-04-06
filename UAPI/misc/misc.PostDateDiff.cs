@@ -16,12 +16,14 @@ namespace UAPI
         public static async Task<DateDiffType> PostDateDiff(string start_date, string end_date,
             string format = "YYYY-MM-DD")
         {
-            var (result, statusCode) = await Interface.GetResult<DateDiffType>($"{Interface._UAPI_Request_Url}misc/date-diff", Interface.SendRequestType.POST,
+            var (result, statusCode) = await Interface.GetResult<DateDiffType>(
+                $"{Interface._UAPI_Request_Url}misc/date-diff", Interface.SendRequestType.POST,
                 $@"{{ ""start_date"": ""{start_date}"",""end_date"": ""{end_date}"",""format"": ""{format}"" }}");
-            if (!Interface.IsGetSuccessful(result, "start_date or end_date", statusCode,
-                    new General.UAPIUnknowException(), "PostDateDiff", Core._UAPI_Unknown_Exception))
-                LogLibraries.WriteLog.Error("请求失败, 请重试");
-            return result;
+            var list = Interface.IsGetSuccessful(result, "start_date or end_date", statusCode,
+                new General.UAPIUnknowException(), "PostDateDiff", Core._UAPI_Unknown_Exception);
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
         }
     }
 }
