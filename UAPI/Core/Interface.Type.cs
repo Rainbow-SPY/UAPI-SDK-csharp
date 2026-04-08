@@ -42,12 +42,23 @@ namespace UAPI
 
         public class FailedList
         {
+            /// <summary>
+            /// Http 状态码
+            /// </summary>
             public int StatusCode { get; set; }
+
+            /// <summary>
+            /// 请求是否成功
+            /// </summary>
             public bool IsRequestSuccessfully { get; set; }
+
+            /// <summary>
+            /// 错误原因
+            /// </summary>
             public string FailedReason { get; set; }
 
             /// <summary>
-            /// 
+            /// 错误引发的异常
             /// </summary>
             public Exception FailedException { get; set; } = null;
         }

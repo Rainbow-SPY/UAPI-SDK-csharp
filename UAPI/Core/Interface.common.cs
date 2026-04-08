@@ -220,7 +220,7 @@ namespace UAPI
             {
                 WriteLog.Error(LogKind.Http,
                     $"HttpClient 请求失败, 请检查您的网络连接或反馈工单给工作人员: {e.Message} - {e.StackTrace}");
-                return (null, -1);
+                return (null, -2);
             }
             catch (Exception e)
             {
@@ -510,6 +510,12 @@ namespace UAPI
                     WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员");
                     MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员", _ERROR);
                     list.FailedReason = "Request Failed";
+                    return list;
+                case -2:
+                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员\n\t错误原因: 基础性请求出错");
+                    MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员\n\t错误原因: 基础性请求出错", _ERROR);
+                    list.FailedException = new HttpRequestException("");
+                    list.FailedReason = "Http Request Failed";
                     return list;
                 default:
                     WriteLog.Error(LogKind.Http, "未知错误");
