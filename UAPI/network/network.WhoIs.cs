@@ -106,7 +106,7 @@ namespace UAPI
         public static async Task<WhoIsType> AsJson(string domain, string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<WhoIsType>(
-                $"{Interface._UAPI_Request_Url}network/whois?domain={domain}&format=json");
+                $"{Interface._UAPI_Request_Url}network/whois?domain={domain}&format=json", Authentication);
             var list = Interface.IsGetSuccessful(result, "domain", statusCode, new General.UAPIUnknowException(),
                 "GetWhoIsInfo");
             if (!list.IsRequestSuccessfully)
