@@ -78,7 +78,7 @@ namespace UAPI.IException
             var typeHeaders = Type.Headers;
             return $"Request-ID: {typeHeaders.RequestID}" +
                    $"\n\tTime: {typeHeaders.Date}" +
-                   $"\n\tDetails:" +
+                   "\n\tDetails:" +
                    $"\n\t\tRequested Credits:{typeHeaders.RequestedCredits}" +
                    $"\n\t\tCredits Charged: {typeHeaders.CreditsCharged} " +
                    $"{(typeHeaders.CreditsCharged == typeHeaders.RequestedCredits ? "" : $"Cause: {(typeHeaders.IsCacheHalfPrice ? "HIT Half-Price" : "")}")}" +

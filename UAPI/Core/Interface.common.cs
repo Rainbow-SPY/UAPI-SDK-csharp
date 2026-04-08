@@ -534,7 +534,7 @@ namespace UAPI
         }
 
         // 静态 HttpClient 实例
-        private static readonly Lazy<HttpClient> _httpClient = new Lazy<HttpClient>(() =>
+        internal static readonly Lazy<HttpClient> _httpClient = new Lazy<HttpClient>(() =>
             new HttpClient(CreateOptimizedHttpClientHandler(), disposeHandler: false)
             {
                 Timeout = TimeSpan.FromSeconds(10)

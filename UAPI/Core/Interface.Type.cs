@@ -60,7 +60,7 @@ namespace UAPI
             /// <summary>
             /// 错误引发的异常
             /// </summary>
-            public Exception FailedException { get; set; } = null;
+            public Exception FailedException { get; set; }
         }
     }
 }
