@@ -186,6 +186,11 @@
         <Compile Include="Steam\Steam.SteamID.Converter.cs" />
         <Compile Include="Steam\Steam.SteamID.cs" />
         <Compile Include="Steam\Steam.SteamID.SteamIDType.cs" />
+        <Compile Include="text.CheckSemsitiveWords.Get.cs" />
+        <Compile Include="text.CheckSensitiveWords.Analyze.cs" />
+        <Compile Include="text.CheckSensitiveWords.Analyze.Type.cs" />
+        <Compile Include="text.CheckSensitiveWords.Fast.cs" />
+        <Compile Include="text.CheckSensitiveWords.Fast.Type.cs" />
         <Compile Include="Weather.GetWeather.cs" />
         <Compile Include="Weather.GetWeather.Type.cs" />
     </ItemGroup>

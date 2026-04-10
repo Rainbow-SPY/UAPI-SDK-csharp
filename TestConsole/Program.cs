@@ -16,6 +16,8 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
+            AnalyzeWords();
+            Console.ReadLine();
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
             Thread.Sleep(2000);
@@ -33,6 +35,22 @@ namespace TestConsole
             TestEpic().Wait();
             TestGithubRepoData().Wait();
             _stopwatch.Reset();
+        }
+
+        private static async void AnalyzeWords()
+        {
+            try
+            {
+                WriteLog.Info("审查敏感词");
+                foreach (var i in (await Text.SensitiveWords.Analyze(new[] { "你妈死了", "操你妈" })).Results)
+                    WriteLog.Info($"风险分类: {i.Level}\n" +
+                                  $"文本字段是否安全: {i.IsSafe}\n" +
+                                  $"置信度: {i.Confidence}\n");
+            }
+            catch (Exception e)
+            {
+                CatchAnyException("AnalyzeWords", e);
+            }
         }
 
         private static void CatchAnyException(string _void, Exception e)
