@@ -166,6 +166,8 @@
         <Compile Include="network\network.IPInfo.Type.cs" />
         <Compile Include="network\network.Ping.cs" />
         <Compile Include="network\network.Ping.Type.cs" />
+        <Compile Include="network\network.PingMyIP.cs" />
+        <Compile Include="network\network.PingMyIP.Type.cs" />
         <Compile Include="network\network.PortScan.cs" />
         <Compile Include="network\network.PortScan.Type.cs" />
         <Compile Include="network\network.UrlStatus.cs" />
