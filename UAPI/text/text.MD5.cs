@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -50,7 +51,7 @@ namespace UAPI
         /// <summary>
         /// 
         /// </summary>
-        public class MD5Type : Interface.TypeInterface
+        public class MD5Type : TypeInterface
         {
             /// <summary>
             /// 计算后的MD5

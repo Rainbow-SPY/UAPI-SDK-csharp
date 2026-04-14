@@ -102,7 +102,6 @@
         <Compile Include="bilibili\bilibili.GetVideoData.Type.cs" />
         <Compile Include="Core\Interface.common.cs" />
         <Compile Include="Core\Interface.Convert.cs" />
-        <Compile Include="Core\Interface.HotBoard.cs" />
         <Compile Include="Core\Interface.HotBoard.Type.cs" />
         <Compile Include="Core\Interface.Response.Headers.cs" />
         <Compile Include="Core\Interface.Security.cs" />
@@ -126,8 +125,8 @@
         <Compile Include="IException\IException.General.cs" />
         <Compile Include="IException\IException.github.cs" />
         <Compile Include="IException\IException.QQ.cs" />
-        <Compile Include="Interface.APIHealthStatus.cs" />
-        <Compile Include="Interface.APIHealthStatus.Type.cs" />
+        <Compile Include="Interface.APIHealthPlatformStatus.cs" />
+        <Compile Include="Interface.APIHealthPlatformStatus.Type.cs" />
         <Compile Include="minecraft.GetHistoryName.cs" />
         <Compile Include="minecraft.GetServerStatus.cs" />
         <Compile Include="minecraft.GetUserData.cs" />

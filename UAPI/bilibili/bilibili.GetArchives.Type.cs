@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class bilibili
+    public partial class Type
     {
         /// <summary>
         /// 查询bilibili稿件时返回的Json列表
         /// </summary>
-        public class ArchiveType : Interface.TypeInterface
+        public class ArchiveType : TypeInterface
         {
             /// <summary>
             /// 投搞的视频总数量

@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class EpicGames
+    public partial class Type
     {
         /// <summary>
         /// Epic Games API
         /// </summary>
-        public class EpicType : Interface.TypeInterface
+        public class EpicType : TypeInterface
         {
             /// <summary>
             /// 免费游戏列表(数组)

@@ -13,6 +13,7 @@
 
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -23,11 +24,12 @@ namespace UAPI
         /// </summary>
         /// <param name="uid">bilibili UUID</param>
         /// <param name="Authentication">API Token</param>
-        /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string uid, string Authentication = "")
+        /// <returns><see cref="bilibiliUserType"/> 对象</returns>
+        public static async Task<bilibiliUserType> GetUserData(string uid, string Authentication = "")
         {
             var (result, statuscode) =
-                await Interface.GetResult<UserType>($"{Interface._UAPI_Request_Url}social/bilibili/userinfo?uid={uid}",
+                await Interface.GetResult<bilibiliUserType>(
+                    $"{Interface._UAPI_Request_Url}social/bilibili/userinfo?uid={uid}",
                     Authentication);
             var list = Interface.IsGetSuccessful(result, "uid", statuscode,
                 new IException.bilibili.BilibiliServiceError(),

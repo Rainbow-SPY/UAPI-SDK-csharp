@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -9,7 +10,7 @@ namespace UAPI
         /// <summary>
         /// 网易云音乐获取到的Json对象列表
         /// </summary>
-        public class NeteaseType : Interface.Hotboard.HotboardInterface
+        public class NeteaseType : Hotboard.HotboardInterface
         {
             /// <summary>
             /// 主要的歌曲热榜列表信息
@@ -19,7 +20,7 @@ namespace UAPI
             /// <summary>
             /// 主要的歌曲热榜列表信息
             /// </summary>
-            public class MainLists : Interface.Hotboard.MainLists
+            public class MainLists : Hotboard.MainLists
             {
                 /// <summary>
                 /// 歌曲专辑封面

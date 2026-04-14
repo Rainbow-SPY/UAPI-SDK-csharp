@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 世界时间的Json返回属性列表
         /// </summary>
-        public class WorldTimeType : Interface.TypeInterface
+        public class WorldTimeType : TypeInterface
         {
             /// <summary>
             /// 查询的时区

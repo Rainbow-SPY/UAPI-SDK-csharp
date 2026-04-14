@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using static UAPI.Type;
 
 namespace UAPI
 {

@@ -7,6 +7,7 @@ using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -15,7 +16,7 @@ namespace UAPI
         /// <summary>
         /// 
         /// </summary>
-        public class GetWhoIsInfo
+        public class WHOISInfo
         {
             /// <summary>
             /// 获取指定要查询的主机的WhoIs注册信息
@@ -94,40 +95,40 @@ namespace UAPI
                     return null;
                 }
             }
-        }
-
-        /// <summary>
-        /// 获取指定要查询的主机的WhoIs注册信息
-        /// </summary>
-        /// <param name="domain">指定要查询的主机</param>
-        /// <param name="Authentication">API Token Key</param>
-        /// <returns><see cref="WhoIsType"/> 对象</returns>
-        /// <exception cref="General.UAPIUnknowException"></exception>
-        public static async Task<WhoIsType> AsJson(string domain, string Authentication = "")
-        {
-            var (result, statusCode) = await Interface.GetResult<WhoIsType>(
-                $"{Interface._UAPI_Request_Url}network/whois?domain={domain}&format=json", Authentication);
-            var list = Interface.IsGetSuccessful(result, "domain", statusCode, new General.UAPIUnknowException(),
-                "GetWhoIsInfo");
-            if (!list.IsRequestSuccessfully)
-                WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
-            return list.FailedException != null ? throw list.FailedException : result;
-        }
-
-        /// <summary>
-        /// 返回格式
-        /// </summary>
-        public enum Format
-        {
-            /// <summary>
-            /// 返回文本格式的WhoIs信息
-            /// </summary>
-            Text,
 
             /// <summary>
-            /// 返回Json格式的WhoIs信息
+            /// 获取指定要查询的主机的WhoIs注册信息
             /// </summary>
-            Json
+            /// <param name="domain">指定要查询的主机</param>
+            /// <param name="Authentication">API Token Key</param>
+            /// <returns><see cref="WhoIsType"/> 对象</returns>
+            /// <exception cref="General.UAPIUnknowException"></exception>
+            public static async Task<WhoIsType> AsJson(string domain, string Authentication = "")
+            {
+                var (result, statusCode) = await Interface.GetResult<WhoIsType>(
+                    $"{Interface._UAPI_Request_Url}network/whois?domain={domain}&format=json", Authentication);
+                var list = Interface.IsGetSuccessful(result, "domain", statusCode, new General.UAPIUnknowException(),
+                    "GetWhoIsInfo");
+                if (!list.IsRequestSuccessfully)
+                    WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+                return list.FailedException != null ? throw list.FailedException : result;
+            }
+
+            /// <summary>
+            /// 返回格式
+            /// </summary>
+            public enum Format
+            {
+                /// <summary>
+                /// 返回文本格式的WhoIs信息
+                /// </summary>
+                Text,
+
+                /// <summary>
+                /// 返回Json格式的WhoIs信息
+                /// </summary>
+                Json
+            }
         }
     }
 }

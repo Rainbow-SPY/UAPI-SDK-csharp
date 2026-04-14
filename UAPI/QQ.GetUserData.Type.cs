@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class QQ
+    public partial class Type
     {
         /// <summary>
         /// 查询QQ用户时返回的Json列表
         /// </summary>
-        public class UserType : Interface.TypeInterface
+        public class QQUserType : TypeInterface
         {
             /// <summary>
             /// QQ号
@@ -93,7 +93,8 @@ namespace UAPI
             /// 注册时间 (字符串格式)
             /// </summary>
             public string RegisterTime =>
-                DateTime.TryParse(RegisterTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt)
+                DateTime.TryParse(RegisterTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                    out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
 
@@ -107,7 +108,8 @@ namespace UAPI
             /// 最后更新时间 (字符串格式)
             /// </summary>
             public string LastUpdatedTime =>
-                DateTime.TryParse(LastUpdatedTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dt)
+                DateTime.TryParse(LastUpdatedTime_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                    out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
         }

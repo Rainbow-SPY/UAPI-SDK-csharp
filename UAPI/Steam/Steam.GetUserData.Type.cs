@@ -1,13 +1,14 @@
 using Newtonsoft.Json;
+using static UAPI.Steam;
 
 namespace UAPI
 {
-    public partial class Steam
+    public partial class Type
     {
         /// <summary>
         /// Steam用户信息
         /// </summary>
-        public class SteamType : Interface.TypeInterface
+        public class SteamType : TypeInterface
         {
             private int _communityvisibilitystate;
             private int _profilestate;

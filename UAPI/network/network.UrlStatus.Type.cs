@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class UrlStatusType : Interface.TypeInterface
+        public class UrlStatusType : TypeInterface
         {
             /// <summary>
             /// 查询的 Url

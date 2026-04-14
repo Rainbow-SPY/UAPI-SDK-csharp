@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class bilibili
+    public partial class Type
     {
         /// <summary>
         /// 请求bilibili评论列表返回的Json属性列表
         /// </summary>
-        public class RepliesListType : Interface.TypeInterface
+        public class RepliesListType : TypeInterface
         {
             /// <summary>
             /// 分页信息

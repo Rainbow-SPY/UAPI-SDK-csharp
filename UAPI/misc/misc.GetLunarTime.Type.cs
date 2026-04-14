@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 查询农历时间返回的Json属性列表
         /// </summary>
-        public class LunarTimeType : Interface.TypeInterface
+        public class LunarTimeType : TypeInterface
         {
             /// <summary>
             /// 原始 ts 入参

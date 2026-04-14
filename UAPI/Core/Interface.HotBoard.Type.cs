@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Interface
+    public partial class Type
     {
         /// <summary>
         /// 热榜列表的Json属性的公共属性列表
@@ -24,7 +24,7 @@ namespace UAPI
                 /// 热榜更新时间(公共属性)
                 /// </summary>
                 public string update_time_str => update_time_ISO8601.Contains("T")
-                    ? FormatISO8601TimeToLocal(update_time_ISO8601)
+                    ? Interface.FormatISO8601TimeToLocal(update_time_ISO8601)
                     : update_time_ISO8601;
 
                 /// <summary>

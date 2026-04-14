@@ -14,6 +14,7 @@
 using System.Threading.Tasks;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -28,8 +29,8 @@ namespace UAPI
         /// <param name="qq">QQ号</param>
         /// <param name="Authentication">API Token</param>
         /// <exception cref="UAPI.IException.QQ.QQServiceError()">QQ 上游服务发生异常, 这可能是他们的服务暂时中断</exception>
-        /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string qq, string Authentication = "")
+        /// <returns><see cref="QQUserType"/> 对象</returns>
+        public static async Task<QQUserType> GetUserData(string qq, string Authentication = "")
         {
             if (string.IsNullOrEmpty(qq))
             {
@@ -38,7 +39,7 @@ namespace UAPI
             }
 
             var (result, statusCode) =
-                await Interface.GetResult<UserType>($"{Interface._UAPI_Request_Url}social/qq/userinfo?qq={qq}",
+                await Interface.GetResult<QQUserType>($"{Interface._UAPI_Request_Url}social/qq/userinfo?qq={qq}",
                     Authentication);
             var list = Interface.IsGetSuccessful(result, "qq", statusCode, new IException.QQ.QQServiceError(),
                 "QQ", IException.QQ._QQ_Service_Error);

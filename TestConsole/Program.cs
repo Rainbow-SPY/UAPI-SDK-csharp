@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using UAPI;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
+using static UAPI.Type;
+using Type = UAPI.Type;
 
 namespace TestConsole
 {
@@ -136,14 +138,14 @@ namespace TestConsole
             WriteLog.Info("测试UAPI系统状态");
             try
             {
-                var a = await Interface.APIHealthStatus();
+                var a = await Interface.APIHealthPlatformStatus();
                 WriteLog.Info("服务名: ");
                 foreach (var i in a.services)
                     WriteLog.Info($"\t{i.name}: {(i.status == "error" ? "接口故障" : "正常")}");
                 WriteLog.Info("所有API:\n");
                 foreach (var s in a.apis.GetType().GetProperties())
                 {
-                    if (!(s.GetValue(a.apis) is List<Interface.HealthType.APIProperties> k)) continue;
+                    if (!(s.GetValue(a.apis) is List<HealthType.APIProperties> k)) continue;
                     foreach (var j in k)
                     {
                         var o = $"API:  {j.name}\n\t状态: {(j.status == "error" ? "接口故障" : "正常")}" +

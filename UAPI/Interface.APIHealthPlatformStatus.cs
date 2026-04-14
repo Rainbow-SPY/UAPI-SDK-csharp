@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
+using static UAPI.Type;
 
 namespace UAPI
 {
     public partial class Interface
     {
         /// <summary>
-        /// 查询UAPI平台系统状态
+        /// 查询UAPI的 API HPS
         /// </summary>
         /// <returns></returns>
-        public static async Task<HealthType> APIHealthStatus()
+        public static async Task<HealthType> APIHealthPlatformStatus()
         {
             var b1 = "";
 

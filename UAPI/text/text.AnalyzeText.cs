@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -12,12 +13,12 @@ namespace UAPI
         /// </summary>
         /// <param name="texts">指定要分析的文本</param>
         /// <param name="Authentication">API Token Key</param>
-        /// <returns><see cref="AnalyzeType"/>对象</returns>
+        /// <returns><see cref="textAnalyzeType"/>对象</returns>
         /// <exception cref="General.UAPIUnknowException">未知的异常</exception>
-        public static async Task<AnalyzeType> AnalyzeText(string texts, string Authentication = "")
+        public static async Task<textAnalyzeType> AnalyzeText(string texts, string Authentication = "")
         {
             var (result, statuscode) =
-                await Interface.GetResult<AnalyzeType>($"{Interface._UAPI_Request_Url}text/analyze",
+                await Interface.GetResult<textAnalyzeType>($"{Interface._UAPI_Request_Url}text/analyze",
                     Interface.SendRequestType.POST, JsonConvert.SerializeObject(new
                     {
                         text = texts
@@ -28,11 +29,14 @@ namespace UAPI
                 LogLibraries.WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
             return list.FailedException != null ? throw list.FailedException : result;
         }
+    }
 
+    public partial class Type
+    {
         /// <summary>
         /// 
         /// </summary>
-        public class AnalyzeType : Interface.TypeInterface
+        public class textAnalyzeType : TypeInterface
         {
             /// <summary>
             /// 原始传入文本

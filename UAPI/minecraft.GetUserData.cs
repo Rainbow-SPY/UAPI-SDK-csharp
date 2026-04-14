@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -14,11 +15,11 @@ namespace UAPI
         /// <param name="username">Minecraft 用户名</param>
         /// <param name="Authentication">API Token</param>
         /// <exception cref="UAPI.IException.minecraft.MojangAPIServiceError()"> Mojang API 上游服务异常, 这可能是他们的服务暂时中断.</exception>
-        /// <returns><see cref="UserType"/> 对象</returns>
-        public static async Task<UserType> GetUserData(string username, string Authentication = "")
+        /// <returns><see cref="minecraftUserType"/> 对象</returns>
+        public static async Task<minecraftUserType> GetUserData(string username, string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<UserType>(
+                await Interface.GetResult<minecraftUserType>(
                     $"{Interface._UAPI_Request_Url}game/minecraft/userinfo?username={username}", Authentication);
             var list = Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
                 new IException.minecraft.MojangAPIServiceError(), "Mojang",

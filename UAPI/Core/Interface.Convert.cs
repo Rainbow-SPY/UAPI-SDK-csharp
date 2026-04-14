@@ -51,9 +51,9 @@ namespace UAPI
 
         internal class BooleanConverter : JsonConverter
         {
-            public override bool CanConvert(Type objectType) => objectType == typeof(bool);
+            public override bool CanConvert(System.Type objectType) => objectType == typeof(bool);
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue,
                 JsonSerializer serializer)
             {
                 var value = reader.Value?.ToString().Trim();

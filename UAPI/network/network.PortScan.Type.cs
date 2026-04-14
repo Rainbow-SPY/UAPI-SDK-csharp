@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class PortScanType : Interface.TypeInterface
+        public class PortScanType : TypeInterface
         {
             /// <summary>
             /// 扫描的IP

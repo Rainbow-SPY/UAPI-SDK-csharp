@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class PingMyIPType : Interface.TypeInterface
+        public class PingMyIPType : TypeInterface
         {
             /// <summary>
             /// Ping到的IP地址

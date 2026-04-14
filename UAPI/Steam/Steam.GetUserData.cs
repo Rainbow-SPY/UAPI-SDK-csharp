@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Steam.SteamID;
+using static UAPI.Type;
 
 namespace UAPI
 {

@@ -2,13 +2,14 @@
 using Rox.Text;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
+using static UAPI.Type;
 
 namespace UAPI
 {
     /// <summary>
     /// 天气查询, 但是新版本
     /// </summary>
-    public partial class Weather
+    public class Weather
     {
         /// <summary>
         /// 获取天气信息

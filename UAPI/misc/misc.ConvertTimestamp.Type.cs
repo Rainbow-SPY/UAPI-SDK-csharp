@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 转换时间戳返回的Json属性列表
         /// </summary>
-        public class TimestampType : Interface.TypeInterface
+        public class TimestampType : TypeInterface
         {
             /// <summary>
             /// 输入的值

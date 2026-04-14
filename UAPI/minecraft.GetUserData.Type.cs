@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class minecraft
+    public partial class Type
     {
         /// <summary>
-        /// <see cref="GetUserData"/> 返回的属性列表
+        /// <see cref="minecraft.GetUserData"/> 返回的属性列表
         /// </summary>
-        public class UserType : Interface.TypeInterface
+        public class minecraftUserType : TypeInterface
         {
             /// <summary>
             /// 用户名

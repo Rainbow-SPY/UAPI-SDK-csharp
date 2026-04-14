@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class bilibili
+    public partial class Type
     {
         /// <summary>
         /// 查询bilibili直播间时返回的Json列表
         /// </summary>
-        public class LiveroomType : Interface.TypeInterface
+        public class LiveroomType : TypeInterface
         {
             /// <summary>
             /// 头像框
@@ -19,7 +19,7 @@ namespace UAPI
                 /// 头像框的值?
                 /// </summary>
                 [JsonProperty("value")]
-                public string value { get; set; } 
+                public string value { get; set; }
             }
 
             /// <summary>

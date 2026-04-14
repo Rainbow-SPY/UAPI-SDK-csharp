@@ -2,10 +2,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class Saying
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Saying
     {
         /// <summary>
         /// 获取随心一言
@@ -28,7 +32,7 @@ namespace UAPI
         /// <summary>
         /// 
         /// </summary>
-        public class SayingType : Interface.TypeInterface
+        public class SayingType : TypeInterface
         {
             /// <summary>
             /// 随心一言

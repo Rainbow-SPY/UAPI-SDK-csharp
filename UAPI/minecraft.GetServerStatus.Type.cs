@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class minecraft
+    public partial class Type
     {
         /// <summary>
         /// 查询Minecraft游戏服务器返回的属性列表
         /// </summary>
-        public class ServerType : Interface.TypeInterface
+        public class ServerType : TypeInterface
         {
             /// <summary>
             /// 服务器图标的 Base64 Data Url

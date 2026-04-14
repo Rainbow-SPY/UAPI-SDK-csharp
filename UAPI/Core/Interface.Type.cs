@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Interface
+    public partial class Type
     {
         /// <summary>
         /// 自定义类的接口公共属性基类

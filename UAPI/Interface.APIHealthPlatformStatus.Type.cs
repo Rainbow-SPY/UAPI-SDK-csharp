@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 namespace UAPI
 {
-    public partial class Interface
+    /// <summary>
+    /// API 返回的结果类型
+    /// </summary>
+    public partial class Type
     {
         /// <summary>
         /// UAPI平台的系统状态

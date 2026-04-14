@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -14,11 +15,11 @@ namespace UAPI
             /// </summary>
             /// <param name="text">分析的敏感词</param>
             /// <param name="AuthenticationAPITokenKey">API Token Key</param>
-            /// <returns><see cref="AnalyzeType"/> 对象</returns> 
+            /// <returns><see cref="SensitiveAnalyzeType"/> 对象</returns> 
             /// <exception cref="General.UAPIUnknowException">未知的异常</exception>
-            public static async Task<AnalyzeType> Analyze(string[] text, string AuthenticationAPITokenKey = "")
+            public static async Task<SensitiveAnalyzeType> Analyze(string[] text, string AuthenticationAPITokenKey = "")
             {
-                var (result, statuscode) = await Interface.GetResult<AnalyzeType>(
+                var (result, statuscode) = await Interface.GetResult<SensitiveAnalyzeType>(
                     $"{Interface._UAPI_Request_Url}sensitive-word/analyze", Interface.SendRequestType.POST,
                     JsonConvert.SerializeObject(new { keywords = text }), "application/json",
                     AuthenticationAPITokenKey);

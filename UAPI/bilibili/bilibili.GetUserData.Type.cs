@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class bilibili
+    public partial class Type
     {
         /// <summary>
         /// 查询bilibili用户时返回的Json列表
         /// </summary>
-        public class UserType : Interface.TypeInterface
+        public class bilibiliUserType : TypeInterface
         {
             /// <summary>
             /// bilibili 用户的 UID

@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 计算两个日期之间的差值返回的Json属性列表
         /// </summary>
-        public class DateDiffType : Interface.TypeInterface
+        public class DateDiffType : TypeInterface
         {
             /// <summary>
             /// 总天数

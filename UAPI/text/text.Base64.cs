@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -20,7 +21,7 @@ namespace UAPI
                 await Interface.GetResult<EncryptType>($"{Interface._UAPI_Request_Url}text/base64/encode",
                     Interface.SendRequestType.POST, JsonConvert.SerializeObject(new
                     {
-                        texts = texts
+                        texts
                     }), AuthenticationAPITokenKey);
             var list = Interface.IsGetSuccessful(result, "text", statuscode, new General.UAPIUnknowException(),
                 "Text.EncryptBase64");
@@ -32,7 +33,7 @@ namespace UAPI
         /// <summary>
         /// 
         /// </summary>
-        public class EncryptType : Interface.TypeInterface
+        public class EncryptType : TypeInterface
         {
             /// <summary>
             /// 加密过的 Base64 字符串
@@ -67,7 +68,7 @@ namespace UAPI
         /// <summary>
         /// 
         /// </summary>
-        public class DecryptedType : Interface.TypeInterface
+        public class DecryptedType : TypeInterface
         {
             /// <summary>
             /// 加密过的 Base64 字符串

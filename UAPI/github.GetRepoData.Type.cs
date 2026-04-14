@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class github
+    public partial class Type
     {
         /// <summary>
         /// 查询github仓库时返回的Json列表
         /// </summary>
-        public class ReposType : Interface.TypeInterface
+        public class ReposType : TypeInterface
         {
             /// <summary>
             /// 完整名称
@@ -181,36 +181,36 @@ namespace UAPI
                     out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
-        }
-
-        /// <summary>
-        /// 维护者
-        /// </summary>
-        public class Maintainer
-        {
-            /// <summary>
-            /// 登录名
-            /// </summary>
-            [JsonProperty("login")]
-            public string login { get; set; }
 
             /// <summary>
-            /// 名称
+            /// 维护者
             /// </summary>
-            [JsonProperty("name")]
-            public string name { get; set; }
+            public class Maintainer
+            {
+                /// <summary>
+                /// 登录名
+                /// </summary>
+                [JsonProperty("login")]
+                public string login { get; set; }
 
-            /// <summary>
-            /// 邮件
-            /// </summary>
-            [JsonProperty("email")]
-            public string email { get; set; }
+                /// <summary>
+                /// 名称
+                /// </summary>
+                [JsonProperty("name")]
+                public string name { get; set; }
 
-            /// <summary>
-            /// URL
-            /// </summary>
-            [JsonProperty("url")]
-            public string url { get; set; }
+                /// <summary>
+                /// 邮件
+                /// </summary>
+                [JsonProperty("email")]
+                public string email { get; set; }
+
+                /// <summary>
+                /// URL
+                /// </summary>
+                [JsonProperty("url")]
+                public string url { get; set; }
+            }
         }
     }
 }

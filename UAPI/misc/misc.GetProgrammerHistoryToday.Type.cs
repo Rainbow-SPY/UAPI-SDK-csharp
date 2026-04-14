@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 程序员历史上的今天返回的Json属性列表
         /// </summary>
-        public class HistoryTodayType : Interface.TypeInterface
+        public class HistoryTodayType : TypeInterface
         {
             /// <summary>
             /// 事件类型

@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class QQ
+    public partial class Type
     {
         /// <summary>
         /// 查询QQ群组返回的Json列表
         /// </summary>
-        public class GroupType : Interface.TypeInterface
+        public class GroupType : TypeInterface
         {
             private int _certType;
 

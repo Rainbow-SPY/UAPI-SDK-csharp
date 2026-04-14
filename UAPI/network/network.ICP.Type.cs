@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class ICPType : Interface.TypeInterface
+        public class ICPType : TypeInterface
         {
             /// <summary>
             /// 返回的状态码

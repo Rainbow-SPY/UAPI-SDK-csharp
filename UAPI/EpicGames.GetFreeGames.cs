@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using static Rox.Runtimes.LogLibraries;
+using static UAPI.Type;
 
 namespace UAPI
 {
     /// <summary>
     /// 查询Epic Games相关功能
     /// </summary>
-    public partial class EpicGames
+    public class EpicGames
     {
         /// <summary>
         /// 获取当前Epic Games的免费游戏

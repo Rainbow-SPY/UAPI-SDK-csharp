@@ -1,3 +1,5 @@
+using static UAPI.Type;
+
 namespace UAPI.IException
 {
     /// <summary>
@@ -67,13 +69,13 @@ namespace UAPI.IException
 
         internal const string _UAPI_Service_Unavailable = "SERVICE_UNAVAILABLE;HttpClient return 503";
 
-        internal static string GetErrorOrCode<T>(T Type) where T : Interface.TypeInterface =>
+        internal static string GetErrorOrCode<T>(T Type) where T : TypeInterface =>
             Type.code ?? Type.error;
 
-        internal static string GetMessageOrDetails<T>(T Type) where T : Interface.TypeInterface =>
+        internal static string GetMessageOrDetails<T>(T Type) where T : TypeInterface =>
             Type.message ?? Type.details;
 
-        internal static string GetFailedReportDetails<T>(T Type) where T : Interface.TypeInterface
+        internal static string GetFailedReportDetails<T>(T Type) where T : TypeInterface
         {
             var typeHeaders = Type.Headers;
             return $"Request-ID: {typeHeaders.RequestID}" +

@@ -31,8 +31,8 @@ namespace UAPI.IException
             /// 在请求 <see langword="%s"/> 上游服务API时发生错误
             /// </summary>
             /// <param name="_Type"></param>
-            public HotboardUpstreamServiceError(Interface.Hotboard.HotboardInterface _Type) : base(
-                $"在请求{_Type.type}上游服务API时发生错误")
+            public HotboardUpstreamServiceError(Type.Hotboard.HotboardInterface _Type) : base(
+                $"在请求 {_Type.type} 上游服务API时发生错误")
             {
             }
 

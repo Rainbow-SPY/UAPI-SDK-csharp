@@ -13,6 +13,7 @@
 
 using System.Threading.Tasks;
 using static Rox.Runtimes.LogLibraries;
+using static UAPI.Type;
 
 namespace UAPI
 {

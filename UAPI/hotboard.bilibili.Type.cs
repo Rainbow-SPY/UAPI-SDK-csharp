@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class hotboard
+    public partial class Type
     {
         /// <summary>
         /// bilibili热榜请求的返回Json属性列表
         /// </summary>
-        public class bilibiliType : Interface.Hotboard.HotboardInterface
+        public class bilibiliType : Hotboard.HotboardInterface
         {
             /// <summary>
             /// bilibili热榜排行榜列表
@@ -18,7 +18,7 @@ namespace UAPI
             /// <summary>
             /// bilibili热榜排行榜列表
             /// </summary>
-            public class lists : Interface.Hotboard.MainLists
+            public class lists : Hotboard.MainLists
             {
                 /// <summary>
                 /// 视频的额外信息

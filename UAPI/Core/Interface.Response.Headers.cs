@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Interface
+    public partial class Type
     {
         /// <summary>
         /// HTTP Response
@@ -129,7 +129,7 @@ namespace UAPI
                 /// </summary>
                 [JsonProperty("uapi-credits-pricing")]
                 public string CreditsPricing { get; set; }
-                
+
                 /// <summary>
                 /// Billing Key 当前生效的请求速率规则
                 /// </summary>
@@ -215,7 +215,7 @@ namespace UAPI
                 /// 资源包用完后是否停止服务
                 /// </summary>
                 [JsonProperty("uapi-stop-on-empty")]
-                [JsonConverter(typeof(BooleanConverter))]
+                [JsonConverter(typeof(Interface.BooleanConverter))]
                 public bool StopServiceWhenRemainingEmpty
                 {
                     get => _stopOnEmpty == 1;

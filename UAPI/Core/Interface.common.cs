@@ -18,6 +18,7 @@ using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static Rox.Text.Json;
 using static UAPI.IException.Core;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -34,8 +35,8 @@ namespace UAPI
         internal const string _2UAPI_Request_Url = "https://b1.uapis.cn/api/v1/";
 
         /// 泛型缓存容器
-        private static readonly Dictionary<Type, PropertyInfo> _headersPropertyCache =
-            new Dictionary<Type, PropertyInfo>();
+        private static readonly Dictionary<System.Type, PropertyInfo> _headersPropertyCache =
+            new Dictionary<System.Type, PropertyInfo>();
 
         private static readonly object _cacheLock = new object();
 
@@ -264,13 +265,13 @@ namespace UAPI
         /// <summary>
         /// 检查是否请求成功, 并根据返回值执行制定操作
         /// </summary>
-        /// <param name="Type">指定为继承 <see cref="Interface.TypeInterface"/> 的公共类</param>
+        /// <param name="Type">指定为继承 <see cref="TypeInterface"/> 的公共类</param>
         /// <param name="NullValue">当返回值为 400 时的提示参数</param>
         /// <param name="StatusCode"><see cref="HttpStatusCode"/> 返回值</param>
         /// <param name="_Exception">指定为继承 <see cref="System.Exception"/> 的自定义异常</param>
         /// <param name="_Error_Type">出现异常的类别</param>
         /// <param name="Error_Code">(可选) 错误代码</param>
-        /// <typeparam name="T">指定为继承 <see cref="Interface.TypeInterface"/> 的公共类</typeparam>
+        /// <typeparam name="T">指定为继承 <see cref="TypeInterface"/> 的公共类</typeparam>
         /// <returns><see langword="bool"/> 类型的返回状态<br/>当请求成功时(200) 会返回 <see langword="true"/> , 反之则返回 <see langword="false"/> 或 <see langword="throw"/> 异常</returns>
         /// <exception cref="General.UAPIServerDown">UAPI 请求源服务器异常</exception>
         /// <exception cref="UnauthorizedAccessException">未经授权的操作引发的异常</exception>

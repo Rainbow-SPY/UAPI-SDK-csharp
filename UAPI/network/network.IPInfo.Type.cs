@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class IPInfoType : Interface.TypeInterface
+        public class IPInfoType : TypeInterface
         {
             /// <summary>
             /// 解析的IP地址

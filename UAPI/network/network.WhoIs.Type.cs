@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class WhoIsType : Interface.TypeInterface
+        public class WhoIsType : TypeInterface
         {
             /// <summary>
             /// 域名信息

@@ -11,9 +11,9 @@
 //  This code for redirecting Bilibili API through a third-party interface.
 //  Now Play:       Ave Mujica - KiLLKiSS
 
-
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -39,7 +39,7 @@ namespace UAPI
             var list = Interface.IsGetSuccessful(result, "mid 或 room_id", statusCode,
                 new IException.bilibili.BilibiliServiceError(), "bilibili",
                 IException.bilibili._Bilibili_Service_Error);
-            if (list.IsRequestSuccessfully) 
+            if (list.IsRequestSuccessfully)
                 return result;
             LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
             return list.FailedException != null ? throw list.FailedException : result;

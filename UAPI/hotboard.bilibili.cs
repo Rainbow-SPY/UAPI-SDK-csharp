@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using static UAPI.Type;
 
 namespace UAPI
 {
@@ -12,7 +13,8 @@ namespace UAPI
         public static async Task<bilibiliType> GetBilibiliHotboard(string Authentication = "")
         {
             var (result, statusCode) =
-                await Interface.GetResult<bilibiliType>($"{Interface._UAPI_Request_Url}misc/hotboard?type=bilibili", Authentication);
+                await Interface.GetResult<bilibiliType>($"{Interface._UAPI_Request_Url}misc/hotboard?type=bilibili",
+                    Authentication);
             var list = Interface.IsGetSuccessful(result, "", statusCode, new IException.bilibili.BilibiliServiceError(),
                 "bilibili", IException.bilibili._Bilibili_Service_Error);
             if (!list.IsRequestSuccessfully)

@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 中国大陆的电话号码归属地
         /// </summary>
-        public class PhoneInfoType : Interface.TypeInterface
+        public class PhoneInfoType : TypeInterface
         {
             /// <summary>
             /// 省份归属地

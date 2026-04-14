@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class Network
+    public partial class Type
     {
         /// <summary>
         /// 
         /// </summary>
-        public class DNSType : Interface.TypeInterface
+        public class DNSType : TypeInterface
         {
             /// <summary>
             /// 

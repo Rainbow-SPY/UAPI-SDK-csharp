@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 识别到的快递公司返回的Json属性列表
         /// </summary>
-        public class DetectedCarrierType : Interface.TypeInterface
+        public class DetectedCarrierType : TypeInterface
         {
             /// <summary>
             /// 其他可能的快递公司列表（如果存在)

@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Type
     {
         /// <summary>
         /// 查询指定日期、月份或年份的万年历与节假日信息返回的Json属性列表
         /// </summary>
-        public class HolidayCalendarType : Interface.TypeInterface
+        public class HolidayCalendarType : TypeInterface
         {
             /// <summary>
             /// 请求参数回显

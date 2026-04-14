@@ -1,5 +1,6 @@
 ﻿using System;
 using static UAPI.Steam.SteamID.Converter;
+using static UAPI.Type;
 
 namespace UAPI
 {

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Type;
 
 namespace UAPI
 {

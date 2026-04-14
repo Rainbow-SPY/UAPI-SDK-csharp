@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using static UAPI.Type;
 
 namespace UAPI
 {
     /// <summary>
     /// 查询github相关数据
     /// </summary>
-    public partial class github
+    public class github
     {
         /// <summary>
         /// 获取github仓库数据

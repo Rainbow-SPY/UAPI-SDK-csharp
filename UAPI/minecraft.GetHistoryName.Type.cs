@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace UAPI
 {
-    public partial class minecraft
+    public partial class Type
     {
         /// <summary>
         /// 查询Minecraft玩家历史昵称的属性值列表
         /// </summary>
-        public class HistoryType : Interface.TypeInterface
+        public class HistoryType : TypeInterface
         {
             /// <summary>
             /// 历史昵称的属性值列表
