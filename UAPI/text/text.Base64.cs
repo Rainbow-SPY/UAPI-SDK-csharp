@@ -30,17 +30,6 @@ namespace UAPI
             return list.FailedException != null ? throw list.FailedException : result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public class EncryptType : TypeInterface
-        {
-            /// <summary>
-            /// 加密过的 Base64 字符串
-            /// </summary>
-            [JsonProperty("encoded")]
-            public string EncryptedText { get; set; }
-        }
 
         /// <summary>
         /// 获取解密后的 Base 64 编码文本
@@ -64,10 +53,11 @@ namespace UAPI
                 LogLibraries.WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
             return list.FailedException != null ? throw list.FailedException : result;
         }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
+    public partial class Type
+    {
+        /// <summary/>
         public class DecryptedType : TypeInterface
         {
             /// <summary>
@@ -75,6 +65,16 @@ namespace UAPI
             /// </summary>
             [JsonProperty("encoded")]
             public string DecryptedText { get; set; }
+        }
+
+        /// <summary/>
+        public class EncryptType : TypeInterface
+        {
+            /// <summary>
+            /// 加密过的 Base64 字符串
+            /// </summary>
+            [JsonProperty("encoded")]
+            public string EncryptedText { get; set; }
         }
     }
 }

@@ -256,9 +256,19 @@ namespace UAPI
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
             GetResult<T>(requestUrl, SendRequestType.GET);
 
-        internal enum SendRequestType
+        /// <summary>
+        /// 请求方式
+        /// </summary>
+        public enum SendRequestType
         {
+            /// <summary>
+            /// GET
+            /// </summary>
             GET,
+
+            /// <summary>
+            /// POST
+            /// </summary>
             POST
         }
 
