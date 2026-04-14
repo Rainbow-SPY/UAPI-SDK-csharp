@@ -8,7 +8,6 @@ using UAPI;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Type;
-using Type = UAPI.Type;
 
 namespace TestConsole
 {
