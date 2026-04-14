@@ -185,6 +185,7 @@
         <Compile Include="Steam\Steam.SteamID.Converter.cs" />
         <Compile Include="Steam\Steam.SteamID.cs" />
         <Compile Include="Steam\Steam.SteamID.SteamIDType.cs" />
+        <Compile Include="text\text.AES.Advanced.cs" />
         <Compile Include="text\text.AES.cs" />
         <Compile Include="text\text.AnalyzeText.cs" />
         <Compile Include="text\text.Base64.cs" />
