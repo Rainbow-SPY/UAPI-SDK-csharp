@@ -5,9 +5,7 @@ namespace UAPI
 {
     public partial class Type
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         public class WhoIsType : TypeInterface
         {
             /// <summary>
@@ -116,9 +114,7 @@ namespace UAPI
                 public string email { get; set; }
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             public class WhoisClass
             {
                 /// <summary>

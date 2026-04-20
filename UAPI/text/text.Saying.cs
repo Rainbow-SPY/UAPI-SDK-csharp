@@ -29,9 +29,7 @@ namespace UAPI
             return list.FailedException != null ? throw list.FailedException : result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         public class SayingType : TypeInterface
         {
             /// <summary>

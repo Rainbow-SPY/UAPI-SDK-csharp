@@ -176,9 +176,7 @@ namespace UAPI
             [JsonProperty("hourly_forecast")]
             public List<Hourly_forecastItem> HourlyForecast { get; set; }
 
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             public class Hourly_forecastItem
             {
                 /// <summary>
@@ -266,9 +264,7 @@ namespace UAPI
                 public double UV { get; set; }
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             public class minutely_Precipitation
             {
                 /// <summary>
@@ -288,9 +284,7 @@ namespace UAPI
                 public List<min_data> data { get; set; }
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             public class min_data
             {
                 /// <summary>
@@ -354,9 +348,7 @@ namespace UAPI
                 public double co { get; set; }
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             public class IndicesLevel
             {
                 /// <summary>

@@ -13,9 +13,7 @@ namespace UAPI
 {
     public partial class Network
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         public class WHOISInfo
         {
             /// <summary>

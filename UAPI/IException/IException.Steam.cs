@@ -27,9 +27,7 @@ namespace UAPI.IException
             {
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             /// <param name="message">异常消息</param>
             /// <param name="innerException"></param>
             public UnAuthenticatedSteamKey(string message, Exception innerException) : base(message, innerException)

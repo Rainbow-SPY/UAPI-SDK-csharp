@@ -33,9 +33,7 @@ namespace UAPI
 
     public partial class Type
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         public class textAnalyzeType : TypeInterface
         {
             /// <summary>

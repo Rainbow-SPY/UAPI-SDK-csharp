@@ -4,9 +4,7 @@ namespace UAPI
 {
     public partial class Type
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         public class WeixinDomainType : TypeInterface
         {
             /// <summary>

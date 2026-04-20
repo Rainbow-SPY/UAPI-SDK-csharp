@@ -5,40 +5,36 @@ namespace UAPI
 {
     public partial class Type
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         public class DNSType : TypeInterface
         {
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary/>
             public class RecordsItem
             {
                 /// <summary>
                 /// 记录在表的IP
                 /// </summary>
                 [JsonProperty("target")]
-                public string target { get; set; }
+                public string TargetIP { get; set; }
             }
 
             /// <summary>
             /// 查询的主机
             /// </summary>
             [JsonProperty("domain")]
-            public string domain { get; set; }
+            public string Domain { get; set; }
 
             /// <summary>
             /// 查询的DNS类型
             /// </summary>
             [JsonProperty("type")]
-            public string type { get; set; }
+            public string Type { get; set; }
 
             /// <summary>
-            /// 查询到的记录
+            /// 查询到的记录  
             /// </summary>
             [JsonProperty("records")]
-            public List<RecordsItem> records { get; set; }
+            public List<RecordsItem> Records { get; set; }
         }
     }
 }

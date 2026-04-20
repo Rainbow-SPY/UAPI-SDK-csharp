@@ -7,9 +7,7 @@ namespace UAPI
 {
     public partial class Text
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary/>
         /// <param name="texts">待翻译的文本内容。最大长度10,000 字符</param>
         /// <param name="Language">目标语言代码。请从支持的语言列表中选择一个语言代码</param>
         /// <param name="source_Language">源语言代码，可选。如果不指定，系统会自动检测源语言。</param>

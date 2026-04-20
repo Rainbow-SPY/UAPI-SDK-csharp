@@ -8,6 +8,13 @@ var request = await
 
 * 参数选项:
   
+  
+* **返回类型:** ``
+* **返回值:** `` 对象
+* **异常:**
+    - `IException.General.UAPIServerDown`: 请求源服务器发生错误
+    - `UnauthorizedAccessException`: 未经授权的请求操作
+    - `IException.General.UAPIUnknowException`:  未知的异常
 
 ## 属性列表
 
