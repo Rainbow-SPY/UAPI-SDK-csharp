@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,10 +8,10 @@ using System.Reflection;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
@@ -60,43 +59,6 @@ namespace UAPI
         {
             var targetUrl = requestUrl;
 
-            #region PingTest
-
-            var res = await Network_I.PingAsync("uapis.cn");
-            var tempFile = Path.GetTempFileName();
-            if (res.IsSuccess)
-                try
-                {
-                    WriteLog.Info(LogKind.Downloader, "尝试下载 uapis.cn:443 界面资源...");
-                    using (var webClient = new WebClient())
-                        await webClient.DownloadFileTaskAsync(new Uri("https://uapis.cn:443"), tempFile);
-                }
-                catch (WebException)
-                {
-                    WriteLog.Warning(LogKind.Downloader, "无法连接到 uapis.cn, 切换到备用站点使用");
-                    targetUrl = SwitchToBackupUrl(requestUrl);
-                }
-                finally
-                {
-                    // 清理临时文件
-                    if (File.Exists(tempFile))
-                        try
-                        {
-                            File.Delete(tempFile);
-                        }
-                        catch (IOException ex)
-                        {
-                            WriteLog.Warning(LogKind.File, $"清理临时文件失败: {_Exception_With_xKind("File.Delete", ex)}");
-                        }
-                }
-            else
-            {
-                WriteLog.Warning(LogKind.Downloader, "uapis.cn Ping 失败, 切换到备用站点使用");
-                targetUrl = SwitchToBackupUrl(requestUrl);
-            }
-
-            #endregion
-
             WriteLog.Info(LogKind.Http, "配置 ServicePointManager 连接参数");
             try
             {
@@ -133,10 +95,12 @@ namespace UAPI
                     WriteLog.Info("HttpRequestHeaders", headersJson);
                 }
 
-                var response = type == SendRequestType.GET
-                    ? await httpClient.GetAsync(targetUrl)
-                    : await httpClient.PostAsync(targetUrl,
-                        new StringContent(postContent, Encoding.UTF8, contentType));
+                var response = await SendApiRequestWithFallbackAsync(
+                    requestUrl,
+                    type,
+                    postContent,
+                    contentType,
+                    AuthenticationAPITokenKey);
                 WriteLog.Info(LogKind.Http,
                     $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
                 using (response)
@@ -216,6 +180,12 @@ namespace UAPI
 
                     return (result, statusCode);
                 }
+            }
+            catch (TaskCanceledException e)
+            {
+                WriteLog.Error(LogKind.Http,
+                    $"HttpClient 请求超时或被取消: {e.Message} - {e.StackTrace}");
+                return (null, -2);
             }
             catch (HttpRequestException e)
             {
@@ -546,31 +516,133 @@ namespace UAPI
 
         // 静态 HttpClient 实例
         internal static readonly Lazy<HttpClient> _httpClient = new Lazy<HttpClient>(() =>
-            new HttpClient(CreateOptimizedHttpClientHandler(), disposeHandler: false)
+        {
+            var client = new HttpClient(CreateOptimizedHttpClientHandler(), disposeHandler: false)
             {
-                Timeout = TimeSpan.FromSeconds(10)
-            });
+                // 不使用 HttpClient 全局 Timeout，改用每次请求独立 CancellationTokenSource
+                Timeout = Timeout.InfiniteTimeSpan
+            };
+
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) UAPI-Client/1.0");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json, text/plain, */*");
+            client.DefaultRequestHeaders.ConnectionClose = true;
+
+            return client;
+        });
+
+        private static async Task<HttpResponseMessage> SendApiRequestWithFallbackAsync(
+            string requestUrl,
+            SendRequestType type,
+            string postContent,
+            string contentType,
+            string authenticationApiTokenKey)
+        {
+            var httpClient = _httpClient.Value;
+
+            try
+            {
+                WriteLog.Info(LogKind.Http, $"尝试主站请求: {requestUrl}");
+                return await SendApiRequestOnceAsync(
+                    httpClient,
+                    requestUrl,
+                    type,
+                    postContent,
+                    contentType,
+                    authenticationApiTokenKey,
+                    TimeSpan.FromSeconds(4));
+            }
+            catch (TaskCanceledException ex)
+            {
+                WriteLog.Warning(LogKind.Http,
+                    $"主站请求超时，准备切换备用站: {ex.Message}");
+            }
+            catch (HttpRequestException ex)
+            {
+                WriteLog.Warning(LogKind.Http,
+                    $"主站请求失败，准备切换备用站: {ex.Message}");
+            }
+            catch (WebException ex)
+            {
+                WriteLog.Warning(LogKind.Http,
+                    $"主站网络异常，准备切换备用站: {ex.Message}");
+            }
+
+            var backupUrl = SwitchToBackupUrl(requestUrl);
+
+            if (backupUrl == requestUrl)
+                throw new HttpRequestException($"主站请求失败，且无法切换备用站: {requestUrl}");
+
+            WriteLog.Warning(LogKind.Downloader, $"切换到备用站点: {backupUrl}");
+
+            return await SendApiRequestOnceAsync(
+                httpClient,
+                backupUrl,
+                type,
+                postContent,
+                contentType,
+                authenticationApiTokenKey,
+                TimeSpan.FromSeconds(8));
+        }
+
+        private static async Task<HttpResponseMessage> SendApiRequestOnceAsync(
+            HttpClient httpClient,
+            string url,
+            SendRequestType type,
+            string postContent,
+            string contentType,
+            string authenticationApiTokenKey,
+            TimeSpan timeout)
+        {
+            using (var cts = new CancellationTokenSource(timeout))
+            using (var request =
+                   new HttpRequestMessage(type == SendRequestType.GET
+                       ? HttpMethod.Get
+                       : HttpMethod.Post, url))
+            {
+                request.Version = HttpVersion.Version11;
+                request.Headers.ConnectionClose = true;
+
+                if (!string.IsNullOrEmpty(authenticationApiTokenKey))
+                    request.Headers.Authorization =
+                        new AuthenticationHeaderValue("Bearer", authenticationApiTokenKey);
+
+                if (type == SendRequestType.POST)
+                    request.Content = new StringContent(postContent ?? "", Encoding.UTF8, contentType);
+
+                // 关键：只等响应头，不先把整个 body 缓冲完。
+                // 某些网络下 body 阶段卡住时，GetAsync 默认会直接超时。
+                return await httpClient.SendAsync(
+                    request,
+                    HttpCompletionOption.ResponseHeadersRead,
+                    cts.Token);
+            }
+        }
 
         // 优化 HttpClientHandler 配置
         internal static HttpClientHandler CreateOptimizedHttpClientHandler()
         {
             WriteLog.Info(LogKind.Http, "创建优化的 HttpClientHandler 实例");
-            // 关闭 Nagle 算法
+
             ServicePointManager.UseNagleAlgorithm = false;
-            // 关闭 100-Continue 握手
             ServicePointManager.Expect100Continue = false;
+
+            // 让系统选择 TLS。不要强行启用 TLS 1.0 / 1.1。
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
 
             return new HttpClientHandler
             {
                 AllowAutoRedirect = true,
-                UseCookies = true,
+                UseCookies = false,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                // 连接池配置
-                MaxConnectionsPerServer = 100,
-                // TLS 配置）
-                SslProtocols = SslProtocols.Tls12 |
-                               SslProtocols.Tls11 |
-                               SslProtocols.Tls
+                MaxConnectionsPerServer = 20,
+
+                // 让系统自己协商 TLS，避免移动热点/运营商网络下 TLS 握手异常
+                SslProtocols = SslProtocols.None,
+
+                // 如果你没有明确使用系统代理，建议先关掉。
+                // 某些环境下代理自动发现会拖慢甚至卡死请求。
+                UseProxy = false
             };
         }
     }
