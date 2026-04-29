@@ -194,6 +194,7 @@
         <Compile Include="text\text.CheckSensitiveWords.Analyze.Type.cs" />
         <Compile Include="text\text.CheckSensitiveWords.Fast.cs" />
         <Compile Include="text\text.CheckSensitiveWords.Fast.Type.cs" />
+        <Compile Include="text\text.Convert.cs" />
         <Compile Include="text\text.Markdown.cs" />
         <Compile Include="text\text.Markdown.Type.cs" />
         <Compile Include="text\text.MD5.cs" />
