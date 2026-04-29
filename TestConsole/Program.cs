@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,8 +18,9 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
-            AnalyzeWords();
+            ToHTML();
             Console.ReadLine();
+            AnalyzeWords();
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
             Thread.Sleep(2000);
@@ -51,6 +53,26 @@ namespace TestConsole
             catch (Exception e)
             {
                 CatchAnyException("AnalyzeWords", e);
+            }
+        }
+
+        private static async void ToHTML()
+        {
+            try
+            {
+                WriteLog.Info("Markdown 转换 HTML");
+                var result = await Text.Markdown.ToHTML.ReturnedHTMLCode("### 123");
+                WriteLog.Info(result.Split('\n').First());
+                File.WriteAllText(Path.Combine(Environment.CurrentDirectory, "123.html"), result);
+
+                WriteLog.Info("Markdown 转换 PDF");
+                var result1 = await Text.Markdown.ToPDF("### 123");
+                File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, "123.pdf"), result1);
+                WriteLog.Info("生成完毕");
+            }
+            catch (Exception e)
+            {
+                CatchAnyException("ToHtml", e);
             }
         }
 

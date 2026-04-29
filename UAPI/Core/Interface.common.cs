@@ -531,7 +531,7 @@ namespace UAPI
             return client;
         });
 
-        private static async Task<HttpResponseMessage> SendApiRequestWithFallbackAsync(
+        internal static async Task<HttpResponseMessage> SendApiRequestWithFallbackAsync(
             string requestUrl,
             SendRequestType type,
             string postContent,
