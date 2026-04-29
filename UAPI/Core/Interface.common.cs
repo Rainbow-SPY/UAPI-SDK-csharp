@@ -277,6 +277,10 @@ namespace UAPI
                     WriteLog.Info(LogKind.Network, "请求成功");
                     list.IsRequestSuccessfully = true;
                     return list;
+                case 302:
+                    WriteLog.Info(LogKind.Network, "链接已重定向, 请求成功");
+                    list.IsRequestSuccessfully = true;
+                    return list;
                 case 400:
                     switch (GetErrorOrCode(Type))
                     {
