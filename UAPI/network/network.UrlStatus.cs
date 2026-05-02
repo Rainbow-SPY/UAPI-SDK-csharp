@@ -17,7 +17,7 @@ namespace UAPI
         public static async Task<UrlStatusType> CheckUrlStatus(string Url, string Authentication = "")
         {
             var (result, statuscode) =
-                await Interface.GetResult<UrlStatusType>($"{Interface._UAPI_Request_Url}network/urlstatus?url={Url}");
+                await Interface.GetResult<UrlStatusType>($"{Interface._UAPI_Request_Url}network/urlstatus?url={Url}",Authentication);
             var list = Interface.IsGetSuccessful(result, "Url", statuscode, new General.UAPIUnknowException(),
                 "CheckUrlStatus");
             if (!list.IsRequestSuccessfully)

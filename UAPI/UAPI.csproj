@@ -180,6 +180,7 @@
         <Compile Include="QQ.GetUserData.cs" />
         <Compile Include="QQ.GetGroupData.Type.cs" />
         <Compile Include="QQ.GetUserData.Type.cs" />
+        <Compile Include="random.Image.cs" />
         <Compile Include="Steam\Steam.GetUserData.cs" />
         <Compile Include="Steam\Steam.GetUserData.Type.cs" />
         <Compile Include="Steam\Steam.SteamID.Converter.cs" />

@@ -63,28 +63,15 @@ namespace UAPI
                     string Authentication = "")
                 {
                     var targetUrl = $"{Interface._UAPI_Request_Url}text/markdown-to-html";
-                    var response = await Interface.SendApiRequestWithFallbackAsync(targetUrl,
+                    var response = await Interface.GetStringResult(targetUrl,
                         Interface.SendRequestType.POST, JsonConvert.SerializeObject(new
                         {
                             text = _text,
                             format = "html",
                             sanitize = _sanitize
                         }), "application/json", Authentication);
-                    WriteLog.Info(LogKind.Http,
-                        $"{_SEND_REQUEST}: POST {targetUrl}");
 
-                    using (response)
-                    {
-                        var statusCode = (int)response.StatusCode;
-                        WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        WriteLog.Info(LogKind.Http, "异步读取响应内容");
-                        if (!string.IsNullOrEmpty(responseData))
-                            return responseData;
-                        WriteLog.Error(LogKind.Http,
-                            _void_value_null("GetResult<T>.HttpClient", "Content"));
-                        return null;
-                    }
+                    return response.Result;
                 }
 
                 /// <summary>
@@ -106,7 +93,7 @@ namespace UAPI
             public static async Task<byte[]> ToPDF(string _text, Theme _theme = Theme.github, Size size = Size.A4,
                 string Authentication = "")
             {
-                var response = await Interface.SendApiRequestWithFallbackAsync(
+                var response = await Interface.GetBytesResult(
                     $"{Interface._UAPI_Request_Url}text/markdown-to-pdf", Interface.SendRequestType.POST,
                     JsonConvert.SerializeObject(new
                     {
@@ -114,17 +101,7 @@ namespace UAPI
                         theme = _theme.ToString(),
                         paper_size = size.ToString()
                     }), "application/json", Authentication);
-                using (response)
-                {
-                    var statusCode = (int)response.StatusCode;
-                    WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
-                    var responseData = await response.Content.ReadAsByteArrayAsync();
-                    WriteLog.Info(LogKind.Http, "异步读取响应内容");
-                    if (responseData != null)
-                        return responseData;
-                    WriteLog.Error(LogKind.Http, _void_value_null("ToPDF", "Content"));
-                    return null;
-                }
+                return response.Result;
             }
         }
 

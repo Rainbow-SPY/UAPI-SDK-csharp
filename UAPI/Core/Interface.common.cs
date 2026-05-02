@@ -39,6 +39,7 @@ namespace UAPI
 
         private static readonly object _cacheLock = new object();
 
+
         /// <summary>
         /// 公共API 获取请求
         /// </summary>
@@ -62,39 +63,6 @@ namespace UAPI
             WriteLog.Info(LogKind.Http, "配置 ServicePointManager 连接参数");
             try
             {
-                var httpClient = _httpClient.Value;
-                WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
-                if (!string.IsNullOrEmpty(AuthenticationAPITokenKey))
-                {
-                    httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", AuthenticationAPITokenKey);
-                    WriteLog.Info(LogKind.Http,
-                        $"添加请求头: {AuthenticationAPITokenKey.Substring(0, 6)}");
-                    var headerDict = new Dictionary<string, string>();
-
-                    foreach (var header in httpClient.DefaultRequestHeaders)
-                    {
-                        var key = header.Key;
-                        var value = string.Join(",", header.Value);
-                        if (key.Equals("Authorization", StringComparison.OrdinalIgnoreCase)
-                            && value.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var encryptedToken = BitConverter.ToString(SHA256.Create()
-                                    .ComputeHash(Encoding.UTF8.GetBytes(value.Substring("Bearer ".Length).Trim())))
-                                .Replace("-", "").ToLower();
-                            value = $"Bearer SHA256: {encryptedToken}";
-                        }
-
-                        headerDict[key] = value;
-                    }
-
-                    var headersJson = JsonConvert.SerializeObject(
-                        headerDict,
-                        Formatting.Indented
-                    );
-                    WriteLog.Info("HttpRequestHeaders", headersJson);
-                }
-
                 var response = await SendApiRequestWithFallbackAsync(
                     requestUrl,
                     type,
@@ -225,6 +193,65 @@ namespace UAPI
         /// <returns>泛式对象 <see cref="T"/></returns>
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
             GetResult<T>(requestUrl, SendRequestType.GET);
+
+        internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl) =>
+            await Interface.GetBytesResult(requestUrl, SendRequestType.GET);
+
+        internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl,
+            string Authentication = "") => await GetBytesResult(requestUrl,
+            SendRequestType.GET, null, "application/json", Authentication);
+
+        internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl,
+            SendRequestType type = SendRequestType.GET, string postContent = "",
+            string contentType = "application/json", string AuthenticationAPITokenKey = "")
+            => await PriGet<byte[]>(requestUrl, type, postContent, contentType, AuthenticationAPITokenKey);
+
+        internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl,
+            SendRequestType type = SendRequestType.GET, string postContent = "",
+            string contentType = "application/json", string AuthenticationAPITokenKey = "")
+            => await PriGet<string>(requestUrl, type, postContent,
+                contentType, AuthenticationAPITokenKey);
+
+
+        internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl) =>
+            await Interface.GetStringResult(requestUrl, SendRequestType.GET);
+
+        internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl,
+            string Authentication = "") => await GetStringResult(requestUrl,
+            SendRequestType.GET, null, "application/json", Authentication);
+
+        /// <summary>
+        /// 泛型获取结果：自动处理 string/byte[] 两种返回类型
+        /// </summary>
+        private static async Task<(T Result, int StatusCode)> PriGet<T>(string requestUrl,
+            SendRequestType type = SendRequestType.GET, string postContent = "",
+            string contentType = "application/json", string AuthenticationAPITokenKey = "")
+        {
+            WriteLog.Info(LogKind.Http, "配置ServicePointManager 连接参数");
+            try
+            {
+                var response = await SendApiRequestWithFallbackAsync(requestUrl, type, postContent, contentType,
+                    AuthenticationAPITokenKey);
+                using (response)
+                {
+                    var statusCode = (int)response.StatusCode;
+                    WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
+                    WriteLog.Info(LogKind.Http, "异步读取响应内容");
+
+                    // 泛型判断 + 类型安全返回，无装箱、无强转
+                    return typeof(T) != typeof(string)
+                        ? typeof(T) != typeof(byte[])
+                            ? throw new NotSupportedException($"不支持的返回类型: {typeof(T)}")
+                            : ((T)(object)await response.Content.ReadAsByteArrayAsync(), statusCode)
+                        : ((T)(object)await response.Content.ReadAsStringAsync(), statusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                WriteLog.Error(_Exception_With_xKind("PriGet<T>()", e));
+                return (default, -1);
+            }
+        }
 
         /// <summary>
         /// 请求方式
@@ -543,6 +570,7 @@ namespace UAPI
             string authenticationApiTokenKey)
         {
             var httpClient = _httpClient.Value;
+            WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
 
             try
             {
@@ -608,8 +636,14 @@ namespace UAPI
                 request.Headers.ConnectionClose = true;
 
                 if (!string.IsNullOrEmpty(authenticationApiTokenKey))
+                {
                     request.Headers.Authorization =
                         new AuthenticationHeaderValue("Bearer", authenticationApiTokenKey);
+                    var encryptedToken = BitConverter.ToString(SHA256.Create()
+                            .ComputeHash(Encoding.UTF8.GetBytes(authenticationApiTokenKey.Trim())))
+                        .Replace("-", "").ToLower();
+                    WriteLog.Info(LogKind.Http, $"Bearer SHA256: {encryptedToken}");
+                }
 
                 if (type == SendRequestType.POST)
                     request.Content = new StringContent(postContent ?? "", Encoding.UTF8, contentType);
