@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UAPI.IException;
 using static Rox.Runtimes.LogLibraries;
-using static Rox.Runtimes.LocalizedString;
 using static UAPI.Type;
 
 namespace UAPI

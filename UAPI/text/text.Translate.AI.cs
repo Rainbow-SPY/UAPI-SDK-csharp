@@ -17,7 +17,8 @@ namespace UAPI
         /// <param name="AuthenticationAPITokenKey">API Token Key</param>
         /// <returns><see cref="AIText"/> 对象</returns>
         /// <exception cref="General.UAPIUnknowException">未知的异常</exception>
-        public static async Task<AIText> AITranslate(string texts, SupportLanguages Language, string source_Language = "",
+        public static async Task<AIText> AITranslate(string texts, SupportLanguages Language,
+            string source_Language = "",
             Style style = Style.None, Context Context = Context.general, bool preserve_Format = false,
             string AuthenticationAPITokenKey = "")
         {

@@ -195,7 +195,7 @@ namespace UAPI
             GetResult<T>(requestUrl, SendRequestType.GET);
 
         internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl) =>
-            await Interface.GetBytesResult(requestUrl, SendRequestType.GET);
+            await GetBytesResult(requestUrl, SendRequestType.GET);
 
         internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl,
             string Authentication = "") => await GetBytesResult(requestUrl,
@@ -214,7 +214,7 @@ namespace UAPI
 
 
         internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl) =>
-            await Interface.GetStringResult(requestUrl, SendRequestType.GET);
+            await GetStringResult(requestUrl, SendRequestType.GET);
 
         internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl,
             string Authentication = "") => await GetStringResult(requestUrl,

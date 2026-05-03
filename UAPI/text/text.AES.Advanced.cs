@@ -83,8 +83,8 @@ namespace UAPI
                 EncryptMode _mode = GCM, padding _padding = PKCS7, string _iv = "",
                 string Authentication = "")
             {
-                var (result, statuscode) = await Interface.GetResult<AESDecryptType>(
-                    $"{Interface._UAPI_Request_Url}text/aes/decrypt-advanced", SendRequestType.POST,
+                var (result, statuscode) = await GetResult<AESDecryptType>(
+                    $"{_UAPI_Request_Url}text/aes/decrypt-advanced", SendRequestType.POST,
                     JsonConvert.SerializeObject(new
                     {
                         text = _text,

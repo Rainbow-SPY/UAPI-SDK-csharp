@@ -27,7 +27,7 @@ namespace UAPI
             /// </summary>
             [JsonProperty("data")]
             public Data data { get; set; }
-            
+
             /// <summary>
             /// 返回的数据
             /// </summary>
@@ -62,7 +62,7 @@ namespace UAPI
                 /// </summary>
                 [JsonProperty("tracks")]
                 public List<TracksItem> Tracks { get; set; }
-                
+
                 /// <summary>
                 /// 物流更新状态列表
                 /// </summary>
