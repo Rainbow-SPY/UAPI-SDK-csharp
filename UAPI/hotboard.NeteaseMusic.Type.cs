@@ -15,7 +15,7 @@ namespace UAPI
             /// <summary>
             /// 主要的歌曲热榜列表信息
             /// </summary>
-            public new List<MainLists> list { get; set; }
+            public new List<MainLists> Lists { get; set; }
 
             /// <summary>
             /// 主要的歌曲热榜列表信息
@@ -31,7 +31,7 @@ namespace UAPI
                 /// <summary>
                 /// 歌曲额外元数据
                 /// </summary>
-                public Extra extra { get; set; }
+                public Extra ExtraInfo { get; set; }
 
                 /// <summary>
                 /// 歌曲额外信息
@@ -41,17 +41,17 @@ namespace UAPI
                     /// <summary>
                     /// 专辑名称
                     /// </summary>
-                    public string album { get; set; }
+                    public string Album { get; set; }
 
                     /// <summary>
                     /// 歌手名称
                     /// </summary>
-                    public string artist_names { get; set; }
+                    public string ArtistNames { get; set; }
 
                     /// <summary>
                     /// 歌曲时长
                     /// </summary>
-                    public string duration_text { get; set; }
+                    public string DurationText { get; set; }
 
                     /// <summary>
                     /// 歌曲在网易云音乐的唯一ID
@@ -62,7 +62,7 @@ namespace UAPI
                     /// <summary>
                     /// 上次的热榜排名
                     /// </summary>
-                    public int last_rank { get; set; }
+                    public int LastRank { get; set; }
 
                     /// <summary>
                     /// 受欢迎程度 (暂时没有具体用法)

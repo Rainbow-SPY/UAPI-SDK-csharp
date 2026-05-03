@@ -13,7 +13,7 @@ namespace UAPI
             /// bilibili 用户的 UID
             /// </summary>
             [JsonProperty("mid")]
-            public string mid { get; set; }
+            public string MID { get; set; }
 
             /// <summary>
             /// 昵称
@@ -37,37 +37,37 @@ namespace UAPI
             /// 签名
             /// </summary>
             [JsonProperty("sign")]
-            public string sign { get; set; }
+            public string Sign { get; set; }
 
             /// <summary>
             /// 等级 (最大为6)
             /// </summary>
             [JsonProperty("level")]
-            public int level { get; set; }
+            public int Level { get; set; }
 
             /// <summary>
             /// 生日
             /// </summary>
             [JsonProperty("birthday")]
-            public string birthday { get; set; }
+            public string Birthday { get; set; }
 
             /// <summary>
             /// 大会员等级
             /// </summary>
             [JsonProperty("vip_type")]
-            public int vip_type { get; set; }
+            public int VipType { get; set; }
 
             /// <summary>
             /// 大会员状态
             /// </summary>
             [JsonProperty("vip_status")]
-            public int vip_status { get; set; }
+            public int VipStatus { get; set; }
 
             /// <summary>
             /// 关注数
             /// </summary>
             [JsonProperty("following")]
-            public int following { get; set; }
+            public int Following { get; set; }
 
             /// <summary>
             /// 粉丝数
@@ -79,13 +79,13 @@ namespace UAPI
             /// 稿件数量
             /// </summary>
             [JsonProperty("archive_count")]
-            public int archive_count { get; set; }
+            public int ArchiveCount { get; set; }
 
             /// <summary>
             /// 文章数量
             /// </summary>
             [JsonProperty("article_count")]
-            public int article_count { get; set; }
+            public int ArticleCount { get; set; }
         }
     }
 }

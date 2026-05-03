@@ -47,13 +47,13 @@ namespace UAPI
             /// 问题
             /// </summary>
             [JsonProperty("question")]
-            public string question { get; set; }
+            public string Question { get; set; }
 
             /// <summary>
             /// 答案
             /// </summary>
             [JsonProperty("answer")]
-            public string answer { get; set; }
+            public string Answer { get; set; }
         }
     }
 }

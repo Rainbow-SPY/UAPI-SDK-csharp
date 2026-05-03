@@ -15,22 +15,26 @@ namespace UAPI
             /// <summary>
             /// 投搞的视频总数量
             /// </summary>
-            public int total { get; set; }
+            [JsonProperty("total")]
+            public int Total { get; set; }
 
             /// <summary>
             /// 页码数量
             /// </summary>
-            public int page { get; set; }
+            [JsonProperty("page")]
+            public int PageCount { get; set; }
 
             /// <summary>
             /// 每页的数量
             /// </summary>
-            public int size { get; set; }
+            [JsonProperty("size")]
+            public int PageSize { get; set; }
 
             /// <summary>
             /// 视频的详细信息
             /// </summary>
-            public List<Videos> videos { get; set; }
+            [JsonProperty("videos")]
+            public List<Videos> VideosList { get; set; }
 
             /// <summary>
             /// 视频的综合数据
@@ -42,59 +46,68 @@ namespace UAPI
                 /// <summary>
                 /// 视频的AID
                 /// </summary>
-                public long aid { get; set; }
+                [JsonProperty("aid")]
+                public long AID { get; set; }
 
                 /// <summary>
                 /// 视频的bv号
                 /// </summary>
-                public string bvid { get; set; }
+                [JsonProperty("bvid")]
+                public string BVID { get; set; }
 
                 /// <summary>
                 /// 视频的标题
                 /// </summary>
-                public string title { get; set; }
+                [JsonProperty("title")]
+                public string Title { get; set; }
 
                 /// <summary>
                 /// 视频的封面
                 /// </summary>
-                public string cover { get; set; }
+                [JsonProperty("cover")]
+                public string CoverImageUrl { get; set; }
 
                 /// <summary>
                 /// 一个视频内所有选集的总时长(秒)
                 /// </summary>
-                public long duration { get; set; }
+                [JsonProperty("duration")]
+                public long Duration { get; set; }
 
                 /// <summary>
                 /// 播放量
                 /// </summary>
-                public long play_count { get; set; }
+                [JsonProperty("play_count")]
+                public long PlayCount { get; set; }
 
                 /// <summary>
                 /// 视频发布的时间 (时间戳格式)
                 /// </summary>
-                public long publish_time { get; set; }
+                [JsonProperty("publish_time")]
+                public long PublishTime { get; set; }
 
                 /// <summary>
                 /// 视频发布的时间 (字符串格式)
                 /// </summary>
-                public string publish_time_str => TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
-                    .AddSeconds(publish_time).ToString(CultureInfo.CurrentCulture); //当地时区
+                public string PublishTimeStr => TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
+                    .AddSeconds(PublishTime).ToString(CultureInfo.CurrentCulture); //当地时区
 
                 /// <summary>
                 /// 视频创建的时间 (时间戳格式)
                 /// </summary>
-                public long create_time { get; set; }
+                [JsonProperty("create_time")]
+                public long CreateTime { get; set; }
 
                 /// <summary>
                 /// 视频创建的时间 (字符串格式)
                 /// </summary>
-                public string create_time_str => TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
-                    .AddSeconds(create_time).ToString(CultureInfo.CurrentCulture); //当地时区
+                public string CreateTimeStr => TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
+                    .AddSeconds(CreateTime).ToString(CultureInfo.CurrentCulture); //当地时区
 
                 /// <summary>
                 /// 当前状态
                 /// </summary>
-                public int state { get; set; }
+                [JsonProperty("state")]
+                public int State { get; set; }
 
                 /// <summary>
                 /// 是否为充电视频, 0=免费，1=付费

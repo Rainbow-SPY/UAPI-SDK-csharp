@@ -10,59 +10,63 @@ namespace UAPI
         /// </summary>
         public class Hotboard
         {
-            /// <summary>
-            /// 热榜顶级公共属性基类
-            /// </summary>
+            /// <summary/>
             public class HotboardInterface : TypeInterface
             {
                 /// <summary>
-                /// 查询到的热榜类型(公共属性)
+                /// 查询到的热榜类型
                 /// </summary>
-                public string type { get; set; }
+                [JsonProperty("type")]
+                public string Type { get; set; }
 
                 /// <summary>
-                /// 热榜更新时间(公共属性)
+                /// 热榜更新时间
                 /// </summary>
-                public string update_time_str => update_time_ISO8601.Contains("T")
-                    ? Interface.FormatISO8601TimeToLocal(update_time_ISO8601)
-                    : update_time_ISO8601;
+                public string UpdateTime_Str => UpdateTime_ISO8601.Contains("T")
+                    ? Interface.FormatISO8601TimeToLocal(UpdateTime_ISO8601)
+                    : UpdateTime_ISO8601;
 
                 /// <summary>
-                /// 热榜更新时间(公共属性)
+                /// 热榜更新时间
                 /// </summary>
                 [JsonProperty("update_time")]
-                public string update_time_ISO8601 { get; set; }
+                public string UpdateTime_ISO8601 { get; set; }
 
                 /// <summary>
-                /// 热榜列表(公共属性，列表项为公共基类)
+                /// 热榜列表
                 /// </summary>
-                public List<MainLists> list { get; set; }
+                [JsonProperty("list")]
+                public List<MainLists> List { get; set; }
             }
 
             /// <summary>
-            /// 热榜列表项公共属性基类
+            /// 热榜列表项
             /// </summary>
             public class MainLists
             {
                 /// <summary>
-                /// 序列数字(公共属性)
+                /// 序列数字
                 /// </summary>
-                public int index { get; set; }
+                [JsonProperty("index")]
+                public int Index { get; set; }
 
                 /// <summary>
-                /// 标题(公共属性)
+                /// 标题
                 /// </summary>
-                public string title { get; set; }
+                [JsonProperty("title")]
+                public string Title { get; set; }
 
                 /// <summary>
-                /// 链接(公共属性)
+                /// 链接
                 /// </summary>
-                public string url { get; set; }
+                [JsonProperty("url")]
+                public string Url { get; set; }
 
                 /// <summary>
-                /// 热度值(公共属性)
+                /// 热度值
                 /// </summary>
-                public string hot_value { get; set; }
+                [JsonProperty("hot_value")]
+                public string HotValue { get; set; }
             }
         }
     }

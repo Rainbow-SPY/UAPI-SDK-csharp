@@ -191,25 +191,25 @@ namespace UAPI
                 /// 登录名
                 /// </summary>
                 [JsonProperty("login")]
-                public string login { get; set; }
+                public string Login { get; set; }
 
                 /// <summary>
                 /// 名称
                 /// </summary>
                 [JsonProperty("name")]
-                public string name { get; set; }
+                public string Name { get; set; }
 
                 /// <summary>
                 /// 邮件
                 /// </summary>
                 [JsonProperty("email")]
-                public string email { get; set; }
+                public string Email { get; set; }
 
                 /// <summary>
                 /// URL
                 /// </summary>
                 [JsonProperty("url")]
-                public string url { get; set; }
+                public string Url { get; set; }
             }
         }
     }

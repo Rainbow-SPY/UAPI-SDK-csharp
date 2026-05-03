@@ -18,27 +18,32 @@ namespace UAPI
             /// <summary>
             /// 稿件的BV号
             /// </summary>
-            public string bvid { get; set; }
+            [JsonProperty("bvid")]
+            public string BVID { get; set; }
 
             /// <summary>
             /// 稿件的AV号
             /// </summary>
-            public string aid { get; set; }
+            [JsonProperty("aid")]
+            public string AID { get; set; }
 
             /// <summary>
             /// 稿件分P总数如果是单P视频，则为1
             /// </summary>
-            public int videos { get; set; }
+            [JsonProperty("videos")]
+            public int Videos { get; set; }
 
             /// <summary>
             /// 视频所属的子分区ID
             /// </summary>
-            public int tid { get; set; }
+            [JsonProperty("tid")]
+            public int TID { get; set; }
 
             /// <summary>
             /// 视频所属的子分区名称
             /// </summary>
-            public string tname { get; set; }
+            [JsonProperty("tname")]
+            public string TName { get; set; }
 
             /// <summary>
             /// 视频版权类型 原创/转载
@@ -68,18 +73,20 @@ namespace UAPI
             /// <summary>
             /// 稿件的标题
             /// </summary>
-            public string title { get; set; }
+            [JsonProperty("title")]
+            public string Title { get; set; }
 
             /// <summary>
             /// 稿件发布时间的Unix时间戳（秒)
             /// </summary>
-            public long pubdate { get; set; }
+            [JsonProperty("pubdate")]
+            public long PubDate { get; set; }
 
             /// <summary>
             /// 稿件发布的字符串时间（秒）
             /// </summary>
-            public string pubdate_str =>
-                DateTime.TryParse(pubdate.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+            public string PubDate_str =>
+                DateTime.TryParse(PubDate.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
                     out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
@@ -87,13 +94,14 @@ namespace UAPI
             /// <summary>
             /// 用户投稿时间的Unix时间戳（秒）
             /// </summary>
-            public long ctime { get; set; }
+            [JsonProperty("ctime")]
+            public long CTime { get; set; }
 
             /// <summary>
             /// 用户投稿的字符串时间（秒）
             /// </summary>
-            public string ctime_str =>
-                DateTime.TryParse(ctime.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+            public string CTime_str =>
+                DateTime.TryParse(CTime.ToString(), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
                     out var dt)
                     ? dt.ToString("yyyy-MM-dd")
                     : string.Empty;
@@ -101,12 +109,14 @@ namespace UAPI
             /// <summary>
             /// 视频简介, 可能会包含HTML换行符
             /// </summary>
-            public string desc { get; set; }
+            [JsonProperty("desc")]
+            public string Desc { get; set; }
 
             /// <summary>
             /// 详细的视频简介
             /// </summary>
-            public List<Desc_v2> desc_v2 { get; set; }
+            [JsonProperty("desc_v2")]
+            public List<Desc_v2> DescV2List { get; set; }
 
             /// <summary>
             /// 视频是否被删除
@@ -121,62 +131,73 @@ namespace UAPI
             /// <summary>
             /// 视频状态
             /// </summary>
-            public string state_str => _state == 1 ? "正常" : _state == -6 ? "被删除" : "未知";
+            public string StateStr => _state == 1 ? "正常" : _state == -6 ? "被删除" : "未知";
 
             /// <summary>
             /// 稿件总时长（所有分P累加），单位为秒
             /// </summary>
-            public long duration { get; set; }
+            [JsonProperty("duration")]
+            public long Duration { get; set; }
 
             /// <summary>
             /// 视频的各种权限开关（如是否允许转载）
             /// </summary>
-            public Rights rights { get; set; }
+            [JsonProperty("rights")]
+            public Rights RightsInfo { get; set; }
 
             /// <summary>
             /// 视频UP主信息
             /// </summary>
-            public Owner owner { get; set; }
+            [JsonProperty("owner")]
+            public Owner OwnerInfo { get; set; }
 
             /// <summary>
             /// 统计数据, 播放、点赞、硬币等数据
             /// </summary>
-            public Stat stat { get; set; }
+            [JsonProperty("stat")]
+            public Stat StatInfo { get; set; }
 
             /// <summary>
             /// 动态的文字, 投稿时附带的动态描述
             /// </summary>
-            public string dynamic { get; set; }
+            [JsonProperty("dynamic")]
+            public string DynamicText { get; set; }
 
             /// <summary>
             /// 弹幕 ID (CID), 视频资源（分P）的唯一 ID
             /// </summary>
-            public long cid { get; set; }
+            [JsonProperty("cid")]
+            public long CID { get; set; }
 
             /// <summary>
             /// 分辨率信息, 视频宽高等
             /// </summary>
-            public Dimension dimension { get; set; }
+            [JsonProperty("dimension")]
+            public Dimension DimensionInfo { get; set; }
 
             /// <summary>
             /// 不缓存, 一般为 false
             /// </summary>
-            public bool no_cache { get; set; }
+            [JsonProperty("no_cache")]
+            public bool IsNoCache { get; set; }
 
             /// <summary>
             /// 视频分P列表即使是单P视频，该数组也包含一个元素
             /// </summary>
-            public List<Pages> pages { get; set; }
+            [JsonProperty("pages")]
+            public List<Pages> PagesList { get; set; }
 
             /// <summary>
             /// 字幕
             /// </summary>
-            public Subtitle subtitle { get; set; }
+            [JsonProperty("subtitle")]
+            public Subtitle SubtitleList { get; set; }
 
             /// <summary>
             /// 合作UP主, 联合投稿人列表 (非赞助商)
             /// </summary>
-            public List<string> staff { get; set; }
+            [JsonProperty("staff")]
+            public List<string> StaffList { get; set; }
 
             /// <summary>
             /// 合集信息	如果视频属于某个合集，这里会有数据
@@ -189,7 +210,8 @@ namespace UAPI
             /// <summary>
             /// 视频所得荣誉
             /// </summary>
-            public Honor_reply honor_reply { get; set; }
+            [JsonProperty("honor_reply")]
+            public Honor_reply HonorReply { get; set; }
 
             /// <summary>
             /// 详细的视频简介
@@ -226,7 +248,8 @@ namespace UAPI
                 /// <summary>
                 /// 业务 ID, 被关联对象的 ID. 例如 type=1 时，这里是 mid (用户ID)
                 /// </summary>
-                public int biz_id { get; set; }
+                [JsonProperty("biz_id")]
+                public int BizId { get; set; }
             }
 
             /// <summary>
@@ -458,7 +481,8 @@ namespace UAPI
                 /// <summary>
                 /// AV号
                 /// </summary>
-                public long aid { get; set; }
+                [JsonProperty("aid")]
+                public long AID { get; set; }
 
                 /// <summary>
                 /// 播放量
@@ -538,13 +562,15 @@ namespace UAPI
                 /// 点踩量 (API 通常返回 0，前端不显示)
                 /// </summary>\
                 [Obsolete]
-                public int dislike { get; set; }
+                [JsonProperty("dislike")]
+                public int Dislike { get; set; }
 
                 /// <summary>
                 /// 评分/评估	通常为空，古早版本用于视频评分
                 /// </summary>
                 [Obsolete]
-                public string evaluation { get; set; }
+                [JsonProperty("evaluation")]
+                public string Evaluation { get; set; }
 
                 /// <summary>
                 /// Video Type	(古早字段) 视频类型，通常为 0
@@ -608,12 +634,14 @@ namespace UAPI
                 /// <summary>
                 /// 分P的唯一标识CID，用于获取弹幕等
                 /// </summary>
-                public int cid { get; set; }
+                [JsonProperty("cid")]
+                public int CID { get; set; }
 
                 /// <summary>
                 /// 分P的序号，从1开始
                 /// </summary>
-                public int page { get; set; }
+                [JsonProperty("page")]
+                public int Index { get; set; }
 
                 /// <summary>
                 /// 来源. 通常是 vupload (B站直传)，早期有 hunan 等
@@ -639,7 +667,8 @@ namespace UAPI
                 /// <summary>
                 /// 该分P的持续时间，单位为秒
                 /// </summary>
-                public long duration { get; set; }
+                [JsonProperty("duration")]
+                public long Duration { get; set; }
 
                 /// <summary>
                 /// 如果 <see cref="SourceWhere"/> 不是 "B站直传"，这里存外部视频源 ID，现大多为空
@@ -657,7 +686,8 @@ namespace UAPI
                 /// <summary>
                 /// 分P视频的分辨率
                 /// </summary>
-                public Dimension dimension { get; set; }
+                [JsonProperty("dimension")]
+                public Dimension DimensionInfo { get; set; }
             }
 
             #region Subtitle
@@ -706,14 +736,16 @@ namespace UAPI
                 /// <summary>
                 /// 字幕作者的UID
                 /// </summary>
-                public int author_mid { get; set; }
+                [JsonProperty("author_mid")]
+                public int AuthorMID { get; set; }
 
                 public string subtitle_url { get; set; }
 
                 /// <summary>
                 /// 字幕作者信息
                 /// </summary>
-                public SubtitleAuthor author { get; set; }
+                [JsonProperty("author")]
+                public SubtitleAuthor AuthorInfo { get; set; }
             }
 
             /// <summary>
@@ -724,12 +756,14 @@ namespace UAPI
                 /// <summary>
                 /// 作者的UID
                 /// </summary>
-                public int mid { get; set; }
+                [JsonProperty("mid")]
+                public int MID { get; set; }
 
                 /// <summary>
                 /// 作者昵称
                 /// </summary>
-                public string name { get; set; }
+                [JsonProperty("name")]
+                public string Name { get; set; }
 
                 /// <summary>
                 /// 作者头像链接
@@ -761,12 +795,14 @@ namespace UAPI
                 /// <summary>
                 /// 荣誉名称
                 /// </summary>
-                public string desc { get; set; }
+                [JsonProperty("desc")]
+                public string Desc { get; set; }
 
                 /// <summary>
                 /// 荣誉类型
                 /// </summary>
-                public object type { get; set; }
+                [JsonProperty("type")]
+                public object Type { get; set; }
             }
 
             #endregion

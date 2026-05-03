@@ -14,14 +14,14 @@ namespace UAPI
                 /// HTML 源代码
                 /// </summary>
                 [JsonProperty("html")]
-                public string html { get; set; }
+                public string HTMLCode { get; set; }
             }
 
             /// <summary>
             /// 返回的数据
             /// </summary>
             [JsonProperty("data")]
-            public Data data { get; set; }
+            public Data DataResult { get; set; }
         }
     }
 }

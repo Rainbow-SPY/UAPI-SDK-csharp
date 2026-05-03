@@ -26,18 +26,18 @@ namespace UAPI
                 new IException.EpicGames.EpicGamesServerError("Epic Online Services 免费游戏服务器不可用"), "Epic Games");
             if (!list.IsRequestSuccessfully)
                 WriteLog.Error("请求失败, 请重试");
-            if (result.data == null) return list.FailedException != null ? throw list.FailedException : result;
-            foreach (var game in result.data)
+            if (result.DataList == null) return list.FailedException != null ? throw list.FailedException : result;
+            foreach (var game in result.DataList)
             {
-                WriteLog.Info(_au, $"游戏唯一ID {game.id}");
-                WriteLog.Info(_au, $"游戏名: {game.title}");
+                WriteLog.Info(_au, $"游戏唯一ID {game.ID}");
+                WriteLog.Info(_au, $"游戏名: {game.Title}");
                 WriteLog.Info(_au, $"当前是否免费? {(game.IsFreeNow ? "Free" : "UnKnow")}");
                 WriteLog.Info(_au, $"免费开始的时间: {game.FreeStartTime}");
-                WriteLog.Info(_au, $"免费结束的时间: {game.FreeEndTime}");
+                WriteLog.Info(_au, $"免费结束的时间: {game.EndFreeTime}");
                 WriteLog.Info(_au, $"游戏封面的URL: {game.CoverImageUrl}");
-                WriteLog.Info(_au, $"免费结束的时间戳: {game.FreeEndTimeUnix}");
-                WriteLog.Info(_au, $"详情页: {game.link}");
-                WriteLog.Info(_au, $"游戏介绍: {game.description}");
+                WriteLog.Info(_au, $"免费结束的时间戳: {game.EndFreeTimeUnix}");
+                WriteLog.Info(_au, $"详情页: {game.Link}");
+                WriteLog.Info(_au, $"游戏介绍: {game.Description}");
             }
 
             return list.FailedException != null ? throw list.FailedException : result;

@@ -100,13 +100,13 @@ namespace TestConsole
             try
             {
                 var a = await hotboard.GetBilibiliHotboard();
-                var b = $"\n\t查询类型: {a.type}" +
-                        $"\n\t更新时间: {a.update_time_str}" +
+                var b = $"\n\t查询类型: {a.Type}" +
+                        $"\n\t更新时间: {a.UpdateTime_Str}" +
                         "\n\t排行榜信息";
                 b = a.list.Aggregate(b,
-                    (current, i) => current + $"\n\t排名: {i.index}" + $"\n\t视频标题: {i.title}" + $"\n\t视频链接: {i.url}" +
+                    (current, i) => current + $"\n\t排名: {i.Index}" + $"\n\t视频标题: {i.Title}" + $"\n\t视频链接: {i.Url}" +
                                     $"\n\t视频短链接: {i.extra.short_link}" +
-                                    $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.hot_value.Replace("播放", ""), out var p) ? p : 0)}" +
+                                    $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.HotValue.Replace("播放", ""), out var p) ? p : 0)}" +
                                     "\n\n\t视频详细信息:" + $"\n\tAV号: {i.extra.aid}" +
                                     $"\n\tBV号: {i.extra.bvid}" + $"\n\t简介: {i.extra.desc}" +
                                     $"\n\t总计时长: {i.extra.durations}" + $"\n\t视频封面: {i.extra.CoverImageUrl}" +
@@ -136,15 +136,15 @@ namespace TestConsole
             try
             {
                 var a = await hotboard.GetNeteaseMusicHotboard();
-                var b = $"\n\n查询类型: {a.type}" +
-                        $"\n更新时间: {a.update_time_str}" +
+                var b = $"\n\n查询类型: {a.Type}" +
+                        $"\n更新时间: {a.UpdateTime_Str}" +
                         "\n排行榜信息: ";
-                b = a.list.Aggregate(b,
-                    (current, i) => current + $"\n\t排名: {i.index}" +
-                                    $"\n\t{i.extra.artist_names} - {i.title}, 时长: {i.extra.duration_text}, 热度值: {i.hot_value}" +
-                                    $"\n\tID: {i.extra.ID}" + $"\n\t专辑名称: {i.extra.album}" +
-                                    $"\n\t专辑链接: {i.url}" + $"\n\t专辑封面: {i.CoverImageUrl}" +
-                                    $"\n\t上次的热榜排名: {i.extra.last_rank}\n");
+                b = a.Lists.Aggregate(b,
+                    (current, i) => current + $"\n\t排名: {i.Index}" +
+                                    $"\n\t{i.ExtraInfo.ArtistNames} - {i.Title}, 时长: {i.ExtraInfo.DurationText}, 热度值: {i.HotValue}" +
+                                    $"\n\tID: {i.ExtraInfo.ID}" + $"\n\t专辑名称: {i.ExtraInfo.Album}" +
+                                    $"\n\t专辑链接: {i.Url}" + $"\n\t专辑封面: {i.CoverImageUrl}" +
+                                    $"\n\t上次的热榜排名: {i.ExtraInfo.LastRank}\n");
 
                 WriteLog.Info(b);
             }
@@ -205,100 +205,100 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await bilibili.GetVideoData("BV1uT4y1P7CX", bilibili.BiliVideoIDType.BVID);
-                var message = $"查询的BVID: {a.bvid}" +
-                              $"\n查询的AID: {a.aid}";
-                if (a.videos != 1)
+                var message = $"查询的BVID: {a.BVID}" +
+                              $"\n查询的AID: {a.AID}";
+                if (a.Videos != 1)
                 {
-                    message += $"\n视频分集: {a.videos}P";
-                    message = a.pages.Aggregate(message, (current, i)
-                        => current + $"\n\nP{i.page}: " +
-                           $"\n\t分P ID: {i.cid}" +
+                    message += $"\n视频分集: {a.Videos}P";
+                    message = a.PagesList.Aggregate(message, (current, i)
+                        => current + $"\n\nP{i.Index}: " +
+                           $"\n\t分P ID: {i.CID}" +
                            $"\n\t从哪里上传: {i.SourceWhere}" +
                            $"\n\t标题: {i.PartTitle}" +
-                           $"\n\t总计时长: {Interface.FormatSecondsTime((int)i.duration)}" +
+                           $"\n\t总计时长: {Interface.FormatSecondsTime((int)i.Duration)}" +
                            (string.IsNullOrEmpty(i.vid)
                                ? ""
                                : $"\n\t外部视频源: {i.vid}") +
                            (string.IsNullOrEmpty(i.WebLink)
                                ? ""
                                : $"\n\t外部链接: {i.WebLink}") +
-                           $"\n\t分辨率: {i.dimension.Width}x{i.dimension.Height},{(i.dimension.Rotate == "正常" ? "" : $"旋转角度: {i.dimension.Rotate}")}");
+                           $"\n\t分辨率: {i.DimensionInfo.Width}x{i.DimensionInfo.Height},{(i.DimensionInfo.Rotate == "正常" ? "" : $"旋转角度: {i.DimensionInfo.Rotate}")}");
                 }
 
-                message += $"\n视频所属子分区: {(string.IsNullOrEmpty(a.tname) ? "其他" : a.tname)}, ID: {a.tid}" +
+                message += $"\n视频所属子分区: {(string.IsNullOrEmpty(a.TName) ? "其他" : a.TName)}, ID: {a.TID}" +
                            $"\n视频版权: {a.CopyrightType}" +
                            $"\n视频封面链接: {a.CoverImageUrl}" +
-                           $"\n视频标题: {a.title}" +
-                           $"\n视频单P弹幕ID: {a.cid}" +
-                           $"\n视频发布时间: {a.pubdate_str}" +
-                           $"\nUP投稿时间: {a.ctime_str}" +
-                           $"\n投稿附带的动态文字: {a.dynamic}" +
+                           $"\n视频标题: {a.Title}" +
+                           $"\n视频单P弹幕ID: {a.CID}" +
+                           $"\n视频发布时间: {a.PubDate_str}" +
+                           $"\nUP投稿时间: {a.CTime_str}" +
+                           $"\n投稿附带的动态文字: {a.DynamicText}" +
                            "\n视频简介:";
-                message = a.desc_v2.Aggregate(message,
+                message = a.DescV2List.Aggregate(message,
                     (current, i) =>
-                        current + $"\n\t简介文字: {i.Text}" + $"\n\t节点类型: {i.Type}" + $"\n\t业务ID: {i.biz_id}");
+                        current + $"\n\t简介文字: {i.Text}" + $"\n\t节点类型: {i.Type}" + $"\n\t业务ID: {i.BizId}");
 
 
-                message += $"\n视频状态: {a.state_str}" +
-                           $"\n视频总长: {Interface.FormatSecondsTime((int)a.duration)}" +
+                message += $"\n视频状态: {a.StateStr}" +
+                           $"\n视频总长: {Interface.FormatSecondsTime((int)a.Duration)}" +
                            "\n\n视频权限:" +
-                           $"\n\t(过时)是否付费观看番剧: {a.rights.IsBangumiPay}" +
-                           $"\n\t是否允许充电: {a.rights.IsAllowElectronicPay}" +
-                           $"\n\t是否允许下载: {a.rights.IsAllowDownload}" +
-                           $"\n\t视频类型是否为电影: {a.rights.IsMovie}" +
-                           $"\n\t是否需要付费观看: {a.rights.IsPay}" +
-                           $"\n\t(过时)是否有高码率: {a.rights.IsHighBitrate}" +
-                           $"\n\t是否允许转载: {a.rights.IsAllowReprint}" +
-                           $"\n\t是否允许自动播放: {a.rights.IsAllowAutoPlay}" +
-                           $"\n\t是否为UGC 付费: {a.rights.IsUGCPay}" +
-                           $"\n\t是否为合作视频: {a.rights.IsCooperation}" +
-                           $"\n\t是否允许付费视频预览: {a.rights.IsAllowPayPreview}" +
+                           $"\n\t(过时)是否付费观看番剧: {a.RightsInfo.IsBangumiPay}" +
+                           $"\n\t是否允许充电: {a.RightsInfo.IsAllowElectronicPay}" +
+                           $"\n\t是否允许下载: {a.RightsInfo.IsAllowDownload}" +
+                           $"\n\t视频类型是否为电影: {a.RightsInfo.IsMovie}" +
+                           $"\n\t是否需要付费观看: {a.RightsInfo.IsPay}" +
+                           $"\n\t(过时)是否有高码率: {a.RightsInfo.IsHighBitrate}" +
+                           $"\n\t是否允许转载: {a.RightsInfo.IsAllowReprint}" +
+                           $"\n\t是否允许自动播放: {a.RightsInfo.IsAllowAutoPlay}" +
+                           $"\n\t是否为UGC 付费: {a.RightsInfo.IsUGCPay}" +
+                           $"\n\t是否为合作视频: {a.RightsInfo.IsCooperation}" +
+                           $"\n\t是否允许付费视频预览: {a.RightsInfo.IsAllowPayPreview}" +
                            // $"\n\t????: {a.rights.no_background}" +
-                           $"\n\t是否为纯净模式: {a.rights.IsCleanMode}" +
-                           $"\n\t????: {a.rights.IsSteinGate}" +
-                           $"\n\t是否为全景视频: {a.rights.Is360PanoramicVideo}" +
-                           $"\n\t是否允许分享: {a.rights.IsAllowShare}" +
-                           $"\n\t是否为付费视频: {a.rights.IsArcPayVideo}" +
-                           $"\n\t是否允许付费视频免费试看: {a.rights.IsAllowFreePreviewInPayVideo}" +
+                           $"\n\t是否为纯净模式: {a.RightsInfo.IsCleanMode}" +
+                           $"\n\t????: {a.RightsInfo.IsSteinGate}" +
+                           $"\n\t是否为全景视频: {a.RightsInfo.Is360PanoramicVideo}" +
+                           $"\n\t是否允许分享: {a.RightsInfo.IsAllowShare}" +
+                           $"\n\t是否为付费视频: {a.RightsInfo.IsArcPayVideo}" +
+                           $"\n\t是否允许付费视频免费试看: {a.RightsInfo.IsAllowFreePreviewInPayVideo}" +
                            "\n\nUP主:" +
-                           $"\n\tUID: {a.owner.mid}" +
-                           $"\n\t昵称: {a.owner.Name}" +
-                           $"\n\t头像链接: {a.owner.AvatarImageUrl}" +
+                           $"\n\tUID: {a.OwnerInfo.mid}" +
+                           $"\n\t昵称: {a.OwnerInfo.Name}" +
+                           $"\n\t头像链接: {a.OwnerInfo.AvatarImageUrl}" +
                            "\n\n视频信息:" +
-                           $"\n\t播放量: {Interface.FormatPlayCount(a.stat.Views)}" +
-                           $"\n\t弹幕量: {Interface.FormatPlayCount(a.stat.Danmaku)}" +
-                           $"\n\t评论量: {Interface.FormatPlayCount(a.stat.Reply)}" +
-                           $"\n\t点赞量: {Interface.FormatPlayCount(a.stat.Like)}" +
-                           $"\n\t收藏量: {Interface.FormatPlayCount(a.stat.Favorite)}" +
-                           $"\n\t投币量: {Interface.FormatPlayCount(a.stat.Coin)}" +
-                           $"\n\t分享量: {Interface.FormatPlayCount(a.stat.Share)}" +
-                           $"\n\t当前全站排名: {a.stat.NowRank}" +
-                           $"\n\t历史全站排名: {a.stat.HistoryRank}";
-                if (a.staff != null)
+                           $"\n\t播放量: {Interface.FormatPlayCount(a.StatInfo.Views)}" +
+                           $"\n\t弹幕量: {Interface.FormatPlayCount(a.StatInfo.Danmaku)}" +
+                           $"\n\t评论量: {Interface.FormatPlayCount(a.StatInfo.Reply)}" +
+                           $"\n\t点赞量: {Interface.FormatPlayCount(a.StatInfo.Like)}" +
+                           $"\n\t收藏量: {Interface.FormatPlayCount(a.StatInfo.Favorite)}" +
+                           $"\n\t投币量: {Interface.FormatPlayCount(a.StatInfo.Coin)}" +
+                           $"\n\t分享量: {Interface.FormatPlayCount(a.StatInfo.Share)}" +
+                           $"\n\t当前全站排名: {a.StatInfo.NowRank}" +
+                           $"\n\t历史全站排名: {a.StatInfo.HistoryRank}";
+                if (a.StaffList != null)
                 {
                     message += "\n\n共创信息: ";
-                    message = a.staff.Where(i => i != null)
+                    message = a.StaffList.Where(i => i != null)
                         .Aggregate(message, (current, i) => current + $"\n\t合作人: {i}");
                 }
 
-                if (a.subtitle.list != null)
+                if (a.SubtitleList.list != null)
                 {
                     message += "\n\n字幕信息: " +
-                               $"\n\t是否允许观众提交CC字幕: {a.subtitle.IsAllowSubmitSubtitle}" +
+                               $"\n\t是否允许观众提交CC字幕: {a.SubtitleList.IsAllowSubmitSubtitle}" +
                                "\n\t字幕列表:";
-                    message = a.subtitle.list.Aggregate(message,
+                    message = a.SubtitleList.list.Aggregate(message,
                         (current, i) => current + $"\n\n\t\t字幕ID: {i.id}" +
                                         $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
                                         $"\n\t\t????: {i.is_lock}" + $"\n\t\t????: {i.subtitle_url}" +
-                                        $"\n\t\t字幕作者UID: {i.author.mid}" + $"\n\t\t字幕作者昵称: {i.author.name}" +
-                                        $"\n\t\t字幕作者头像链接: {i.author.AvatarImageUrl}");
+                                        $"\n\t\t字幕作者UID: {i.AuthorInfo.MID}" + $"\n\t\t字幕作者昵称: {i.AuthorInfo.Name}" +
+                                        $"\n\t\t字幕作者头像链接: {i.AuthorInfo.AvatarImageUrl}");
                 }
 
-                if (a.honor_reply?.honor != null)
+                if (a.HonorReply?.honor != null)
                 {
                     message += "\n视频所得荣誉: ";
-                    message = a.honor_reply.honor.Aggregate(message,
-                        (current, i) => current + $"\n\t荣誉名称: {i.desc}" + $"\n\t荣誉类型:{i.type}");
+                    message = a.HonorReply.honor.Aggregate(message,
+                        (current, i) => current + $"\n\t荣誉名称: {i.Desc}" + $"\n\t荣誉类型:{i.Type}");
                 }
 
                 var Headers = a.Headers;
@@ -326,23 +326,23 @@ namespace TestConsole
                 _stopwatch.Start();
                 var a = await bilibili.GetLiveroomStatus.AsLiveroomID("22637261");
                 WriteLog.Info(
-                    $"头像框名称: {(string.IsNullOrEmpty(a.new_pendants?.frame?.name) ? "没有" : a.new_pendants?.frame?.name)}");
+                    $"头像框名称: {(string.IsNullOrEmpty(a.NewPendants?.Frame?.Name) ? "没有" : a.NewPendants?.Frame?.Name)}");
                 WriteLog.Info(
-                    $"头像框简介: {(string.IsNullOrEmpty(a.new_pendants?.frame?.desc) ? "没有" : a.new_pendants?.frame?.desc)}");
+                    $"头像框简介: {(string.IsNullOrEmpty(a.NewPendants?.Frame?.Desc) ? "没有" : a.NewPendants?.Frame?.Desc)}");
                 WriteLog.Info(
-                    $"称号: {(string.IsNullOrEmpty(a.new_pendants?.badge?.desc) ? "没有" : a.new_pendants?.badge?.desc)}");
-                WriteLog.Info($"主播UID: {a.uid}");
+                    $"称号: {(string.IsNullOrEmpty(a.NewPendants?.Badge?.Desc) ? "没有" : a.NewPendants?.Badge?.Desc)}");
+                WriteLog.Info($"主播UID: {a.UID}");
                 WriteLog.Info($"主播直播间ID: {a.LiveroomID}");
-                WriteLog.Info($"主播间的标题: {(string.IsNullOrEmpty(a.title) ? "未开播" : a.title)}");
-                WriteLog.Info($"主播间的简介: {(string.IsNullOrEmpty(a.description) ? "未开播" : a.description)}");
-                WriteLog.Info($"主播间的标签: {(string.IsNullOrEmpty(a.tags) ? "未开播" : a.tags)}");
-                WriteLog.Info($"主播直播间的短号(靓号): {(a.short_id == 0 ? "未设置" : "")}");
+                WriteLog.Info($"主播间的标题: {(string.IsNullOrEmpty(a.Title) ? "未开播" : a.Title)}");
+                WriteLog.Info($"主播间的简介: {(string.IsNullOrEmpty(a.Description) ? "未开播" : a.Description)}");
+                WriteLog.Info($"主播间的标签: {(string.IsNullOrEmpty(a.Tags) ? "未开播" : a.Tags)}");
+                WriteLog.Info($"主播直播间的短号(靓号): {(a.ShortId == 0 ? "未设置" : "")}");
                 WriteLog.Info($"主播的粉丝: {a.Fans}");
-                WriteLog.Info($"开始直播的时间: {(a.live_time == "0000-00-00 00:00:00" ? "未开播" : a.live_time)}");
+                WriteLog.Info($"开始直播的时间: {(a.LiveTime == "0000-00-00 00:00:00" ? "未开播" : a.LiveTime)}");
                 WriteLog.Info($"直播间的人气值:{(a.PopularValue == 0 ? "没开播" : a.PopularValue.ToString())}");
-                WriteLog.Info($"在线状态: {(a.live_status == 0 ? "未开播" : a.live_status == 1 ? "直播中" : "轮播中")}");
-                WriteLog.Info($"分区名称: {a.parent_area_name}:{a.area_name}, ID: {a.area_id}");
-                WriteLog.Info($"热词: {string.Join("、", a.hot_words ?? new List<string>())}");
+                WriteLog.Info($"在线状态: {(a.LiveStatus == 0 ? "未开播" : a.LiveStatus == 1 ? "直播中" : "轮播中")}");
+                WriteLog.Info($"分区名称: {a.ParentAreaName}:{a.AreaName}, ID: {a.AreaID}");
+                WriteLog.Info($"热词: {string.Join("、", a.HotWordsList ?? new List<string>())}");
                 _stopwatch.Stop();
                 var Headers = a.Headers;
                 var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
@@ -458,19 +458,19 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await bilibili.GetUserData("1");
-                WriteLog.Info($"UID: {a.mid}\n" +
+                WriteLog.Info($"UID: {a.MID}\n" +
                               $"昵称: {a.Name}\n" +
                               $"性别: {a.Sex}\n" +
                               $"头像链接: {a.AvatarImageUrl}\n" +
-                              $"个性签名: {a.sign}\n" +
-                              $"账户等级: {a.level}\n" +
-                              $"生日: {a.birthday}\n" +
-                              $"大会员等级: {a.vip_type}\n" +
-                              $"大会员状态: {a.vip_status}\n" +
-                              $"关注的人数: {a.following}\n" +
+                              $"个性签名: {a.Sign}\n" +
+                              $"账户等级: {a.Level}\n" +
+                              $"生日: {a.Birthday}\n" +
+                              $"大会员等级: {a.VipType}\n" +
+                              $"大会员状态: {a.VipStatus}\n" +
+                              $"关注的人数: {a.Following}\n" +
                               $"粉丝数: {a.Fans}\n" +
-                              $"稿件数量: {a.archive_count}\n" +
-                              $"文章数量: {a.article_count}\n\n" +
+                              $"稿件数量: {a.ArchiveCount}\n" +
+                              $"文章数量: {a.ArticleCount}\n\n" +
                               $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
                 var Headers = a.Headers ?? throw new ArgumentNullException();
                 var message = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
@@ -493,21 +493,21 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
                 var a = await bilibili.GetArchives("1");
-                WriteLog.Info($"总投稿数: {a.total}\n" +
-                              $"页数: {a.page}\n" +
-                              $"每页数量: {a.size}\n");
-                for (var i = 0; i < a.videos?.Count; i++)
+                WriteLog.Info($"总投稿数: {a.Total}\n" +
+                              $"页数: {a.PageCount}\n" +
+                              $"每页数量: {a.PageSize}\n");
+                for (var i = 0; i < a.VideosList?.Count; i++)
                 {
-                    var b = a.videos[i];
-                    WriteLog.Info($"第{i + 1}个视频: \nAID:{b.aid}\n" +
-                                  $"BVID: {b.bvid}\n" +
-                                  $"标题: {b.title}\n" +
-                                  $"视频封面: {b.cover}\n" +
-                                  $"视频持续时长: {(b.duration < 0 ? "00:00:00" : $"{(b.duration / 3600 == 0 ? "00" : (b.duration / 3600).ToString())}: {(b.duration % 3600 / 60 == 0 ? "00" : (b.duration % 3600 / 60).ToString())}:{b.duration % 60}")}\n" +
-                                  $"发布时间: {b.publish_time_str}\n" +
-                                  $"播放量: {b.play_count}" +
-                                  $"创建时间: {b.create_time_str}\n" +
-                                  $"视频状态: {b.state}\n" +
+                    var b = a.VideosList[i];
+                    WriteLog.Info($"第{i + 1}个视频: \nAID:{b.AID}\n" +
+                                  $"BVID: {b.BVID}\n" +
+                                  $"标题: {b.Title}\n" +
+                                  $"视频封面: {b.CoverImageUrl}\n" +
+                                  $"视频持续时长: {(b.Duration < 0 ? "00:00:00" : $"{(b.Duration / 3600 == 0 ? "00" : (b.Duration / 3600).ToString())}: {(b.Duration % 3600 / 60 == 0 ? "00" : (b.Duration % 3600 / 60).ToString())}:{b.Duration % 60}")}\n" +
+                                  $"发布时间: {b.PublishTimeStr}\n" +
+                                  $"播放量: {b.PlayCount}" +
+                                  $"创建时间: {b.CreateTimeStr}\n" +
+                                  $"视频状态: {b.State}\n" +
                                   $"是否为充电视频: {b.IsPayVideo_str}\n" +
                                   $"是否为共创视频: {b.IsInteractive}\n" +
                                   $"共用了 {_stopwatch.Elapsed.TotalSeconds} 秒\n测试完毕");
@@ -677,10 +677,10 @@ namespace TestConsole
                           $"仓库协作者: {a.Collaborators}\n");
             foreach (var t in a.Maintainers)
             {
-                WriteLog.Info($"协作者: {t.login}\n" +
-                              $"名称: {t.name}\n" +
-                              $"邮箱: {t.email}\n" +
-                              $"个人主页: {t.url}\n\n");
+                WriteLog.Info($"协作者: {t.Login}\n" +
+                              $"名称: {t.Name}\n" +
+                              $"邮箱: {t.Email}\n" +
+                              $"个人主页: {t.Url}\n\n");
             }
 
             WriteLog.Info($"测试完毕, 共用时 {_stopwatch.Elapsed.TotalSeconds} 秒");
