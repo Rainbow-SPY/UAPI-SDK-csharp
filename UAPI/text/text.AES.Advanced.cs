@@ -26,13 +26,13 @@ namespace UAPI
             /// <param name="_iv">自定义IV（可选，Base64编码，16字节）。GCM模式无需此参数</param>
             /// <param name="_format">输出格式, 可选 <see cref="base64"/> 或 <see cref="hex"/>, 默认 <see cref="base64"/></param>
             /// <param name="Authentication">API Token Key</param>
-            /// <returns><see cref="AESAdvancedType.Type"/>对象</returns>
+            /// <returns><see cref="AESAdvancedType"/>对象</returns>
             /// <exception cref="General.UAPIUnknowException">未知的异常</exception>
-            public static async Task<AESAdvancedType.Type> AdvancedEncrypt(string _text, string _key,
+            public static async Task<AESAdvancedType> AdvancedEncrypt(string _text, string _key,
                 EncryptMode _mode = GCM, padding _padding = PKCS7, string _iv = "", format _format = base64,
                 string Authentication = "")
             {
-                var (result, statuscode) = await GetResult<AESAdvancedType.Type>(
+                var (result, statuscode) = await GetResult<AESAdvancedType>(
                     $"{_UAPI_Request_Url}text/aes/encrypt-advanced", SendRequestType.POST,
                     JsonConvert.SerializeObject(new
                     {
@@ -121,7 +121,7 @@ namespace UAPI
     public partial class Type
     {
         /// <summary/>
-        public class AESAdvancedType
+        public class AESAdvancedType : TypeInterface
         {
             /// <summary/>
             public enum EncryptMode
@@ -168,27 +168,23 @@ namespace UAPI
                 hex
             }
 
-            /// <summary/>
-            public class Type : TypeInterface
-            {
-                /// <summary>
-                /// 加密后的文本
-                /// </summary>
-                [JsonProperty("ciphertext")]
-                public string EncryptedText { get; set; }
+            /// <summary>
+            /// 加密后的文本
+            /// </summary>
+            [JsonProperty("ciphertext")]
+            public string EncryptedText { get; set; }
 
-                /// <summary>
-                /// 加密方式
-                /// </summary>
-                [JsonProperty("mode")]
-                public string Mode { get; set; }
+            /// <summary>
+            /// 加密方式
+            /// </summary>
+            [JsonProperty("mode")]
+            public string Mode { get; set; }
 
-                /// <summary>
-                /// 填充方式
-                /// </summary>
-                [JsonProperty("padding")]
-                public string Padding { get; set; }
-            }
+            /// <summary>
+            /// 填充方式
+            /// </summary>
+            [JsonProperty("padding")]
+            public string Padding { get; set; }
         }
     }
 }
