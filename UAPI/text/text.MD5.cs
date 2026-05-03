@@ -20,7 +20,8 @@ namespace UAPI
             Interface.SendRequestType requestType = Interface.SendRequestType.POST,
             string AuthenticationAPITokenKey = "")
         {
-            var (result, statuscode) = await Interface.GetResult<MD5Type>($"{Interface._UAPI_Request_Url}text/md5",
+            var (result, statuscode) = await Interface.GetResult<MD5Type>(
+                $"{Interface._UAPI_Request_Url}text/md5{(requestType == Interface.SendRequestType.GET ? $"?text={texts}" : string.Empty)}",
                 requestType,
                 requestType == Interface.SendRequestType.POST
                     ? JsonConvert.SerializeObject(new
