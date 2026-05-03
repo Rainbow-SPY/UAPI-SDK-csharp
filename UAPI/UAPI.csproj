@@ -192,6 +192,7 @@
         <Compile Include="text\text.AES.Advanced.cs"/>
         <Compile Include="text\text.AES.cs"/>
         <Compile Include="text\text.AnalyzeText.cs"/>
+        <Compile Include="text\text.AnswerBook.cs" />
         <Compile Include="text\text.Base64.cs"/>
         <Compile Include="text\text.CheckSemsitiveWords.Get.cs"/>
         <Compile Include="text\text.CheckSensitiveWords.Analyze.cs"/>
