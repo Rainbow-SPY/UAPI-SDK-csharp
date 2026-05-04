@@ -343,8 +343,8 @@ namespace UAPI
                 [JsonProperty("no_reprint")]
                 public bool IsAllowReprint
                 {
-                    get => _noReprint == 1;
-                    set => _noReprint = value ? 1 : _noReprint;
+                    get => _noReprint == 0;
+                    set => _noReprint = value ? 0 : _noReprint;
                 }
 
                 /// <summary>
