@@ -44,9 +44,9 @@ namespace UAPI
         /// 公共API 获取请求
         /// </summary>
         /// <param name="requestUrl">请求的API Url</param>
+        /// <param name="type">请求的方式</param>
         /// <param name="postContent">POST 请求内容</param>
         /// <param name="contentType">POST请求内容类型</param>
-        /// <param name="type">请求的方式</param>
         /// <param name="AuthenticationAPITokenKey">API Token Key</param>
         /// <typeparam name="T">泛式类型</typeparam>
         /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
@@ -54,8 +54,8 @@ namespace UAPI
         /// <exception cref="ArgumentNullException">传参异常</exception>
         /// <exception cref="AmbiguousMatchException">当绑定到成员导致多个成员匹配绑定条件时引发的异常。</exception>
         /// <returns>泛式对象 <see cref="T"/></returns>
-        internal static async Task<(T Result, int StatusCode)> GetResult<T>(
-            string requestUrl, SendRequestType type = SendRequestType.GET, string postContent = "",
+        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl,
+            SendRequestType type = SendRequestType.GET, object postContent = null,
             string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
         {
             var targetUrl = requestUrl;
@@ -565,7 +565,7 @@ namespace UAPI
         internal static async Task<HttpResponseMessage> SendApiRequestWithFallbackAsync(
             string requestUrl,
             SendRequestType type,
-            string postContent,
+            object postContent,
             string contentType,
             string authenticationApiTokenKey)
         {
@@ -621,7 +621,7 @@ namespace UAPI
             HttpClient httpClient,
             string url,
             SendRequestType type,
-            string postContent,
+            object postContent,
             string contentType,
             string authenticationApiTokenKey,
             TimeSpan timeout)
@@ -645,8 +645,23 @@ namespace UAPI
                     WriteLog.Info(LogKind.Http, $"Bearer SHA256: {encryptedToken}");
                 }
 
-                if (type == SendRequestType.POST)
-                    request.Content = new StringContent(postContent ?? "", Encoding.UTF8, contentType);
+                if (type != SendRequestType.POST)
+                    return await httpClient.SendAsync(
+                        request,
+                        HttpCompletionOption.ResponseHeadersRead,
+                        cts.Token);
+
+                switch (postContent)
+                {
+                    case byte[] bytes:
+                        request.Content = new ByteArrayContent(bytes);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        break;
+                    case string content:
+                        request.Content = new StringContent(content, Encoding.UTF8, contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        break;
+                }
 
                 // 关键：只等响应头，不先把整个 body 缓冲完。
                 // 某些网络下 body 阶段卡住时，GetAsync 默认会直接超时。
