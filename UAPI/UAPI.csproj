@@ -128,144 +128,149 @@
         <Compile Include="IException\IException.General.cs"/>
         <Compile Include="IException\IException.github.cs"/>
         <Compile Include="IException\IException.QQ.cs"/>
-        <Compile Include="Interface.APIHealthPlatformStatus.cs"/>
-        <Compile Include="Interface.APIHealthPlatformStatus.Type.cs"/>
-        <Compile Include="minecraft.GetHistoryName.cs"/>
-        <Compile Include="minecraft.GetServerStatus.cs"/>
-        <Compile Include="minecraft.GetUserData.cs"/>
-        <Compile Include="minecraft.GetHistoryName.Type.cs"/>
-        <Compile Include="minecraft.GetServerStatus.Type.cs"/>
-        <Compile Include="minecraft.GetUserData.Type.cs"/>
-        <Compile Include="misc\misc.ConvertTimestamp.cs"/>
-        <Compile Include="misc\misc.ConvertTimestamp.Type.cs"/>
-        <Compile Include="misc\misc.DetectTrackingCarrier.cs"/>
-        <Compile Include="misc\misc.DetectTrackingCarrier.Type.cs"/>
-        <Compile Include="misc\misc.GetHolidayCalendar.cs"/>
-        <Compile Include="misc\misc.GetHolidayCalendar.Type.cs"/>
-        <Compile Include="misc\misc.GetLunarTime.cs"/>
-        <Compile Include="misc\misc.GetLunarTime.Type.cs"/>
-        <Compile Include="misc\misc.GetPhoneInfo.cs"/>
-        <Compile Include="misc\misc.GetPhoneInfo.Type.cs"/>
-        <Compile Include="misc\misc.GetProgrammerHistoryToday.cs"/>
-        <Compile Include="misc\misc.GetProgrammerHistoryToday.Type.cs"/>
-        <Compile Include="misc\misc.GetRandomNumberList.cs"/>
-        <Compile Include="misc\misc.GetRandomNumberList.Type.cs"/>
-        <Compile Include="misc\misc.GetTrackingCarriers.cs"/>
-        <Compile Include="misc\misc.GetTrackingCarriers.Type.cs"/>
-        <Compile Include="misc\misc.GetTrackingInfo.cs"/>
-        <Compile Include="misc\misc.GetTrackingInfo.Type.cs"/>
-        <Compile Include="misc\misc.GetWorldTime.cs"/>
-        <Compile Include="misc\misc.GetWorldTime.Type.cs"/>
-        <Compile Include="misc\misc.PostDateDiff.cs"/>
-        <Compile Include="misc\misc.PostDateDiff.Type.cs"/>
-        <Compile Include="network\network.DNS.cs"/>
-        <Compile Include="network\network.DNS.Type.cs"/>
-        <Compile Include="network\network.GetMyIP.cs"/>
-        <Compile Include="network\network.GetMyIP.Type.cs"/>
-        <Compile Include="network\network.ICP.cs"/>
-        <Compile Include="network\network.ICP.Type.cs"/>
-        <Compile Include="network\network.IPInfo.cs"/>
-        <Compile Include="network\network.IPInfo.Type.cs"/>
-        <Compile Include="network\network.Ping.cs"/>
-        <Compile Include="network\network.Ping.Type.cs"/>
-        <Compile Include="network\network.PingMyIP.cs"/>
-        <Compile Include="network\network.PingMyIP.Type.cs"/>
-        <Compile Include="network\network.PortScan.cs"/>
-        <Compile Include="network\network.PortScan.Type.cs"/>
-        <Compile Include="network\network.UrlStatus.cs"/>
-        <Compile Include="network\network.UrlStatus.Type.cs"/>
-        <Compile Include="network\network.WeixinDomain.cs"/>
-        <Compile Include="network\network.WeixinDomain.Type.cs"/>
-        <Compile Include="network\network.WhoIs.cs"/>
-        <Compile Include="network\network.WhoIs.Type.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="QQ.GetGroupData.cs"/>
-        <Compile Include="QQ.GetUserData.cs"/>
-        <Compile Include="QQ.GetGroupData.Type.cs"/>
-        <Compile Include="QQ.GetUserData.Type.cs"/>
-        <Compile Include="random.Image.cs"/>
+        <Compile Include="image\image.BingDaily.cs" />
+        <Compile Include="Interface.APIHealthPlatformStatus.cs" />
+        <Compile Include="Interface.APIHealthPlatformStatus.Type.cs" />
+        <Compile Include="minecraft.GetHistoryName.cs" />
+        <Compile Include="minecraft.GetServerStatus.cs" />
+        <Compile Include="minecraft.GetUserData.cs" />
+        <Compile Include="minecraft.GetHistoryName.Type.cs" />
+        <Compile Include="minecraft.GetServerStatus.Type.cs" />
+        <Compile Include="minecraft.GetUserData.Type.cs" />
+        <Compile Include="misc\misc.ConvertTimestamp.cs" />
+        <Compile Include="misc\misc.ConvertTimestamp.Type.cs" />
+        <Compile Include="misc\misc.DetectTrackingCarrier.cs" />
+        <Compile Include="misc\misc.DetectTrackingCarrier.Type.cs" />
+        <Compile Include="misc\misc.GetHolidayCalendar.cs" />
+        <Compile Include="misc\misc.GetHolidayCalendar.Type.cs" />
+        <Compile Include="misc\misc.GetLunarTime.cs" />
+        <Compile Include="misc\misc.GetLunarTime.Type.cs" />
+        <Compile Include="misc\misc.GetPhoneInfo.cs" />
+        <Compile Include="misc\misc.GetPhoneInfo.Type.cs" />
+        <Compile Include="misc\misc.GetProgrammerHistoryToday.cs" />
+        <Compile Include="misc\misc.GetProgrammerHistoryToday.Type.cs" />
+        <Compile Include="misc\misc.GetRandomNumberList.cs" />
+        <Compile Include="misc\misc.GetRandomNumberList.Type.cs" />
+        <Compile Include="misc\misc.GetTrackingCarriers.cs" />
+        <Compile Include="misc\misc.GetTrackingCarriers.Type.cs" />
+        <Compile Include="misc\misc.GetTrackingInfo.cs" />
+        <Compile Include="misc\misc.GetTrackingInfo.Type.cs" />
+        <Compile Include="misc\misc.GetWorldTime.cs" />
+        <Compile Include="misc\misc.GetWorldTime.Type.cs" />
+        <Compile Include="misc\misc.PostDateDiff.cs" />
+        <Compile Include="misc\misc.PostDateDiff.Type.cs" />
+        <Compile Include="network\network.DNS.cs" />
+        <Compile Include="network\network.DNS.Type.cs" />
+        <Compile Include="network\network.GetMyIP.cs" />
+        <Compile Include="network\network.GetMyIP.Type.cs" />
+        <Compile Include="network\network.ICP.cs" />
+        <Compile Include="network\network.ICP.Type.cs" />
+        <Compile Include="network\network.IPInfo.cs" />
+        <Compile Include="network\network.IPInfo.Type.cs" />
+        <Compile Include="network\network.Ping.cs" />
+        <Compile Include="network\network.Ping.Type.cs" />
+        <Compile Include="network\network.PingMyIP.cs" />
+        <Compile Include="network\network.PingMyIP.Type.cs" />
+        <Compile Include="network\network.PortScan.cs" />
+        <Compile Include="network\network.PortScan.Type.cs" />
+        <Compile Include="network\network.UrlStatus.cs" />
+        <Compile Include="network\network.UrlStatus.Type.cs" />
+        <Compile Include="network\network.WeixinDomain.cs" />
+        <Compile Include="network\network.WeixinDomain.Type.cs" />
+        <Compile Include="network\network.WhoIs.cs" />
+        <Compile Include="network\network.WhoIs.Type.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="QQ.GetGroupData.cs" />
+        <Compile Include="QQ.GetUserData.cs" />
+        <Compile Include="QQ.GetGroupData.Type.cs" />
+        <Compile Include="QQ.GetUserData.Type.cs" />
+        <Compile Include="random.Image.cs" />
         <Compile Include="random.Text.cs" />
-        <Compile Include="Steam\Steam.GetUserData.cs"/>
-        <Compile Include="Steam\Steam.GetUserData.Type.cs"/>
-        <Compile Include="Steam\Steam.SteamID.Converter.cs"/>
-        <Compile Include="Steam\Steam.SteamID.cs"/>
-        <Compile Include="Steam\Steam.SteamID.SteamIDType.cs"/>
-        <Compile Include="text\text.AES.Advanced.cs"/>
-        <Compile Include="text\text.AES.cs"/>
-        <Compile Include="text\text.AnalyzeText.cs"/>
+        <Compile Include="Steam\Steam.GetUserData.cs" />
+        <Compile Include="Steam\Steam.GetUserData.Type.cs" />
+        <Compile Include="Steam\Steam.SteamID.Converter.cs" />
+        <Compile Include="Steam\Steam.SteamID.cs" />
+        <Compile Include="Steam\Steam.SteamID.SteamIDType.cs" />
+        <Compile Include="text\text.AES.Advanced.cs" />
+        <Compile Include="text\text.AES.cs" />
+        <Compile Include="text\text.AnalyzeText.cs" />
         <Compile Include="text\text.AnswerBook.cs" />
-        <Compile Include="text\text.Base64.cs"/>
-        <Compile Include="text\text.CheckSemsitiveWords.Get.cs"/>
-        <Compile Include="text\text.CheckSensitiveWords.Analyze.cs"/>
-        <Compile Include="text\text.CheckSensitiveWords.Analyze.Type.cs"/>
-        <Compile Include="text\text.CheckSensitiveWords.Fast.cs"/>
-        <Compile Include="text\text.CheckSensitiveWords.Fast.Type.cs"/>
-        <Compile Include="text\text.Convert.cs"/>
-        <Compile Include="text\text.Markdown.cs"/>
-        <Compile Include="text\text.Markdown.Type.cs"/>
-        <Compile Include="text\text.MD5.cs"/>
-        <Compile Include="text\text.MD5.Verify.cs"/>
-        <Compile Include="text\text.Saying.cs"/>
-        <Compile Include="text\text.Translate.AI.cs"/>
-        <Compile Include="text\text.Translate.AI.Type.cs"/>
-        <Compile Include="text\text.Translate.cs"/>
-        <Compile Include="text\text.Translate.AI.GetConfig.cs"/>
-        <Compile Include="text\text.Translate.Type.cs"/>
-        <Compile Include="Weather.GetWeather.cs"/>
-        <Compile Include="Weather.GetWeather.Type.cs"/>
+        <Compile Include="text\text.Base64.cs" />
+        <Compile Include="text\text.CheckSemsitiveWords.Get.cs" />
+        <Compile Include="text\text.CheckSensitiveWords.Analyze.cs" />
+        <Compile Include="text\text.CheckSensitiveWords.Analyze.Type.cs" />
+        <Compile Include="text\text.CheckSensitiveWords.Fast.cs" />
+        <Compile Include="text\text.CheckSensitiveWords.Fast.Type.cs" />
+        <Compile Include="text\text.Convert.cs" />
+        <Compile Include="text\text.Markdown.cs" />
+        <Compile Include="text\text.Markdown.Type.cs" />
+        <Compile Include="text\text.MD5.cs" />
+        <Compile Include="text\text.MD5.Verify.cs" />
+        <Compile Include="text\text.Saying.cs" />
+        <Compile Include="text\text.Translate.AI.cs" />
+        <Compile Include="text\text.Translate.AI.Type.cs" />
+        <Compile Include="text\text.Translate.cs" />
+        <Compile Include="text\text.Translate.AI.GetConfig.cs" />
+        <Compile Include="text\text.Translate.Type.cs" />
+        <Compile Include="Weather.GetWeather.cs" />
+        <Compile Include="Weather.GetWeather.Type.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0"/>
-        <PackageReference Include="System.Buffers" Version="4.6.1"/>
-        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2"/>
-        <PackageReference Include="System.IO" Version="4.3.0"/>
-        <PackageReference Include="System.Memory" Version="4.6.3"/>
-        <PackageReference Include="System.Net.Http" Version="4.3.4"/>
-        <PackageReference Include="System.Numerics.Vectors" Version="4.6.1"/>
-        <PackageReference Include="System.Runtime" Version="4.3.1"/>
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2"/>
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>
-        <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0"/>
-        <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
-        <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2"/>
+        <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
+        <PackageReference Include="System.Buffers" Version="4.6.1" />
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2" />
+        <PackageReference Include="System.IO" Version="4.3.0" />
+        <PackageReference Include="System.Memory" Version="4.6.3" />
+        <PackageReference Include="System.Net.Http" Version="4.3.4" />
+        <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
+        <PackageReference Include="System.Runtime" Version="4.3.1" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+        <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
+        <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
+        <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="uapi-sdk-csharp-key.snk"/>
+        <None Include="uapi-sdk-csharp-key.snk" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="docs\$method_Tempure.md"/>
-        <Content Include="docs\bilibili.GetArchives.md"/>
-        <Content Include="docs\bilibili.GetLiveRoomStatus.md"/>
-        <Content Include="docs\bilibili.GetRepliesList.md"/>
-        <Content Include="docs\bilibili.GetUserData.md"/>
-        <Content Include="docs\bilibili.GetVideoData.md"/>
-        <Content Include="docs\developer.develop.md"/>
-        <Content Include="docs\EpicGames.GetFreeGames.md"/>
-        <Content Include="docs\github.GetRepoData.md"/>
-        <Content Include="docs\hotboard.bilibili.md"/>
-        <Content Include="docs\hotboard.NeteaseMusic.md"/>
-        <Content Include="docs\Interface.common.md"/>
-        <Content Include="docs\Interface.Convert.md"/>
-        <Content Include="docs\Interface.Response.Header.md"/>
-        <Content Include="docs\minecraft.GetHistoryName.md"/>
-        <Content Include="docs\minecraft.GetServerStatus.md"/>
-        <Content Include="docs\minecraft.GetUserData.md"/>
-        <Content Include="docs\misc.ConvertTimestamp.md"/>
-        <Content Include="docs\misc.DetectTrackingCarrier.md"/>
-        <Content Include="docs\misc.GetLunarTime.md"/>
-        <Content Include="docs\misc.GetPhoneInfo.md"/>
-        <Content Include="docs\misc.GetProgrammerHistoryToday.md"/>
-        <Content Include="docs\misc.GetRandomNumberList.md"/>
-        <Content Include="docs\misc.GetTrackingCarriers.md"/>
-        <Content Include="docs\misc.GetTrackingInfo.md"/>
-        <Content Include="docs\misc.GetWorldTime.md"/>
-        <Content Include="docs\misc.PostDateDiff.md"/>
-        <Content Include="docs\network.GetMyIP.md"/>
-        <Content Include="docs\QQ.GetGroupData.md"/>
-        <Content Include="docs\QQ.GetUserData.md"/>
-        <Content Include="docs\Steam.GetUserData.md"/>
-        <Content Include="docs\Steam.SteamID.md"/>
-        <Content Include="docs\Weather.GetWeather.md"/>
+        <Content Include="docs\$method_Tempure.md" />
+        <Content Include="docs\bilibili.GetArchives.md" />
+        <Content Include="docs\bilibili.GetLiveRoomStatus.md" />
+        <Content Include="docs\bilibili.GetRepliesList.md" />
+        <Content Include="docs\bilibili.GetUserData.md" />
+        <Content Include="docs\bilibili.GetVideoData.md" />
+        <Content Include="docs\developer.develop.md" />
+        <Content Include="docs\EpicGames.GetFreeGames.md" />
+        <Content Include="docs\github.GetRepoData.md" />
+        <Content Include="docs\hotboard.bilibili.md" />
+        <Content Include="docs\hotboard.NeteaseMusic.md" />
+        <Content Include="docs\Interface.common.md" />
+        <Content Include="docs\Interface.Convert.md" />
+        <Content Include="docs\Interface.Response.Header.md" />
+        <Content Include="docs\minecraft.GetHistoryName.md" />
+        <Content Include="docs\minecraft.GetServerStatus.md" />
+        <Content Include="docs\minecraft.GetUserData.md" />
+        <Content Include="docs\misc.ConvertTimestamp.md" />
+        <Content Include="docs\misc.DetectTrackingCarrier.md" />
+        <Content Include="docs\misc.GetLunarTime.md" />
+        <Content Include="docs\misc.GetPhoneInfo.md" />
+        <Content Include="docs\misc.GetProgrammerHistoryToday.md" />
+        <Content Include="docs\misc.GetRandomNumberList.md" />
+        <Content Include="docs\misc.GetTrackingCarriers.md" />
+        <Content Include="docs\misc.GetTrackingInfo.md" />
+        <Content Include="docs\misc.GetWorldTime.md" />
+        <Content Include="docs\misc.PostDateDiff.md" />
+        <Content Include="docs\network.DNS.md" />
+        <Content Include="docs\network.GetMyIP.md" />
+        <Content Include="docs\network.ICP.md" />
+        <Content Include="docs\network.IPInfo.md" />
+        <Content Include="docs\QQ.GetGroupData.md" />
+        <Content Include="docs\QQ.GetUserData.md" />
+        <Content Include="docs\Steam.GetUserData.md" />
+        <Content Include="docs\Steam.SteamID.md" />
+        <Content Include="docs\text.Markdown.md" />
+        <Content Include="docs\Weather.GetWeather.md" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
