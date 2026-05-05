@@ -56,6 +56,17 @@ namespace UAPI
                 /// 本次请求的扣费结果状态
                 /// </summary>
                 [JsonProperty("uapi-debit-status")]
+                // ReSharper disable once ConvertToAutoPropertyWhenPossible
+                private string DebitJson
+                {
+                    get => _debitStatus;
+                    set => _debitStatus = value;
+                }
+
+                /// <summary>
+                /// 本次请求的扣费结果状态
+                /// </summary>
+                [JsonIgnore]
                 public Debit? DebitStatus
                 {
                     get

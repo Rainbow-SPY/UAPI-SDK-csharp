@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -29,15 +32,14 @@ namespace UAPI
             await CheckImageNSFW(null, url, Authentication);
 
 
-        private static async Task<NSFWType> CheckImageNSFW(byte[] image, string url, string Authentication = "")
+        private static async Task<NSFWType> CheckImageNSFW(byte[] image, string _url, string Authentication = "")
         {
-            var contentType = "image/jpeg";
+            object postContent;
+            string contentType;
 
-            if (image == null || image.Length < 8)
-                contentType = string.IsNullOrEmpty(url)
-                    ? "application/octet-stream"
-                    : "application/json";
-            else
+            if (image != null)
+            {
+                contentType = "image/jpeg";
                 switch (image[0])
                 {
                     // 魔数判断（最准）
@@ -55,9 +57,24 @@ namespace UAPI
                         break;
                 }
 
-            var postContent = image ??
-                              (object)(url ??
-                                       throw new ArgumentException("image and url are null"));
+                var fileContent = new ByteArrayContent(image);
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+
+                var form = new MultipartFormDataContent();
+                form.Add(fileContent, "file", "image.png");
+                postContent = form;
+            }
+            else if (!string.IsNullOrEmpty(_url))
+            {
+                postContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    ["url"] = _url
+                });
+
+                contentType = "application/x-www-form-urlencoded";
+            }
+            else
+                throw new ArgumentException("image and url are null");
 
             var (result, statuscode) = await Interface.GetResult<NSFWType>($"{Interface._UAPI_Request_Url}image/nsfw",
                 Interface.SendRequestType.POST, postContent, contentType, Authentication);

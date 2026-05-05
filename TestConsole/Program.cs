@@ -18,9 +18,10 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
-            ToHTML();
+            TestNSFW();
             Console.ReadLine();
             AnalyzeWords();
+            ToHTML();
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
             Thread.Sleep(2000);
@@ -38,6 +39,25 @@ namespace TestConsole
             TestEpic().Wait();
             TestGithubRepoData().Wait();
             _stopwatch.Reset();
+        }
+
+        private static async void TestNSFW()
+        {
+            try
+            {
+                WriteLog.Info("测试图片敏感度");
+                // var result =
+                //     await Image.CheckImageNSFW(File.ReadAllBytes(@"C:\Windows\System32\SecurityAndMaintenance.png"));
+                // WriteLog.Info($"违规值: {result.NSFWScore}");
+                var score = await Image.CheckImageNSFW(
+                    "https://th.bing.com/th/id/OSK.yYOTs4P7yz5q7hLpAHkXz_tl-Tgx5BR0FdlDRaU4WqE?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3");
+                WriteLog.Info($"违规值: {score.NSFWScore}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                CatchAnyException("TestNSFW", e);
+            }
         }
 
         private static async void AnalyzeWords()

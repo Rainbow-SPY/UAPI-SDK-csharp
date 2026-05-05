@@ -653,14 +653,48 @@ namespace UAPI
 
                 switch (postContent)
                 {
+                    case HttpContent client:
+                        request.Content = client;
+                        WriteLog.Info($"postContent is HttpContent");
+                        break;
+                    case string str:
+                        request.Content = new StringContent(
+                            str,
+                            Encoding.UTF8,
+                            contentType ?? "application/json"
+                        );
+                        WriteLog.Info(
+                            $"postContent is string,auto build new StringContent,add ContentType: {contentType}");
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        break;
                     case byte[] bytes:
+                    {
                         request.Content = new ByteArrayContent(bytes);
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        WriteLog.Info(
+                            $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
+                        if (!string.IsNullOrWhiteSpace(contentType))
+                        {
+                            request.Content.Headers.ContentType =
+                                new MediaTypeHeaderValue(contentType);
+                        }
+
                         break;
-                    case string content:
-                        request.Content = new StringContent(content, Encoding.UTF8, contentType);
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    }
+                    default:
+                    {
+                        if (postContent != null)
+                        {
+                            WriteLog.Info($"postContent is null,auto serialize content");
+                            request.Content = new StringContent(
+                                JsonConvert.SerializeObject(postContent),
+                                Encoding.UTF8,
+                                contentType ?? "application/json"
+                            );
+                            request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        }
+
                         break;
+                    }
                 }
 
                 // 关键：只等响应头，不先把整个 body 缓冲完。
