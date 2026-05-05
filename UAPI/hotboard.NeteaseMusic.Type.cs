@@ -15,7 +15,7 @@ namespace UAPI
             /// <summary>
             /// 主要的歌曲热榜列表信息
             /// </summary>
-            public new List<MainLists> Lists { get; set; }
+            public List<MainLists> Lists { get; set; }
 
             /// <summary>
             /// 主要的歌曲热榜列表信息

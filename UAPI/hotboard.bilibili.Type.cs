@@ -13,7 +13,7 @@ namespace UAPI
             /// <summary>
             /// bilibili热榜排行榜列表
             /// </summary>
-            public new List<lists> list { get; set; }
+            public List<lists> list { get; set; }
 
             /// <summary>
             /// bilibili热榜排行榜列表

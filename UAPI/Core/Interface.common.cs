@@ -655,7 +655,7 @@ namespace UAPI
                 {
                     case HttpContent client:
                         request.Content = client;
-                        WriteLog.Info($"postContent is HttpContent");
+                        WriteLog.Info("postContent is HttpContent");
                         break;
                     case string str:
                         request.Content = new StringContent(
@@ -684,7 +684,7 @@ namespace UAPI
                     {
                         if (postContent != null)
                         {
-                            WriteLog.Info($"postContent is null,auto serialize content");
+                            WriteLog.Info("postContent is null,auto serialize content");
                             request.Content = new StringContent(
                                 JsonConvert.SerializeObject(postContent),
                                 Encoding.UTF8,
