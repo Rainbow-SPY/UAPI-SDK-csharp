@@ -259,7 +259,7 @@ namespace TestConsole
                         current + $"\n\t简介文字: {i.Text}" + $"\n\t节点类型: {i.Type}" + $"\n\t业务ID: {i.BizId}");
 
 
-                message += $"\n视频状态: {a.StateStr}" +
+                message += $"\n视频状态: {a.State}" +
                            $"\n视频总长: {Interface.FormatSecondsTime((int)a.Duration)}" +
                            "\n\n视频权限:" +
                            $"\n\t(过时)是否付费观看番剧: {a.RightsInfo.IsBangumiPay}" +
@@ -301,15 +301,15 @@ namespace TestConsole
                         .Aggregate(message, (current, i) => current + $"\n\t合作人: {i}");
                 }
 
-                if (a.SubtitleList.list != null)
+                if (a.SubtitleList.List != null)
                 {
                     message += "\n\n字幕信息: " +
                                $"\n\t是否允许观众提交CC字幕: {a.SubtitleList.IsAllowSubmitSubtitle}" +
                                "\n\t字幕列表:";
-                    message = a.SubtitleList.list.Aggregate(message,
-                        (current, i) => current + $"\n\n\t\t字幕ID: {i.id}" +
+                    message = a.SubtitleList.List.Aggregate(message,
+                        (current, i) => current + $"\n\n\t\t字幕ID: {i.ID}" +
                                         $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
-                                        $"\n\t\t????: {i.is_lock}" + $"\n\t\t????: {i.subtitle_url}" +
+                                        $"\n\t\t????: {i.IsLock}" + $"\n\t\t????: {i.Subtitle_JsonFileURL}" +
                                         $"\n\t\t字幕作者UID: {i.AuthorInfo.MID}" + $"\n\t\t字幕作者昵称: {i.AuthorInfo.Name}" +
                                         $"\n\t\t字幕作者头像链接: {i.AuthorInfo.AvatarImageUrl}");
                 }
@@ -318,7 +318,7 @@ namespace TestConsole
                 {
                     message += "\n视频所得荣誉: ";
                     message = a.HonorReply.honor.Aggregate(message,
-                        (current, i) => current + $"\n\t荣誉名称: {i.Desc}" + $"\n\t荣誉类型:{i.Type}");
+                        (current, i) => current + $"\n\t荣誉名称: {i.Description}" + $"\n\t荣誉类型:{i.Type}");
                 }
 
                 var Headers = a.Headers;

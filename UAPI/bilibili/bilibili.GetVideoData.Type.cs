@@ -2,18 +2,323 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
+using static UAPI.Type.VideoType;
 
 namespace UAPI
 {
     public partial class Type
     {
-        /// <summary>
-        /// bilibili视频的返回属性列表
-        /// </summary>
-        public class VideoType : TypeInterface
+        /// <summary/>
+        public class VideoAttribute
+        {
+            /// <summary>
+            /// 视频属性位
+            /// </summary>
+            [JsonProperty("attribute")]
+            public int Attribute { get; set; }
+
+            /// <summary>
+            /// 视频属性
+            /// </summary>
+            [Flags]
+            public enum VideoAttributeFlags
+            {
+                /// <summary>
+                /// 默认 无
+                /// </summary>
+                None = 0,
+
+                /// <summary>
+                /// 禁止排行
+                /// </summary>
+                NoRank = 1 << 0,
+
+                /// <summary>
+                /// 动态禁止 / 禁止 APP 推送动态
+                /// </summary>
+                NoDynamic = 1 << 1,
+
+                /// <summary>
+                /// 禁止网页输出
+                /// </summary>
+                NoWebOutput = 1 << 2,
+
+                /// <summary>
+                /// 禁止客户端列表
+                /// </summary>
+                NoClientList = 1 << 3,
+
+                /// <summary>
+                /// 搜索禁止
+                /// </summary>
+                NoSearch = 1 << 4,
+
+                /// <summary>
+                /// 海外禁止
+                /// </summary>
+                NoOversea = 1 << 5,
+
+                /// <summary>
+                /// 禁止推荐 / 禁止被 APP 端天马列表推荐
+                /// </summary>
+                NoRecommend = 1 << 6,
+
+                /// <summary>
+                /// 显示“未经作者授权 禁止转载”标志
+                /// </summary>
+                NoReprint = 1 << 7,
+
+                /// <summary>
+                /// 是否高清，视频清晰度 >= 1080P
+                /// </summary>
+                IsHD = 1 << 8,
+
+                /// <summary>
+                /// 是否 PGC 稿件，番剧 & 影视
+                /// </summary>
+                IsPGC = 1 << 9,
+
+                /// <summary>
+                /// 允许承包
+                /// </summary>
+                AllowBp = 1 << 10,
+
+                /// <summary>
+                /// 是否番剧
+                /// </summary>
+                IsBangumi = 1 << 11,
+
+                /// <summary>
+                /// 是否私单 / 存在商业推广恰饭内容
+                /// </summary>
+                IsPrivateOrder = 1 << 12,
+
+                /// <summary>
+                /// 是否限制地区
+                /// </summary>
+                IsAreaLimit = 1 << 13,
+
+                /// <summary>
+                /// 禁止其他人添加 TAG
+                /// </summary>
+                NoAddTag = 1 << 14,
+
+                /// <summary>
+                /// 未知标志；大多数旧视频会有
+                /// </summary>
+                UnknownOldVideoFlag = 1 << 15,
+
+                /// <summary>
+                /// 跳转，番剧及影视 av/bv -> ep 跳转
+                /// </summary>
+                IsRedirect = 1 << 16,
+
+                /// <summary>
+                /// 是否影视
+                /// </summary>
+                IsMovie = 1 << 17,
+
+                /// <summary>
+                /// 是否付费
+                /// </summary>
+                IsPay = 1 << 18,
+
+                /// <summary>
+                /// 推送动态
+                /// </summary>
+                PushDynamic = 1 << 19,
+
+                /// <summary>
+                /// 家长模式
+                /// </summary>
+                ParentMode = 1 << 20,
+
+                /// <summary>
+                /// 是否限制游客和外链；该位语义比较特殊，不能仅凭该位区分具体是哪一种限制
+                /// </summary>
+                GuestOrRefererRestricted = 1 << 21,
+
+                Unknown22 = 1 << 22,
+                Unknown23 = 1 << 23,
+
+                /// <summary>
+                /// 是否为联合投稿
+                /// </summary>
+                IsCooperation = 1 << 24,
+
+                Unknown25 = 1 << 25,
+                Unknown26 = 1 << 26,
+                Unknown27 = 1 << 27,
+                Unknown28 = 1 << 28,
+
+                /// <summary>
+                /// 是否为互动视频
+                /// </summary>
+                IsSteinGate = 1 << 29
+            }
+
+            /// <summary>
+            /// 合集属性位标志
+            /// </summary>
+            [JsonIgnore]
+            public VideoAttributeFlags AttributeFlags
+            {
+                get => (VideoAttributeFlags)Attribute;
+                set => Attribute = (int)value;
+            }
+
+            private bool HasAttribute(VideoAttributeFlags flag) => (AttributeFlags & flag) != 0;
+
+            /// <summary>
+            /// 是否禁止排行
+            /// </summary>
+            [JsonIgnore]
+            public bool IsRankDisabled => HasAttribute(VideoAttributeFlags.NoRank);
+
+            /// <summary>
+            /// 是否禁止动态 / 禁止 APP 推送动态
+            /// </summary>
+            [JsonIgnore]
+            public bool IsDynamicDisabled => HasAttribute(VideoAttributeFlags.NoDynamic);
+
+            /// <summary>
+            /// 是否禁止网页输出
+            /// </summary>
+            [JsonIgnore]
+            public bool IsWebOutputDisabled => HasAttribute(VideoAttributeFlags.NoWebOutput);
+
+            /// <summary>
+            /// 是否禁止客户端列表
+            /// </summary>
+            [JsonIgnore]
+            public bool IsClientListDisabled => HasAttribute(VideoAttributeFlags.NoClientList);
+
+            /// <summary>
+            /// 是否禁止搜索
+            /// </summary>
+            [JsonIgnore]
+            public bool IsSearchDisabled => HasAttribute(VideoAttributeFlags.NoSearch);
+
+            /// <summary>
+            /// 是否海外禁止
+            /// </summary>
+            [JsonIgnore]
+            public bool IsOverseaDisabled => HasAttribute(VideoAttributeFlags.NoOversea);
+
+            /// <summary>
+            /// 是否禁止推荐
+            /// </summary>
+            [JsonIgnore]
+            public bool IsRecommendDisabled => HasAttribute(VideoAttributeFlags.NoRecommend);
+
+            /// <summary>
+            /// 是否显示“未经作者授权 禁止转载”标志
+            /// </summary>
+            [JsonIgnore]
+            public bool IsNoReprint => HasAttribute(VideoAttributeFlags.NoReprint);
+
+            /// <summary>
+            /// 是否高清，视频清晰度 >= 1080P
+            /// </summary>
+            [JsonIgnore]
+            public bool IsHD => HasAttribute(VideoAttributeFlags.IsHD);
+
+            /// <summary>
+            /// 是否 PGC 稿件
+            /// </summary>
+            [JsonIgnore]
+            public bool IsPGC => HasAttribute(VideoAttributeFlags.IsPGC);
+
+            /// <summary>
+            /// 是否允许承包
+            /// </summary>
+            [JsonIgnore]
+            public bool AllowBp => HasAttribute(VideoAttributeFlags.AllowBp);
+
+            /// <summary>
+            /// 是否番剧
+            /// </summary>
+            [JsonIgnore]
+            public bool IsBangumi => HasAttribute(VideoAttributeFlags.IsBangumi);
+
+            /// <summary>
+            /// 是否私单 / 是否存在商业推广恰饭内容
+            /// </summary>
+            [JsonIgnore]
+            public bool IsPrivateOrder => HasAttribute(VideoAttributeFlags.IsPrivateOrder);
+
+            /// <summary>
+            /// 是否限制地区
+            /// </summary>
+            [JsonIgnore]
+            public bool IsAreaLimit => HasAttribute(VideoAttributeFlags.IsAreaLimit);
+
+            /// <summary>
+            /// 是否禁止其他人添加 TAG
+            /// </summary>
+            [JsonIgnore]
+            public bool IsAddTagDisabled => HasAttribute(VideoAttributeFlags.NoAddTag);
+
+            /// <summary>
+            /// 未知旧视频标志；文档称大多数旧视频会有
+            /// </summary>
+            [JsonIgnore]
+            public bool HasOldVideoUnknownFlag => HasAttribute(VideoAttributeFlags.UnknownOldVideoFlag);
+
+            /// <summary>
+            /// 是否跳转，番剧及影视 av/bv -> ep 跳转
+            /// </summary>
+            [JsonIgnore]
+            public bool IsRedirect => HasAttribute(VideoAttributeFlags.IsRedirect);
+
+            /// <summary>
+            /// 是否影视
+            /// </summary>
+            [JsonIgnore]
+            public bool IsMovie => HasAttribute(VideoAttributeFlags.IsMovie);
+
+            /// <summary>
+            /// 是否付费
+            /// </summary>
+            [JsonIgnore]
+            public bool IsPay => HasAttribute(VideoAttributeFlags.IsPay);
+
+            /// <summary>
+            /// 是否推送动态
+            /// </summary>
+            [JsonIgnore]
+            public bool IsPushDynamic => HasAttribute(VideoAttributeFlags.PushDynamic);
+
+            /// <summary>
+            /// 是否家长模式
+            /// </summary>
+            [JsonIgnore]
+            public bool IsParentMode => HasAttribute(VideoAttributeFlags.ParentMode);
+
+            /// <summary>
+            /// 是否限制游客或外链；bit 21 语义较特殊，不能仅凭该字段判断具体限制类型
+            /// </summary>
+            [JsonIgnore]
+            public bool IsGuestOrRefererRestricted =>
+                HasAttribute(VideoAttributeFlags.GuestOrRefererRestricted);
+
+            /// <summary>
+            /// 是否为联合投稿
+            /// </summary>
+            [JsonIgnore]
+            public bool IsCooperation => HasAttribute(VideoAttributeFlags.IsCooperation);
+
+            /// <summary>
+            /// 是否为互动视频
+            /// </summary>
+            [JsonIgnore]
+            public bool IsSteinGate => HasAttribute(VideoAttributeFlags.IsSteinGate);
+        }
+
+        /// <summary />
+        public abstract class VideoBase : TypeInterface
         {
             private int _copyright;
-            private int _state;
 
             /// <summary>
             /// 稿件的BV号
@@ -119,25 +424,78 @@ namespace UAPI
             public List<Desc_v2> DescV2List { get; set; }
 
             /// <summary>
-            /// 视频是否被删除
+            /// 视频当前状态码
             /// </summary>
             [JsonProperty("state")]
-            public bool IsDeleted
-            {
-                get => _state == -6;
-                set => _state = value ? -6 : 1;
-            }
+            public int StateCode { get; set; }
 
             /// <summary>
-            /// 视频状态
+            /// 视频当前状态描述
             /// </summary>
-            public string StateStr => _state == 1 ? "正常" : _state == -6 ? "被删除" : "未知";
+            [JsonIgnore]
+            public string State
+            {
+                get
+                {
+                    switch (StateCode)
+                    {
+                        case 1:
+                            return "审核通过（非正常开放浏览/橙色通过）";
+                        case 0:
+                            return "开放浏览";
+                        case -1:
+                            return "待审";
+                        case -2:
+                            return "被回退稿件";
+                        case -3:
+                            return "网警锁定";
+                        case -4:
+                            return "稿件撞车被锁定";
+                        case -5:
+                            return "管理员锁定了此稿件";
+                        case -6:
+                            return "修复待审";
+                        case -7:
+                            return "暂缓审核";
+                        case -8:
+                            return "补档待审";
+                        case -9:
+                            return "视频等待转码";
+                        case -10:
+                            return "延迟审核";
+                        case -11:
+                            return "视频源待修";
+                        case -12:
+                            return "转储失败";
+                        case -13:
+                            return "允许评论待审";
+                        case -14:
+                            return "临时回收站";
+                        case -15:
+                            return "分发中";
+                        case -16:
+                            return "转码失败";
+                        case -20:
+                            return "创建未提交";
+                        case -30:
+                            return "创建已提交";
+                        case -40:
+                            return "定时发布";
+                        case -50:
+                            return "仅UP主可见";
+                        case -100:
+                            return "用户删除";
+                    }
+
+                    return null;
+                }
+            }
 
             /// <summary>
             /// 稿件总时长（所有分P累加），单位为秒
             /// </summary>
             [JsonProperty("duration")]
-            public long Duration { get; set; }
+            public int Duration { get; set; }
 
             /// <summary>
             /// 视频的各种权限开关（如是否允许转载）
@@ -197,21 +555,499 @@ namespace UAPI
             /// 合作UP主, 联合投稿人列表 (非赞助商)
             /// </summary>
             [JsonProperty("staff")]
-            public List<string> StaffList { get; set; }
+            public List<Staff> StaffList { get; set; }
+
+            /// <summary/>
+            public class Staff
+            {
+                /// <summary>
+                /// 成员的UID
+                /// </summary>
+                [JsonProperty("mid")]
+                public int UID { get; set; }
+
+                /// <summary>
+                /// 成员名称
+                /// </summary>
+                [JsonProperty("title")]
+                public string Title { get; set; }
+
+                /// <summary>
+                /// 成员昵称
+                /// </summary>
+                [JsonProperty("name")]
+                public string NickName { get; set; }
+
+                /// <summary>
+                /// 头像URL
+                /// </summary>
+                [JsonProperty("face")]
+                public string CoverImageURL { get; set; }
+
+                /// <summary>
+                /// 大会员状态
+                /// </summary>
+                [JsonProperty("vip")]
+                public Vip vip { get; set; }
+
+                /// <summary>
+                /// 认证信息
+                /// </summary>
+                [JsonProperty("official")]
+                public Official official { get; set; }
+
+                /// <summary>
+                /// 粉丝数
+                /// </summary>
+                [JsonProperty("follower")]
+                public int follower { get; set; }
+
+                /// <summary>
+                /// 标签样式
+                /// </summary>
+                [JsonProperty("label_style")]
+                public int label_style { get; set; }
+
+                /// <summary/>
+                public class Vip
+                {
+                    private int _status;
+
+                    /// <summary>
+                    /// 大会员类型, 0=无, 1=月会员, 2=年会员
+                    /// </summary>
+                    [JsonProperty("type")]
+                    public int type { get; set; }
+
+                    /// <summary>
+                    /// 是否有大会员
+                    /// </summary>
+                    [JsonProperty("status")]
+                    public bool IsHasVIP
+                    {
+                        get => _status == 1;
+                        set => _status = value ? 1 : 0;
+                    }
+
+                    /// <summary>
+                    /// 到期时间 
+                    /// </summary>
+                    [JsonProperty("due_date")]
+                    public int DueDate_Unix { get; set; }
+
+                    /// <summary>
+                    /// 未知 - 会员购买日期?
+                    /// </summary>
+                    [JsonProperty("vip_pay_date")]
+                    public int VipPayDate { get; set; }
+
+                    /// <summary>
+                    /// 主题样式?
+                    /// </summary>
+                    [JsonProperty("theme_type")]
+                    public int ThemeType { get; set; }
+
+                    /// <summary>
+                    /// 大会员标签
+                    /// </summary>
+                    [JsonProperty("label")]
+                    public Label label { get; set; }
+
+                    /// <summary/>
+                    public class Label
+                    {
+                        [JsonProperty("path")] public string Path { get; set; }
+
+                        /// <summary>
+                        /// 描述
+                        /// </summary>
+                        [JsonProperty("text")]
+                        public string Text { get; set; }
+
+                        /// <summary>
+                        /// 标签主题
+                        /// </summary>
+                        [JsonProperty("label_theme")]
+                        public string LabelTheme { get; set; }
+
+                        /// <summary>
+                        /// 字体颜色
+                        /// </summary>
+                        [JsonProperty("text_color")]
+                        public string TextColor { get; set; }
+
+                        /// <summary>
+                        /// 背景样式
+                        /// </summary>
+                        [JsonProperty("bg_style")]
+                        public int BackgroundStyle { get; set; }
+
+                        /// <summary>
+                        /// 背景颜色
+                        /// </summary>
+                        [JsonProperty("bg_color")]
+                        public string BackgroundColor { get; set; }
+
+                        /// <summary>
+                        /// 边框颜色
+                        /// </summary>
+                        [JsonProperty("border_color")]
+                        public string BorderColor { get; set; }
+
+                        /// <summary>
+                        /// 是否使用图像标签
+                        /// </summary>
+                        [JsonProperty("use_img_label")]
+                        public bool IsUseImgLabel { get; set; }
+
+                        /// <summary>
+                        /// 简体中文的标签动态图像URL
+                        /// </summary>
+                        [JsonProperty("img_label_uri_hans")]
+                        public string DynamicImageLabelURL_zh_Hans { get; set; }
+
+                        /// <summary>
+                        /// 繁体中文的标签动态图像URL
+                        /// </summary>
+                        [JsonProperty("img_label_uri_hant")]
+                        public string DynamicImageLabelURL_zh_Hant { get; set; }
+
+                        /// <summary>
+                        /// 简体中文的标签静态图像URL
+                        /// </summary>
+                        [JsonProperty("img_label_uri_hans_static")]
+                        public string StaticImageLabelURL_zh_Hans { get; set; }
+
+                        /// <summary>
+                        /// 繁体中文的标签静态图像URL
+                        /// </summary>
+                        [JsonProperty("img_label_uri_hant_static")]
+                        public string StaticImageLabelURL_zh_Hant { get; set; }
+                    }
+                }
+
+                /// <summary/>
+                public class Official
+                {
+                    private int _type;
+
+                    /// <summary>
+                    /// 成员认证码
+                    /// </summary>
+                    [JsonProperty("role")]
+                    public int RoleCode { get; set; }
+
+                    /// <summary>
+                    /// 成员认证级别
+                    /// </summary>
+                    [JsonIgnore]
+                    public string RoleType
+                    {
+                        get
+                        {
+                            switch (RoleCode)
+                            {
+                                case 1:
+                                    return "个人认证 - 知名UP主";
+                                case 2:
+                                    return "个人认证 - 大V达人";
+                                case 3:
+                                    return "机构认证 - 企业";
+                                case 4:
+                                    return "机构认证 - 组织";
+                                case 5:
+                                    return "机构认证 - 媒体";
+                                case 6:
+                                    return "机构认证 - 政府";
+                                case 7:
+                                    return "个人认证 - 高能主播";
+                                case 9:
+                                    return "个人认证 - 社会知名人士";
+                            }
+
+                            return null;
+                        }
+                    }
+
+                    /// <summary>
+                    /// 成员认证名
+                    /// </summary>
+                    [JsonProperty("title")]
+                    public string Title { get; set; }
+
+                    /// <summary>
+                    /// 成员认证备注
+                    /// </summary>
+                    [JsonProperty("desc")]
+                    public string Description { get; set; }
+
+                    /// <summary>
+                    /// 成员是否认证
+                    /// </summary>
+                    [JsonProperty("type")]
+                    public bool IsRole
+                    {
+                        get => _type == 0;
+                        set => _type = value ? 0 : -1;
+                    }
+                }
+            }
 
             /// <summary>
             /// 合集信息	如果视频属于某个合集，这里会有数据
             /// </summary>
-            public object ugc_season { get; set; }
+            public UGCSeason UgcSeason { get; set; }
 
-            public bool is_chargeable_season { get; set; }
-            public bool is_story { get; set; }
+            /// <summary>
+            /// 是否为充电合集
+            /// </summary>
+            public bool IsChargeableSeason { get; set; }
+
+            /// <summary>
+            /// 是否为充电专属视频	
+            /// </summary>
+            [JsonProperty("is_upower_exclusive")]
+            public bool IsUpowerExclusive { get; set; }
+
+            /// <summary>
+            /// 是否有权播放充电视频
+            /// </summary>
+            [JsonProperty("is_upower_play")]
+            public bool IsUpowerPlay { get; set; }
+
+            /// <summary>
+            /// 充电专属视频是否支持试看
+            /// </summary>
+            [JsonProperty("is_upower_preview")]
+            public bool IsUpowerPreview { get; set; }
+
+            [JsonProperty("is_upower_exclusive_with_qa")]
+            public bool is_upower_exclusive_with_qa { get; set; }
+
+            [JsonProperty("pay_type")] public string pay_type { get; set; }
+
+            /// <summary>
+            /// 是否为动态视频
+            /// </summary>
+            [JsonProperty("is_story")]
+            public bool IsStory { get; set; }
 
             /// <summary>
             /// 视频所得荣誉
             /// </summary>
             [JsonProperty("honor_reply")]
             public Honor_reply HonorReply { get; set; }
+        }
+
+        /// <summary>
+        /// bilibili视频的返回属性列表
+        /// </summary>
+        public class VideoType : VideoBase
+        {
+            /// <summary/>
+            public class UGCSeason : VideoAttribute
+            {
+                private int _enableVt;
+
+                /// <summary>
+                /// 视频合集id
+                /// </summary>
+                [JsonProperty("id")]
+                public int ID { get; set; }
+
+                /// <summary>
+                /// 合集标题
+                /// </summary>
+                [JsonProperty("title")]
+                public string Title { get; set; }
+
+                /// <summary>
+                /// 视频封面
+                /// </summary>
+                [JsonProperty("cover")]
+                public string VideoImageCover { get; set; }
+
+                /// <summary>
+                /// 合集所有者的UID
+                /// </summary>
+                [JsonProperty("mid")]
+                public long UID { get; set; }
+
+                /// <summary>
+                /// 视频合集介绍
+                /// </summary>
+                [JsonProperty("intro")]
+                public string Introduction { get; set; }
+
+                [JsonProperty("sign_state")] public int sign_state { get; set; }
+
+                /// <summary/>
+                /// <summary>
+                /// 分部列表，名称可由up主自定义，默认为正片
+                /// </summary>
+                [JsonProperty("sections")]
+                public List<SectionsItem> SectionsList { get; set; }
+
+                /// <summary>
+                /// 视频合集状态数
+                /// </summary>
+                [JsonProperty("stat")]
+                public Stat Stat { get; set; }
+
+                /// <summary>
+                /// 视频合集中视频数量
+                /// </summary>
+                [JsonProperty("ep_count")]
+                public int EpisodesCount { get; set; }
+
+                [JsonProperty("season_type")] public int season_type { get; set; }
+
+                /// <summary>
+                /// 是否为付费合集
+                /// </summary>
+                [JsonProperty("is_pay_season")]
+                public bool IsPaySeason { get; set; }
+
+                /// <summary>
+                /// 是否启用功能 [播放量 vv 改为播放总时长 vt]
+                /// </summary>
+                [JsonProperty("enable_vt")]
+                public bool IsEnableVT
+                {
+                    get => _enableVt == 1;
+                    set => _enableVt = value ? 1 : 0;
+                }
+
+                /// <summary/>
+                public class SectionsItem
+                {
+                    /// <summary>
+                    /// 视频合集中分部所属视频合集id
+                    /// </summary>
+                    [JsonProperty("season_id")]
+                    public int SeasonID { get; set; }
+
+                    [JsonProperty("id")] public int ID { get; set; }
+
+                    /// <summary>
+                    /// 视频合集中分部标题
+                    /// </summary>
+                    [JsonProperty("title")]
+                    public string Title { get; set; }
+
+                    [JsonProperty("type")] public int type { get; set; }
+
+                    /// <summary>
+                    /// 视频合集中分部的视频列表	
+                    /// </summary>
+                    [JsonProperty("episodes")]
+                    public List<EpisodesItem> Episodes { get; set; }
+
+                    /// <summary/>
+                    public class EpisodesItem : VideoAttribute
+                    {
+                        /// <summary>
+                        /// 分部中 视频所属视频的合集id
+                        /// </summary>
+                        [JsonProperty("season_id")]
+                        public int SeasonID { get; set; }
+
+                        /// <summary>
+                        /// 分部中 视频所属视频的 合集分部id
+                        /// </summary>
+                        [JsonProperty("section_id")]
+                        public int SectionID { get; set; }
+
+                        /// <summary>
+                        /// 视频合集分部中视频id
+                        /// </summary>
+                        [JsonProperty("id")]
+                        public int ID { get; set; }
+
+                        /// <summary>
+                        /// AV号
+                        /// </summary>
+                        [JsonProperty("aid")]
+                        public long AID { get; set; }
+
+                        /// <summary>
+                        /// 分P ID
+                        /// </summary>
+                        [JsonProperty("cid")]
+                        public long CID { get; set; }
+
+                        /// <summary>
+                        /// 合集中视频的Fake标题
+                        /// </summary>
+                        [JsonProperty("title")]
+                        public string FakeTitle { get; set; }
+
+                        /// <summary>
+                        /// 视频详细信息
+                        /// </summary>
+                        [JsonProperty("arc")]
+                        public Arc Info { get; set; }
+
+                        /// <summary>
+                        /// 当前分P的数据
+                        /// </summary>
+                        [JsonProperty("page")]
+                        public Pages PageData { get; set; }
+
+                        /// <summary>
+                        /// BV号
+                        /// </summary>
+                        [JsonProperty("bvid")]
+                        public string BVID { get; set; }
+
+                        /// <summary>
+                        /// 分页数据
+                        /// </summary>
+                        [JsonProperty("pages")]
+                        public List<Pages> pages { get; set; }
+
+                        /// <summary>
+                        /// 视频详细信息
+                        /// </summary>
+                        public class Arc : VideoBase
+                        {
+                            private int _enableVt;
+                            [JsonProperty("is_blooper")] public bool is_blooper { get; set; }
+
+                            /// <summary>
+                            /// 功能 [播放量 vv 改为播放总时长 vt] 是否启用
+                            /// </summary>
+                            [JsonProperty("enable_vt")]
+                            public bool IsEnableVT
+                            {
+                                get => _enableVt == 1;
+                                set => _enableVt = value ? 1 : 0;
+                            }
+
+                            /// <summary>
+                            /// 播放总时长
+                            /// </summary>
+                            [JsonProperty("vt_display")]
+                            public string VTDisplay { get; set; }
+                        }
+
+                        public class Stat : VideoType.Stat
+                        {
+                            /// <summary>
+                            /// 警告/争议提示信息
+                            /// </summary>
+                            [JsonProperty("argue_msg")]
+                            public string ArgueMessage { get; set; }
+
+                            /// <summary>
+                            /// 播放量?
+                            /// </summary>
+                            [JsonProperty("vv")]
+                            public int vv { get; set; }
+                        }
+                    }
+                }
+            }
 
             /// <summary>
             /// 详细的视频简介
@@ -317,7 +1153,7 @@ namespace UAPI
                 }
 
                 /// <summary>
-                /// 是否需要付费观看
+                /// 是否PGC付费
                 /// </summary>
                 [JsonProperty("pay")]
                 public bool IsPay
@@ -327,10 +1163,9 @@ namespace UAPI
                 }
 
                 /// <summary>
-                /// (古早字段)是否有高码率
+                /// 是否有高码率
                 /// </summary>
                 [JsonProperty("hd5")]
-                [Obsolete]
                 public bool IsHighBitrate
                 {
                     get => _hd5 == 1;
@@ -399,6 +1234,9 @@ namespace UAPI
                     set => _cleanMode = value ? 1 : _cleanMode;
                 }
 
+                /// <summary>
+                /// 是否为互动视频
+                /// </summary>
                 [JsonProperty("is_stein_gate")]
                 public bool IsSteinGate
                 {
@@ -651,11 +1489,19 @@ namespace UAPI
                 {
                     get => _from == "vupload"
                         ? "B站直传"
-                        : _from;
+                        : _from == "hunan"
+                            ? "芒果TV"
+                            : _from == "qq"
+                                ? "腾讯"
+                                : _from;
                     set => _from =
                         value == "vupload"
                             ? "B站直传"
-                            : value;
+                            : value == "hunan"
+                                ? "芒果TV"
+                                : value == "qq"
+                                    ? "腾讯"
+                                    : value;
                 }
 
                 /// <summary>
@@ -673,12 +1519,14 @@ namespace UAPI
                 /// <summary>
                 /// 如果 <see cref="SourceWhere"/> 不是 "B站直传"，这里存外部视频源 ID，现大多为空
                 /// </summary>
+                /// <remarks>仅站外视频有效</remarks>
                 [Obsolete]
                 public string vid { get; set; }
 
                 /// <summary>
                 /// 外部链接	极少用到，跳转外部链接
                 /// </summary>
+                /// <remarks>仅站外视频有效</remarks>
                 [JsonProperty("weblink")]
                 [Obsolete]
                 public string WebLink { get; set; }
@@ -706,7 +1554,8 @@ namespace UAPI
                 /// <summary>
                 /// 字幕列表
                 /// </summary>
-                public List<Subtitles> list { get; set; }
+                /// <remarks>未登录为空</remarks>
+                public List<Subtitles> List { get; set; }
             }
 
             /// <summary>
@@ -717,7 +1566,7 @@ namespace UAPI
                 /// <summary>
                 /// 字幕ID
                 /// </summary>
-                public long id { get; set; }
+                public long ID { get; set; }
 
                 /// <summary>
                 /// 语言代码
@@ -731,7 +1580,11 @@ namespace UAPI
                 [JsonProperty("lan_doc")]
                 public string LanguageName { get; set; }
 
-                public bool is_lock { get; set; }
+                /// <summary>
+                /// 是否锁定
+                /// </summary>
+                [JsonProperty("is_lock")]
+                public bool IsLock { get; set; }
 
                 /// <summary>
                 /// 字幕作者的UID
@@ -739,37 +1592,72 @@ namespace UAPI
                 [JsonProperty("author_mid")]
                 public int AuthorMID { get; set; }
 
-                public string subtitle_url { get; set; }
+                /// <summary>
+                /// Json 格式字幕文件 URL
+                /// </summary>
+                [JsonProperty("subtitle_url")]
+                public string Subtitle_JsonFileURL { get; set; }
 
                 /// <summary>
                 /// 字幕作者信息
                 /// </summary>
                 [JsonProperty("author")]
                 public SubtitleAuthor AuthorInfo { get; set; }
-            }
-
-            /// <summary>
-            /// 字幕作者
-            /// </summary>
-            public class SubtitleAuthor
-            {
-                /// <summary>
-                /// 作者的UID
-                /// </summary>
-                [JsonProperty("mid")]
-                public int MID { get; set; }
 
                 /// <summary>
-                /// 作者昵称
+                /// 字幕作者
                 /// </summary>
-                [JsonProperty("name")]
-                public string Name { get; set; }
+                public class SubtitleAuthor
+                {
+                    /// <summary>
+                    /// 作者的UID
+                    /// </summary>
+                    [JsonProperty("mid")]
+                    public int MID { get; set; }
 
-                /// <summary>
-                /// 作者头像链接
-                /// </summary>
-                [JsonProperty("face")]
-                public string AvatarImageUrl { get; set; }
+                    /// <summary>
+                    /// 作者昵称
+                    /// </summary>
+                    [JsonProperty("name")]
+                    public string Name { get; set; }
+
+                    /// <summary>
+                    /// 作者头像链接
+                    /// </summary>
+                    [JsonProperty("face")]
+                    public string AvatarImageUrl { get; set; }
+
+                    /// <summary>
+                    /// 性别, 返回 男,女,保密
+                    /// </summary>
+                    [JsonProperty("sex")]
+                    [Obsolete]
+                    public string Sex { get; set; }
+
+                    /// <summary>
+                    /// 字幕上传者签名
+                    /// </summary>
+                    [JsonProperty("sign")]
+                    [Obsolete]
+                    public string Sign { get; set; }
+
+                    [JsonProperty("rank")] [Obsolete] public string rank { get; set; }
+
+                    /// <summary>
+                    /// 上传者的生日?
+                    /// </summary>
+                    [JsonProperty("birthday")]
+                    [Obsolete]
+                    public string birthday { get; set; }
+
+                    [JsonProperty("is_fake_account")]
+                    [Obsolete]
+                    public string is_fake_account { get; set; }
+
+                    [JsonProperty("is_deleted")]
+                    [Obsolete]
+                    public string is_deleted { get; set; }
+                }
             }
 
             #endregion
@@ -793,16 +1681,45 @@ namespace UAPI
             public class Honors
             {
                 /// <summary>
+                /// 当前稿件aid
+                /// </summary>
+                [JsonProperty("aid")]
+                public int AID { get; set; }
+
+                /// <summary>
                 /// 荣誉名称
                 /// </summary>
                 [JsonProperty("desc")]
-                public string Desc { get; set; }
+                public string Description { get; set; }
+
+                /// <summary>
+                /// 荣誉类型码
+                /// </summary>
+                [JsonProperty("type")]
+                public int TypeCode { get; set; }
 
                 /// <summary>
                 /// 荣誉类型
                 /// </summary>
-                [JsonProperty("type")]
-                public object Type { get; set; }
+                public string Type
+                {
+                    get
+                    {
+                        switch (TypeCode)
+                        {
+                            case 1:
+                                return "入站必刷收录";
+                            case 2:
+                                return "第?期每周必看";
+                            case 3:
+                                return "全站排行榜最高第?名";
+                            case 4:
+                                return "热门";
+                        }
+
+                        return null;
+                    }
+                }
             }
 
             #endregion
