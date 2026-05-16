@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Rox.Runtimes;
+using UAPI.IException;
 using static UAPI.Type.GravatorType;
 
 namespace UAPI
@@ -17,10 +19,16 @@ namespace UAPI
         /// <returns>图像二进制</returns>
         public static async Task<byte[]> GetGravatorImage(string email, string hash, int s, dType d = dType.None,
             rType r = rType.None,
-            string Authentication = "") =>
-            (await Interface.GetBytesResult(
+            string Authentication = "")
+        {
+            var (result, statuscode) = await Interface.GetBytesResult(
                 $"{Interface._UAPI_Request_Url}avatar/gravatar?s={(s > 2048 ? 2048 : s < 1 ? 1 : s)}{(string.IsNullOrEmpty(email) ? "" : $"&email={email}")}{(string.IsNullOrEmpty(hash.ToLower()) ? "" : $"&hash={hash.ToLower()}")}&{(r == rType.None ? "" : $"&r={r.ToString()}")}{(d == dType.None ? "" : $"&d={d.ToString()}")}",
-                Interface.SendRequestType.GET, "", "application/json", Authentication)).Result;
+                Interface.SendRequestType.GET, "", "application/json", Authentication);
+            var list = Interface.IsGetBytesSuccessful(result, "", statuscode,new General.UAPIUnknowException(),"GetGravatorImage");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result.Result;
+        }
     }
 
     public partial class Type

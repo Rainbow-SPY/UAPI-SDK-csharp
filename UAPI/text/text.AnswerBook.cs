@@ -22,7 +22,7 @@ namespace UAPI
         {
             var (result, statuscode) =
                 await GetResult<AnswerType>(
-                    $"{_UAPI_Request_Url}/text/answerbook/ask{(requestType == SendRequestType.GET ? $"?question={_question}" : string.Empty)}",
+                    $"{_UAPI_Request_Url}text/answerbook/ask{(requestType == SendRequestType.GET ? $"?question={_question}" : string.Empty)}",
                     requestType,
                     requestType == SendRequestType.POST
                         ? JsonConvert.SerializeObject(new

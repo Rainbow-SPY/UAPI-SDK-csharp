@@ -3,6 +3,7 @@ using static UAPI.Interface;
 using static UAPI.Type;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Rox.Runtimes;
 using UAPI.IException;
 
 namespace UAPI
@@ -16,7 +17,7 @@ namespace UAPI
             BingDailyType.Resolutions resolution = BingDailyType.Resolutions._4K, string Authentication = "")
         {
             var (result, statuscode) = await GetResult<BingDailyType>(
-                $"{_UAPI_Request_Url}/image/bing-daily?date={date}&random={random}&resolution={resolution.ToString().Remove(0, 1)}&format=json",
+                $"{_UAPI_Request_Url}image/bing-daily?date={date}&random={random}&resolution={resolution.ToString().Remove(0, 1)}&format=json",
                 SendRequestType.GET, "", "application/json", Authentication);
             var list = IsGetSuccessful(result, "", statuscode, new General.UAPIUnknowException(), "Image.GetBingDaily");
             if (!list.IsRequestSuccessfully)
@@ -56,9 +57,13 @@ namespace UAPI
             BingDailyType.Format _format = BingDailyType.Format.image, string Authentication = "")
         {
             var (result, statuscode) = await GetBytesResult(
-                $"{_UAPI_Request_Url}/image/bing-daily?date={date}&random={random}&resolution={resolution.ToString().Remove(0, 1)}&format={_format.ToString()}",
+                $"{_UAPI_Request_Url}image/bing-daily?date={date}&random={random}&resolution={resolution.ToString().Remove(0, 1)}&format={_format.ToString()}",
                 SendRequestType.GET, "", "application/json", Authentication);
-            return result;
+            var list = IsGetBytesSuccessful(result, "date", statuscode,
+                new General.UAPIUnknowException(), "Image.GetBingDailyImage");
+            if (!list.IsRequestSuccessfully)
+                WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result.Result;
         }
 
         /// <summary>

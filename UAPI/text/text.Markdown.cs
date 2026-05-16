@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Rox.Runtimes;
 using UAPI.IException;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Type;
@@ -61,16 +62,20 @@ namespace UAPI
                 public static async Task<string> ReturnedHTMLCode(string _text, bool _sanitize = true,
                     string Authentication = "")
                 {
-                    var targetUrl = $"{Interface._UAPI_Request_Url}text/markdown-to-html";
-                    var response = await Interface.GetStringResult(targetUrl,
+                    var (result, statusCode) = await Interface.GetStringResult(
+                        $"{Interface._UAPI_Request_Url}text/markdown-to-html",
                         Interface.SendRequestType.POST, JsonConvert.SerializeObject(new
                         {
                             text = _text,
                             format = "html",
                             sanitize = _sanitize
                         }), "application/json", Authentication);
-
-                    return response.Result;
+                    var list = Interface.IsGetStringSuccessful(result, "text", statusCode,
+                        new General.UAPIUnknowException(), "Markdown.ToHTML.ReturnedHTMLCode");
+                    if (!list.IsRequestSuccessfully)
+                        WriteLog.Error(
+                            $"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+                    return list.FailedException != null ? throw list.FailedException : result.Result;
                 }
 
                 /// <summary>
@@ -92,7 +97,7 @@ namespace UAPI
             public static async Task<byte[]> ToPDF(string _text, Theme _theme = Theme.github, Size size = Size.A4,
                 string Authentication = "")
             {
-                var response = await Interface.GetBytesResult(
+                var (result, statusCode) = await Interface.GetBytesResult(
                     $"{Interface._UAPI_Request_Url}text/markdown-to-pdf", Interface.SendRequestType.POST,
                     JsonConvert.SerializeObject(new
                     {
@@ -100,7 +105,11 @@ namespace UAPI
                         theme = _theme.ToString(),
                         paper_size = size.ToString()
                     }), "application/json", Authentication);
-                return response.Result;
+                var list = Interface.IsGetBytesSuccessful(result, "text", statusCode, new General.UAPIUnknowException(),
+                    "Markdown.ToPDF");
+                if (!list.IsRequestSuccessfully)
+                    WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+                return list.FailedException != null ? throw list.FailedException : result.Result;
             }
         }
 

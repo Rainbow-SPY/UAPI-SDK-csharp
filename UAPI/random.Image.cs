@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Rox.Runtimes;
+using UAPI.IException;
 using static UAPI.Type;
 
 namespace UAPI
@@ -18,10 +20,14 @@ namespace UAPI
         public static async Task<byte[]> GetImage(RandomImage _category = RandomImage.None,
             WallpaperType _type = WallpaperType.None, string Authentication = "")
         {
-            var response = await Interface.GetBytesResult(
+            var (result, statusCode) = await Interface.GetBytesResult(
                 $"https://uapis.cn/api/v1/random/image?type={_type.ToString()}&category={_category.ToString()}",
                 Authentication);
-            return response.Result;
+            var list = Interface.IsGetBytesSuccessful(result, null, statusCode, new General.UAPIUnknowException(),
+                "random.GetImage");
+            if (!list.IsRequestSuccessfully)
+                LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result.Result;
         }
     }
 
