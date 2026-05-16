@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -59,8 +60,10 @@ namespace UAPI
             string contentType = "application/json", string AuthenticationAPITokenKey = "") where T : class
         {
             var targetUrl = requestUrl;
+            var rawBodyType = GetRawBodyType(typeof(T));
 
             WriteLog.Info(LogKind.Http, "配置 ServicePointManager 连接参数");
+
             try
             {
                 var response = await SendApiRequestWithFallbackAsync(
@@ -69,76 +72,80 @@ namespace UAPI
                     postContent,
                     contentType,
                     AuthenticationAPITokenKey);
+
                 WriteLog.Info(LogKind.Http,
                     $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
+                if (response == null) 
+                    throw new HttpRequestException("请求失败, 因为 response 为 null");
+                
+                if (rawBodyType != null &&
+                    rawBodyType != typeof(string) &&
+                    rawBodyType != typeof(byte[]))
+                {
+                    throw new NotSupportedException($"BodyResult<TBody> 不支持的 Body 类型: {rawBodyType.FullName}");
+                }
+
+                var (httpResponseMessage, responseData) = await ReadBodyOrRetryBackupAsync(
+                    response,
+                    requestUrl,
+                    type,
+                    postContent,
+                    contentType,
+                    AuthenticationAPITokenKey,
+                    rawBodyType);
+
+                response = httpResponseMessage;
+
                 using (response)
                 {
-                    var Headers = JsonConvert.DeserializeObject<Response.Headers>(
-                        JsonConvert.SerializeObject(response.Headers.ToDictionary(h => h.Key,
-                            h => string.Join(",", h.Value))), new JsonSerializerSettings
-                        {
-                            ContractResolver = new CamelCasePropertyNamesContractResolver()
-                        });
+                    var Headers = BuildResponseHeaders(response);
+
                     WriteLog.Info("ToDictionary", "响应标头转换为字典");
                     WriteLog.Info(LogKind.Json, "序列化字典");
                     WriteLog.Info(LogKind.Json, "反序列化字典");
+
                     var statusCode = (int)response.StatusCode;
                     WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    WriteLog.Info(LogKind.Http, "异步读取响应内容");
-                    if (string.IsNullOrEmpty(responseData))
+                    WriteLog.Info(LogKind.Http, $"异步读取响应内容, Type: {responseData?.GetType().Name}");
+                    if (responseData == null)
                     {
                         WriteLog.Error(LogKind.Http,
                             _void_value_null("GetResult<T>.HttpClient", "Content"));
                         return (null, statusCode);
                     }
 
-                    WriteLog.Info(LogKind.Json, "压缩 Json");
                     T result = null;
+
                     try
                     {
-                        result = JsonConvert.DeserializeObject<T>(CompressJson(responseData),
-                            new JsonSerializerSettings
-                            {
-                                ContractResolver = new CamelCasePropertyNamesContractResolver()
-                            });
-
-                        if (result != null)
+                        if (rawBodyType != null)
                         {
-                            var headerType = result.GetType();
-                            PropertyInfo headersProperty;
-                            // 加锁保证缓存线程安全
-                            lock (_cacheLock)
-                                // 优先从缓存获取，避免重复反射
-                                if (!_headersPropertyCache.TryGetValue(headerType, out headersProperty))
-                                {
-                                    // 反射获取 Headers 属性
-                                    headersProperty = headerType.GetProperty("Headers");
-                                    // 验证属性存在且类型匹配后再缓存
-                                    if (headersProperty != null &&
-                                        headersProperty.PropertyType == typeof(Response.Headers))
-                                    {
-                                        _headersPropertyCache[headerType] = headersProperty;
-                                        WriteLog.Info(LogKind.Reflection,
-                                            $"缓存 {headerType.FullName} 的 Headers 属性信息");
-                                    }
-                                    else
-                                        // 若属性不存在/类型不匹配，缓存null避免重复检查
-                                        _headersPropertyCache[headerType] = null;
-                                }
+                            result = Activator.CreateInstance<T>();
 
-                            // 若缓存中存在有效属性则赋值
-                            if (headersProperty != null)
-                            {
-                                headersProperty.SetValue(result, Headers);
-                                WriteLog.Info(LogKind.Reflection, $"成功给 {headerType.FullName} 赋值 Headers 属性");
-                            }
-                            else
-                                WriteLog.Warning(LogKind.Reflection,
-                                    $"{headerType.FullName} 不存在有效的 Headers 属性（属性不存在或类型不匹配）");
+                            var resultProperty = typeof(T).GetProperty(
+                                "Result",
+                                BindingFlags.Instance | BindingFlags.Public);
+
+                            resultProperty?.SetValue(result, responseData);
+
+                            WriteLog.Info(LogKind.Http,
+                                $"原始响应 Body 已写入 {typeof(T).Name}.Result, BodyType: {rawBodyType.Name}");
+                        }
+                        else
+                        {
+                            WriteLog.Info(LogKind.Json, "压缩 Json");
+
+                            result = JsonConvert.DeserializeObject<T>(
+                                CompressJson((string)responseData),
+                                new JsonSerializerSettings
+                                {
+                                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                                });
+
+                            WriteLog.Info(LogKind.Json, "反序列化Json");
                         }
 
-                        WriteLog.Info(LogKind.Json, "反序列化Json");
+                        SetHeaders(result, Headers);
                     }
                     catch (JsonSerializationException ex)
                     {
@@ -168,6 +175,86 @@ namespace UAPI
             }
         }
 
+        private static async Task<(HttpResponseMessage Response, object Body)> ReadBodyOrRetryBackupAsync(
+            HttpResponseMessage response,
+            string requestUrl,
+            SendRequestType type,
+            object postContent,
+            string contentType,
+            string authenticationApiTokenKey,
+            System.Type rawBodyType)
+        {
+            try
+            {
+                return (response, await ReadResponseBodyAsync(response, rawBodyType));
+            }
+            catch (Exception ex) when (
+                ex is HttpRequestException ||
+                ex is IOException ||
+                ex is TaskCanceledException ||
+                ex.InnerException is IOException)
+            {
+                var innerMessage = ex.InnerException == null
+                    ? ""
+                    : $" InnerException: {ex.InnerException.Message}";
+
+                WriteLog.Warning(LogKind.Http,
+                    $"响应头已返回 {(int)response.StatusCode}，但读取响应 Body 失败，准备切换备用站: {ex.Message}{innerMessage}");
+
+                var backupUrl = SwitchToBackupUrl(requestUrl);
+
+                response.Dispose();
+
+                if (backupUrl == requestUrl)
+                    throw;
+
+                var backupResponse = await SendApiRequestOnceAsync(
+                    _httpClient.Value,
+                    backupUrl,
+                    type,
+                    postContent,
+                    contentType,
+                    authenticationApiTokenKey,
+                    TimeSpan.FromSeconds(30));
+
+                try
+                {
+                    return (backupResponse, await ReadResponseBodyAsync(backupResponse, rawBodyType));
+                }
+                catch
+                {
+                    backupResponse.Dispose();
+                    throw;
+                }
+            }
+        }
+
+        private static async Task<object> ReadResponseBodyAsync(
+            HttpResponseMessage response,
+            System.Type rawBodyType)
+        {
+            if (response.Content == null)
+                return rawBodyType == typeof(byte[])
+                    ? (object)Array.Empty<byte>()
+                    : string.Empty;
+
+            return rawBodyType == typeof(byte[])
+                ? (object)await response.Content.ReadAsByteArrayAsync()
+                : await response.Content.ReadAsStringAsync();
+        }
+
+        private static Response.Headers BuildResponseHeaders(HttpResponseMessage response) =>
+            JsonConvert.DeserializeObject<Response.Headers>(
+                JsonConvert.SerializeObject(response.Headers
+                    .Concat(response.Content?.Headers ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
+                    .GroupBy(h => h.Key, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => string.Join(",", g.SelectMany(x => x.Value)))),
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
 
         /// <summary>
         /// 公共API 获取请求
@@ -194,64 +281,32 @@ namespace UAPI
         internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
             GetResult<T>(requestUrl, SendRequestType.GET);
 
-        internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl) =>
+        internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl) =>
             await GetBytesResult(requestUrl, SendRequestType.GET);
 
-        internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl,
+        internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl,
             string Authentication = "") => await GetBytesResult(requestUrl,
             SendRequestType.GET, null, "application/json", Authentication);
 
-        internal static async Task<(byte[] Result, int StatusCode)> GetBytesResult(string requestUrl,
+        internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl,
             SendRequestType type = SendRequestType.GET, string postContent = "",
             string contentType = "application/json", string AuthenticationAPITokenKey = "")
-            => await PriGet<byte[]>(requestUrl, type, postContent, contentType, AuthenticationAPITokenKey);
+            => await GetResult<BodyResult<byte[]>>(requestUrl, type, postContent, contentType,
+                AuthenticationAPITokenKey);
 
-        internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl,
+        internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl,
             SendRequestType type = SendRequestType.GET, string postContent = "",
             string contentType = "application/json", string AuthenticationAPITokenKey = "")
-            => await PriGet<string>(requestUrl, type, postContent,
+            => await GetResult<BodyResult<string>>(requestUrl, type, postContent,
                 contentType, AuthenticationAPITokenKey);
 
 
-        internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl) =>
+        internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl) =>
             await GetStringResult(requestUrl, SendRequestType.GET);
 
-        internal static async Task<(string Result, int StatusCode)> GetStringResult(string requestUrl,
+        internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl,
             string Authentication = "") => await GetStringResult(requestUrl,
             SendRequestType.GET, null, "application/json", Authentication);
-
-        /// <summary>
-        /// 泛型获取结果：自动处理 string/byte[] 两种返回类型
-        /// </summary>
-        private static async Task<(T Result, int StatusCode)> PriGet<T>(string requestUrl,
-            SendRequestType type = SendRequestType.GET, string postContent = "",
-            string contentType = "application/json", string AuthenticationAPITokenKey = "")
-        {
-            WriteLog.Info(LogKind.Http, "配置ServicePointManager 连接参数");
-            try
-            {
-                var response = await SendApiRequestWithFallbackAsync(requestUrl, type, postContent, contentType,
-                    AuthenticationAPITokenKey);
-                using (response)
-                {
-                    var statusCode = (int)response.StatusCode;
-                    WriteLog.Info(LogKind.Http, $"获取 Http 响应代码: {statusCode}");
-                    WriteLog.Info(LogKind.Http, "异步读取响应内容");
-
-                    // 泛型判断 + 类型安全返回，无装箱、无强转
-                    return typeof(T) != typeof(string)
-                        ? typeof(T) != typeof(byte[])
-                            ? throw new NotSupportedException($"不支持的返回类型: {typeof(T)}")
-                            : ((T)(object)await response.Content.ReadAsByteArrayAsync(), statusCode)
-                        : ((T)(object)await response.Content.ReadAsStringAsync(), statusCode);
-                }
-            }
-            catch (Exception e)
-            {
-                WriteLog.Error(_Exception_With_xKind("PriGet<T>()", e));
-                return (default, -1);
-            }
-        }
 
         /// <summary>
         /// 请求方式
@@ -292,12 +347,15 @@ namespace UAPI
                 StatusCode = StatusCode,
                 IsRequestSuccessfully = false
             };
-            if (Type == null)
-            {
-                list.FailedReason = "Type = null";
-                return list;
-            }
+            if (Type != null)
+                return priCheck(Type, NullValue, StatusCode, _Exception, _Error_Type, Error_Code, list);
+            list.FailedReason = "Type = null";
+            return list;
+        }
 
+        private static FailedList priCheck<T>(T Type, string NullValue, int StatusCode, Exception _Exception,
+            string _Error_Type, string Error_Code, FailedList list) where T : TypeInterface
+        {
             switch (StatusCode)
             {
                 case 200:
@@ -536,6 +594,37 @@ namespace UAPI
             }
         }
 
+        internal static FailedList IsGetBytesSuccessful(BodyResult<byte[]> result, string NullValue, int StatusCode,
+            Exception _Exception,
+            string ErrorType, string Error_Code = "")
+        {
+            var list = new FailedList
+            {
+                StatusCode = StatusCode,
+                IsRequestSuccessfully = false,
+                Result = result.Result
+            };
+            if (result.Result != null)
+                return priCheck(list, NullValue, StatusCode, _Exception, ErrorType, Error_Code, list);
+            list.FailedReason = "result = null";
+            return list;
+        }
+
+        internal static FailedList IsGetStringSuccessful(BodyResult<string> result, string NullValue, int StatusCode,
+            Exception _Exception, string ErrorType, string Error_Code = "")
+        {
+            var list = new FailedList
+            {
+                StatusCode = StatusCode,
+                IsRequestSuccessfully = false,
+                Result = result.Result
+            };
+            if (result.Result != null)
+                return priCheck(list, NullValue, StatusCode, _Exception, ErrorType, Error_Code, list);
+            list.FailedReason = "result = null";
+            return list;
+        }
+
         private static string SwitchToBackupUrl(string originalUrl)
         {
             if (originalUrl.StartsWith(_UAPI_Request_Url))
@@ -543,6 +632,68 @@ namespace UAPI
 
             WriteLog.Warning(LogKind.Http, $"requestUrl {originalUrl} 不包含基础前缀，无法切换到备用地址");
             return originalUrl;
+        }
+
+        private static System.Type GetRawBodyType(System.Type resultType)
+        {
+            while (resultType != null && resultType != typeof(object))
+            {
+                if (resultType.IsGenericType &&
+                    resultType.GetGenericTypeDefinition() == typeof(BodyResult<>))
+                    return resultType.GetGenericArguments()[0];
+
+                resultType = resultType.BaseType;
+            }
+
+            return null;
+        }
+
+        private static void SetHeaders<T>(T result, Response.Headers Headers) where T : class
+        {
+            switch (result)
+            {
+                case null:
+                    return;
+                case TypeInterface typeInterface:
+                    typeInterface.Headers = Headers;
+                    WriteLog.Info(LogKind.Reflection, $"成功给 {result.GetType().Name} 赋值 Headers 属性");
+                    return;
+            }
+
+            var headerType = result.GetType();
+            PropertyInfo headersProperty;
+
+            var headerTypeName = headerType.Name;
+            lock (_cacheLock)
+            {
+                if (!_headersPropertyCache.TryGetValue(headerType, out headersProperty))
+                {
+                    headersProperty = headerType.GetProperty("Headers");
+
+                    if (headersProperty != null &&
+                        headersProperty.PropertyType == typeof(Response.Headers))
+                    {
+                        _headersPropertyCache[headerType] = headersProperty;
+                        WriteLog.Info(LogKind.Reflection,
+                            $"缓存 {headerTypeName} 的 Headers 属性信息");
+                    }
+                    else
+                    {
+                        _headersPropertyCache[headerType] = null;
+                    }
+                }
+            }
+
+            if (headersProperty != null)
+            {
+                headersProperty.SetValue(result, Headers);
+                WriteLog.Info(LogKind.Reflection, $"成功给 {headerTypeName} 赋值 Headers 属性");
+            }
+            else
+            {
+                WriteLog.Warning(LogKind.Reflection,
+                    $"{headerTypeName} 不存在有效的 Headers 属性（属性不存在或类型不匹配）");
+            }
         }
 
         // 静态 HttpClient 实例
