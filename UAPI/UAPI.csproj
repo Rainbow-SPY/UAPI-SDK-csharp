@@ -129,8 +129,10 @@
         <Compile Include="IException\IException.github.cs"/>
         <Compile Include="IException\IException.QQ.cs"/>
         <Compile Include="image\image.BingDaily.cs" />
+        <Compile Include="image\image.Gravator.cs" />
         <Compile Include="image\image.nsfw.cs" />
         <Compile Include="image\image.QRCode.cs" />
+        <Compile Include="image\image.ToBase64.cs" />
         <Compile Include="Interface.APIHealthPlatformStatus.cs" />
         <Compile Include="Interface.APIHealthPlatformStatus.Type.cs" />
         <Compile Include="minecraft.GetHistoryName.cs" />

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UAPI;
@@ -18,8 +20,9 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
-            TestNSFW();
+            TestBytes();
             Console.ReadLine();
+            TestNSFW();
             AnalyzeWords();
             ToHTML();
             TestbilibiliHotboard().Wait();
@@ -39,6 +42,25 @@ namespace TestConsole
             TestEpic().Wait();
             TestGithubRepoData().Wait();
             _stopwatch.Reset();
+        }
+
+
+        private static async void TestBytes()
+        {
+            try
+            {
+                var result = await Image.QRCode.GetBytes("123");
+                var md5 = await Text.CreateMD5(result.ToString());
+                var data = MD5.Create().ComputeHash(result);
+                var builder = new StringBuilder();
+                foreach (var t in data) 
+                    builder.Append(t.ToString("x2"));
+                WriteLog.Info($"请求成功: 获取到的图像MD5为: {md5.MD5}, 本地计算的MD5为: {builder}");
+            }
+            catch (Exception e)
+            {
+                CatchAnyException("TestBytes", e);
+            }
         }
 
         private static async void TestNSFW()
@@ -260,7 +282,7 @@ namespace TestConsole
 
 
                 message += $"\n视频状态: {a.State}" +
-                           $"\n视频总长: {Interface.FormatSecondsTime((int)a.Duration)}" +
+                           $"\n视频总长: {Interface.FormatSecondsTime(a.Duration)}" +
                            "\n\n视频权限:" +
                            $"\n\t(过时)是否付费观看番剧: {a.RightsInfo.IsBangumiPay}" +
                            $"\n\t是否允许充电: {a.RightsInfo.IsAllowElectronicPay}" +
