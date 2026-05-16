@@ -40,7 +40,8 @@ namespace UAPI
             public Response.Headers Headers { get; set; }
         }
 
-        public class FailedList
+        /// <summary/>
+        public class FailedList : TypeInterface
         {
             /// <summary>
             /// Http 状态码
@@ -61,6 +62,22 @@ namespace UAPI
             /// 错误引发的异常
             /// </summary>
             public Exception FailedException { get; set; }
+
+            /// <summary>
+            /// 响应数据
+            /// </summary>
+            public object Result { get; set; }
+        }
+        
+        /// <summary>
+        /// 非 JSON Body 的统一返回包装，用于 string / byte[] 等原始响应体，同时保留 Headers。
+        /// </summary>
+        public class BodyResult<TBody> : TypeInterface
+        {
+            /// <summary>
+            /// 响应 Body
+            /// </summary>
+            public TBody Result { get; set; }
         }
     }
 }
