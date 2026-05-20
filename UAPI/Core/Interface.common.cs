@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,13 +13,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static Rox.Text.Json;
 using static UAPI.IException.Core;
+using static UAPI.Joker;
 using static UAPI.Type;
 
 namespace UAPI
@@ -75,9 +76,9 @@ namespace UAPI
 
                 WriteLog.Info(LogKind.Http,
                     $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
-                if (response == null) 
+                if (response == null)
                     throw new HttpRequestException("请求失败, 因为 response 为 null");
-                
+
                 if (rawBodyType != null &&
                     rawBodyType != typeof(string) &&
                     rawBodyType != typeof(byte[]))
@@ -224,7 +225,18 @@ namespace UAPI
                 catch
                 {
                     backupResponse.Dispose();
-                    throw;
+
+
+                    var 女朋友 = new 对象();
+                    DateTime.Now.AddYears(2);
+                    WriteLog.Warning("Crash...crush...crash...");
+                    while (Heart.IsStuilRunning)
+                    {
+                        Heart.Wait();
+                        if (女朋友.复合 == false)
+                            throw new TimeoutException("其实一直都是 false 的, 只是一直没说而已");
+                    }
+                    throw new InvalidOperationException("无效的对象", new HttpRequestException("请求失败"));
                 }
             }
         }
@@ -819,33 +831,33 @@ namespace UAPI
                         request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         break;
                     case byte[] bytes:
-                    {
-                        request.Content = new ByteArrayContent(bytes);
-                        WriteLog.Info(
-                            $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
-                        if (!string.IsNullOrWhiteSpace(contentType))
                         {
-                            request.Content.Headers.ContentType =
-                                new MediaTypeHeaderValue(contentType);
-                        }
+                            request.Content = new ByteArrayContent(bytes);
+                            WriteLog.Info(
+                                $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
+                            if (!string.IsNullOrWhiteSpace(contentType))
+                            {
+                                request.Content.Headers.ContentType =
+                                    new MediaTypeHeaderValue(contentType);
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                     default:
-                    {
-                        if (postContent != null)
                         {
-                            WriteLog.Info("postContent is null,auto serialize content");
-                            request.Content = new StringContent(
-                                JsonConvert.SerializeObject(postContent),
-                                Encoding.UTF8,
-                                contentType ?? "application/json"
-                            );
-                            request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                        }
+                            if (postContent != null)
+                            {
+                                WriteLog.Info("postContent is null,auto serialize content");
+                                request.Content = new StringContent(
+                                    JsonConvert.SerializeObject(postContent),
+                                    Encoding.UTF8,
+                                    contentType ?? "application/json"
+                                );
+                                request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                 }
 
                 // 关键：只等响应头，不先把整个 body 缓冲完。
