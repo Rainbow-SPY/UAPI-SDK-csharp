@@ -18,7 +18,6 @@ using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static Rox.Text.Json;
 using static UAPI.IException.Core;
-using static UAPI.Joker;
 using static UAPI.Type;
 
 namespace UAPI
@@ -225,18 +224,7 @@ namespace UAPI
                 catch
                 {
                     backupResponse.Dispose();
-
-
-                    var 女朋友 = new 对象();
-                    DateTime.Now.AddYears(2);
-                    WriteLog.Warning("Crash...crush...crash...");
-                    while (Heart.IsStuilRunning)
-                    {
-                        Heart.Wait();
-                        if (女朋友.复合 == false)
-                            throw new TimeoutException("其实一直都是 false 的, 只是一直没说而已");
-                    }
-                    throw new InvalidOperationException("无效的对象", new HttpRequestException("请求失败"));
+                    throw;
                 }
             }
         }
