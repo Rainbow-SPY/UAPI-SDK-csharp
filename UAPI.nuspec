@@ -13,6 +13,7 @@
     <releaseNotes>https://github.com/Rainbow-SPY/UAPI-sdk-csharp/releases/tag/v$version$</releaseNotes>
     <copyright>Copyright (c) Rainbow-SPY &amp; AxT-Team 2019-2026</copyright>
     <tags>UAPI SDK community bilibili steam minecraft network api</tags>
+    <readme>README.md</readme>
     <language>zh-CN</language>
     <dependencies>
       <group targetFramework="net472">
@@ -35,5 +36,6 @@
     <file src="lib\net472\Rox.Runtimes.xml" target="lib\net472\" />
     <file src="lib\net472\Rox.Text.dll" target="lib\net472\" />
     <file src="lib\net472\Rox.Text.xml" target="lib\net472\" />
+    <file src="README.md" target="" />
   </files>
 </package>
