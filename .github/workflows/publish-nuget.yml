@@ -1,4 +1,4 @@
-name: Publish NuGet
+﻿name: Publish NuGet
 
 on:
   release:
@@ -16,7 +16,7 @@ jobs:
             --pattern "*.zip" \
             --repo "${{ github.repository }}"
         env:
-          GH_TOKEN: *** secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract & prepare lib folder
         run: |
@@ -26,8 +26,8 @@ jobs:
           unzip -o "$ZIP_FILE" -d lib/net472/
           ls -la lib/net472/
 
-          # Remove NuGet-available DLLs — 它们由 .nuspec 的 dependencies 声明
-          # 保留：UAPI 主库 + Rox 本地库 + AntdUI（Rox 的依赖）
+          # Remove NuGet-available DLLs 鈥?瀹冧滑鐢?.nuspec 鐨?dependencies 澹版槑
+          # 淇濈暀锛歎API 涓诲簱 + Rox 鏈湴搴?+ AntdUI锛圧ox 鐨勪緷璧栵級
           rm -f lib/net472/Newtonsoft.Json.dll
           rm -f lib/net472/System.Buffers.dll
           rm -f lib/net472/System.Diagnostics.DiagnosticSource.dll
@@ -56,7 +56,7 @@ jobs:
       - name: Push to NuGet.org
         run: |
           dotnet nuget push *.nupkg \
-            --api-key *** secrets.NUGET_API_KEY }} \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json
 
       - name: Upload .nupkg to Release assets
@@ -65,4 +65,4 @@ jobs:
             *.nupkg \
             --repo "${{ github.repository }}"
         env:
-          GH_TOKEN: *** secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
