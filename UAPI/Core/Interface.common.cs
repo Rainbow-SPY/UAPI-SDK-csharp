@@ -819,33 +819,33 @@ namespace UAPI
                         request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         break;
                     case byte[] bytes:
+                    {
+                        request.Content = new ByteArrayContent(bytes);
+                        WriteLog.Info(
+                            $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
+                        if (!string.IsNullOrWhiteSpace(contentType))
                         {
-                            request.Content = new ByteArrayContent(bytes);
-                            WriteLog.Info(
-                                $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
-                            if (!string.IsNullOrWhiteSpace(contentType))
-                            {
-                                request.Content.Headers.ContentType =
-                                    new MediaTypeHeaderValue(contentType);
-                            }
-
-                            break;
+                            request.Content.Headers.ContentType =
+                                new MediaTypeHeaderValue(contentType);
                         }
+
+                        break;
+                    }
                     default:
+                    {
+                        if (postContent != null)
                         {
-                            if (postContent != null)
-                            {
-                                WriteLog.Info("postContent is null,auto serialize content");
-                                request.Content = new StringContent(
-                                    JsonConvert.SerializeObject(postContent),
-                                    Encoding.UTF8,
-                                    contentType ?? "application/json"
-                                );
-                                request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                            }
-
-                            break;
+                            WriteLog.Info("postContent is null,auto serialize content");
+                            request.Content = new StringContent(
+                                JsonConvert.SerializeObject(postContent),
+                                Encoding.UTF8,
+                                contentType ?? "application/json"
+                            );
+                            request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         }
+
+                        break;
+                    }
                 }
 
                 // 关键：只等响应头，不先把整个 body 缓冲完。
