@@ -1,0 +1,68 @@
+name: Publish NuGet
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Release zip
+        run: |
+          gh release download "${{ github.event.release.tag_name }}" \
+            --pattern "*.zip" \
+            --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: *** secrets.GITHUB_TOKEN }}
+
+      - name: Extract & prepare lib folder
+        run: |
+          ZIP_FILE=$(ls *.zip | head -1)
+          echo "Found: $ZIP_FILE"
+          mkdir -p lib/net472
+          unzip -o "$ZIP_FILE" -d lib/net472/
+          ls -la lib/net472/
+
+          # Remove NuGet-available DLLs — 它们由 .nuspec 的 dependencies 声明
+          # 保留：UAPI 主库 + Rox 本地库 + AntdUI（Rox 的依赖）
+          rm -f lib/net472/Newtonsoft.Json.dll
+          rm -f lib/net472/System.Buffers.dll
+          rm -f lib/net472/System.Diagnostics.DiagnosticSource.dll
+          rm -f lib/net472/System.Memory.dll
+          rm -f lib/net472/System.Numerics.Vectors.dll
+          rm -f lib/net472/System.Runtime.CompilerServices.Unsafe.dll
+          rm -f lib/net472/AntdUI.dll
+
+          echo "=== After cleanup ==="
+          ls -la lib/net472/
+
+      - name: Setup NuGet.exe
+        uses: nuget/setup-nuget@v2
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate .nuspec with version
+        run: |
+          sed "s/\$version\$/${{ steps.version.outputs.VERSION }}/g" UAPI.nuspec > UAPI-output.nuspec
+
+      - name: Pack NuGet
+        run: nuget pack UAPI-output.nuspec -OutputDirectory .
+
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push *.nupkg \
+            --api-key *** secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json
+
+      - name: Upload .nupkg to Release assets
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            *.nupkg \
+            --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: *** secrets.GITHUB_TOKEN }}

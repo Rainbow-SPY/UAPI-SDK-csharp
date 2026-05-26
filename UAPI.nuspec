@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>UAPI-community-sdk-csharp</id>
+    <version>$version$</version>
+    <title>UAPI Community SDK</title>
+    <authors>Rainbow-SPY, AxT-Team</authors>
+    <owners>Rainbow-SPY</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/Rainbow-SPY/UAPI-sdk-csharp</projectUrl>
+    <description>UAPI Community SDK for .NET Framework. Provides easy access to various public APIs including Bilibili, Steam, Minecraft, weather, networking utilities, and more.</description>
+    <releaseNotes>https://github.com/Rainbow-SPY/UAPI-sdk-csharp/releases/tag/v$version$</releaseNotes>
+    <copyright>Copyright (c) Rainbow-SPY &amp; AxT-Team 2019-2026</copyright>
+    <tags>UAPI SDK community bilibili steam minecraft network api</tags>
+    <language>zh-CN</language>
+    <dependencies>
+      <group targetFramework="net472">
+        <dependency id="Newtonsoft.Json" version="13.0.4" />
+        <dependency id="System.Memory" version="4.6.3" />
+        <dependency id="System.Buffers" version="4.6.1" />
+        <dependency id="System.Numerics.Vectors" version="4.6.1" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="6.1.2" />
+        <dependency id="System.Diagnostics.DiagnosticSource" version="10.0.2" />
+        <dependency id="AntdUI" version="2.2.1" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- 主库 -->
+    <file src="lib\net472\UAPI-community-sdk-csharp.dll" target="lib\net472\" />
+    <file src="lib\net472\UAPI.xml" target="lib\net472\" />
+    <!-- 未上 NuGet 的本地库 -->
+    <file src="lib\net472\Rox.Runtimes.dll" target="lib\net472\" />
+    <file src="lib\net472\Rox.Runtimes.xml" target="lib\net472\" />
+    <file src="lib\net472\Rox.Text.dll" target="lib\net472\" />
+    <file src="lib\net472\Rox.Text.xml" target="lib\net472\" />
+  </files>
+</package>
