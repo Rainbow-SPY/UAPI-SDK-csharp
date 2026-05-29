@@ -53,7 +53,7 @@ jobs:
 
       - name: Generate .nuspec with version
         run: |
-          sed "s/\$version\$/${{ steps.version.outputs.VERSION }}/g" UAPI.nuspec > UAPI-output.nuspec
+          sed 's/\$version\$/${{ steps.version.outputs.VERSION }}/g' UAPI.nuspec > UAPI-output.nuspec
 
       - name: Pack NuGet
         run: nuget pack UAPI-output.nuspec -OutputDirectory .
