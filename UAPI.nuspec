@@ -9,10 +9,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/Rainbow-SPY/UAPI-SDK-csharp</projectUrl>
-    <description>UAPI Community SDK for .NET Framework. Provides easy access to various public APIs including Bilibili, Steam, Minecraft, weather, networking utilities, and more.</description>
+    <description>UAPI Community SDK for .NET Framework. </description>
     <releaseNotes>https://github.com/Rainbow-SPY/UAPI-SDK-csharp/releases/tag/v$version$</releaseNotes>
     <copyright>Copyright (c) Rainbow-SPY &amp; AxT-Team 2019-2026</copyright>
-    <tags>UAPI SDK community bilibili steam minecraft network api</tags>
+    <tags>UAPI Community SDK</tags>
     <readme>README.md</readme>
     <language>zh-CN</language>
     <dependencies>
