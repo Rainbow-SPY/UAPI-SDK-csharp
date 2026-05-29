@@ -26,8 +26,8 @@ jobs:
           unzip -o "$ZIP_FILE" -d lib/net472/
           ls -la lib/net472/
 
-          # Remove NuGet-available DLLs 鈥?瀹冧滑鐢?.nuspec 鐨?dependencies 澹版槑
-          # 淇濈暀锛歎API 涓诲簱 + Rox 鏈湴搴?+ AntdUI锛圧ox 鐨勪緷璧栵級
+          # Remove NuGet-available DLLs (declared in .nuspec dependencies)
+          # Keep: UAPI main library + Rox local libs only
           rm -f lib/net472/Newtonsoft.Json.dll
           rm -f lib/net472/System.Buffers.dll
           rm -f lib/net472/System.Diagnostics.DiagnosticSource.dll
@@ -39,8 +39,13 @@ jobs:
           echo "=== After cleanup ==="
           ls -la lib/net472/
 
-      - name: Setup NuGet.exe
-        uses: nuget/setup-nuget@v2
+      - name: Install NuGet CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mono-complete
+          wget -q https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -O /usr/local/bin/nuget.exe
+          printf '#!/bin/sh\nexec mono /usr/local/bin/nuget.exe "$@"\n' | sudo tee /usr/local/bin/nuget > /dev/null
+          sudo chmod +x /usr/local/bin/nuget
 
       - name: Get version from tag
         id: version
