@@ -20,9 +20,8 @@ namespace TestConsole
 
         public static void Main(string[] args)
         {
-            TestBytes();
+            TestMotouPost().Wait();
             Console.ReadLine();
-            TestNSFW();
             AnalyzeWords();
             ToHTML();
             TestbilibiliHotboard().Wait();
@@ -678,6 +677,37 @@ namespace TestConsole
             catch (Exception e)
             {
                 CatchAnyException("GetQQ Group Data", e);
+            }
+        }
+
+        private static async Task TestMotouPost()
+        {
+            try
+            {
+                WriteLog.Info("测试 PostMotouImage (URL)...");
+                var urlResult = await Image.PostMotouImage(
+                    "https://i0.hdslb.com/bfs/archive/87a5d03581e326f4f818cab3212ce471d1f6a064.png",
+                    MotouType.BackgroundColor.transparent);
+                var urlPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "motou_url.gif");
+                File.WriteAllBytes(urlPath, urlResult);
+                WriteLog.Info($"URL 测试完成，文件已保存到: {urlPath} (大小: {urlResult.Length} bytes)");
+
+                WriteLog.Info("测试 PostMotouImage (File)...");
+                var imageBytes = File.ReadAllBytes(@"D:\Pictures\4211649229.jpg");
+                var fileResult = await Image.PostMotouImage(
+                    imageBytes,
+                    MotouType.BackgroundColor.transparent);
+                var filePath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "motou_file.gif");
+                File.WriteAllBytes(filePath, fileResult);
+                WriteLog.Info($"File 测试完成，文件已保存到: {filePath} (大小: {fileResult.Length} bytes)");
+            }
+            catch (Exception e)
+            {
+                CatchAnyException("TestMotouPost", e);
             }
         }
 

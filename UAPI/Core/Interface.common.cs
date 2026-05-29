@@ -289,13 +289,13 @@ namespace UAPI
             SendRequestType.GET, null, "application/json", Authentication);
 
         internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl,
-            SendRequestType type = SendRequestType.GET, string postContent = "",
+            SendRequestType type = SendRequestType.GET, object postContent = null,
             string contentType = "application/json", string AuthenticationAPITokenKey = "")
             => await GetResult<BodyResult<byte[]>>(requestUrl, type, postContent, contentType,
                 AuthenticationAPITokenKey);
 
         internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl,
-            SendRequestType type = SendRequestType.GET, string postContent = "",
+            SendRequestType type = SendRequestType.GET, object postContent = null,
             string contentType = "application/json", string AuthenticationAPITokenKey = "")
             => await GetResult<BodyResult<string>>(requestUrl, type, postContent,
                 contentType, AuthenticationAPITokenKey);

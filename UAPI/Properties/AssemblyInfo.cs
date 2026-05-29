@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("UAPI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("UAPI csharp SDK")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rainbow-SPY & AxT-Team")]
 [assembly: AssemblyProduct("UAPI")]

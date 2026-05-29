@@ -3,12 +3,11 @@ using static UAPI.Interface;
 using static UAPI.Type;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Rox.Runtimes;
 using UAPI.IException;
 
 namespace UAPI
 {
-    /// <summary/>
+    /// <summary>图像处理接口</summary>
     public partial class Image
     {
         #region BingDaily MetaJsonData
@@ -92,6 +91,37 @@ namespace UAPI
             BingDailyType.Resolutions resolutions = BingDailyType.Resolutions._4K,
             BingDailyType.Format _format = BingDailyType.Format.image, string Authentication = "")
             => await GetBingDailyImage("", random, resolutions, _format, Authentication);
+
+        #endregion
+
+        #region BingDaily History
+
+        /// <summary>
+        /// 获取必应每日壁纸历史列表
+        /// </summary>
+        /// <param name="date">指定日期精确查询 (YYYY-MM-DD)，传此参数时 page/pageSize 不生效</param>
+        /// <param name="resolution">指定返回图像的分辨率，默认 4K</param>
+        /// <param name="page">页码，默认 1</param>
+        /// <param name="pageSize">每页数量，默认 30，最大 100</param>
+        /// <param name="Authentication">API Token Key</param>
+        /// <returns><see cref="BingDailyHistoryType"/> 对象</returns>
+        public static async Task<BingDailyHistoryType> GetBingDailyHistory(string date = "",
+            BingDailyType.Resolutions resolution = BingDailyType.Resolutions._4K,
+            int page = 1, int pageSize = 30, string Authentication = "")
+        {
+            var url = $"{_UAPI_Request_Url}image/bing-daily/history?resolution={resolution.ToString().Remove(0, 1)}&page={page}&page_size={pageSize}&format=json";
+            if (!string.IsNullOrWhiteSpace(date))
+                url += $"&date={date}";
+
+            var (result, statuscode) = await GetResult<BingDailyHistoryType>(
+                url,
+                SendRequestType.GET, "", "application/json", Authentication);
+            var list = IsGetSuccessful(result, "date", statuscode, new General.UAPIUnknowException(),
+                "Image.GetBingDailyHistory");
+            if (!list.IsRequestSuccessfully)
+                WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
+            return list.FailedException != null ? throw list.FailedException : result;
+        }
 
         #endregion
     }
@@ -212,6 +242,102 @@ namespace UAPI
             /// </summary>
             [JsonProperty("updated_at")]
             public string LastUpdateTime_ISO8601 { get; set; }
+
+            /// <summary>
+            /// 小知识问答（仅历史列表返回）
+            /// </summary>
+            [JsonProperty("trivia")]
+            public BingTriviaType Trivia { get; set; }
+        }
+
+        /// <summary>
+        /// 必应每日壁纸小知识问答
+        /// </summary>
+        public class BingTriviaType
+        {
+            /// <summary>
+            /// 问题
+            /// </summary>
+            [JsonProperty("question")]
+            public string Question { get; set; }
+
+            /// <summary>
+            /// 选项列表
+            /// </summary>
+            [JsonProperty("options")]
+            public System.Collections.Generic.List<BingTriviaOptionType> Options { get; set; }
+        }
+
+        /// <summary>
+        /// 必应每日壁纸小知识问答选项
+        /// </summary>
+        public class BingTriviaOptionType
+        {
+            /// <summary>
+            /// 选项标识（A、B、C）
+            /// </summary>
+            [JsonProperty("bullet")]
+            public string Bullet { get; set; }
+
+            /// <summary>
+            /// 选项文本
+            /// </summary>
+            [JsonProperty("text")]
+            public string Text { get; set; }
+
+            /// <summary>
+            /// 选项链接
+            /// </summary>
+            [JsonProperty("url")]
+            public string Url { get; set; }
+        }
+
+        /// <summary>
+        /// 必应壁纸历史列表响应
+        /// </summary>
+        public class BingDailyHistoryType : TypeInterface
+        {
+            /// <summary>
+            /// 分辨率
+            /// </summary>
+            [JsonProperty("resolution")]
+            public string Resolution { get; set; }
+
+            /// <summary>
+            /// 历史壁纸列表
+            /// </summary>
+            [JsonProperty("items")]
+            public System.Collections.Generic.List<BingDailyType> Items { get; set; }
+
+            /// <summary>
+            /// 分页信息
+            /// </summary>
+            [JsonProperty("pagination")]
+            public BingDailyPaginationType Pagination { get; set; }
+        }
+
+        /// <summary>
+        /// 必应壁纸历史分页信息
+        /// </summary>
+        public class BingDailyPaginationType
+        {
+            /// <summary>
+            /// 当前页码
+            /// </summary>
+            [JsonProperty("page")]
+            public int Page { get; set; }
+
+            /// <summary>
+            /// 每页数量
+            /// </summary>
+            [JsonProperty("page_size")]
+            public int PageSize { get; set; }
+
+            /// <summary>
+            /// 总记录数
+            /// </summary>
+            [JsonProperty("total")]
+            public int Total { get; set; }
         }
     }
 }

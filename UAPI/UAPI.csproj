@@ -10,12 +10,13 @@
     <RootNamespace>UAPI</RootNamespace>
     <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>0.26.2</BaseVersion>
+    <BaseVersion>1.0.0</BaseVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>uapi-sdk-csharp-key.snk</AssemblyOriginatorKeyFile>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <Target Name="GetGitInfo" BeforeTargets="CoreCompile">
     <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD" StandardOutputImportance="Low" ContinueOnError="WarnAndContinue" ConsoleToMsBuild="true">
@@ -93,6 +94,11 @@
     <Compile Include="bilibili\bilibili.GetUserData.Type.cs" />
     <Compile Include="bilibili\bilibili.GetVideoData.cs" />
     <Compile Include="bilibili\bilibili.GetVideoData.Type.cs" />
+    <Compile Include="Clipzy\Clipzy.Get.cs" />
+    <Compile Include="Clipzy\Clipzy.Raw.cs" />
+    <Compile Include="Clipzy\Clipzy.Store.cs" />
+    <Compile Include="Core\Interface.Usage.cs" />
+    <Compile Include="IConvert.cs" />
     <Compile Include="Core\Interface.common.cs" />
     <Compile Include="Core\Interface.Convert.cs" />
     <Compile Include="Core\Interface.HotBoard.Type.cs" />
@@ -119,10 +125,17 @@
     <Compile Include="IException\IException.github.cs" />
     <Compile Include="IException\IException.QQ.cs" />
     <Compile Include="Image\Image.BingDaily.cs" />
+    <Compile Include="Image\Image.Compress.cs" />
+    <Compile Include="Image\Image.Convert.cs" />
+    <Compile Include="Image\Image.DailyNews.cs" />
+    <Compile Include="Image\Image.DecodeForOtherDevices.cs" />
     <Compile Include="Image\Image.Gravator.cs" />
+    <Compile Include="Image\Image.Motou.cs" />
     <Compile Include="Image\Image.nsfw.cs" />
+    <Compile Include="Image\Image.OCR.cs" />
     <Compile Include="Image\Image.QRCode.cs" />
     <Compile Include="Image\Image.ToBase64.cs" />
+    <Compile Include="Image\Image.WhyDontSayAnything.cs" />
     <Compile Include="Interface.APIHealthPlatformStatus.cs" />
     <Compile Include="Interface.APIHealthPlatformStatus.Type.cs" />
     <Compile Include="minecraft.GetHistoryName.cs" />
@@ -180,6 +193,8 @@
     <Compile Include="QQ.GetUserData.Type.cs" />
     <Compile Include="random.Image.cs" />
     <Compile Include="random.Text.cs" />
+    <Compile Include="Search.cs" />
+    <Compile Include="Search.GetConfig.cs" />
     <Compile Include="Steam\Steam.GetUserData.cs" />
     <Compile Include="Steam\Steam.GetUserData.Type.cs" />
     <Compile Include="Steam\Steam.SteamID.Converter.cs" />
@@ -208,6 +223,9 @@
     <Compile Include="Text\Text.Translate.Type.cs" />
     <Compile Include="Weather.GetWeather.cs" />
     <Compile Include="Weather.GetWeather.Type.cs" />
+    <Compile Include="WebParse\WebParse.ExtractImages.cs" />
+    <Compile Include="WebParse\WebParse.GetMetaData.cs" />
+    <Compile Include="WebParse\WebParse.ToMarkdown.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
