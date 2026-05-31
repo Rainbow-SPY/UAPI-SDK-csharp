@@ -57,7 +57,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'的投币量
                 /// </summary>
-                public string Coin_str => Interface.FormatPlayCount(Coin_int);
+                public string Coin_str => IConvert.FormatPlayCount(Coin_int);
 
                 /// <summary>
                 /// 投币量
@@ -68,7 +68,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'弹幕量
                 /// </summary>
-                public string Danmaku_str => Interface.FormatPlayCount(Danmaku_int);
+                public string Danmaku_str => IConvert.FormatPlayCount(Danmaku_int);
 
                 /// <summary>
                 /// 弹幕量
@@ -79,7 +79,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'收藏量
                 /// </summary>
-                public string Favorite_str => Interface.FormatPlayCount(Favorite_int);
+                public string Favorite_str => IConvert.FormatPlayCount(Favorite_int);
 
                 /// <summary>
                 /// 收藏量
@@ -90,7 +90,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'点赞量
                 /// </summary>
-                public string Like_str => Interface.FormatPlayCount(Like_int);
+                public string Like_str => IConvert.FormatPlayCount(Like_int);
 
                 /// <summary>
                 /// 点赞量
@@ -101,7 +101,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'评论量
                 /// </summary>
-                public string Reply_str => Interface.FormatPlayCount(Reply_int);
+                public string Reply_str => IConvert.FormatPlayCount(Reply_int);
 
                 /// <summary>
                 /// 评论量
@@ -112,7 +112,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'分享量
                 /// </summary>
-                public string Share_str => Interface.FormatPlayCount(Share_int);
+                public string Share_str => IConvert.FormatPlayCount(Share_int);
 
                 /// <summary>
                 /// 分享量
@@ -123,7 +123,7 @@ namespace UAPI
                 /// <summary>
                 /// 格式化单位为'万'观看量
                 /// </summary>
-                public string view_str => Interface.FormatPlayCount(View_int);
+                public string view_str => IConvert.FormatPlayCount(View_int);
 
                 /// <summary>
                 /// 观看量
@@ -155,7 +155,7 @@ namespace UAPI
                 /// <summary>
                 /// 总计时长
                 /// </summary>
-                public string durations => Interface.FormatSecondsTime(seconds);
+                public string durations => IConvert.FormatSecondsTime(seconds);
 
                 /// <summary>
                 /// 总计时长
@@ -179,7 +179,7 @@ namespace UAPI
                 /// 发布时间
                 /// </summary>
                 public string pubdate_str => pubdate.Contains("T")
-                    ? Interface.FormatISO8601TimeToLocal(pubdate)
+                    ? IConvert.FormatISO8601TimeToLocal(pubdate)
                     : pubdate;
 
                 /// <summary>

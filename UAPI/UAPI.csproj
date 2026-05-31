@@ -10,7 +10,7 @@
     <RootNamespace>UAPI</RootNamespace>
     <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>1.0.0</BaseVersion>
+    <BaseVersion>1.1.0</BaseVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -94,25 +94,21 @@
     <Compile Include="bilibili\bilibili.GetUserData.Type.cs" />
     <Compile Include="bilibili\bilibili.GetVideoData.cs" />
     <Compile Include="bilibili\bilibili.GetVideoData.Type.cs" />
-    <Compile Include="Clipzy\Clipzy.Get.cs" />
-    <Compile Include="Clipzy\Clipzy.Raw.cs" />
-    <Compile Include="Clipzy\Clipzy.Store.cs" />
-    <Compile Include="Core\Interface.Usage.cs" />
+    <Compile Include="Clipzy\Clipzy.cs" />
     <Compile Include="IConvert.cs" />
     <Compile Include="Core\Interface.common.cs" />
-    <Compile Include="Core\Interface.Convert.cs" />
-    <Compile Include="Core\Interface.HotBoard.Type.cs" />
+    <Compile Include="Core\Interface.BooleanConverter.cs" />
     <Compile Include="Core\Interface.Response.Headers.cs" />
     <Compile Include="Core\Interface.Security.cs" />
     <Compile Include="Core\Interface.Type.cs" />
     <Compile Include="EpicGames.GetFreeGames.cs" />
     <Compile Include="EpicGames.GetFreeGames.Type.cs" />
-    <Compile Include="github.GetRepoData.cs" />
-    <Compile Include="github.GetRepoData.Type.cs" />
-    <Compile Include="hotboard.bilibili.cs" />
-    <Compile Include="hotboard.bilibili.Type.cs" />
-    <Compile Include="hotboard.NeteaseMusic.cs" />
-    <Compile Include="hotboard.NeteaseMusic.Type.cs" />
+    <Compile Include="Github.GetRepoData.cs" />
+    <Compile Include="Github.GetRepoData.Type.cs" />
+    <Compile Include="Hotboard.bilibili.cs" />
+    <Compile Include="Hotboard.bilibili.Type.cs" />
+    <Compile Include="Hotboard.NeteaseMusic.cs" />
+    <Compile Include="Hotboard.NeteaseMusic.Type.cs" />
     <Compile Include="IException\IException.Core.cs" />
     <Compile Include="IException\IException.EpicGames.cs" />
     <Compile Include="IException\IException.Hotboard.cs" />
@@ -136,8 +132,10 @@
     <Compile Include="Image\Image.QRCode.cs" />
     <Compile Include="Image\Image.ToBase64.cs" />
     <Compile Include="Image\Image.WhyDontSayAnything.cs" />
-    <Compile Include="Interface.APIHealthPlatformStatus.cs" />
-    <Compile Include="Interface.APIHealthPlatformStatus.Type.cs" />
+    <Compile Include="API.HealthPlatformStatus.cs" />
+    <Compile Include="API.HealthPlatformStatus.Type.cs" />
+    <Compile Include="API.Usage.cs" />
+    <Compile Include="HotBoard.Type.cs" />
     <Compile Include="minecraft.GetHistoryName.cs" />
     <Compile Include="minecraft.GetServerStatus.cs" />
     <Compile Include="minecraft.GetUserData.cs" />

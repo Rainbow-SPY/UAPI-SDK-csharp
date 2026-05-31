@@ -300,7 +300,7 @@ namespace UAPI
                 /// <summary>
                 /// 该评论获得的点赞数, 返回以"万"为单位的字符串
                 /// </summary>
-                public string Like_str => Interface.FormatPlayCount(Like);
+                public string Like_str => IConvert.FormatPlayCount(Like);
 
                 [JsonProperty("action")] public int action { get; set; }
 

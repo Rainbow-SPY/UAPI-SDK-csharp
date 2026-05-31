@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
+using static UAPI.Interface;
 using static UAPI.Type;
 
 namespace UAPI
 {
     /// <summary/>
-    public partial class Interface
+    public partial class API
     {
         /// <summary>
         /// 获取 API 使用统计

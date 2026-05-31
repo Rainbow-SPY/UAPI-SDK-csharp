@@ -4,7 +4,7 @@ using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class hotboard
+    public partial class Hotboard
     {
         /// <summary>
         /// 获取bilibili热榜信息

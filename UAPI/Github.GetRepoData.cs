@@ -7,7 +7,7 @@ namespace UAPI
     /// <summary>
     /// 查询github相关数据
     /// </summary>
-    public class github
+    public class Github
     {
         /// <summary>
         /// 获取github仓库数据

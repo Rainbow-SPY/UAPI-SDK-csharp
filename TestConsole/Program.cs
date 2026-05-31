@@ -11,6 +11,7 @@ using UAPI;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Type;
+using Hotboard = UAPI.Hotboard;
 
 namespace TestConsole
 {
@@ -140,14 +141,14 @@ namespace TestConsole
             WriteLog.Info("测试bilibili热榜");
             try
             {
-                var a = await hotboard.GetBilibiliHotboard();
+                var a = await Hotboard.GetBilibiliHotboard();
                 var b = $"\n\t查询类型: {a.Type}" +
                         $"\n\t更新时间: {a.UpdateTime_Str}" +
                         "\n\t排行榜信息";
                 b = a.list.Aggregate(b,
                     (current, i) => current + $"\n\t排名: {i.Index}" + $"\n\t视频标题: {i.Title}" + $"\n\t视频链接: {i.Url}" +
                                     $"\n\t视频短链接: {i.extra.short_link}" +
-                                    $"\n\t热度值: {Interface.FormatPlayCount(int.TryParse(i.HotValue.Replace("播放", ""), out var p) ? p : 0)}" +
+                                    $"\n\t热度值: {IConvert.FormatPlayCount(int.TryParse(i.HotValue.Replace("播放", ""), out var p) ? p : 0)}" +
                                     "\n\n\t视频详细信息:" + $"\n\tAV号: {i.extra.aid}" +
                                     $"\n\tBV号: {i.extra.bvid}" + $"\n\t简介: {i.extra.desc}" +
                                     $"\n\t总计时长: {i.extra.durations}" + $"\n\t视频封面: {i.extra.CoverImageUrl}" +
@@ -176,7 +177,7 @@ namespace TestConsole
             WriteLog.Info("测试网易云音乐");
             try
             {
-                var a = await hotboard.GetNeteaseMusicHotboard();
+                var a = await Hotboard.GetNeteaseMusicHotboard();
                 var b = $"\n\n查询类型: {a.Type}" +
                         $"\n更新时间: {a.UpdateTime_Str}" +
                         "\n排行榜信息: ";
@@ -200,7 +201,7 @@ namespace TestConsole
             WriteLog.Info("测试UAPI系统状态");
             try
             {
-                var a = await Interface.APIHealthPlatformStatus();
+                var a = await API.HealthPlatformStatus();
                 WriteLog.Info("服务名: ");
                 foreach (var i in a.services)
                     WriteLog.Info($"\t{i.name}: {(i.status == "error" ? "接口故障" : "正常")}");
@@ -256,7 +257,7 @@ namespace TestConsole
                            $"\n\t分P ID: {i.CID}" +
                            $"\n\t从哪里上传: {i.SourceWhere}" +
                            $"\n\t标题: {i.PartTitle}" +
-                           $"\n\t总计时长: {Interface.FormatSecondsTime((int)i.Duration)}" +
+                           $"\n\t总计时长: {IConvert.FormatSecondsTime((int)i.Duration)}" +
                            (string.IsNullOrEmpty(i.vid)
                                ? ""
                                : $"\n\t外部视频源: {i.vid}") +
@@ -281,7 +282,7 @@ namespace TestConsole
 
 
                 message += $"\n视频状态: {a.State}" +
-                           $"\n视频总长: {Interface.FormatSecondsTime(a.Duration)}" +
+                           $"\n视频总长: {IConvert.FormatSecondsTime(a.Duration)}" +
                            "\n\n视频权限:" +
                            $"\n\t(过时)是否付费观看番剧: {a.RightsInfo.IsBangumiPay}" +
                            $"\n\t是否允许充电: {a.RightsInfo.IsAllowElectronicPay}" +
@@ -306,13 +307,13 @@ namespace TestConsole
                            $"\n\t昵称: {a.OwnerInfo.Name}" +
                            $"\n\t头像链接: {a.OwnerInfo.AvatarImageUrl}" +
                            "\n\n视频信息:" +
-                           $"\n\t播放量: {Interface.FormatPlayCount(a.StatInfo.Views)}" +
-                           $"\n\t弹幕量: {Interface.FormatPlayCount(a.StatInfo.Danmaku)}" +
-                           $"\n\t评论量: {Interface.FormatPlayCount(a.StatInfo.Reply)}" +
-                           $"\n\t点赞量: {Interface.FormatPlayCount(a.StatInfo.Like)}" +
-                           $"\n\t收藏量: {Interface.FormatPlayCount(a.StatInfo.Favorite)}" +
-                           $"\n\t投币量: {Interface.FormatPlayCount(a.StatInfo.Coin)}" +
-                           $"\n\t分享量: {Interface.FormatPlayCount(a.StatInfo.Share)}" +
+                           $"\n\t播放量: {IConvert.FormatPlayCount(a.StatInfo.Views)}" +
+                           $"\n\t弹幕量: {IConvert.FormatPlayCount(a.StatInfo.Danmaku)}" +
+                           $"\n\t评论量: {IConvert.FormatPlayCount(a.StatInfo.Reply)}" +
+                           $"\n\t点赞量: {IConvert.FormatPlayCount(a.StatInfo.Like)}" +
+                           $"\n\t收藏量: {IConvert.FormatPlayCount(a.StatInfo.Favorite)}" +
+                           $"\n\t投币量: {IConvert.FormatPlayCount(a.StatInfo.Coin)}" +
+                           $"\n\t分享量: {IConvert.FormatPlayCount(a.StatInfo.Share)}" +
                            $"\n\t当前全站排名: {a.StatInfo.NowRank}" +
                            $"\n\t历史全站排名: {a.StatInfo.HistoryRank}";
                 if (a.StaffList != null)
@@ -716,7 +717,7 @@ namespace TestConsole
             WriteLog.Info("测试github仓库");
             _stopwatch.Reset();
             _stopwatch.Start();
-            var a = await github.GetReposData("torvalds/linux");
+            var a = await Github.GetReposData("torvalds/linux");
             var _topics = "";
             for (var i = 0; i < a.Topics?.Count; i++)
                 _topics += $"{(i == 0 ? "" : ",")}{a.Topics?[i]}";
