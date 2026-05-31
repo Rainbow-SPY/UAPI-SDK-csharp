@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Rox.Runtimes;
 using static UAPI.Type;
 
@@ -27,6 +28,33 @@ namespace UAPI
             if (!list.IsRequestSuccessfully)
                 LogLibraries.WriteLog.Error($"请求失败, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
             return list.FailedException != null ? throw list.FailedException : result;
+        }
+    }
+
+    public partial class Type
+    {
+        /// <summary>
+        /// <see cref="minecraft.GetUserData"/> 返回的属性列表
+        /// </summary>
+        public class minecraftUserType : TypeInterface
+        {
+            /// <summary>
+            /// 用户名
+            /// </summary>
+            [JsonProperty("username")]
+            public string UserName { get; set; }
+
+            /// <summary>
+            /// 玩家的32位无破折号UUID
+            /// </summary>
+            [JsonProperty("uuid")]
+            public string UUID { get; set; }
+
+            /// <summary>
+            /// 玩家当前使用的皮肤图片URL
+            /// </summary>
+            [JsonProperty("skin_url")]
+            public string SkinImageUrl { get; set; }
         }
     }
 }

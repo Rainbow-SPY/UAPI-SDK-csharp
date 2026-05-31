@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
 using static UAPI.Type;
@@ -32,6 +34,43 @@ namespace UAPI
                     LogLibraries.WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
                 return list.FailedException != null ? throw list.FailedException : result;
             }
+        }
+    }
+
+    public partial class Type
+    {
+        /// <summary/>
+        public class FastType : TypeInterface
+        {
+            /// <summary>
+            /// 返回的敏感词状态
+            /// </summary>
+            [JsonProperty("status")]
+            public string status { get; set; }
+
+            /// <summary>
+            /// 原始文本是否通过审查
+            /// </summary>
+            [JsonIgnore]
+            public bool IsSuccessful => status == "ok";
+
+            /// <summary>
+            /// 原始文本
+            /// </summary>
+            [JsonProperty("original_text")]
+            public string original_text { get; set; }
+
+            /// <summary>
+            /// 脱敏后的文本
+            /// </summary>
+            [JsonProperty("masked_text")]
+            public string masked_text { get; set; }
+
+            /// <summary>
+            /// 敏感词的 List
+            /// </summary>
+            [JsonProperty("forbidden_words")]
+            public List<string> forbidden_words { get; set; }
         }
     }
 }

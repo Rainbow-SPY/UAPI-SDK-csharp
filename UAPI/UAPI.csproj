@@ -10,7 +10,7 @@
     <RootNamespace>UAPI</RootNamespace>
     <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>1.1.0</BaseVersion>
+    <BaseVersion>1.2.0</BaseVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -85,15 +85,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="bilibili\bilibili.GetArchives.cs" />
-    <Compile Include="bilibili\bilibili.GetArchives.Type.cs" />
+    <Compile Include="bilibili\bilibili.GetArchives.Type.cs">
+      <DependentUpon>bilibili.GetArchives.cs</DependentUpon>
+    </Compile>
     <Compile Include="bilibili\bilibili.GetLiveroomStatus.cs" />
-    <Compile Include="bilibili\bilibili.GetLiveroomStatus.Type.cs" />
+    <Compile Include="bilibili\bilibili.GetLiveroomStatus.Type.cs">
+      <DependentUpon>bilibili.GetLiveroomStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="bilibili\bilibili.GetRepliesList.cs" />
-    <Compile Include="bilibili\bilibili.GetRepliesList.Type.cs" />
+    <Compile Include="bilibili\bilibili.GetRepliesList.Type.cs">
+      <DependentUpon>bilibili.GetRepliesList.cs</DependentUpon>
+    </Compile>
     <Compile Include="bilibili\bilibili.GetUserData.cs" />
-    <Compile Include="bilibili\bilibili.GetUserData.Type.cs" />
+    <Compile Include="bilibili\bilibili.GetUserData.Type.cs">
+      <DependentUpon>bilibili.GetUserData.cs</DependentUpon>
+    </Compile>
     <Compile Include="bilibili\bilibili.GetVideoData.cs" />
-    <Compile Include="bilibili\bilibili.GetVideoData.Type.cs" />
+    <Compile Include="bilibili\bilibili.GetVideoData.Type.cs">
+      <DependentUpon>bilibili.GetVideoData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clipzy\Clipzy.cs" />
     <Compile Include="IConvert.cs" />
     <Compile Include="Core\Interface.common.cs" />
@@ -102,13 +112,21 @@
     <Compile Include="Core\Interface.Security.cs" />
     <Compile Include="Core\Interface.Type.cs" />
     <Compile Include="EpicGames.GetFreeGames.cs" />
-    <Compile Include="EpicGames.GetFreeGames.Type.cs" />
+    <Compile Include="EpicGames.GetFreeGames.Type.cs">
+      <DependentUpon>EpicGames.GetFreeGames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Github.GetRepoData.cs" />
-    <Compile Include="Github.GetRepoData.Type.cs" />
+    <Compile Include="Github.GetRepoData.Type.cs">
+      <DependentUpon>Github.GetRepoData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Hotboard.bilibili.cs" />
-    <Compile Include="Hotboard.bilibili.Type.cs" />
+    <Compile Include="Hotboard.bilibili.Type.cs">
+      <DependentUpon>Hotboard.bilibili.cs</DependentUpon>
+    </Compile>
     <Compile Include="Hotboard.NeteaseMusic.cs" />
-    <Compile Include="Hotboard.NeteaseMusic.Type.cs" />
+    <Compile Include="Hotboard.NeteaseMusic.Type.cs">
+      <DependentUpon>Hotboard.NeteaseMusic.cs</DependentUpon>
+    </Compile>
     <Compile Include="IException\IException.Core.cs" />
     <Compile Include="IException\IException.EpicGames.cs" />
     <Compile Include="IException\IException.Hotboard.cs" />
@@ -128,73 +146,99 @@
     <Compile Include="Image\Image.Gravator.cs" />
     <Compile Include="Image\Image.Motou.cs" />
     <Compile Include="Image\Image.nsfw.cs" />
+    <Compile Include="Image\Image.nsfw.Type.cs">
+      <DependentUpon>Image.nsfw.cs</DependentUpon>
+    </Compile>
     <Compile Include="Image\Image.OCR.cs" />
+    <Compile Include="Image\Image.OCR.Type.cs">
+      <DependentUpon>Image.OCR.cs</DependentUpon>
+    </Compile>
     <Compile Include="Image\Image.QRCode.cs" />
     <Compile Include="Image\Image.ToBase64.cs" />
     <Compile Include="Image\Image.WhyDontSayAnything.cs" />
     <Compile Include="API.HealthPlatformStatus.cs" />
-    <Compile Include="API.HealthPlatformStatus.Type.cs" />
+    <Compile Include="API.HealthPlatformStatus.Type.cs">
+      <DependentUpon>API.HealthPlatformStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="API.Usage.cs" />
     <Compile Include="HotBoard.Type.cs" />
+    <Compile Include="Image\Image.BingDaily.Type.cs">
+      <DependentUpon>Image.BingDaily.cs</DependentUpon>
+    </Compile>
     <Compile Include="minecraft.GetHistoryName.cs" />
     <Compile Include="minecraft.GetServerStatus.cs" />
     <Compile Include="minecraft.GetUserData.cs" />
-    <Compile Include="minecraft.GetHistoryName.Type.cs" />
-    <Compile Include="minecraft.GetServerStatus.Type.cs" />
-    <Compile Include="minecraft.GetUserData.Type.cs" />
+    <Compile Include="minecraft.GetHistoryName.Type.cs">
+      <DependentUpon>minecraft.GetHistoryName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="minecraft.GetServerStatus.Type.cs">
+      <DependentUpon>minecraft.GetServerStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Misc.ConvertTimestamp.cs" />
-    <Compile Include="Misc\Misc.ConvertTimestamp.Type.cs" />
     <Compile Include="Misc\Misc.DetectTrackingCarrier.cs" />
-    <Compile Include="Misc\Misc.DetectTrackingCarrier.Type.cs" />
+    <Compile Include="Misc\Misc.DetectTrackingCarrier.Type.cs">
+      <DependentUpon>Misc.DetectTrackingCarrier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Misc.GetHolidayCalendar.cs" />
-    <Compile Include="Misc\Misc.GetHolidayCalendar.Type.cs" />
+    <Compile Include="Misc\Misc.GetHolidayCalendar.Type.cs">
+      <DependentUpon>Misc.GetHolidayCalendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Misc.GetLunarTime.cs" />
-    <Compile Include="Misc\Misc.GetLunarTime.Type.cs" />
+    <Compile Include="Misc\Misc.GetLunarTime.Type.cs">
+      <DependentUpon>Misc.GetLunarTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Misc.GetPhoneInfo.cs" />
-    <Compile Include="Misc\Misc.GetPhoneInfo.Type.cs" />
     <Compile Include="Misc\Misc.GetProgrammerHistoryToday.cs" />
-    <Compile Include="Misc\Misc.GetProgrammerHistoryToday.Type.cs" />
+    <Compile Include="Misc\Misc.GetProgrammerHistoryToday.Type.cs">
+      <DependentUpon>Misc.GetProgrammerHistoryToday.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Misc.GetRandomNumberList.cs" />
-    <Compile Include="Misc\Misc.GetRandomNumberList.Type.cs" />
     <Compile Include="Misc\Misc.GetTrackingCarriers.cs" />
-    <Compile Include="Misc\Misc.GetTrackingCarriers.Type.cs" />
     <Compile Include="Misc\Misc.GetTrackingInfo.cs" />
-    <Compile Include="Misc\Misc.GetTrackingInfo.Type.cs" />
+    <Compile Include="Misc\Misc.GetTrackingInfo.Type.cs">
+      <DependentUpon>Misc.GetTrackingInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Misc.GetWorldTime.cs" />
-    <Compile Include="Misc\Misc.GetWorldTime.Type.cs" />
     <Compile Include="Misc\Misc.PostDateDiff.cs" />
-    <Compile Include="Misc\Misc.PostDateDiff.Type.cs" />
     <Compile Include="Network\Network.DNS.cs" />
-    <Compile Include="Network\Network.DNS.Type.cs" />
     <Compile Include="Network\Network.GetMyIP.cs" />
-    <Compile Include="Network\Network.GetMyIP.Type.cs" />
+    <Compile Include="Network\Network.GetMyIP.Type.cs">
+      <DependentUpon>Network.GetMyIP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Network\Network.ICP.cs" />
-    <Compile Include="Network\Network.ICP.Type.cs" />
     <Compile Include="Network\Network.IPInfo.cs" />
-    <Compile Include="Network\Network.IPInfo.Type.cs" />
+    <Compile Include="Network\Network.IPInfo.Type.cs">
+      <DependentUpon>Network.IPInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Network\Network.Ping.cs" />
-    <Compile Include="Network\Network.Ping.Type.cs" />
     <Compile Include="Network\Network.PingMyIP.cs" />
-    <Compile Include="Network\Network.PingMyIP.Type.cs" />
     <Compile Include="Network\Network.PortScan.cs" />
-    <Compile Include="Network\Network.PortScan.Type.cs" />
     <Compile Include="Network\Network.UrlStatus.cs" />
-    <Compile Include="Network\Network.UrlStatus.Type.cs" />
     <Compile Include="Network\Network.WeixinDomain.cs" />
-    <Compile Include="Network\Network.WeixinDomain.Type.cs" />
     <Compile Include="Network\Network.WhoIs.cs" />
-    <Compile Include="Network\Network.WhoIs.Type.cs" />
+    <Compile Include="Network\Network.WhoIs.Type.cs">
+      <DependentUpon>Network.WhoIs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QQ.GetGroupData.cs" />
     <Compile Include="QQ.GetUserData.cs" />
-    <Compile Include="QQ.GetGroupData.Type.cs" />
-    <Compile Include="QQ.GetUserData.Type.cs" />
+    <Compile Include="QQ.GetGroupData.Type.cs">
+      <DependentUpon>QQ.GetGroupData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QQ.GetUserData.Type.cs">
+      <DependentUpon>QQ.GetUserData.cs</DependentUpon>
+    </Compile>
     <Compile Include="random.Image.cs" />
+    <Compile Include="Random.Image.Type.cs">
+      <DependentUpon>random.Image.cs</DependentUpon>
+    </Compile>
     <Compile Include="random.Text.cs" />
     <Compile Include="Search.cs" />
     <Compile Include="Search.GetConfig.cs" />
     <Compile Include="Steam\Steam.GetUserData.cs" />
-    <Compile Include="Steam\Steam.GetUserData.Type.cs" />
+    <Compile Include="Steam\Steam.GetUserData.Type.cs">
+      <DependentUpon>Steam.GetUserData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steam\Steam.SteamID.Converter.cs" />
     <Compile Include="Steam\Steam.SteamID.cs" />
     <Compile Include="Steam\Steam.SteamID.SteamIDType.cs" />
@@ -205,22 +249,28 @@
     <Compile Include="Text\Text.Base64.cs" />
     <Compile Include="Text\Text.CheckSemsitiveWords.Get.cs" />
     <Compile Include="Text\Text.CheckSensitiveWords.Analyze.cs" />
-    <Compile Include="Text\Text.CheckSensitiveWords.Analyze.Type.cs" />
+    <Compile Include="Text\Text.CheckSensitiveWords.Analyze.Type.cs">
+      <DependentUpon>Text.CheckSensitiveWords.Analyze.cs</DependentUpon>
+    </Compile>
     <Compile Include="Text\Text.CheckSensitiveWords.Fast.cs" />
-    <Compile Include="Text\Text.CheckSensitiveWords.Fast.Type.cs" />
     <Compile Include="Text\Text.Convert.cs" />
     <Compile Include="Text\Text.Markdown.cs" />
-    <Compile Include="Text\Text.Markdown.Type.cs" />
     <Compile Include="Text\Text.MD5.cs" />
     <Compile Include="Text\Text.MD5.Verify.cs" />
     <Compile Include="Text\Text.Saying.cs" />
     <Compile Include="Text\Text.Translate.AI.cs" />
-    <Compile Include="Text\Text.Translate.AI.Type.cs" />
+    <Compile Include="Text\Text.Translate.AI.Type.cs">
+      <DependentUpon>Text.Translate.AI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Text\Text.Translate.cs" />
     <Compile Include="Text\Text.Translate.AI.GetConfig.cs" />
-    <Compile Include="Text\Text.Translate.Type.cs" />
+    <Compile Include="Text\Text.Translate.Type.cs">
+      <DependentUpon>Text.Translate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Weather.GetWeather.cs" />
-    <Compile Include="Weather.GetWeather.Type.cs" />
+    <Compile Include="Weather.GetWeather.Type.cs">
+      <DependentUpon>Weather.GetWeather.cs</DependentUpon>
+    </Compile>
     <Compile Include="WebParse\WebParse.ExtractImages.cs" />
     <Compile Include="WebParse\WebParse.GetMetaData.cs" />
     <Compile Include="WebParse\WebParse.ToMarkdown.cs" />

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
 using static UAPI.Type;
@@ -61,6 +63,41 @@ namespace UAPI
             /// 文本记录
             /// </summary>
             TXT
+        }
+    }
+
+    public partial class Type
+    {
+        /// <summary/>
+        public class DNSType : TypeInterface
+        {
+            /// <summary/>
+            public class RecordsItem
+            {
+                /// <summary>
+                /// 记录在表的IP
+                /// </summary>
+                [JsonProperty("target")]
+                public string TargetIP { get; set; }
+            }
+
+            /// <summary>
+            /// 查询的主机
+            /// </summary>
+            [JsonProperty("domain")]
+            public string Domain { get; set; }
+
+            /// <summary>
+            /// 查询的DNS类型
+            /// </summary>
+            [JsonProperty("type")]
+            public string Type { get; set; }
+
+            /// <summary>
+            /// 查询到的记录  
+            /// </summary>
+            [JsonProperty("records")]
+            public List<RecordsItem> Records { get; set; }
         }
     }
 }

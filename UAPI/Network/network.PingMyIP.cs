@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
 using static UAPI.Type;
@@ -24,6 +25,31 @@ namespace UAPI
             if (!list.IsRequestSuccessfully)
                 LogLibraries.WriteLog.Error($"请求错误, 请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
             return list.FailedException != null ? throw list.FailedException : result;
+        }
+    }
+
+    public partial class Type
+    {
+        /// <summary/>
+        public class PingMyIPType : TypeInterface
+        {
+            /// <summary>
+            /// Ping到的IP地址
+            /// </summary>
+            [JsonProperty("client_ip")]
+            public string IP { get; set; }
+
+            /// <summary>
+            /// 是否Ping成功
+            /// </summary>
+            [JsonProperty("ping_successful")]
+            public bool IsPingSuccessful { get; set; }
+
+            /// <summary>
+            /// 返回的消息
+            /// </summary>
+            [JsonProperty("message")]
+            public string Message { get; set; }
         }
     }
 }

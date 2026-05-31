@@ -5,7 +5,7 @@ using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Misc
     {
         /// <summary>
         /// 查询指定日期、月份或年份的万年历与节假日信息

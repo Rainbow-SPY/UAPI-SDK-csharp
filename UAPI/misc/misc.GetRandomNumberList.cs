@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Rox.Runtimes;
 using UAPI.IException;
 using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Misc
     {
         /// <summary>
         /// 获取一组随机数字
@@ -32,22 +34,27 @@ namespace UAPI
         }
     }
 
-    public partial class random
+    public partial class Random
     {
-        /// <summary>
-        /// 获取一组随机数字
-        /// </summary>
-        /// <param name="min">生成随机数的最小值(包含)。</param>
-        /// <param name="max">生成随机数的最大值(包含)。</param>
-        /// <param name="count">需要生成的随机数的数量。</param>
-        /// <param name="allow_repeat">是否允许生成的多个数字中出现重复值。</param>
-        /// <param name="allow_decimal">是否生成小(浮点)数。如果为 false，则只生成整数。</param>
-        /// <param name="decimal_places">如果 allow_decimal=true，这里可以指定小数的位数。</param>
-        /// <param name="Authentication">API Token</param>
-        /// <returns><see cref="RandomNumberType"/> Object</returns>
+        /// <inheritdoc cref="UAPI.Misc.GetRandomNumberList" />
         public static async Task<RandomNumberType> GetNumberList(int min = 0, int max = 0, int count = 0,
             bool allow_repeat = false, bool allow_decimal = false, int decimal_places = 0,
-            string Authentication = "") => await misc.GetRandomNumberList(min, max, count, allow_repeat, allow_decimal,
+            string Authentication = "") => await Misc.GetRandomNumberList(min, max, count, allow_repeat, allow_decimal,
             decimal_places, Authentication);
+    }
+
+    public partial class Type
+    {
+        /// <summary>
+        /// 随机数字返回的Json属性列表
+        /// </summary>
+        public class RandomNumberType : TypeInterface
+        {
+            /// <summary>
+            /// 生成的随机数组
+            /// </summary>
+            [JsonProperty("numbers")]
+            public List<decimal> Numbers { get; set; }
+        }
     }
 }

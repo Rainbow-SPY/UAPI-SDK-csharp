@@ -6,7 +6,7 @@ using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class random
+    public partial class Random
     {
         /// <summary>
         /// 生成随机不同格式的字符串

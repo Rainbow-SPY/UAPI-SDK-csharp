@@ -5,7 +5,7 @@ using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Misc
     {
         /// <summary>
         /// 查询农历时间

@@ -93,7 +93,8 @@ namespace UAPI
             /// <summary>
             /// 转换为可下载的二进制 PDF 文档
             /// </summary>
-            public static async Task<byte[]> ToPDF(string _text, Theme _theme = Theme.github, Size size = Size.A4,
+            public static async Task<byte[]> ToPDF(string _text, MarkdownType.Theme _theme = MarkdownType.Theme.github,
+                MarkdownType.Size size = MarkdownType.Size.A4,
                 string Authentication = "")
             {
                 var (result, statusCode) = await Interface.GetBytesResult(
@@ -111,35 +112,58 @@ namespace UAPI
                 return list.FailedException != null ? throw list.FailedException : result.Result;
             }
         }
+    }
 
-        /// <summary>
-        /// 下载PDF的主题样式
-        /// </summary>
-        public enum Theme
+    public partial class Type
+    {
+        /// <summary/>
+        public class MarkdownType : TypeInterface
         {
             /// <summary/>
-            github,
+            public class Data
+            {
+                /// <summary>
+                /// HTML 源代码
+                /// </summary>
+                [JsonProperty("html")]
+                public string HTMLCode { get; set; }
+            }
 
-            /// <summary/>
-            minimal,
+            /// <summary>
+            /// 返回的数据
+            /// </summary>
+            [JsonProperty("data")]
+            public Data DataResult { get; set; }
 
-            /// <summary/>
-            light,
+            /// <summary>
+            /// 下载PDF的主题样式
+            /// </summary>
+            public enum Theme
+            {
+                /// <summary/>
+                github,
 
-            /// <summary/>
-            dark
-        }
+                /// <summary/>
+                minimal,
 
-        /// <summary>
-        /// 纸张大小
-        /// </summary>
-        public enum Size
-        {
-            /// <summary/>
-            A4,
+                /// <summary/>
+                light,
 
-            /// <summary/>
-            Letter
+                /// <summary/>
+                dark
+            }
+
+            /// <summary>
+            /// 纸张大小
+            /// </summary>
+            public enum Size
+            {
+                /// <summary/>
+                A4,
+
+                /// <summary/>
+                Letter
+            }
         }
     }
 }

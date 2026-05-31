@@ -5,7 +5,7 @@ using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class misc
+    public partial class Misc
     {
         /// <summary>
         /// 获取程序员历史上的今天的事件
