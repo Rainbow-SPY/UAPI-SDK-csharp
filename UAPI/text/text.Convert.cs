@@ -1,4 +1,3 @@
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UAPI.IException;
@@ -23,8 +22,8 @@ namespace UAPI
             /// <param name="Authentication">API Token Key</param>
             /// <returns><see cref="Type.ConvertType"/>对象</returns>
             public static async Task<Type.ConvertType> Converter(string _text, Format From, Format To,
-                string Authentication = "",
-                object option = null)
+                object option = null,
+                string Authentication = "")
             {
                 var (result, statuscode) = await Interface.GetResult<Type.ConvertType>(
                     $"{Interface._UAPI_Request_Url}text/convert", Interface.SendRequestType.POST,
@@ -50,9 +49,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToText(string _text, Format From,
-                object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.plain, Authentication, option)).Result;
+            public static async Task<Type.ConvertType> AnyToText(string _text, Format From,
+                object option = null, string Authentication = "") =>
+                await Converter(_text, From, Format.plain, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 Base64
@@ -62,9 +61,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToBase64(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToBase64(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.base64, Authentication, option)).Result;
+                => await Converter(_text, From, Format.base64, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为十六进制 (不带 - , 小写字母+数字)
@@ -74,9 +73,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToHex(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToHex(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.hex, Authentication, option)).Result;
+                => await Converter(_text, From, Format.hex, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 URL 编码
@@ -86,9 +85,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToURL(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToURL(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.url, Authentication, option)).Result;
+                => await Converter(_text, From, Format.url, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 Unicode 转义字符
@@ -98,9 +97,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToUnicode(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToUnicode(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.unicode, Authentication, option)).Result;
+                => await Converter(_text, From, Format.unicode, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为二进制字节数据, 返回字节数组
@@ -110,10 +109,10 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<byte[]> AnyToBinaryBytes(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToBinaryBytes(string _text, Format From,
                 object option = null, string Authentication = "")
-                => Encoding.Default.GetBytes(
-                    (await Converter(_text, From, Format.binary, Authentication, option)).Result);
+                =>
+                    await Converter(_text, From, Format.binary, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为二进制字节数据, 返回字符串
@@ -123,9 +122,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToBinaryString(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToBinaryString(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.binary, Authentication, option)).Result;
+                => await Converter(_text, From, Format.binary, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 MD5 哈希值
@@ -135,9 +134,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToMD5(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToMD5(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.md5, Authentication, option)).Result;
+                => await Converter(_text, From, Format.md5, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 SHA1 哈希值
@@ -147,9 +146,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToSHA1(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToSHA1(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.sha1, Authentication, option)).Result;
+                => await Converter(_text, From, Format.sha1, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 SHA256 哈希值
@@ -159,9 +158,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToSHA256(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToSHA256(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.sha256, Authentication, option)).Result;
+                => await Converter(_text, From, Format.sha256, option, Authentication);
 
             /// <summary>
             /// 将任意格式的数据转换为 SHA512 哈希值
@@ -171,9 +170,9 @@ namespace UAPI
             /// <param name="option">预留, 未投入使用</param>
             /// <param name="Authentication">API Token Key</param>
             /// <returns>转换后的格式的文本</returns>
-            public static async Task<string> AnyToSHA512(string _text, Format From,
+            public static async Task<Type.ConvertType> AnyToSHA512(string _text, Format From,
                 object option = null, string Authentication = "")
-                => (await Converter(_text, From, Format.sha512, Authentication, option)).Result;
+                => await Converter(_text, From, Format.sha512, option, Authentication);
 
             /// <summary/>
             public enum Format
@@ -269,7 +268,7 @@ namespace UAPI
             /// 额外提示信息
             /// </summary>
             [JsonProperty("info")]
-            public string info { get; set; }
+            public string Info { get; set; }
         }
     }
 }
