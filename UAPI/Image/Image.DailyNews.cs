@@ -15,7 +15,7 @@ namespace UAPI
         /// <returns>新闻图片二进制 (JPEG)</returns>
         public static async Task<byte[]> GetDailyNews(string Authentication = "")
         {
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<Type.BodyResult<byte[]>>(
                 $"{_UAPI_Request_Url}daily/news-image",
                 SendRequestType.GET, "", "application/json", Authentication);
             var list = IsGetBytesSuccessful(result, "", statuscode,

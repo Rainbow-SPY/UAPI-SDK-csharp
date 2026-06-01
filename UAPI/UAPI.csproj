@@ -333,5 +333,8 @@
     <Content Include="docs\Text.Markdown.md" />
     <Content Include="docs\Weather.GetWeather.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Example\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

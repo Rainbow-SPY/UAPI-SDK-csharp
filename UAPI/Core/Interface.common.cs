@@ -151,6 +151,7 @@ namespace UAPI
                     {
                         WriteLog.Error(LogKind.Json,
                             $"JSON反序列化失败！类型：{typeof(T).FullName}，错误：{ex.Message}，堆栈：{ex.StackTrace}");
+                        return (null, -3);
                     }
 
                     return (result, statusCode);
@@ -175,87 +176,6 @@ namespace UAPI
             }
         }
 
-        private static async Task<(HttpResponseMessage Response, object Body)> ReadBodyOrRetryBackupAsync(
-            HttpResponseMessage response,
-            string requestUrl,
-            SendRequestType type,
-            object postContent,
-            string contentType,
-            string authenticationApiTokenKey,
-            System.Type rawBodyType)
-        {
-            try
-            {
-                return (response, await ReadResponseBodyAsync(response, rawBodyType));
-            }
-            catch (Exception ex) when (
-                ex is HttpRequestException ||
-                ex is IOException ||
-                ex is TaskCanceledException ||
-                ex.InnerException is IOException)
-            {
-                var innerMessage = ex.InnerException == null
-                    ? ""
-                    : $" InnerException: {ex.InnerException.Message}";
-
-                WriteLog.Warning(LogKind.Http,
-                    $"响应头已返回 {(int)response.StatusCode}，但读取响应 Body 失败，准备切换备用站: {ex.Message}{innerMessage}");
-
-                var backupUrl = SwitchToBackupUrl(requestUrl);
-
-                response.Dispose();
-
-                if (backupUrl == requestUrl)
-                    throw;
-
-                var backupResponse = await SendApiRequestOnceAsync(
-                    _httpClient.Value,
-                    backupUrl,
-                    type,
-                    postContent,
-                    contentType,
-                    authenticationApiTokenKey,
-                    TimeSpan.FromSeconds(30));
-
-                try
-                {
-                    return (backupResponse, await ReadResponseBodyAsync(backupResponse, rawBodyType));
-                }
-                catch
-                {
-                    backupResponse.Dispose();
-                    throw;
-                }
-            }
-        }
-
-        private static async Task<object> ReadResponseBodyAsync(
-            HttpResponseMessage response,
-            System.Type rawBodyType)
-        {
-            if (response.Content == null)
-                return rawBodyType == typeof(byte[])
-                    ? (object)Array.Empty<byte>()
-                    : string.Empty;
-
-            return rawBodyType == typeof(byte[])
-                ? (object)await response.Content.ReadAsByteArrayAsync()
-                : await response.Content.ReadAsStringAsync();
-        }
-
-        private static Response.Headers BuildResponseHeaders(HttpResponseMessage response) =>
-            JsonConvert.DeserializeObject<Response.Headers>(
-                JsonConvert.SerializeObject(response.Headers
-                    .Concat(response.Content?.Headers ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
-                    .GroupBy(h => h.Key, StringComparer.OrdinalIgnoreCase)
-                    .ToDictionary(
-                        g => g.Key,
-                        g => string.Join(",", g.SelectMany(x => x.Value)))),
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
-
         /// <summary>
         /// 公共API 获取请求
         /// </summary>
@@ -269,44 +189,6 @@ namespace UAPI
             string AuthenticationAPITokenKey = "") where T : class =>
             await GetResult<T>(requestUrl, SendRequestType.GET, "",
                 "application/json", AuthenticationAPITokenKey);
-
-        /// <summary>
-        /// 公共API 获取请求, 访客请求API, 无 Authentication API Token Key
-        /// </summary>
-        /// <param name="requestUrl">请求的API Url</param>
-        /// <typeparam name="T">泛式类型</typeparam>
-        /// <exception cref="JsonSerializationException"><see cref="Newtonsoft.Json"/> 反序列化失败</exception>
-        /// <exception cref="HttpRequestException"><see cref="HttpClient"/> 请求失败</exception>
-        /// <returns>泛式对象 <see cref="T"/></returns>
-        internal static async Task<(T Result, int StatusCode)> GetResult<T>(string requestUrl) where T : class => await
-            GetResult<T>(requestUrl, SendRequestType.GET);
-
-        internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl) =>
-            await GetBytesResult(requestUrl, SendRequestType.GET);
-
-        internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl,
-            string Authentication = "") => await GetBytesResult(requestUrl,
-            SendRequestType.GET, null, "application/json", Authentication);
-
-        internal static async Task<(BodyResult<byte[]> Result, int StatusCode)> GetBytesResult(string requestUrl,
-            SendRequestType type = SendRequestType.GET, object postContent = null,
-            string contentType = "application/json", string AuthenticationAPITokenKey = "")
-            => await GetResult<BodyResult<byte[]>>(requestUrl, type, postContent, contentType,
-                AuthenticationAPITokenKey);
-
-        internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl,
-            SendRequestType type = SendRequestType.GET, object postContent = null,
-            string contentType = "application/json", string AuthenticationAPITokenKey = "")
-            => await GetResult<BodyResult<string>>(requestUrl, type, postContent,
-                contentType, AuthenticationAPITokenKey);
-
-
-        internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl) =>
-            await GetStringResult(requestUrl, SendRequestType.GET);
-
-        internal static async Task<(BodyResult<string> Result, int StatusCode)> GetStringResult(string requestUrl,
-            string Authentication = "") => await GetStringResult(requestUrl,
-            SendRequestType.GET, null, "application/json", Authentication);
 
         /// <summary>
         /// 请求方式
@@ -523,6 +405,15 @@ namespace UAPI
                                 "VISITOR_MONTHLY_QUOTA_EXHAUSTED");
                             list.FailedReason = VISITOR_MONTHLY_QUOTA_EXHAUSTED;
                             break;
+                        default:
+                            WriteLog.Error(
+                                $"未知错误, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}\n\tHttpClient return 429");
+                            MessageBox_I.Error(
+                                $"未知错误, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}\n\tHttpClient return 429",
+                                _ERROR);
+                            list.FailedReason = "HttpClient return 429";
+                            list.FailedException = _Exception;
+                            break;
                     }
 
                     return list;
@@ -536,6 +427,7 @@ namespace UAPI
                                 $"服务器处理文件 {NullValue ?? "%s"} 时发生未知的异常, 请联系管理员解决问题!\n\t{_ERROR_CODE}: {FILE_OPEN_ERROR}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                                 "FILE_OPEN_ERROR");
                             list.FailedReason = FILE_OPEN_ERROR;
+                            list.FailedException = new FileOpenFailed();
                             return list;
                         case "PHONE_INFO_FAILED":
                             WriteLog.Error(
@@ -559,7 +451,7 @@ namespace UAPI
 
                 case 502:
                     WriteLog.Error(LogKind.Network,
-                        $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
+                        $"{_Error_Type ?? "%s"} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Error(
                         $"{_Error_Type} 上游 API请求错误, {(string.IsNullOrEmpty(Error_Code) ? "" : $"{_ERROR_CODE}: {Error_Code}")}, 错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         _ERROR);
@@ -568,9 +460,9 @@ namespace UAPI
                     return list;
                 case 503:
                     WriteLog.Error(
-                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
+                        $"当前指定的服务 {_Error_Type ?? "%s"} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
                     MessageBox_I.Error(
-                        $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
+                        $"当前指定的服务 {_Error_Type ?? "%s"} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}",
                         _ERROR);
                     list.FailedException = new General.UAPIServiceUnavailable(
                         $"当前指定的服务 {_Error_Type} 不可用, 请联系 UAPI 管理员或反馈工单, {_ERROR_CODE}: {_UAPI_Service_Unavailable},错误信息: {GetMessageOrDetails(Type) ?? ""}\n\t{GetFailedReportDetails(Type) ?? ""}");
@@ -582,14 +474,25 @@ namespace UAPI
                     list.FailedReason = "Request Failed";
                     return list;
                 case -2:
-                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员\n\t错误原因: 基础性请求出错");
-                    MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员\n\t错误原因: 基础性请求出错", _ERROR);
+                    WriteLog.Error(LogKind.Network, "请求失败, 请查找错误并提交日志给工作人员\n\t错误原因: 基础性请求出错或请求的任务超时被取消");
+                    MessageBox_I.Error("请求失败, 请查找错误并提交日志给工作人员\n\t错误原因: 基础性请求出错或请求的任务超时被取消", _ERROR);
                     list.FailedException = new HttpRequestException("");
                     list.FailedReason = "Http Request Failed";
+                    return list;
+                case -3:
+                    WriteLog.Error(LogKind.Json,
+                        $"JSON反序列化失败！请重试或反馈工单给工作人员, {_ERROR_CODE}: {JSON_SERIALIZATION_ERROR}\n\t错误原因: JSON 反序列化失败");
+                    MessageBox_I.Error(
+                        $"JSON反序列化失败！请重试或反馈工单给工作人员, {_ERROR_CODE}: {JSON_SERIALIZATION_ERROR}\n\t错误原因: JSON 反序列化失败",
+                        _ERROR);
+                    list.FailedException = new JsonSerializationException();
+                    list.FailedReason = JSON_SERIALIZATION_ERROR;
                     return list;
                 default:
                     WriteLog.Error(LogKind.Http, "未知错误");
                     MessageBox_I.Error("发生了未知错误", _ERROR);
+                    list.FailedException = _Exception;
+                    list.FailedReason = _UNKNOW_ERROR;
                     return list;
             }
         }
@@ -625,6 +528,9 @@ namespace UAPI
             return list;
         }
 
+
+        #region Request Core
+
         private static string SwitchToBackupUrl(string originalUrl)
         {
             if (originalUrl.StartsWith(_UAPI_Request_Url))
@@ -633,6 +539,88 @@ namespace UAPI
             WriteLog.Warning(LogKind.Http, $"requestUrl {originalUrl} 不包含基础前缀，无法切换到备用地址");
             return originalUrl;
         }
+
+        private static async Task<(HttpResponseMessage Response, object Body)> ReadBodyOrRetryBackupAsync(
+            HttpResponseMessage response,
+            string requestUrl,
+            SendRequestType type,
+            object postContent,
+            string contentType,
+            string authenticationApiTokenKey,
+            System.Type rawBodyType)
+        {
+            try
+            {
+                return (response, await ReadResponseBodyAsync(response, rawBodyType));
+            }
+            catch (Exception ex) when (
+                ex is HttpRequestException ||
+                ex is IOException ||
+                ex is TaskCanceledException ||
+                ex.InnerException is IOException)
+            {
+                var innerMessage = ex.InnerException == null
+                    ? ""
+                    : $" InnerException: {ex.InnerException.Message}";
+
+                WriteLog.Warning(LogKind.Http,
+                    $"响应头已返回 {(int)response.StatusCode}，但读取响应 Body 失败，准备切换备用站: {ex.Message}{innerMessage}");
+
+                var backupUrl = SwitchToBackupUrl(requestUrl);
+
+                response.Dispose();
+
+                if (backupUrl == requestUrl)
+                    throw;
+
+                var backupResponse = await SendApiRequestOnceAsync(
+                    _httpClient.Value,
+                    backupUrl,
+                    type,
+                    postContent,
+                    contentType,
+                    authenticationApiTokenKey,
+                    TimeSpan.FromSeconds(30));
+
+                try
+                {
+                    return (backupResponse, await ReadResponseBodyAsync(backupResponse, rawBodyType));
+                }
+                catch
+                {
+                    backupResponse.Dispose();
+                    throw;
+                }
+            }
+        }
+
+        private static async Task<object> ReadResponseBodyAsync(
+            HttpResponseMessage response,
+            System.Type rawBodyType)
+        {
+            if (response.Content == null)
+                return rawBodyType == typeof(byte[])
+                    ? (object)Array.Empty<byte>()
+                    : string.Empty;
+
+            return rawBodyType == typeof(byte[])
+                ? (object)await response.Content.ReadAsByteArrayAsync()
+                : await response.Content.ReadAsStringAsync();
+        }
+
+        private static Response.Headers BuildResponseHeaders(HttpResponseMessage response) =>
+            JsonConvert.DeserializeObject<Response.Headers>(
+                JsonConvert.SerializeObject(response.Headers
+                    .Concat(response.Content?.Headers ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
+                    .GroupBy(h => h.Key, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => string.Join(",", g.SelectMany(x => x.Value)))),
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+
 
         private static System.Type GetRawBodyType(System.Type resultType)
         {
@@ -883,5 +871,7 @@ namespace UAPI
                 UseProxy = false
             };
         }
+
+        #endregion
     }
 }

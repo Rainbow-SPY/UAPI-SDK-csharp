@@ -12,9 +12,9 @@ namespace UAPI
         /// 查询UAPI的 API HPS
         /// </summary>
         /// <returns></returns>
-        public static async Task<HealthType> HealthPlatformStatus()
+        public static async Task<HealthType> HealthPlatformStatus(string AuthenticationAPITokenKey = "")
         {
-            var (result, statusCode) = await GetResult<HealthType>("https://uapis.cn/api/status/health");
+            var (result, statusCode) = await GetResult<HealthType>("https://uapis.cn/api/status/health",AuthenticationAPITokenKey);
             var list = IsGetSuccessful(result, "", statusCode, new General.UAPIServerDown(),
                 "Health");
             if (!list.IsRequestSuccessfully)

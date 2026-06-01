@@ -22,7 +22,7 @@ namespace UAPI
         public static async Task<byte[]> GetMotouImage(string qq,
             MotouType.BackgroundColor backgroundColor, string Authentication = "")
         {
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<BodyResult<byte[]>>(
                 $"{_UAPI_Request_Url}image/motou" +
                 $"?qq={qq}&bg_color={backgroundColor.ToString()}",
                 SendRequestType.GET, "", "application/json", Authentication);

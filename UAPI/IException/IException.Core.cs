@@ -1,3 +1,4 @@
+using System;
 using static UAPI.Type;
 
 namespace UAPI.IException
@@ -43,6 +44,28 @@ namespace UAPI.IException
         #region 500
 
         internal const string FILE_OPEN_ERROR = "HttpClient 500;FILE_OPEN_ERROR;Read File or Open Failed";
+
+        /// <summary>
+        /// 服务器处理文件时发生未知的异常
+        /// </summary>
+        public class FileOpenFailed : Exception
+        {
+            /// <inheritdoc cref="FileOpenFailed" />
+            public FileOpenFailed()
+            {
+            }
+
+            /// <inheritdoc cref="FileOpenFailed" />
+            public FileOpenFailed(string message) : base(message)
+            {
+            }
+
+            /// <inheritdoc cref="FileOpenFailed" />
+            public FileOpenFailed(string message, Exception inner) : base(message, inner)
+            {
+            }
+        }
+
         internal const string PHONE_INFO_FAILED = "HttpClient 500;PHONE_INFO_FAILED;Upstream Search Failed;";
         internal const string INTERNAL_SERVER_ERROR = "HttpClient 500;INTERNAL_SERVER_ERROR;Internal Server Error";
 
@@ -68,6 +91,8 @@ namespace UAPI.IException
 
 
         internal const string _UAPI_Service_Unavailable = "SERVICE_UNAVAILABLE;HttpClient return 503";
+
+        internal const string JSON_SERIALIZATION_ERROR = "JSON_SERIALIZATION_ERROR; Json serialization failed";
 
         internal static string GetErrorOrCode<T>(T Type) where T : TypeInterface =>
             Type.code ?? Type.error;

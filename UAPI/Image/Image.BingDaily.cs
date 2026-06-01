@@ -54,7 +54,7 @@ namespace UAPI
             BingDailyType.Resolutions resolution = BingDailyType.Resolutions._4K,
             BingDailyType.Format _format = BingDailyType.Format.image, string Authentication = "")
         {
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<BodyResult<byte[]>>(
                 $"{_UAPI_Request_Url}image/bing-daily?date={date}&random={random}&resolution={resolution.ToString().Remove(0, 1)}&format={_format.ToString()}",
                 SendRequestType.GET, "", "application/json", Authentication);
             var list = IsGetBytesSuccessful(result, "date", statuscode,

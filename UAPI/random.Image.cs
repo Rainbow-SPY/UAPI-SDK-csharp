@@ -20,7 +20,7 @@ namespace UAPI
         public static async Task<byte[]> GetImage(RandomImage _category = RandomImage.None,
             WallpaperType _type = WallpaperType.None, string Authentication = "")
         {
-            var (result, statusCode) = await Interface.GetBytesResult(
+            var (result, statusCode) = await Interface.GetResult<BodyResult<byte[]>>(
                 $"https://uapis.cn/api/v1/random/image?type={_type.ToString()}&category={_category.ToString()}",
                 Authentication);
             var list = Interface.IsGetBytesSuccessful(result, null, statusCode, new General.UAPIUnknowException(),

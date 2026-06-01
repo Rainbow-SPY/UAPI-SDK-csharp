@@ -57,7 +57,7 @@ namespace UAPI
             var form = new MultipartFormDataContent();
             form.Add(fileContent, "file", "image.svg");
 
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<Type.BodyResult<byte[]>>(
                 url, SendRequestType.POST, form, "image/svg+xml", Authentication);
             var list = IsGetBytesSuccessful(result, "svg", statuscode,
                 new General.UAPIUnknowException(), "Image.PostImageSVG");

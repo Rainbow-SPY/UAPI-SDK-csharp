@@ -46,7 +46,7 @@ namespace UAPI
             string key,
             string Authentication = "")
         {
-            var (result, statuscode) = await GetStringResult(
+            var (result, statuscode) = await GetResult<BodyResult<string>>(
                 $"{_UAPI_Request_Url}api/raw/{id}?key={key}",
                 SendRequestType.GET, "", "text/plain", Authentication);
             var list = IsGetStringSuccessful(result, "id", statuscode,

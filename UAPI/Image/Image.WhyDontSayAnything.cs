@@ -32,7 +32,7 @@ namespace UAPI
             var json = JsonConvert.SerializeObject(requestBody,
                 new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<Type.BodyResult<byte[]>>(
                 $"{_UAPI_Request_Url}image/speechless",
                 SendRequestType.POST, json, "application/json", Authentication);
             var list = IsGetBytesSuccessful(result, "topText/bottomText", statuscode,

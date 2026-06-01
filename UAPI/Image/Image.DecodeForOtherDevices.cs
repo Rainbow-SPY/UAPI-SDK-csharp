@@ -138,7 +138,7 @@ namespace UAPI
             else
                 throw new ArgumentException("image 和 imageUrl 都为空，至少需要提供图片数据或链接");
 
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<Type.BodyResult<byte[]>>(
                 url, SendRequestType.POST, postContent, contentType, Authentication);
             var list = IsGetBytesSuccessful(result, "image", statuscode,
                 new General.UAPIUnknowException(), "Image.PostImageDecode");

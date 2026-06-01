@@ -64,7 +64,7 @@ namespace UAPI
             form.Add(fileContent, "file", $"image.{contentType.Split('/')[1]}");
             form.Add(new StringContent(level.ToString()), "level");
 
-            var (result, statuscode) = await GetBytesResult(
+            var (result, statuscode) = await GetResult<Type.BodyResult<byte[]>>(
                 $"{_UAPI_Request_Url}image/compress",
                 SendRequestType.POST, form, contentType, Authentication);
             var list = IsGetBytesSuccessful(result, "image", statuscode,
