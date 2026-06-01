@@ -61,7 +61,7 @@ namespace UAPI
                 public static async Task<string> ReturnedHTMLCode(string _text, bool _sanitize = true,
                     string Authentication = "")
                 {
-                    var (result, statusCode) = await Interface.GetStringResult(
+                    var (result, statusCode) = await Interface.GetResult<BodyResult<string>>(
                         $"{Interface._UAPI_Request_Url}text/markdown-to-html",
                         Interface.SendRequestType.POST, JsonConvert.SerializeObject(new
                         {
@@ -97,7 +97,7 @@ namespace UAPI
                 MarkdownType.Size size = MarkdownType.Size.A4,
                 string Authentication = "")
             {
-                var (result, statusCode) = await Interface.GetBytesResult(
+                var (result, statusCode) = await Interface.GetResult<BodyResult<byte[]>>(
                     $"{Interface._UAPI_Request_Url}text/markdown-to-pdf", Interface.SendRequestType.POST,
                     JsonConvert.SerializeObject(new
                     {

@@ -21,7 +21,7 @@ namespace UAPI
             rType r = rType.None,
             string Authentication = "")
         {
-            var (result, statuscode) = await Interface.GetBytesResult(
+            var (result, statuscode) = await Interface.GetResult<Type.BodyResult<byte[]>>(
                 $"{Interface._UAPI_Request_Url}avatar/gravatar?s={(s > 2048 ? 2048 : s < 1 ? 1 : s)}{(string.IsNullOrEmpty(email) ? "" : $"&email={email}")}{(string.IsNullOrEmpty(hash.ToLower()) ? "" : $"&hash={hash.ToLower()}")}&{(r == rType.None ? "" : $"&r={r.ToString()}")}{(d == dType.None ? "" : $"&d={d.ToString()}")}",
                 Interface.SendRequestType.GET, "", "application/json", Authentication);
             var list = Interface.IsGetBytesSuccessful(result, "", statuscode,new General.UAPIUnknowException(),"GetGravatorImage");

@@ -27,7 +27,7 @@ namespace UAPI
                 bool transparent = false, string FrontColor = "#000000", string BackgroundColor = "#FFFFFF",
                 string Authentication = "")
             {
-                var (result, statuscode) = await Interface.GetBytesResult(
+                var (result, statuscode) = await Interface.GetResult<Type.BodyResult<byte[]>>(
                     $"{Interface._UAPI_Request_Url}image/qrcode" +
                     $"?text={_text}&size={size}&format=image" +
                     $"&transparent={transparent.ToString()}&fgcolor=%23{FrontColor.Substring(1)}&bgcolor=%23{BackgroundColor.Substring(1)}",
