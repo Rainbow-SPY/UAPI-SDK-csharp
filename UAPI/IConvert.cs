@@ -12,7 +12,7 @@ using static UAPI.Text.Convert;
 namespace UAPI
 {
     /// <summary/>
-    public partial class IConvert
+    public class IConvert
     {
         /// <summary/>
         public class Image
@@ -30,7 +30,7 @@ namespace UAPI
         public class Text
         {
             /// <inheritdoc cref="UAPI.Text.Convert.Converter" />
-            public static async Task<Type.ConvertType> Converter(string _text, Format From, Format To,
+            public static async Task<ConvertType> Converter(string _text, Format From, Format To,
                 string Authentication = "",
                 object option = null) => await UAPI.Text.Convert.Converter(_text, From, To, option, Authentication);
 
@@ -154,7 +154,7 @@ namespace UAPI
                 throw new ArgumentException("json cannot be null or empty", nameof(json));
 
             var requestBody = new { content = json };
-            var jsonBody = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
+            var jsonBody = JsonConvert.SerializeObject(requestBody);
 
             var (result, statuscode) = await GetResult<JsonConvertType>(
                 $"{_UAPI_Request_Url}convert/json",

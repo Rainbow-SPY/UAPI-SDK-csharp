@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Rox.Runtimes;
+using UAPI.IException;
 using static UAPI.Type;
 
 namespace UAPI
@@ -22,7 +23,7 @@ namespace UAPI
                 await Interface.GetResult<ReposType>($"{Interface._UAPI_Request_Url}github/repo?repo={owner_and_repo}",
                     Authentication);
             var list = Interface.IsGetSuccessful(result, "owner_and_repo", statusCode,
-                new IException.github.GithubAPIServiceError(), "Github", IException.github._Github_ServiceError);
+                new github.GithubAPIServiceError(), "Github", github._Github_ServiceError);
             if (!list.IsRequestSuccessfully)
                 LogLibraries.WriteLog.Error($"请求失败,请重试!\n\t返回值: {list.StatusCode}\n\t错误信息: {list.FailedReason}");
             return list.FailedException != null ? throw list.FailedException : result;

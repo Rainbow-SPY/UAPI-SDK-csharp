@@ -14,7 +14,7 @@ namespace UAPI
         /// <returns></returns>
         public static async Task<HealthType> HealthPlatformStatus()
         {
-            var (result, statusCode) = await GetResult<HealthType>($"https://uapis.cn/api/status/health");
+            var (result, statusCode) = await GetResult<HealthType>("https://uapis.cn/api/status/health");
             var list = IsGetSuccessful(result, "", statusCode, new General.UAPIServerDown(),
                 "Health");
             if (!list.IsRequestSuccessfully)

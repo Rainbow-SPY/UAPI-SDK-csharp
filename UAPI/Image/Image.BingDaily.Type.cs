@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace UAPI
@@ -19,7 +20,7 @@ namespace UAPI
             /// 历史壁纸列表
             /// </summary>
             [JsonProperty("items")]
-            public System.Collections.Generic.List<BingDailyType> Items { get; set; }
+            public List<BingDailyType> Items { get; set; }
 
             /// <summary>
             /// 分页信息
@@ -70,7 +71,7 @@ namespace UAPI
                 /// 选项列表
                 /// </summary>
                 [JsonProperty("options")]
-                public System.Collections.Generic.List<BingTriviaOptionType> Options { get; set; }
+                public List<BingTriviaOptionType> Options { get; set; }
             }
 
             /// <summary>

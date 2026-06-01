@@ -10,7 +10,7 @@ namespace UAPI
     /// <summary>
     /// Clipzy 剪贴板
     /// </summary>
-    public partial class Clipzy
+    public class Clipzy
     {
         /// <summary>
         /// 获取 Clipzy 剪贴板中的加密数据<br/>
