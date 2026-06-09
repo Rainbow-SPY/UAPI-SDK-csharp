@@ -10,13 +10,15 @@
     <RootNamespace>UAPI</RootNamespace>
     <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>1.2.0</BaseVersion>
+    <BaseVersion>1.2.2</BaseVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>uapi-sdk-csharp-key.snk</AssemblyOriginatorKeyFile>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <LangVersion>8</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <Target Name="GetGitInfo" BeforeTargets="CoreCompile">
     <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD" StandardOutputImportance="Low" ContinueOnError="WarnAndContinue" ConsoleToMsBuild="true">
@@ -105,6 +107,9 @@
       <DependentUpon>bilibili.GetVideoData.cs</DependentUpon>
     </Compile>
     <Compile Include="Clipzy\Clipzy.cs" />
+    <Compile Include="Example\GeneratedExample.cs" />
+    <Content Include="Example\获取bilibili投稿详情.cs" />
+    <Content Include="Example\获取Minecraft最新版本.cs" />
     <Compile Include="IConvert.cs" />
     <Compile Include="Core\Interface.common.cs" />
     <Compile Include="Core\Interface.BooleanConverter.cs" />
@@ -174,6 +179,7 @@
     <Compile Include="minecraft.GetServerStatus.Type.cs">
       <DependentUpon>minecraft.GetServerStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Minecraft.Version.cs" />
     <Compile Include="Misc\Misc.ConvertTimestamp.cs" />
     <Compile Include="Misc\Misc.DetectTrackingCarrier.cs" />
     <Compile Include="Misc\Misc.DetectTrackingCarrier.Type.cs">
@@ -332,9 +338,6 @@
     <Content Include="docs\Steam.SteamID.md" />
     <Content Include="docs\Text.Markdown.md" />
     <Content Include="docs\Weather.GetWeather.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Example\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
