@@ -8,7 +8,7 @@ namespace UAPI
     /// <summary>
     /// Minecraft 相关请求
     /// </summary>
-    public partial class minecraft
+    public partial class Minecraft
     {
         /// <summary>
         /// 获取 Minecraft 正版 Mojang 账号的数据
@@ -34,7 +34,7 @@ namespace UAPI
     public partial class Type
     {
         /// <summary>
-        /// <see cref="minecraft.GetUserData"/> 返回的属性列表
+        /// <see cref="Minecraft.GetUserData"/> 返回的属性列表
         /// </summary>
         public class minecraftUserType : TypeInterface
         {

@@ -10,7 +10,7 @@
     <RootNamespace>UAPI</RootNamespace>
     <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>1.2.2</BaseVersion>
+    <BaseVersion>1.2.4</BaseVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -244,6 +244,10 @@
     <Compile Include="Steam\Steam.GetUserData.cs" />
     <Compile Include="Steam\Steam.GetUserData.Type.cs">
       <DependentUpon>Steam.GetUserData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steam\Steam.Servers.cs" />
+    <Compile Include="Steam\Steam.Servers.Type.cs">
+      <DependentUpon>Steam.Servers.cs</DependentUpon>
     </Compile>
     <Compile Include="Steam\Steam.SteamID.Converter.cs" />
     <Compile Include="Steam\Steam.SteamID.cs" />

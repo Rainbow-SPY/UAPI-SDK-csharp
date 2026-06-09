@@ -1,4 +1,5 @@
 using System;
+using Rox.Runtimes;
 using static UAPI.Type;
 
 namespace UAPI.IException
@@ -112,5 +113,8 @@ namespace UAPI.IException
                    $"\n\t\tCredits Status: {typeHeaders.DebitStatus.ToString()}" +
                    $"\n\t\tSource Where:{(typeHeaders.IsVisitor ? "Visitor" : "Billing")}";
         }
+
+        internal static string ReportText(string cause, string MethodName, Exception e) =>
+            $"在请求时发生了一个异常: {cause}, 错误详情: {LocalizedString._Exception_With_xKind(MethodName, e)}";
     }
 }
