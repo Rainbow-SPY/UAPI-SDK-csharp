@@ -4,7 +4,7 @@ using static UAPI.Type;
 
 namespace UAPI
 {
-    public partial class minecraft
+    public partial class Minecraft
     {
         /// <summary>
         /// 查询Minecraft游戏服务器
