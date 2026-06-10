@@ -10,7 +10,7 @@
     <RootNamespace>UAPI</RootNamespace>
     <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>1.2.4</BaseVersion>
+    <BaseVersion>1.2.7</BaseVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
@@ -179,6 +179,10 @@
     <Compile Include="minecraft.GetServerStatus.Type.cs">
       <DependentUpon>minecraft.GetServerStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Minecraft.SearchMod.cs" />
+    <Compile Include="Minecraft.SearchMod.Type.cs">
+      <DependentUpon>Minecraft.SearchMod.cs</DependentUpon>
+    </Compile>
     <Compile Include="Minecraft.Version.cs" />
     <Compile Include="Misc\Misc.ConvertTimestamp.cs" />
     <Compile Include="Misc\Misc.DetectTrackingCarrier.cs" />
@@ -264,6 +268,7 @@
     </Compile>
     <Compile Include="Text\Text.CheckSensitiveWords.Fast.cs" />
     <Compile Include="Text\Text.Convert.cs" />
+    <Compile Include="Text\Text.DailyWord.cs" />
     <Compile Include="Text\Text.Markdown.cs" />
     <Compile Include="Text\Text.MD5.cs" />
     <Compile Include="Text\Text.MD5.Verify.cs" />
