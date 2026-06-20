@@ -17,23 +17,27 @@ namespace UAPI
                 private int _stopOnEmpty;
                 private string? _debitStatus;
                 private string? _xCacheStatus;
-                [JsonProperty("age")] public string Age { get; set; }
+
+                /// <summary />
+                [JsonProperty("age")] public string Age { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 缓存机制信息
                 /// </summary>
                 [JsonProperty("cache-control")]
-                public string CacheControl { get; set; }
+                public string CacheControl { get; set; } = string.Empty;
 
-                [JsonProperty("content-length")] public long? ContentLength { get; set; }
+                /// <summary />
+                [JsonProperty("content-length")]
+                public long ContentLength { get; set; }
 
                 /// <summary>
                 /// 请求中响应头的文档类型
                 /// </summary>
                 [JsonProperty("content-type")]
-                public string ContentType { get; set; }
+                public string ContentType { get; set; } = string.Empty;
 
-                [JsonProperty("date")] public string Date { get; set; }
+                [JsonProperty("date")] public string Date { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 是否命中腾讯云 EdgeOne 边缘加速平台CDN的资源缓存
@@ -41,13 +45,13 @@ namespace UAPI
                 /// <remarks>此属性不属于 UAPI 平台缓存机制</remarks>
                 /// </summary>
                 [JsonProperty("eo-cache-status")]
-                public string EdgeOneResourceCacheStatus { get; set; }
+                public string EdgeOneResourceCacheStatus { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 在腾讯云 EdgeOne 边缘加速平台CDN的请求唯一标识符 (UUID)
                 /// </summary>
                 [JsonProperty("eo-log-uuid")]
-                public string EdgeOneLogUUID { get; set; }
+                public string EdgeOneLogUUID { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 在请求出错时可用, 用于记录网络请求日志
