@@ -22,9 +22,9 @@ namespace UAPI
             {
                 var (result, statuscode) =
                     await Interface.GetResult<Type.MinecraftVerFromMojang>(
-                        $"https://launchermeta.mojang.com/mc/game/version_manifest_v2.json",
+                        "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json",
                         Interface.SendRequestType.GET,
-                        "", "application/json", "");
+                        "");
                 var list = Interface.IsGetSuccessful(result, "", statuscode, new minecraft.MojangAPIServiceError(),
                     "GetMinecraftVersion.FromMojang");
                 if (!list.IsRequestSuccessfully)

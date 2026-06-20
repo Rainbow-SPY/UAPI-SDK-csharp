@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace UAPI
@@ -77,7 +76,7 @@ namespace UAPI
                 [JsonProperty("x-cache-status")]
                 public bool IsHITCache
                 {
-                    get => _xCacheStatus?.ToUpper() == "HIT" ? true : false;
+                    get => _xCacheStatus?.ToUpper() == "HIT";
                     set => _xCacheStatus = value ? "HIT" : "MISS";
                 }
 
@@ -288,7 +287,7 @@ namespace UAPI
                 /// <returns></returns>
                 public static string OutputRequestHeadersInfo<T>(T _Type) where T : TypeInterface
                 {
-                    var hr = $"=========================================================";
+                    const string hr = "=========================================================";
 
                     var headers = _Type.Headers;
                     var info = $"{hr}\n\t" +
@@ -298,7 +297,7 @@ namespace UAPI
                                $"是否为访客请求: {headers.IsVisitor} {(headers.IsVisitor ? $"访客模式当前月免费额度上限: {headers.VisitorRate}, 剩余 {headers.VisitorQuotaRemaining}" : $"剩余积分: {headers.CreditsRemaining}")}\n" +
                                $"当前有效的资源包数量: {headers.ActivatedResourcePackagesCount}, 额度总上限: {headers.BillingQuotaLimit}\n" +
                                $"当前生效的请求速率规则: {headers.BillingKeyRequestLimit}, 下单IP速率规则: {headers.BillingKeyRequestIPLimit}\n" +
-                               $"";
+                               "";
                     return info;
                 }
 
@@ -307,7 +306,7 @@ namespace UAPI
                 /// </summary>
                 /// <param name="h">请求的响应对象</param>
                 /// <returns>详细的扣费信息</returns>
-                public static string GetHeadersInfo(Headers.Debit? h) =>
+                public static string GetHeadersInfo(Debit? h) =>
                     h switch
                     {
                         Debit.Applied => "命中了缓存",

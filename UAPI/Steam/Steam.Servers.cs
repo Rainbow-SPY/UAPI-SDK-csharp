@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Rox.Runtimes;
-using UAPI.IException;
 using static UAPI.Interface;
 using static UAPI.Type;
 
@@ -23,8 +20,8 @@ namespace UAPI
         public static async Task<SteamServers> FindServers(string appid, string query, int count,
             string Authentication = "")
         {
-            var (result, statuscode) = await Interface.GetResult<SteamServers>(
-                $"{Interface._UAPI_Request_Url}game/steam/servers?appid={appid}&query={query}&limit={count}",
+            var (result, statuscode) = await GetResult<SteamServers>(
+                $"{_UAPI_Request_Url}game/steam/servers?appid={appid}&query={query}&limit={count}",
                 SendRequestType.GET, "", "application/json", Authentication);
             var list = IsGetSuccessful(result, "id", statuscode,
                 new IException.Steam.SteamServiceError(), "Steam.FindServers");

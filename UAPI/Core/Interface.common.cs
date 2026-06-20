@@ -114,7 +114,7 @@ namespace UAPI
                         return (null, statusCode);
                     }
 
-                    T result = null;
+                    T result;
 
                     try
                     {
@@ -765,84 +765,82 @@ namespace UAPI
             string authenticationApiTokenKey,
             TimeSpan timeout)
         {
-            using (var cts = new CancellationTokenSource(timeout))
-            using (var request =
-                   new HttpRequestMessage(type == SendRequestType.GET
-                       ? HttpMethod.Get
-                       : HttpMethod.Post, url))
+            using var cts = new CancellationTokenSource(timeout);
+            using var request =
+                new HttpRequestMessage(type == SendRequestType.GET
+                    ? HttpMethod.Get
+                    : HttpMethod.Post, url);
+            request.Version = HttpVersion.Version11;
+            request.Headers.ConnectionClose = true;
+
+            if (!string.IsNullOrEmpty(authenticationApiTokenKey))
             {
-                request.Version = HttpVersion.Version11;
-                request.Headers.ConnectionClose = true;
+                request.Headers.Authorization =
+                    new AuthenticationHeaderValue("Bearer", authenticationApiTokenKey);
+                var encryptedToken = BitConverter.ToString(SHA256.Create()
+                        .ComputeHash(Encoding.UTF8.GetBytes(authenticationApiTokenKey.Trim())))
+                    .Replace("-", "").ToLower();
+                WriteLog.Info(LogKind.Http, $"Bearer SHA256: {encryptedToken}");
+            }
 
-                if (!string.IsNullOrEmpty(authenticationApiTokenKey))
-                {
-                    request.Headers.Authorization =
-                        new AuthenticationHeaderValue("Bearer", authenticationApiTokenKey);
-                    var encryptedToken = BitConverter.ToString(SHA256.Create()
-                            .ComputeHash(Encoding.UTF8.GetBytes(authenticationApiTokenKey.Trim())))
-                        .Replace("-", "").ToLower();
-                    WriteLog.Info(LogKind.Http, $"Bearer SHA256: {encryptedToken}");
-                }
-
-                if (type != SendRequestType.POST)
-                    return await httpClient.SendAsync(
-                        request,
-                        HttpCompletionOption.ResponseHeadersRead,
-                        cts.Token);
-
-                switch (postContent)
-                {
-                    case HttpContent client:
-                        request.Content = client;
-                        WriteLog.Info("postContent is HttpContent");
-                        break;
-                    case string str:
-                        request.Content = new StringContent(
-                            str,
-                            Encoding.UTF8,
-                            contentType ?? "application/json"
-                        );
-                        WriteLog.Info(
-                            $"postContent is string,auto build new StringContent,add ContentType: {contentType}");
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                        break;
-                    case byte[] bytes:
-                    {
-                        request.Content = new ByteArrayContent(bytes);
-                        WriteLog.Info(
-                            $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
-                        if (!string.IsNullOrWhiteSpace(contentType))
-                        {
-                            request.Content.Headers.ContentType =
-                                new MediaTypeHeaderValue(contentType);
-                        }
-
-                        break;
-                    }
-                    default:
-                    {
-                        if (postContent != null)
-                        {
-                            WriteLog.Info("postContent is null,auto serialize content");
-                            request.Content = new StringContent(
-                                JsonConvert.SerializeObject(postContent),
-                                Encoding.UTF8,
-                                contentType ?? "application/json"
-                            );
-                            request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                        }
-
-                        break;
-                    }
-                }
-
-                // 关键：只等响应头，不先把整个 body 缓冲完。
-                // 某些网络下 body 阶段卡住时，GetAsync 默认会直接超时。
+            if (type != SendRequestType.POST)
                 return await httpClient.SendAsync(
                     request,
                     HttpCompletionOption.ResponseHeadersRead,
                     cts.Token);
+
+            switch (postContent)
+            {
+                case HttpContent client:
+                    request.Content = client;
+                    WriteLog.Info("postContent is HttpContent");
+                    break;
+                case string str:
+                    request.Content = new StringContent(
+                        str,
+                        Encoding.UTF8,
+                        contentType ?? "application/json"
+                    );
+                    WriteLog.Info(
+                        $"postContent is string,auto build new StringContent,add ContentType: {contentType}");
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    break;
+                case byte[] bytes:
+                {
+                    request.Content = new ByteArrayContent(bytes);
+                    WriteLog.Info(
+                        $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
+                    if (!string.IsNullOrWhiteSpace(contentType))
+                    {
+                        request.Content.Headers.ContentType =
+                            new MediaTypeHeaderValue(contentType);
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    if (postContent != null)
+                    {
+                        WriteLog.Info("postContent is null,auto serialize content");
+                        request.Content = new StringContent(
+                            JsonConvert.SerializeObject(postContent),
+                            Encoding.UTF8,
+                            contentType ?? "application/json"
+                        );
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    }
+
+                    break;
+                }
             }
+
+            // 关键：只等响应头，不先把整个 body 缓冲完。
+            // 某些网络下 body 阶段卡住时，GetAsync 默认会直接超时。
+            return await httpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                cts.Token);
         }
 
         // 优化 HttpClientHandler 配置
