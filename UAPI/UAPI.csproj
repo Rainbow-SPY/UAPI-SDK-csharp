@@ -110,6 +110,7 @@
     <Compile Include="Example\GeneratedExample.cs" />
     <Content Include="Example\获取bilibili投稿详情.cs" />
     <Content Include="Example\获取Minecraft最新版本.cs" />
+    <Compile Include="Extensions\Extensions.IConvert.cs" />
     <Compile Include="IConvert.cs" />
     <Compile Include="Core\Interface.common.cs" />
     <Compile Include="Core\Interface.BooleanConverter.cs" />
