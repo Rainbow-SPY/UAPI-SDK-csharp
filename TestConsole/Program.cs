@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UAPI;
+using UAPI.Extensions;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
 using static UAPI.Type;
@@ -25,6 +26,8 @@ namespace TestConsole
             Console.ReadLine();
             AnalyzeWords();
             ToHTML();
+            TestBytes();
+            TestNSFW();
             TestbilibiliHotboard().Wait();
             TestNeteaseMusicHotboard().Wait();
             Thread.Sleep(2000);
@@ -53,7 +56,7 @@ namespace TestConsole
                 var md5 = await Text.CreateMD5(result.ToString());
                 var data = MD5.Create().ComputeHash(result);
                 var builder = new StringBuilder();
-                foreach (var t in data) 
+                foreach (var t in data)
                     builder.Append(t.ToString("x2"));
                 WriteLog.Info($"请求成功: 获取到的图像MD5为: {md5.MD5}, 本地计算的MD5为: {builder}");
             }
@@ -148,7 +151,7 @@ namespace TestConsole
                 b = a.list.Aggregate(b,
                     (current, i) => current + $"\n\t排名: {i.Index}" + $"\n\t视频标题: {i.Title}" + $"\n\t视频链接: {i.Url}" +
                                     $"\n\t视频短链接: {i.extra.short_link}" +
-                                    $"\n\t热度值: {IConvert.FormatPlayCount(int.TryParse(i.HotValue.Replace("播放", ""), out var p) ? p : 0)}" +
+                                    $"\n\t热度值: {(int.TryParse(i.HotValue.Replace("播放", ""), out var p) ? p : 0).FormatPlayCount()}" +
                                     "\n\n\t视频详细信息:" + $"\n\tAV号: {i.extra.aid}" +
                                     $"\n\tBV号: {i.extra.bvid}" + $"\n\t简介: {i.extra.desc}" +
                                     $"\n\t总计时长: {i.extra.durations}" + $"\n\t视频封面: {i.extra.CoverImageUrl}" +
@@ -257,7 +260,7 @@ namespace TestConsole
                            $"\n\t分P ID: {i.CID}" +
                            $"\n\t从哪里上传: {i.SourceWhere}" +
                            $"\n\t标题: {i.PartTitle}" +
-                           $"\n\t总计时长: {IConvert.FormatSecondsTime((int)i.Duration)}" +
+                           $"\n\t总计时长: {((int)i.Duration).FormatSecondsTime()}" +
                            (string.IsNullOrEmpty(i.vid)
                                ? ""
                                : $"\n\t外部视频源: {i.vid}") +
@@ -282,7 +285,7 @@ namespace TestConsole
 
 
                 message += $"\n视频状态: {a.State}" +
-                           $"\n视频总长: {IConvert.FormatSecondsTime(a.Duration)}" +
+                           $"\n视频总长: {a.Duration.FormatSecondsTime()}" +
                            "\n\n视频权限:" +
                            $"\n\t(过时)是否付费观看番剧: {a.RightsInfo.IsBangumiPay}" +
                            $"\n\t是否允许充电: {a.RightsInfo.IsAllowElectronicPay}" +
@@ -307,41 +310,32 @@ namespace TestConsole
                            $"\n\t昵称: {a.OwnerInfo.Name}" +
                            $"\n\t头像链接: {a.OwnerInfo.AvatarImageUrl}" +
                            "\n\n视频信息:" +
-                           $"\n\t播放量: {IConvert.FormatPlayCount(a.StatInfo.Views)}" +
-                           $"\n\t弹幕量: {IConvert.FormatPlayCount(a.StatInfo.Danmaku)}" +
-                           $"\n\t评论量: {IConvert.FormatPlayCount(a.StatInfo.Reply)}" +
-                           $"\n\t点赞量: {IConvert.FormatPlayCount(a.StatInfo.Like)}" +
-                           $"\n\t收藏量: {IConvert.FormatPlayCount(a.StatInfo.Favorite)}" +
-                           $"\n\t投币量: {IConvert.FormatPlayCount(a.StatInfo.Coin)}" +
-                           $"\n\t分享量: {IConvert.FormatPlayCount(a.StatInfo.Share)}" +
+                           $"\n\t播放量: {a.StatInfo.Views.FormatPlayCount()}" +
+                           $"\n\t弹幕量: {a.StatInfo.Danmaku.FormatPlayCount()}" +
+                           $"\n\t评论量: {a.StatInfo.Reply.FormatPlayCount()}" +
+                           $"\n\t点赞量: {a.StatInfo.Like.FormatPlayCount()}" +
+                           $"\n\t收藏量: {a.StatInfo.Favorite.FormatPlayCount()}" +
+                           $"\n\t投币量: {a.StatInfo.Coin.FormatPlayCount()}" +
+                           $"\n\t分享量: {a.StatInfo.Share.FormatPlayCount()}" +
                            $"\n\t当前全站排名: {a.StatInfo.NowRank}" +
                            $"\n\t历史全站排名: {a.StatInfo.HistoryRank}";
-                if (a.StaffList != null)
-                {
-                    message += "\n\n共创信息: ";
-                    message = a.StaffList.Where(i => i != null)
-                        .Aggregate(message, (current, i) => current + $"\n\t合作人: {i}");
-                }
+                message += "\n\n共创信息: ";
+                message = a.StaffList.Where(i => true)
+                    .Aggregate(message, (current, i) => current + $"\n\t合作人: {i}");
 
-                if (a.SubtitleList.List != null)
-                {
-                    message += "\n\n字幕信息: " +
-                               $"\n\t是否允许观众提交CC字幕: {a.SubtitleList.IsAllowSubmitSubtitle}" +
-                               "\n\t字幕列表:";
-                    message = a.SubtitleList.List.Aggregate(message,
-                        (current, i) => current + $"\n\n\t\t字幕ID: {i.ID}" +
-                                        $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
-                                        $"\n\t\t????: {i.IsLock}" + $"\n\t\t????: {i.Subtitle_JsonFileURL}" +
-                                        $"\n\t\t字幕作者UID: {i.AuthorInfo.MID}" + $"\n\t\t字幕作者昵称: {i.AuthorInfo.Name}" +
-                                        $"\n\t\t字幕作者头像链接: {i.AuthorInfo.AvatarImageUrl}");
-                }
+                message += "\n\n字幕信息: " +
+                           $"\n\t是否允许观众提交CC字幕: {a.SubtitleList.IsAllowSubmitSubtitle}" +
+                           "\n\t字幕列表:";
+                message = a.SubtitleList.List.Aggregate(message,
+                    (current, i) => current + $"\n\n\t\t字幕ID: {i.ID}" +
+                                    $"\n\t\t语言: {i.LanguageCode} - {i.LanguageName}" +
+                                    $"\n\t\t????: {i.IsLock}" + $"\n\t\t????: {i.Subtitle_JsonFileURL}" +
+                                    $"\n\t\t字幕作者UID: {i.AuthorInfo.MID}" + $"\n\t\t字幕作者昵称: {i.AuthorInfo.Name}" +
+                                    $"\n\t\t字幕作者头像链接: {i.AuthorInfo.AvatarImageUrl}");
 
-                if (a.HonorReply?.honor != null)
-                {
-                    message += "\n视频所得荣誉: ";
-                    message = a.HonorReply.honor.Aggregate(message,
-                        (current, i) => current + $"\n\t荣誉名称: {i.Description}" + $"\n\t荣誉类型:{i.Type}");
-                }
+                message += "\n视频所得荣誉: ";
+                message = a.HonorReply.honor.Aggregate(message,
+                    (current, i) => current + $"\n\t荣誉名称: {i.Description}" + $"\n\t荣誉类型:{i.Type}");
 
                 var Headers = a.Headers;
                 var messa1ge = $"\n\t本次请求的扣费结果状态: {Headers.DebitStatus?.ToString()}" +
@@ -527,6 +521,14 @@ namespace TestConsole
             }
         }
 
+        public static async Task TestMinecraftVer()
+        {
+            WriteLog.Info("测试通过Mojang API 获取Minecraft Java 版本号");
+            var a = await Minecraft.GetLatestVersion.FromUAPI();
+            var m = $"最新快照: {a.Snapshot}\n最新正式版: {a.Release}";
+            WriteLog.Info(m);
+        }
+
         public static async Task TestBiliArchiveData()
         {
             WriteLog.Info("测试B站用户的投稿信息...");
@@ -569,7 +571,7 @@ namespace TestConsole
                 _stopwatch.Reset();
                 _stopwatch.Start();
 
-                var a = await minecraft.GetServerStatus("hypixel.net");
+                var a = await Minecraft.GetServerStatus("hypixel.net");
                 WriteLog.Info($"是否在线: {(a.IsServerOnline ? "在线" : "离线")}");
                 //      if (!a.online) return;
                 WriteLog.Info($"解析的IP地址: {a.IP}\n" +
@@ -591,7 +593,7 @@ namespace TestConsole
             WriteLog.Info("查找Minecraft玩家历史名称");
             try
             {
-                var a = await minecraft.GetHistoryName("Dream", minecraft.SearchType.Name);
+                var a = await Minecraft.GetHistoryName("Dream", Minecraft.SearchType.Name);
                 WriteLog.Info($"查询的用户名: {a.NUserName}\n" +
                               $"匹配到的数量: {a.NCount}\n");
                 foreach (var i in a.NResults)
@@ -604,8 +606,8 @@ namespace TestConsole
                 }
 
 
-                var b = await minecraft.GetHistoryName("ee9b4ed1-aac1-491e-b761-1471be374b80",
-                    minecraft.SearchType.UUID);
+                var b = await Minecraft.GetHistoryName("ee9b4ed1-aac1-491e-b761-1471be374b80",
+                    Minecraft.SearchType.UUID);
                 WriteLog.Info($"玩家当前的用户名: {b.U_UserName}\n" +
                               $"UUID: {b.U_UUID}\n" +
                               $"历史名称的总数(改过几次名): {b.U_OldNameCount}\n");

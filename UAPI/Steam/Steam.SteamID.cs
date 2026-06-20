@@ -30,28 +30,18 @@ namespace UAPI
         /// </summary>
         /// <param name="PersonaState"><see cref="SteamType.PersonaState"/>属性值</param>
         /// <returns> Steam 用户的在线状态字符串</returns>
-        public static string GetPersonalState(int PersonaState)
-        {
-            switch (PersonaState)
+        public static string GetPersonalState(int PersonaState) =>
+            PersonaState switch
             {
-                case 0:
-                    return "离线或私密";
-                case 1:
-                    return "在线";
-                case 2:
-                    return "忙碌";
-                case 3:
-                    return "离开";
-                case 4:
-                    return "打盹";
-                case 5:
-                    return "想交易";
-                case 6:
-                    return "想玩";
-            }
-
-            return "未知状态";
-        }
+                0 => "离线或私密",
+                1 => "在线",
+                2 => "忙碌",
+                3 => "离开",
+                4 => "打盹",
+                5 => "想交易",
+                6 => "想玩",
+                _ => "未知状态"
+            };
 
         /// <summary>
         /// 获取 Steam 用户的社区可见性状态, 此方法仅限于 <see cref="SteamType"/> 的 <see cref="SteamType.IsCommunityVisibility"/> 属性。

@@ -72,22 +72,14 @@ namespace UAPI
             if (image == null || image.Length == 0)
                 throw new ArgumentException("image cannot be null or empty", nameof(image));
 
-            var contentType = "image/gif";
-            switch (image[0])
+            var contentType = image[0] switch
             {
-                case 0xFF when image[1] == 0xD8:
-                    contentType = "image/jpeg";
-                    break;
-                case 0x89 when image[1] == 0x50:
-                    contentType = "image/png";
-                    break;
-                case 0x47 when image[1] == 0x49:
-                    contentType = "image/gif";
-                    break;
-                case 0x52 when image[1] == 0x49:
-                    contentType = "image/webp";
-                    break;
-            }
+                0xFF when image[1] == 0xD8 => "image/jpeg",
+                0x89 when image[1] == 0x50 => "image/png",
+                0x47 when image[1] == 0x49 => "image/gif",
+                0x52 when image[1] == 0x49 => "image/webp",
+                _ => "image/gif"
+            };
 
             var fileContent = new ByteArrayContent(image);
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);

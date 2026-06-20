@@ -353,11 +353,12 @@ namespace UAPI
             /// <summary>
             /// 视频版权类型 原创/转载
             /// </summary>
-            public string CopyrightType => _copyright == 1
-                ? "原创"
-                : _copyright == 2
-                    ? "转载"
-                    : "未知";
+            public string CopyrightType => _copyright switch
+            {
+                1 => "原创",
+                2 => "转载",
+                _ => "未知"
+            };
 
             /// <summary>
             /// 是否为版权拥有者
@@ -433,63 +434,34 @@ namespace UAPI
             /// 视频当前状态描述
             /// </summary>
             [JsonIgnore]
-            public string State
-            {
-                get
+            public string State =>
+                StateCode switch
                 {
-                    switch (StateCode)
-                    {
-                        case 1:
-                            return "审核通过（非正常开放浏览/橙色通过）";
-                        case 0:
-                            return "开放浏览";
-                        case -1:
-                            return "待审";
-                        case -2:
-                            return "被回退稿件";
-                        case -3:
-                            return "网警锁定";
-                        case -4:
-                            return "稿件撞车被锁定";
-                        case -5:
-                            return "管理员锁定了此稿件";
-                        case -6:
-                            return "修复待审";
-                        case -7:
-                            return "暂缓审核";
-                        case -8:
-                            return "补档待审";
-                        case -9:
-                            return "视频等待转码";
-                        case -10:
-                            return "延迟审核";
-                        case -11:
-                            return "视频源待修";
-                        case -12:
-                            return "转储失败";
-                        case -13:
-                            return "允许评论待审";
-                        case -14:
-                            return "临时回收站";
-                        case -15:
-                            return "分发中";
-                        case -16:
-                            return "转码失败";
-                        case -20:
-                            return "创建未提交";
-                        case -30:
-                            return "创建已提交";
-                        case -40:
-                            return "定时发布";
-                        case -50:
-                            return "仅UP主可见";
-                        case -100:
-                            return "用户删除";
-                    }
-
-                    return null;
-                }
-            }
+                    1 => "审核通过（非正常开放浏览/橙色通过）",
+                    0 => "开放浏览",
+                    -1 => "待审",
+                    -2 => "被回退稿件",
+                    -3 => "网警锁定",
+                    -4 => "稿件撞车被锁定",
+                    -5 => "管理员锁定了此稿件",
+                    -6 => "修复待审",
+                    -7 => "暂缓审核",
+                    -8 => "补档待审",
+                    -9 => "视频等待转码",
+                    -10 => "延迟审核",
+                    -11 => "视频源待修",
+                    -12 => "转储失败",
+                    -13 => "允许评论待审",
+                    -14 => "临时回收站",
+                    -15 => "分发中",
+                    -16 => "转码失败",
+                    -20 => "创建未提交",
+                    -30 => "创建已提交",
+                    -40 => "定时发布",
+                    -50 => "仅UP主可见",
+                    -100 => "用户删除",
+                    _ => null
+                };
 
             /// <summary>
             /// 稿件总时长（所有分P累加），单位为秒
@@ -741,33 +713,19 @@ namespace UAPI
                     /// 成员认证级别
                     /// </summary>
                     [JsonIgnore]
-                    public string RoleType
-                    {
-                        get
+                    public string RoleType =>
+                        RoleCode switch
                         {
-                            switch (RoleCode)
-                            {
-                                case 1:
-                                    return "个人认证 - 知名UP主";
-                                case 2:
-                                    return "个人认证 - 大V达人";
-                                case 3:
-                                    return "机构认证 - 企业";
-                                case 4:
-                                    return "机构认证 - 组织";
-                                case 5:
-                                    return "机构认证 - 媒体";
-                                case 6:
-                                    return "机构认证 - 政府";
-                                case 7:
-                                    return "个人认证 - 高能主播";
-                                case 9:
-                                    return "个人认证 - 社会知名人士";
-                            }
-
-                            return null;
-                        }
-                    }
+                            1 => "个人认证 - 知名UP主",
+                            2 => "个人认证 - 大V达人",
+                            3 => "机构认证 - 企业",
+                            4 => "机构认证 - 组织",
+                            5 => "机构认证 - 媒体",
+                            6 => "机构认证 - 政府",
+                            7 => "个人认证 - 高能主播",
+                            9 => "个人认证 - 社会知名人士",
+                            _ => null
+                        };
 
                     /// <summary>
                     /// 成员认证名
@@ -1068,17 +1026,19 @@ namespace UAPI
                 [JsonProperty("type")]
                 public string Type
                 {
-                    get => _type == 1
-                        ? "提到了某人"
-                        : _type == 2
-                            ? "普通连接"
-                            : "其他关联";
+                    get => _type switch
+                    {
+                        1 => "提到了某人",
+                        2 => "普通连接",
+                        _ => "其他关联"
+                    };
                     set => _type =
-                        value == "提到了某人"
-                            ? 1
-                            : value == "普通连接"
-                                ? 2
-                                : _type;
+                        value switch
+                        {
+                            "提到了某人" => 1,
+                            "普通连接" => 2,
+                            _ => _type
+                        };
                 }
 
                 /// <summary>
@@ -1443,17 +1403,19 @@ namespace UAPI
                 [JsonProperty("rotate")]
                 public string Rotate
                 {
-                    get => _rotate == 0
-                        ? "正常"
-                        : _rotate == 1
-                            ? "90度旋转"
-                            : "未知";
+                    get => _rotate switch
+                    {
+                        0 => "正常",
+                        1 => "90度旋转",
+                        _ => "未知"
+                    };
                     set => _rotate =
-                        value == "正常"
-                            ? 0
-                            : value == "90度旋转"
-                                ? 1
-                                : _rotate;
+                        value switch
+                        {
+                            "正常" => 0,
+                            "90度旋转" => 1,
+                            _ => _rotate
+                        };
                 }
 
                 /// <summary>
@@ -1487,21 +1449,21 @@ namespace UAPI
                 [JsonProperty("from")]
                 public string SourceWhere
                 {
-                    get => _from == "vupload"
-                        ? "B站直传"
-                        : _from == "hunan"
-                            ? "芒果TV"
-                            : _from == "qq"
-                                ? "腾讯"
-                                : _from;
+                    get => _from switch
+                    {
+                        "vupload" => "B站直传",
+                        "hunan" => "芒果TV",
+                        "qq" => "腾讯",
+                        _ => _from
+                    };
                     set => _from =
-                        value == "vupload"
-                            ? "B站直传"
-                            : value == "hunan"
-                                ? "芒果TV"
-                                : value == "qq"
-                                    ? "腾讯"
-                                    : value;
+                        value switch
+                        {
+                            "vupload" => "B站直传",
+                            "hunan" => "芒果TV",
+                            "qq" => "腾讯",
+                            _ => value
+                        };
                 }
 
                 /// <summary>
@@ -1701,25 +1663,15 @@ namespace UAPI
                 /// <summary>
                 /// 荣誉类型
                 /// </summary>
-                public string Type
-                {
-                    get
+                public string Type =>
+                    TypeCode switch
                     {
-                        switch (TypeCode)
-                        {
-                            case 1:
-                                return "入站必刷收录";
-                            case 2:
-                                return "第?期每周必看";
-                            case 3:
-                                return "全站排行榜最高第?名";
-                            case 4:
-                                return "热门";
-                        }
-
-                        return null;
-                    }
-                }
+                        1 => "入站必刷收录",
+                        2 => "第?期每周必看",
+                        3 => "全站排行榜最高第?名",
+                        4 => "热门",
+                        _ => null
+                    };
             }
 
             #endregion

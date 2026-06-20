@@ -49,7 +49,7 @@ namespace UAPI
             /// 是否可用
             /// </summary>
             [JsonIgnore]
-            public bool IsAvailable => Type != null && Type == "ok";
+            public bool IsAvailable => Type is "ok";
 
             /// <summary>
             /// 状态标题

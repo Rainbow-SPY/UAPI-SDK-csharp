@@ -36,8 +36,8 @@ namespace UAPI
                     try
                     {
                         WriteLog.Info(LogKind.Downloader, "尝试下载 uapis.cn:443 界面资源...");
-                        using (var webClient = new WebClient())
-                            await webClient.DownloadFileTaskAsync(new Uri("https://uapis.cn:443"), tempFile);
+                        using var webClient = new WebClient();
+                        await webClient.DownloadFileTaskAsync(new Uri("https://uapis.cn:443"), tempFile);
                     }
                     catch (WebException)
                     {

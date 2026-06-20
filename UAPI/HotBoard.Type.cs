@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UAPI.Extensions;
 using Newtonsoft.Json;
 
 namespace UAPI
@@ -23,7 +24,7 @@ namespace UAPI
                 /// 热榜更新时间
                 /// </summary>
                 public string UpdateTime_Str => UpdateTime_ISO8601.Contains("T")
-                    ? IConvert.FormatISO8601TimeToLocal(UpdateTime_ISO8601)
+                    ? UpdateTime_ISO8601.FormatISO8601TimeToLocal()
                     : UpdateTime_ISO8601;
 
                 /// <summary>

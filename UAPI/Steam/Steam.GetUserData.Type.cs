@@ -82,28 +82,18 @@ namespace UAPI
             [JsonProperty("personastate")]
             public string PersonaState
             {
-                get
-                {
-                    switch (_personastate)
+                get =>
+                    _personastate switch
                     {
-                        case 0:
-                            return "离线或私密";
-                        case 1:
-                            return "在线";
-                        case 2:
-                            return "忙碌";
-                        case 3:
-                            return "离开";
-                        case 4:
-                            return "打盹";
-                        case 5:
-                            return "想交易";
-                        case 6:
-                            return "想玩";
-                    }
-
-                    return "未知状态";
-                }
+                        0 => "离线或私密",
+                        1 => "在线",
+                        2 => "忙碌",
+                        3 => "离开",
+                        4 => "打盹",
+                        5 => "想交易",
+                        6 => "想玩",
+                        _ => "未知状态"
+                    };
                 set
                 {
                     switch (value)
