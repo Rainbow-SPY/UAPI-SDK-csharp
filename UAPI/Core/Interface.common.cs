@@ -551,23 +551,28 @@ namespace UAPI
         {
             try
             {
-                return (response, await ReadResponseBodyAsync(response, rawBodyType));
+                // 主站 body 最多等 15 秒
+                return (response, await ReadResponseBodyAsync(
+                    response,
+                    rawBodyType,
+                    TimeSpan.FromSeconds(15)));
             }
             catch (Exception ex) when (
                 ex is HttpRequestException ||
                 ex is IOException ||
                 ex is TaskCanceledException ||
+                ex is TimeoutException ||
                 ex.InnerException is IOException)
             {
                 var innerMessage = ex.InnerException == null
                     ? ""
                     : $" InnerException: {ex.InnerException.Message}";
 
-                WriteLog.Warning(LogKind.Http,
+                WriteLog.Warning(
+                    LogKind.Http,
                     $"响应头已返回 {(int)response.StatusCode}，但读取响应 Body 失败，准备切换备用站: {ex.Message}{innerMessage}");
 
                 var backupUrl = SwitchToBackupUrl(requestUrl);
-
                 response.Dispose();
 
                 if (backupUrl == requestUrl)
@@ -584,7 +589,11 @@ namespace UAPI
 
                 try
                 {
-                    return (backupResponse, await ReadResponseBodyAsync(backupResponse, rawBodyType));
+                    // 备用站 body 最多等 30 秒
+                    return (backupResponse, await ReadResponseBodyAsync(
+                        backupResponse,
+                        rawBodyType,
+                        TimeSpan.FromSeconds(30)));
                 }
                 catch
                 {
@@ -596,16 +605,29 @@ namespace UAPI
 
         private static async Task<object> ReadResponseBodyAsync(
             HttpResponseMessage response,
-            System.Type rawBodyType)
+            System.Type rawBodyType,
+            TimeSpan timeout)
         {
             if (response.Content == null)
-                return rawBodyType == typeof(byte[])
-                    ? (object)Array.Empty<byte>()
-                    : string.Empty;
+                return rawBodyType == typeof(byte[]) ? (object)Array.Empty<byte>() : string.Empty;
 
-            return rawBodyType == typeof(byte[])
-                ? (object)await response.Content.ReadAsByteArrayAsync()
-                : await response.Content.ReadAsStringAsync();
+            Task<object> readTask;
+
+            if (rawBodyType == typeof(byte[]))
+                readTask = response.Content
+                    .ReadAsByteArrayAsync()
+                    .ContinueWith<object>(t => t.Result);
+            else
+                readTask = response.Content
+                    .ReadAsStringAsync()
+                    .ContinueWith<object>(t => t.Result);
+
+            var completedTask = await Task.WhenAny(readTask, Task.Delay(timeout));
+
+            if (completedTask != readTask)
+                throw new TimeoutException($"读取响应 Body 超时，已等待 {timeout.TotalSeconds} 秒");
+
+            return await readTask;
         }
 
         private static Response.Headers BuildResponseHeaders(HttpResponseMessage response) =>
@@ -696,7 +718,7 @@ namespace UAPI
             client.DefaultRequestHeaders.UserAgent.ParseAdd(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) UAPI-Client/1.0");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json, text/plain, */*");
-            client.DefaultRequestHeaders.ConnectionClose = true;
+            // client.DefaultRequestHeaders.ConnectionClose = true;
 
             return client;
         });
@@ -709,11 +731,11 @@ namespace UAPI
             string authenticationApiTokenKey)
         {
             var httpClient = _httpClient.Value;
-            WriteLog.Info(LogKind.Http, "新建 HttpClient 实例");
 
             try
             {
                 WriteLog.Info(LogKind.Http, $"尝试主站请求: {requestUrl}");
+
                 return await SendApiRequestOnceAsync(
                     httpClient,
                     requestUrl,
@@ -721,22 +743,19 @@ namespace UAPI
                     postContent,
                     contentType,
                     authenticationApiTokenKey,
-                    TimeSpan.FromSeconds(4));
+                    TimeSpan.FromSeconds(15));
             }
             catch (TaskCanceledException ex)
             {
-                WriteLog.Warning(LogKind.Http,
-                    $"主站请求超时，准备切换备用站: {ex.Message}");
+                WriteLog.Warning(LogKind.Http, $"主站请求超时，准备切换备用站: {ex.Message}");
             }
             catch (HttpRequestException ex)
             {
-                WriteLog.Warning(LogKind.Http,
-                    $"主站请求失败，准备切换备用站: {ex.Message}");
+                WriteLog.Warning(LogKind.Http, $"主站请求失败，准备切换备用站: {ex.Message}");
             }
             catch (WebException ex)
             {
-                WriteLog.Warning(LogKind.Http,
-                    $"主站网络异常，准备切换备用站: {ex.Message}");
+                WriteLog.Warning(LogKind.Http, $"主站网络异常，准备切换备用站: {ex.Message}");
             }
 
             var backupUrl = SwitchToBackupUrl(requestUrl);
@@ -753,7 +772,7 @@ namespace UAPI
                 postContent,
                 contentType,
                 authenticationApiTokenKey,
-                TimeSpan.FromSeconds(8));
+                TimeSpan.FromSeconds(30));
         }
 
         private static async Task<HttpResponseMessage> SendApiRequestOnceAsync(
@@ -771,7 +790,7 @@ namespace UAPI
                     ? HttpMethod.Get
                     : HttpMethod.Post, url);
             request.Version = HttpVersion.Version11;
-            request.Headers.ConnectionClose = true;
+            // request.Headers.ConnectionClose = true;
 
             if (!string.IsNullOrEmpty(authenticationApiTokenKey))
             {
