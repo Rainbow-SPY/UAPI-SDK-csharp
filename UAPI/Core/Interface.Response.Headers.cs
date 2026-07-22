@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace UAPI
@@ -19,7 +20,8 @@ namespace UAPI
                 private string? _xCacheStatus;
 
                 /// <summary />
-                [JsonProperty("age")] public string Age { get; set; } = string.Empty;
+                [JsonProperty("age")]
+                public string Age { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 缓存机制信息
@@ -75,12 +77,22 @@ namespace UAPI
                 public string StrictTransportSecurity { get; set; }
 
                 /// <summary>
-                /// 是否命中缓存
+                /// 缓存状态原始值，例如 HIT / MISS / BYPASS / STALE
                 /// </summary>
                 [JsonProperty("x-cache-status")]
+                public string XCacheStatus
+                {
+                    get => _xCacheStatus ?? string.Empty;
+                    set => _xCacheStatus = value;
+                }
+
+                /// <summary>
+                /// 是否命中缓存
+                /// </summary>
+                [JsonIgnore]
                 public bool IsHITCache
                 {
-                    get => _xCacheStatus?.ToUpper() == "HIT";
+                    get => string.Equals(_xCacheStatus, "HIT", StringComparison.OrdinalIgnoreCase);
                     set => _xCacheStatus = value ? "HIT" : "MISS";
                 }
 
