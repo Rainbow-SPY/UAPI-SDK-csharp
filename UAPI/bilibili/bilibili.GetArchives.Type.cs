@@ -34,7 +34,7 @@ namespace UAPI
             /// 视频的详细信息
             /// </summary>
             [JsonProperty("videos")]
-            public List<Videos> VideosList { get; set; }
+            public List<Videos>? VideosList { get; set; }
 
             /// <summary>
             /// 视频的综合数据
@@ -53,19 +53,19 @@ namespace UAPI
                 /// 视频的bv号
                 /// </summary>
                 [JsonProperty("bvid")]
-                public string BVID { get; set; }
+                public string BVID { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 视频的标题
                 /// </summary>
                 [JsonProperty("title")]
-                public string Title { get; set; }
+                public string Title { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 视频的封面
                 /// </summary>
                 [JsonProperty("cover")]
-                public string CoverImageUrl { get; set; }
+                public string CoverImageUrl { get; set; } = string.Empty;
 
                 /// <summary>
                 /// 一个视频内所有选集的总时长(秒)

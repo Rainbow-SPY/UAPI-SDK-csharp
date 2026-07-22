@@ -19,7 +19,7 @@ namespace UAPI
                 /// 头像框的值?
                 /// </summary>
                 [JsonProperty("value")]
-                public string Value { get; set; }
+                public string? Value { get; set; }
             }
 
             /// <summary>
@@ -31,13 +31,13 @@ namespace UAPI
                 /// 称号的名称
                 /// </summary>
                 [JsonProperty("name")]
-                public string Name { get; set; }
+                public string? Name { get; set; }
 
                 /// <summary>
                 /// 称号的简介
                 /// </summary>
                 [JsonProperty("desc")]
-                public string Desc { get; set; }
+                public string? Desc { get; set; }
             }
 
             /// <summary>
@@ -49,13 +49,13 @@ namespace UAPI
                 /// 头像框
                 /// </summary>
                 [JsonProperty("frame")]
-                public Frame Frame { get; set; }
+                public Frame? Frame { get; set; }
 
                 /// <summary>
                 /// 称号
                 /// </summary>
                 [JsonProperty("badge")]
-                public Badge Badge { get; set; }
+                public Badge? Badge { get; set; }
             }
 
             /// <summary>
@@ -105,7 +105,7 @@ namespace UAPI
             /// 父分区名称
             /// </summary>
             [JsonProperty("parent_area_name")]
-            public string ParentAreaName { get; set; }
+            public string? ParentAreaName { get; set; }
 
             /// <summary>
             /// 父分区ID
@@ -117,7 +117,7 @@ namespace UAPI
             /// 子分区名称
             /// </summary>
             [JsonProperty("area_name")]
-            public string AreaName { get; set; }
+            public string? AreaName { get; set; }
 
             /// <summary>
             /// 子分区ID
@@ -129,51 +129,51 @@ namespace UAPI
             /// 直播间背景图的URL
             /// </summary>
             [JsonProperty("background")]
-            public string BackgroundImageUrl { get; set; }
+            public string BackgroundImageUrl { get; set; } = string.Empty;
 
             /// <summary>
             /// 当前直播间的标题
             /// </summary>
             [JsonProperty("title")]
-            public string Title { get; set; }
+            public string Title { get; set; } = string.Empty;
 
             /// <summary>
             /// 用户设置的直播间封面URL
             /// </summary>
             [JsonProperty("user_cover")]
-            public string CoverImageUrl { get; set; }
+            public string CoverImageUrl { get; set; } = string.Empty;
 
             /// <summary>
-            /// 直播间公告或描述，支持换行符
+            /// 直播间 公告或描述，支持换行符
             /// </summary>
             [JsonProperty("description")]
-            public string Description { get; set; }
+            public string Description { get; set; } = string.Empty;
 
             /// <summary>
             /// 本次直播开始的时间，格式为 `YYYY-MM-DD HH:mm:ss`如果未开播，则为空字符串
             /// </summary>
             [JsonProperty("live_time")]
-            public string LiveTime { get; set; }
+            public string LiveTime { get; set; } = string.Empty;
 
-            [JsonProperty("keyframe")] public string keyframe { get; set; }
+            [JsonProperty("keyframe")] public string? keyframe { get; set; }
 
             /// <summary>
             /// 直播间设置的标签，以逗号分隔
             /// </summary>
             [JsonProperty("tags")]
-            public string Tags { get; set; }
+            public string? Tags { get; set; }
 
             /// <summary>
             /// 直播间热词列表，通常用于弹幕互动
             /// </summary>
             [JsonProperty("hot_words")]
-            public List<string> HotWordsList { get; set; }
+            public List<string>? HotWordsList { get; set; }
 
             /// <summary>
             /// 主播佩戴的头像框、大航海等级等信息
             /// </summary>
             [JsonProperty("new_pendants")]
-            public Pendants NewPendants { get; set; } = new Pendants();
+            public Pendants? NewPendants { get; set; }
         }
     }
 }

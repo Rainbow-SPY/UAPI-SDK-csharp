@@ -18,7 +18,7 @@ namespace UAPI
             [JsonProperty("page")]
             public Page PageInfo { get; set; }
 
-            [JsonProperty("config")] public object config { get; set; }
+            [JsonProperty("config")] public object? config { get; set; }
 
             /// <summary>
             /// 当前页的评论列表
@@ -309,7 +309,7 @@ namespace UAPI
                 /// 发表评论的用户信息
                 /// </summary>
                 [JsonProperty("member")]
-                public Member MemberInfo { get; set; }
+                public Member MemberInfo { get; set; } = new Member();
 
                 /// <summary>
                 /// 评论内容
