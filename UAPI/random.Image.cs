@@ -21,7 +21,7 @@ namespace UAPI
             WallpaperType _type = WallpaperType.None, string Authentication = "")
         {
             var (result, statusCode) = await Interface.GetResult<BodyResult<byte[]>>(
-                $"https://uapis.cn/api/v1/random/image?type={_type.ToString()}&category={_category.ToString()}",
+                $"https://uapis.cn/api/v1/random/image{(_category == RandomImage.None && _type == WallpaperType.None ? "" : "?")}{(_type == WallpaperType.None ? "" : $"type={_type.ToString()}")}{(_type != WallpaperType.None ? "&" : "")}{(_category == RandomImage.None ? "" : $"category={_category.ToString()}")}",
                 Authentication);
             var list = Interface.IsGetBytesSuccessful(result, null, statusCode, new General.UAPIUnknowException(),
                 "random.GetImage");
