@@ -67,8 +67,13 @@ namespace UAPI
             /// 响应数据
             /// </summary>
             public object Result { get; set; }
+
+            /// <summary>
+            /// UAPI 诊断报告文件路径。仅在 FailedException 被创建并写入报告时有值。
+            /// </summary>
+            public string DiagnosticReportPath { get; set; }
         }
-        
+
         /// <summary>
         /// 非 JSON Body 的统一返回包装，用于 string / byte[] 等原始响应体，同时保留 Headers。
         /// </summary>
