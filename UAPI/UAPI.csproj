@@ -1,354 +1,357 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{625E6AF6-B616-49F4-957C-AC5A17F522C7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UAPI</RootNamespace>
-    <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <BaseVersion>1.2.8</BaseVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <FileAlignment>512</FileAlignment>
-    <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>uapi-sdk-csharp-key.snk</AssemblyOriginatorKeyFile>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
-    <LangVersion>8</LangVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <Target Name="GetGitInfo" BeforeTargets="CoreCompile">
-    <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD" StandardOutputImportance="Low" ContinueOnError="WarnAndContinue" ConsoleToMsBuild="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShortId" />
-    </Exec>
-    <!-- 3. 拼接最终版本(保留原代码，不变) -->
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
     <PropertyGroup>
-      <GitCommitShortId>$([System.String]::Copy('$(GitCommitShortId)').Trim())</GitCommitShortId>
-      <GitCommitShortId Condition="'$(GitCommitShortId)' == ''">Unknown</GitCommitShortId>
-      <AssemblyInformationalVersion>$(BaseVersion)-$(GitCommitShortId)</AssemblyInformationalVersion>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{625E6AF6-B616-49F4-957C-AC5A17F522C7}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>UAPI</RootNamespace>
+        <AssemblyName>UAPI-community-sdk-csharp</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <BaseVersion>1.2.8</BaseVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <FileAlignment>512</FileAlignment>
+        <BaseOutputPath>D:\$Release\UAPI</BaseOutputPath>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>uapi-sdk-csharp-key.snk</AssemblyOriginatorKeyFile>
+        <RuntimeIdentifiers>win</RuntimeIdentifiers>
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
-    <!-- 4. 打印日志(保留原代码，不变) -->
-    <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High" />
-    <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High" />
-  </Target>
-  <!-- 2. 动态生成GitAssemblyInfo.cs(保留using、无覆盖、语法正确、版本注入成功) -->
-  <Target Name="WriteAssemblyInfo" AfterTargets="GetGitInfo" BeforeTargets="CoreCompile">
-    <PropertyGroup>
-      <GitAssemblyInfoPath>$(IntermediateOutputPath)\GitAssemblyInfo.cs</GitAssemblyInfoPath>
-      <GitCodeContent>[assembly: System.Reflection.AssemblyInformationalVersion("$(AssemblyInformationalVersion)")]</GitCodeContent>
+    <Target Name="GetGitInfo" BeforeTargets="CoreCompile">
+        <Exec Command="&quot;C:\Program Files\Git\bin\git.exe&quot; rev-parse --short HEAD" StandardOutputImportance="Low" ContinueOnError="WarnAndContinue" ConsoleToMsBuild="true">
+            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShortId"/>
+        </Exec>
+        <!-- 3. 拼接最终版本(保留原代码，不变) -->
+        <PropertyGroup>
+            <GitCommitShortId>$([System.String]::Copy('$(GitCommitShortId)').Trim())</GitCommitShortId>
+            <GitCommitShortId Condition="'$(GitCommitShortId)' == ''">Unknown</GitCommitShortId>
+            <AssemblyInformationalVersion>$(BaseVersion)-$(GitCommitShortId)</AssemblyInformationalVersion>
+        </PropertyGroup>
+        <!-- 4. 打印日志(保留原代码，不变) -->
+        <Message Text="🔧 提取 BaseVersion：$(BaseVersion)" Importance="High"/>
+        <Message Text="🔧 生成信息版本：$(AssemblyInformationalVersion)" Importance="High"/>
+    </Target>
+    <!-- 2. 动态生成GitAssemblyInfo.cs(保留using、无覆盖、语法正确、版本注入成功) -->
+    <Target Name="WriteAssemblyInfo" AfterTargets="GetGitInfo" BeforeTargets="CoreCompile">
+        <PropertyGroup>
+            <GitAssemblyInfoPath>$(IntermediateOutputPath)\GitAssemblyInfo.cs</GitAssemblyInfoPath>
+            <GitCodeContent>[assembly: System.Reflection.AssemblyInformationalVersion("$(AssemblyInformationalVersion)")]</GitCodeContent>
+        </PropertyGroup>
+        <!-- 写入文件：直接用拼接好的纯文本，一次性写入所有行 -->
+        <WriteLinesToFile File="$(GitAssemblyInfoPath)" Lines="$(GitCodeContent)" Overwrite="true" Encoding="UTF-8" WriteOnlyWhenDifferent="true"/>
+        <!-- 将临时文件加入编译列表，与原有AssemblyInfo.cs合并编译 -->
+        <ItemGroup>
+            <Compile Include="$(GitAssemblyInfoPath)"/>
+        </ItemGroup>
+    </Target>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>embedded</DebugType>
+        <Optimize>false</Optimize>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <DocumentationFile>D:\$Release\UAPI\Debug\UAPI.xml</DocumentationFile>
+        <OutputPath>D:\$Release\UAPI\Release\</OutputPath>
     </PropertyGroup>
-    <!-- 写入文件：直接用拼接好的纯文本，一次性写入所有行 -->
-    <WriteLinesToFile File="$(GitAssemblyInfoPath)" Lines="$(GitCodeContent)" Overwrite="true" Encoding="UTF-8" WriteOnlyWhenDifferent="true" />
-    <!-- 将临时文件加入编译列表，与原有AssemblyInfo.cs合并编译 -->
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>embedded</DebugType>
+        <Optimize>true</Optimize>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <DocumentationFile>D:\$Release\UAPI\Release\UAPI.xml</DocumentationFile>
+    </PropertyGroup>
     <ItemGroup>
-      <Compile Include="$(GitAssemblyInfoPath)" />
+        <Reference Include="mscorlib"/>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>..\..\..\$Release\Rox\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="Rox.Runtimes">
+            <HintPath>..\..\..\$Release\Rox\Rox.Runtimes.dll</HintPath>
+        </Reference>
+        <Reference Include="Rox.Text">
+            <HintPath>..\..\..\$Release\Rox\Rox.Text.dll</HintPath>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.ComponentModel.Composition"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Numerics"/>
+        <Reference Include="System.Windows.Forms"/>
+        <Reference Include="System.Xml"/>
     </ItemGroup>
-  </Target>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>embedded</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>D:\$Release\UAPI\Debug\UAPI.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>embedded</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>D:\$Release\UAPI\Release\UAPI.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\$Release\Rox\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Rox.Runtimes">
-      <HintPath>..\..\..\$Release\Rox\Rox.Runtimes.dll</HintPath>
-    </Reference>
-    <Reference Include="Rox.Text">
-      <HintPath>..\..\..\$Release\Rox\Rox.Text.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="bilibili\bilibili.GetArchives.cs" />
-    <Compile Include="bilibili\bilibili.GetArchives.Type.cs">
-      <DependentUpon>bilibili.GetArchives.cs</DependentUpon>
-    </Compile>
-    <Compile Include="bilibili\bilibili.GetLiveroomStatus.cs" />
-    <Compile Include="bilibili\bilibili.GetLiveroomStatus.Type.cs">
-      <DependentUpon>bilibili.GetLiveroomStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="bilibili\bilibili.GetRepliesList.cs" />
-    <Compile Include="bilibili\bilibili.GetRepliesList.Type.cs">
-      <DependentUpon>bilibili.GetRepliesList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="bilibili\bilibili.GetUserData.cs" />
-    <Compile Include="bilibili\bilibili.GetUserData.Type.cs">
-      <DependentUpon>bilibili.GetUserData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="bilibili\bilibili.GetVideoData.cs" />
-    <Compile Include="bilibili\bilibili.GetVideoData.Type.cs">
-      <DependentUpon>bilibili.GetVideoData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Clipzy\Clipzy.cs" />
-    <Compile Include="Example\GeneratedExample.cs" />
-    <Content Include="Example\获取bilibili投稿详情.cs" />
-    <Content Include="Example\获取Minecraft最新版本.cs" />
-    <Compile Include="Extensions\Extensions.IConvert.cs" />
-    <Compile Include="IConvert.cs" />
-    <Compile Include="Core\Interface.common.cs" />
-    <Compile Include="Core\Interface.BooleanConverter.cs" />
-    <Compile Include="Core\Interface.Response.Headers.cs" />
-    <Compile Include="Core\Interface.Security.cs" />
-    <Compile Include="Core\Interface.Type.cs" />
-    <Compile Include="EpicGames.GetFreeGames.cs" />
-    <Compile Include="EpicGames.GetFreeGames.Type.cs">
-      <DependentUpon>EpicGames.GetFreeGames.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Github.GetRepoData.cs" />
-    <Compile Include="Github.GetRepoData.Type.cs">
-      <DependentUpon>Github.GetRepoData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotboard.bilibili.cs" />
-    <Compile Include="Hotboard.bilibili.Type.cs">
-      <DependentUpon>Hotboard.bilibili.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotboard.NeteaseMusic.cs" />
-    <Compile Include="Hotboard.NeteaseMusic.Type.cs">
-      <DependentUpon>Hotboard.NeteaseMusic.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IException\IException.Core.cs" />
-    <Compile Include="IException\IException.EpicGames.cs" />
-    <Compile Include="IException\IException.Hotboard.cs" />
-    <Compile Include="IException\IException.minecraft.cs" />
-    <Compile Include="IException\IException.Misc.cs" />
-    <Compile Include="IException\IException.Steam.cs" />
-    <Compile Include="IException\IException.Weather.cs" />
-    <Compile Include="IException\IException.bilibili.cs" />
-    <Compile Include="IException\IException.General.cs" />
-    <Compile Include="IException\IException.github.cs" />
-    <Compile Include="IException\IException.QQ.cs" />
-    <Compile Include="Image\Image.BingDaily.cs" />
-    <Compile Include="Image\Image.Compress.cs" />
-    <Compile Include="Image\Image.Convert.cs" />
-    <Compile Include="Image\Image.DailyNews.cs" />
-    <Compile Include="Image\Image.DecodeForOtherDevices.cs" />
-    <Compile Include="Image\Image.Gravator.cs" />
-    <Compile Include="Image\Image.Motou.cs" />
-    <Compile Include="Image\Image.nsfw.cs" />
-    <Compile Include="Image\Image.nsfw.Type.cs">
-      <DependentUpon>Image.nsfw.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Image\Image.OCR.cs" />
-    <Compile Include="Image\Image.OCR.Type.cs">
-      <DependentUpon>Image.OCR.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Image\Image.QRCode.cs" />
-    <Compile Include="Image\Image.ToBase64.cs" />
-    <Compile Include="Image\Image.WhyDontSayAnything.cs" />
-    <Compile Include="API.HealthPlatformStatus.cs" />
-    <Compile Include="API.HealthPlatformStatus.Type.cs">
-      <DependentUpon>API.HealthPlatformStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="API.Usage.cs" />
-    <Compile Include="HotBoard.Type.cs" />
-    <Compile Include="Image\Image.BingDaily.Type.cs">
-      <DependentUpon>Image.BingDaily.cs</DependentUpon>
-    </Compile>
-    <Compile Include="minecraft.GetHistoryName.cs" />
-    <Compile Include="minecraft.GetServerStatus.cs" />
-    <Compile Include="minecraft.GetUserData.cs" />
-    <Compile Include="minecraft.GetHistoryName.Type.cs">
-      <DependentUpon>minecraft.GetHistoryName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="minecraft.GetServerStatus.Type.cs">
-      <DependentUpon>minecraft.GetServerStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Minecraft.SearchMod.cs" />
-    <Compile Include="Minecraft.SearchMod.Type.cs">
-      <DependentUpon>Minecraft.SearchMod.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Minecraft.Version.cs" />
-    <Compile Include="Misc\Misc.ConvertTimestamp.cs" />
-    <Compile Include="Misc\Misc.DetectTrackingCarrier.cs" />
-    <Compile Include="Misc\Misc.DetectTrackingCarrier.Type.cs">
-      <DependentUpon>Misc.DetectTrackingCarrier.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Misc.GetHolidayCalendar.cs" />
-    <Compile Include="Misc\Misc.GetHolidayCalendar.Type.cs">
-      <DependentUpon>Misc.GetHolidayCalendar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Misc.GetLunarTime.cs" />
-    <Compile Include="Misc\Misc.GetLunarTime.Type.cs">
-      <DependentUpon>Misc.GetLunarTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Misc.GetPhoneInfo.cs" />
-    <Compile Include="Misc\Misc.GetProgrammerHistoryToday.cs" />
-    <Compile Include="Misc\Misc.GetProgrammerHistoryToday.Type.cs">
-      <DependentUpon>Misc.GetProgrammerHistoryToday.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Misc.GetRandomNumberList.cs" />
-    <Compile Include="Misc\Misc.GetTrackingCarriers.cs" />
-    <Compile Include="Misc\Misc.GetTrackingInfo.cs" />
-    <Compile Include="Misc\Misc.GetTrackingInfo.Type.cs">
-      <DependentUpon>Misc.GetTrackingInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Misc.GetWorldTime.cs" />
-    <Compile Include="Misc\Misc.PostDateDiff.cs" />
-    <Compile Include="Network\Network.DNS.cs" />
-    <Compile Include="Network\Network.GetMyIP.cs" />
-    <Compile Include="Network\Network.GetMyIP.Type.cs">
-      <DependentUpon>Network.GetMyIP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Network\Network.ICP.cs" />
-    <Compile Include="Network\Network.IPInfo.cs" />
-    <Compile Include="Network\Network.IPInfo.Type.cs">
-      <DependentUpon>Network.IPInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Network\Network.Ping.cs" />
-    <Compile Include="Network\Network.PingMyIP.cs" />
-    <Compile Include="Network\Network.PortScan.cs" />
-    <Compile Include="Network\Network.UrlStatus.cs" />
-    <Compile Include="Network\Network.WeixinDomain.cs" />
-    <Compile Include="Network\Network.WhoIs.cs" />
-    <Compile Include="Network\Network.WhoIs.Type.cs">
-      <DependentUpon>Network.WhoIs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QQ.GetGroupData.cs" />
-    <Compile Include="QQ.GetUserData.cs" />
-    <Compile Include="QQ.GetGroupData.Type.cs">
-      <DependentUpon>QQ.GetGroupData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="QQ.GetUserData.Type.cs">
-      <DependentUpon>QQ.GetUserData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="random.Image.cs" />
-    <Compile Include="Random.Image.Type.cs">
-      <DependentUpon>random.Image.cs</DependentUpon>
-    </Compile>
-    <Compile Include="random.Text.cs" />
-    <Compile Include="Search.cs" />
-    <Compile Include="Search.GetConfig.cs" />
-    <Compile Include="Steam\Steam.GetUserData.cs" />
-    <Compile Include="Steam\Steam.GetUserData.Type.cs">
-      <DependentUpon>Steam.GetUserData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Steam\Steam.Servers.cs" />
-    <Compile Include="Steam\Steam.Servers.Type.cs">
-      <DependentUpon>Steam.Servers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Steam\Steam.SteamID.Converter.cs" />
-    <Compile Include="Steam\Steam.SteamID.cs" />
-    <Compile Include="Steam\Steam.SteamID.SteamIDType.cs" />
-    <Compile Include="Text\Text.AES.Advanced.cs" />
-    <Compile Include="Text\Text.AES.cs" />
-    <Compile Include="Text\Text.AnalyzeText.cs" />
-    <Compile Include="Text\Text.AnswerBook.cs" />
-    <Compile Include="Text\Text.Base64.cs" />
-    <Compile Include="Text\Text.CheckSemsitiveWords.Get.cs" />
-    <Compile Include="Text\Text.CheckSensitiveWords.Analyze.cs" />
-    <Compile Include="Text\Text.CheckSensitiveWords.Analyze.Type.cs">
-      <DependentUpon>Text.CheckSensitiveWords.Analyze.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Text\Text.CheckSensitiveWords.Fast.cs" />
-    <Compile Include="Text\Text.Convert.cs" />
-    <Compile Include="Text\Text.DailyWord.cs" />
-    <Compile Include="Text\Text.Markdown.cs" />
-    <Compile Include="Text\Text.MD5.cs" />
-    <Compile Include="Text\Text.MD5.Verify.cs" />
-    <Compile Include="Text\Text.Saying.cs" />
-    <Compile Include="Text\Text.Translate.AI.cs" />
-    <Compile Include="Text\Text.Translate.AI.Type.cs">
-      <DependentUpon>Text.Translate.AI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Text\Text.Translate.cs" />
-    <Compile Include="Text\Text.Translate.AI.GetConfig.cs" />
-    <Compile Include="Text\Text.Translate.Type.cs">
-      <DependentUpon>Text.Translate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Text\Text.WordMetaData.cs" />
-    <Compile Include="Weather.GetWeather.cs" />
-    <Compile Include="Weather.GetWeather.Type.cs">
-      <DependentUpon>Weather.GetWeather.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WebParse\WebParse.ExtractImages.cs" />
-    <Compile Include="WebParse\WebParse.GetMetaData.cs" />
-    <Compile Include="WebParse\WebParse.ToMarkdown.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="System.Buffers" Version="4.6.1" />
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2" />
-    <PackageReference Include="System.IO" Version="4.3.0" />
-    <PackageReference Include="System.Memory" Version="4.6.3" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="uapi-sdk-csharp-key.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="docs\$method_Tempure.md" />
-    <Content Include="docs\bilibili.GetArchives.md" />
-    <Content Include="docs\bilibili.GetLiveRoomStatus.md" />
-    <Content Include="docs\bilibili.GetRepliesList.md" />
-    <Content Include="docs\bilibili.GetUserData.md" />
-    <Content Include="docs\bilibili.GetVideoData.md" />
-    <Content Include="docs\developer.develop.md" />
-    <Content Include="docs\EpicGames.GetFreeGames.md" />
-    <Content Include="docs\github.GetRepoData.md" />
-    <Content Include="docs\hotboard.bilibili.md" />
-    <Content Include="docs\hotboard.NeteaseMusic.md" />
-    <Content Include="docs\Interface.common.md" />
-    <Content Include="docs\Interface.Convert.md" />
-    <Content Include="docs\Interface.Response.Header.md" />
-    <Content Include="docs\minecraft.GetHistoryName.md" />
-    <Content Include="docs\minecraft.GetServerStatus.md" />
-    <Content Include="docs\minecraft.GetUserData.md" />
-    <Content Include="docs\Misc.ConvertTimestamp.md" />
-    <Content Include="docs\Misc.DetectTrackingCarrier.md" />
-    <Content Include="docs\Misc.GetLunarTime.md" />
-    <Content Include="docs\Misc.GetPhoneInfo.md" />
-    <Content Include="docs\Misc.GetProgrammerHistoryToday.md" />
-    <Content Include="docs\Misc.GetRandomNumberList.md" />
-    <Content Include="docs\Misc.GetTrackingCarriers.md" />
-    <Content Include="docs\Misc.GetTrackingInfo.md" />
-    <Content Include="docs\Misc.GetWorldTime.md" />
-    <Content Include="docs\Misc.PostDateDiff.md" />
-    <Content Include="docs\Network.DNS.md" />
-    <Content Include="docs\Network.GetMyIP.md" />
-    <Content Include="docs\Network.ICP.md" />
-    <Content Include="docs\Network.IPInfo.md" />
-    <Content Include="docs\QQ.GetGroupData.md" />
-    <Content Include="docs\QQ.GetUserData.md" />
-    <Content Include="docs\Steam.GetUserData.md" />
-    <Content Include="docs\Steam.SteamID.md" />
-    <Content Include="docs\Text.Markdown.md" />
-    <Content Include="docs\Weather.GetWeather.md" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <ItemGroup>
+        <Compile Include="bilibili\bilibili.GetArchives.cs"/>
+        <Compile Include="bilibili\bilibili.GetArchives.Type.cs">
+            <DependentUpon>bilibili.GetArchives.cs</DependentUpon>
+        </Compile>
+        <Compile Include="bilibili\bilibili.GetLiveroomStatus.cs"/>
+        <Compile Include="bilibili\bilibili.GetLiveroomStatus.Type.cs">
+            <DependentUpon>bilibili.GetLiveroomStatus.cs</DependentUpon>
+        </Compile>
+        <Compile Include="bilibili\bilibili.GetRepliesList.cs"/>
+        <Compile Include="bilibili\bilibili.GetRepliesList.Type.cs">
+            <DependentUpon>bilibili.GetRepliesList.cs</DependentUpon>
+        </Compile>
+        <Compile Include="bilibili\bilibili.GetUserData.cs"/>
+        <Compile Include="bilibili\bilibili.GetUserData.Type.cs">
+            <DependentUpon>bilibili.GetUserData.cs</DependentUpon>
+        </Compile>
+        <Compile Include="bilibili\bilibili.GetVideoData.cs"/>
+        <Compile Include="bilibili\bilibili.GetVideoData.Type.cs">
+            <DependentUpon>bilibili.GetVideoData.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Clipzy\Clipzy.cs"/>
+        <Compile Include="Diagnostics\UapiDiagnosticReport.cs"/>
+        <Compile Include="Example\GeneratedExample.cs"/>
+        <Content Include="Example\获取bilibili投稿详情.cs"/>
+        <Content Include="Example\获取Minecraft最新版本.cs"/>
+        <Compile Include="Extensions\Extensions.GetTypeBaseInfo.cs"/>
+        <Compile Include="Extensions\Extensions.IConvert.cs"/>
+        <Compile Include="IConvert.cs"/>
+        <Compile Include="Core\Interface.common.cs"/>
+        <Compile Include="Core\Interface.BooleanConverter.cs"/>
+        <Compile Include="Core\Interface.Response.Headers.cs"/>
+        <Compile Include="Core\Interface.Security.cs"/>
+        <Compile Include="Core\Interface.Type.cs"/>
+        <Compile Include="EpicGames.GetFreeGames.cs"/>
+        <Compile Include="EpicGames.GetFreeGames.Type.cs">
+            <DependentUpon>EpicGames.GetFreeGames.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Github.GetRepoData.cs"/>
+        <Compile Include="Github.GetRepoData.Type.cs">
+            <DependentUpon>Github.GetRepoData.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Hotboard.bilibili.cs"/>
+        <Compile Include="Hotboard.bilibili.Type.cs">
+            <DependentUpon>Hotboard.bilibili.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Hotboard.NeteaseMusic.cs"/>
+        <Compile Include="Hotboard.NeteaseMusic.Type.cs">
+            <DependentUpon>Hotboard.NeteaseMusic.cs</DependentUpon>
+        </Compile>
+        <Compile Include="IException\IException.Core.cs"/>
+        <Compile Include="IException\IException.EpicGames.cs"/>
+        <Compile Include="IException\IException.Hotboard.cs"/>
+        <Compile Include="IException\IException.minecraft.cs"/>
+        <Compile Include="IException\IException.Misc.cs"/>
+        <Compile Include="IException\IException.Steam.cs"/>
+        <Compile Include="IException\IException.Weather.cs"/>
+        <Compile Include="IException\IException.bilibili.cs"/>
+        <Compile Include="IException\IException.General.cs"/>
+        <Compile Include="IException\IException.github.cs"/>
+        <Compile Include="IException\IException.QQ.cs"/>
+        <Compile Include="Image\Image.BingDaily.cs"/>
+        <Compile Include="Image\Image.Compress.cs"/>
+        <Compile Include="Image\Image.Convert.cs"/>
+        <Compile Include="Image\Image.DailyNews.cs"/>
+        <Compile Include="Image\Image.DecodeForOtherDevices.cs"/>
+        <Compile Include="Image\Image.Gravator.cs"/>
+        <Compile Include="Image\Image.Motou.cs"/>
+        <Compile Include="Image\Image.nsfw.cs"/>
+        <Compile Include="Image\Image.nsfw.Type.cs">
+            <DependentUpon>Image.nsfw.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Image\Image.OCR.cs"/>
+        <Compile Include="Image\Image.OCR.Type.cs">
+            <DependentUpon>Image.OCR.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Image\Image.QRCode.cs"/>
+        <Compile Include="Image\Image.ToBase64.cs"/>
+        <Compile Include="Image\Image.WhyDontSayAnything.cs"/>
+        <Compile Include="API.HealthPlatformStatus.cs"/>
+        <Compile Include="API.HealthPlatformStatus.Type.cs">
+            <DependentUpon>API.HealthPlatformStatus.cs</DependentUpon>
+        </Compile>
+        <Compile Include="API.Usage.cs"/>
+        <Compile Include="HotBoard.Type.cs"/>
+        <Compile Include="Image\Image.BingDaily.Type.cs">
+            <DependentUpon>Image.BingDaily.cs</DependentUpon>
+        </Compile>
+        <Compile Include="minecraft.GetHistoryName.cs"/>
+        <Compile Include="minecraft.GetServerStatus.cs"/>
+        <Compile Include="minecraft.GetUserData.cs"/>
+        <Compile Include="minecraft.GetHistoryName.Type.cs">
+            <DependentUpon>minecraft.GetHistoryName.cs</DependentUpon>
+        </Compile>
+        <Compile Include="minecraft.GetServerStatus.Type.cs">
+            <DependentUpon>minecraft.GetServerStatus.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Minecraft.SearchMod.cs"/>
+        <Compile Include="Minecraft.SearchMod.Type.cs">
+            <DependentUpon>Minecraft.SearchMod.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Minecraft.Version.cs"/>
+        <Compile Include="Misc\Misc.ConvertTimestamp.cs"/>
+        <Compile Include="Misc\Misc.DetectTrackingCarrier.cs"/>
+        <Compile Include="Misc\Misc.DetectTrackingCarrier.Type.cs">
+            <DependentUpon>Misc.DetectTrackingCarrier.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Misc\Misc.GetHolidayCalendar.cs"/>
+        <Compile Include="Misc\Misc.GetHolidayCalendar.Type.cs">
+            <DependentUpon>Misc.GetHolidayCalendar.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Misc\Misc.GetLunarTime.cs"/>
+        <Compile Include="Misc\Misc.GetLunarTime.Type.cs">
+            <DependentUpon>Misc.GetLunarTime.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Misc\Misc.GetPhoneInfo.cs"/>
+        <Compile Include="Misc\Misc.GetProgrammerHistoryToday.cs"/>
+        <Compile Include="Misc\Misc.GetProgrammerHistoryToday.Type.cs">
+            <DependentUpon>Misc.GetProgrammerHistoryToday.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Misc\Misc.GetRandomNumberList.cs"/>
+        <Compile Include="Misc\Misc.GetTrackingCarriers.cs"/>
+        <Compile Include="Misc\Misc.GetTrackingInfo.cs"/>
+        <Compile Include="Misc\Misc.GetTrackingInfo.Type.cs">
+            <DependentUpon>Misc.GetTrackingInfo.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Misc\Misc.GetWorldTime.cs"/>
+        <Compile Include="Misc\Misc.PostDateDiff.cs"/>
+        <Compile Include="Network\Network.DNS.cs"/>
+        <Compile Include="Network\Network.GetMyIP.cs"/>
+        <Compile Include="Network\Network.GetMyIP.Type.cs">
+            <DependentUpon>Network.GetMyIP.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Network\Network.ICP.cs"/>
+        <Compile Include="Network\Network.IPInfo.cs"/>
+        <Compile Include="Network\Network.IPInfo.Type.cs">
+            <DependentUpon>Network.IPInfo.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Network\Network.Ping.cs"/>
+        <Compile Include="Network\Network.PingMyIP.cs"/>
+        <Compile Include="Network\Network.PortScan.cs"/>
+        <Compile Include="Network\Network.UrlStatus.cs"/>
+        <Compile Include="Network\Network.WeixinDomain.cs"/>
+        <Compile Include="Network\Network.WhoIs.cs"/>
+        <Compile Include="Network\Network.WhoIs.Type.cs">
+            <DependentUpon>Network.WhoIs.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="QQ.GetGroupData.cs"/>
+        <Compile Include="QQ.GetUserData.cs"/>
+        <Compile Include="QQ.GetGroupData.Type.cs">
+            <DependentUpon>QQ.GetGroupData.cs</DependentUpon>
+        </Compile>
+        <Compile Include="QQ.GetUserData.Type.cs">
+            <DependentUpon>QQ.GetUserData.cs</DependentUpon>
+        </Compile>
+        <Compile Include="random.Image.cs"/>
+        <Compile Include="Random.Image.Type.cs">
+            <DependentUpon>random.Image.cs</DependentUpon>
+        </Compile>
+        <Compile Include="random.Text.cs"/>
+        <Compile Include="Search.cs"/>
+        <Compile Include="Search.GetConfig.cs"/>
+        <Compile Include="Steam\Steam.GetUserData.cs"/>
+        <Compile Include="Steam\Steam.GetUserData.Type.cs">
+            <DependentUpon>Steam.GetUserData.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Steam\Steam.Servers.cs"/>
+        <Compile Include="Steam\Steam.Servers.Type.cs">
+            <DependentUpon>Steam.Servers.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Steam\Steam.SteamID.Converter.cs"/>
+        <Compile Include="Steam\Steam.SteamID.cs"/>
+        <Compile Include="Steam\Steam.SteamID.SteamIDType.cs"/>
+        <Compile Include="Text\Text.AES.Advanced.cs"/>
+        <Compile Include="Text\Text.AES.cs"/>
+        <Compile Include="Text\Text.AnalyzeText.cs"/>
+        <Compile Include="Text\Text.AnswerBook.cs"/>
+        <Compile Include="Text\Text.Base64.cs"/>
+        <Compile Include="Text\Text.CheckSemsitiveWords.Get.cs"/>
+        <Compile Include="Text\Text.CheckSensitiveWords.Analyze.cs"/>
+        <Compile Include="Text\Text.CheckSensitiveWords.Analyze.Type.cs">
+            <DependentUpon>Text.CheckSensitiveWords.Analyze.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Text\Text.CheckSensitiveWords.Fast.cs"/>
+        <Compile Include="Text\Text.Convert.cs"/>
+        <Compile Include="Text\Text.DailyWord.cs"/>
+        <Compile Include="Text\Text.Markdown.cs"/>
+        <Compile Include="Text\Text.MD5.cs"/>
+        <Compile Include="Text\Text.MD5.Verify.cs"/>
+        <Compile Include="Text\Text.Saying.cs"/>
+        <Compile Include="Text\Text.Translate.AI.cs"/>
+        <Compile Include="Text\Text.Translate.AI.Type.cs">
+            <DependentUpon>Text.Translate.AI.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Text\Text.Translate.cs"/>
+        <Compile Include="Text\Text.Translate.AI.GetConfig.cs"/>
+        <Compile Include="Text\Text.Translate.Type.cs">
+            <DependentUpon>Text.Translate.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Text\Text.WordMetaData.cs"/>
+        <Compile Include="Weather.GetWeather.cs"/>
+        <Compile Include="Weather.GetWeather.Type.cs">
+            <DependentUpon>Weather.GetWeather.cs</DependentUpon>
+        </Compile>
+        <Compile Include="WebParse\WebParse.ExtractImages.cs"/>
+        <Compile Include="WebParse\WebParse.GetMetaData.cs"/>
+        <Compile Include="WebParse\WebParse.ToMarkdown.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4"/>
+        <PackageReference Include="System.Buffers" Version="4.6.1"/>
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2"/>
+        <PackageReference Include="System.IO" Version="4.3.0"/>
+        <PackageReference Include="System.Memory" Version="4.6.3"/>
+        <PackageReference Include="System.Net.Http" Version="4.3.4"/>
+        <PackageReference Include="System.Numerics.Vectors" Version="4.6.1"/>
+        <PackageReference Include="System.Runtime" Version="4.3.1"/>
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2"/>
+        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>
+        <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0"/>
+        <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
+        <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="uapi-sdk-csharp-key.snk"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="docs\$method_Tempure.md"/>
+        <Content Include="docs\bilibili.GetArchives.md"/>
+        <Content Include="docs\bilibili.GetLiveRoomStatus.md"/>
+        <Content Include="docs\bilibili.GetRepliesList.md"/>
+        <Content Include="docs\bilibili.GetUserData.md"/>
+        <Content Include="docs\bilibili.GetVideoData.md"/>
+        <Content Include="docs\developer.develop.md"/>
+        <Content Include="docs\EpicGames.GetFreeGames.md"/>
+        <Content Include="docs\github.GetRepoData.md"/>
+        <Content Include="docs\hotboard.bilibili.md"/>
+        <Content Include="docs\hotboard.NeteaseMusic.md"/>
+        <Content Include="docs\Interface.common.md"/>
+        <Content Include="docs\Interface.Convert.md"/>
+        <Content Include="docs\Interface.Response.Header.md"/>
+        <Content Include="docs\minecraft.GetHistoryName.md"/>
+        <Content Include="docs\minecraft.GetServerStatus.md"/>
+        <Content Include="docs\minecraft.GetUserData.md"/>
+        <Content Include="docs\Misc.ConvertTimestamp.md"/>
+        <Content Include="docs\Misc.DetectTrackingCarrier.md"/>
+        <Content Include="docs\Misc.GetLunarTime.md"/>
+        <Content Include="docs\Misc.GetPhoneInfo.md"/>
+        <Content Include="docs\Misc.GetProgrammerHistoryToday.md"/>
+        <Content Include="docs\Misc.GetRandomNumberList.md"/>
+        <Content Include="docs\Misc.GetTrackingCarriers.md"/>
+        <Content Include="docs\Misc.GetTrackingInfo.md"/>
+        <Content Include="docs\Misc.GetWorldTime.md"/>
+        <Content Include="docs\Misc.PostDateDiff.md"/>
+        <Content Include="docs\Network.DNS.md"/>
+        <Content Include="docs\Network.GetMyIP.md"/>
+        <Content Include="docs\Network.ICP.md"/>
+        <Content Include="docs\Network.IPInfo.md"/>
+        <Content Include="docs\QQ.GetGroupData.md"/>
+        <Content Include="docs\QQ.GetUserData.md"/>
+        <Content Include="docs\Steam.GetUserData.md"/>
+        <Content Include="docs\Steam.SteamID.md"/>
+        <Content Include="docs\Text.Markdown.md"/>
+        <Content Include="docs\Weather.GetWeather.md"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
