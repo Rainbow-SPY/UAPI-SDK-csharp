@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\
 		{625E6AF6-B616-49F4-957C-AC5A17F522C7} = {625E6AF6-B616-49F4-957C-AC5A17F522C7}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK-v2-net10", "SDK-v2-net10\SDK-v2-net10.csproj", "{F52C61E1-4EBA-4137-BD40-D0D3F7D180B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,5 +23,9 @@ Global
 		{865C212E-126F-45AE-9B5C-66EA52C0A400}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{865C212E-126F-45AE-9B5C-66EA52C0A400}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{865C212E-126F-45AE-9B5C-66EA52C0A400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F52C61E1-4EBA-4137-BD40-D0D3F7D180B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F52C61E1-4EBA-4137-BD40-D0D3F7D180B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F52C61E1-4EBA-4137-BD40-D0D3F7D180B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F52C61E1-4EBA-4137-BD40-D0D3F7D180B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

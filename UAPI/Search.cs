@@ -7,6 +7,8 @@ using UAPI.IException;
 using static UAPI.Interface;
 using static UAPI.Type;
 
+#pragma warning disable CS8618
+
 namespace UAPI
 {
     /// <summary>
@@ -39,7 +41,6 @@ namespace UAPI
             {
                 ["query"] = query
             };
-
             if (!string.IsNullOrEmpty(site))
                 requestBody["site"] = site;
             if (!string.IsNullOrEmpty(filetype))

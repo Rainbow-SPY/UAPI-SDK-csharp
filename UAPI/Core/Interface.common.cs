@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using UAPI.Diagnostics;
 using UAPI.IException;
 using static Rox.Runtimes.LocalizedString;
 using static Rox.Runtimes.LogLibraries;
@@ -61,8 +62,17 @@ namespace UAPI
         {
             var targetUrl = requestUrl;
             var rawBodyType = GetRawBodyType(typeof(T));
+            var trace = UapiRequestTrace.Start(
+                requestUrl,
+                type.ToString(),
+                postContent,
+                contentType,
+                AuthenticationAPITokenKey,
+                typeof(T),
+                rawBodyType);
 
             WriteLog.Info(LogKind.Http, "配置 ServicePointManager 连接参数");
+            trace.Mark("配置 ServicePointManager 连接参数");
 
             try
             {
@@ -73,18 +83,26 @@ namespace UAPI
                     contentType,
                     AuthenticationAPITokenKey);
 
+                trace.Mark("SendApiRequestWithFallbackAsync returned response");
                 WriteLog.Info(LogKind.Http,
                     $"{_SEND_REQUEST}: {(type == SendRequestType.GET ? "GET" : "POST")} {targetUrl}");
                 if (response == null)
-                    throw new HttpRequestException("请求失败, 因为 response 为 null");
+                {
+                    var ex = new HttpRequestException("请求失败, 因为 response 为 null");
+                    trace.CaptureException(ex, -2, "GetResult<T>.ResponseNull");
+                    throw ex;
+                }
 
                 if (rawBodyType != null &&
                     rawBodyType != typeof(string) &&
                     rawBodyType != typeof(byte[]))
                 {
-                    throw new NotSupportedException($"BodyResult<TBody> 不支持的 Body 类型: {rawBodyType.FullName}");
+                    var ex = new NotSupportedException($"BodyResult<TBody> 不支持的 Body 类型: {rawBodyType.FullName}");
+                    trace.CaptureException(ex, -1, "GetResult<T>.UnsupportedRawBodyType");
+                    throw ex;
                 }
 
+                trace.Mark("准备读取响应 Body");
                 var (httpResponseMessage, responseData) = await ReadBodyOrRetryBackupAsync(
                     response,
                     requestUrl,
@@ -99,6 +117,7 @@ namespace UAPI
                 using (response)
                 {
                     var Headers = BuildResponseHeaders(response);
+                    trace.SetResponse(response, Headers, responseData);
 
                     WriteLog.Info("ToDictionary", "响应标头转换为字典");
                     WriteLog.Info(LogKind.Json, "序列化字典");
@@ -109,6 +128,8 @@ namespace UAPI
                     WriteLog.Info(LogKind.Http, $"异步读取响应内容, Type: {responseData?.GetType().Name}");
                     if (responseData == null)
                     {
+                        var ex = new HttpRequestException("请求失败, 因为响应 Body 为 null");
+                        trace.CaptureException(ex, statusCode, "GetResult<T>.ResponseBodyNull");
                         WriteLog.Error(LogKind.Http,
                             _void_value_null("GetResult<T>.HttpClient", "Content"));
                         return (null, statusCode);
@@ -130,6 +151,7 @@ namespace UAPI
 
                             WriteLog.Info(LogKind.Http,
                                 $"原始响应 Body 已写入 {typeof(T).Name}.Result, BodyType: {rawBodyType.Name}");
+                            trace.Mark($"原始响应 Body 已写入 {typeof(T).Name}.Result, BodyType: {rawBodyType.Name}");
                         }
                         else
                         {
@@ -143,34 +165,40 @@ namespace UAPI
                                 });
 
                             WriteLog.Info(LogKind.Json, "反序列化Json");
+                            trace.Mark($"JSON 反序列化完成: {typeof(T).FullName}");
                         }
 
                         SetHeaders(result, Headers);
                     }
                     catch (JsonSerializationException ex)
                     {
+                        trace.CaptureException(ex, -3, "GetResult<T>.JsonSerializationException");
                         WriteLog.Error(LogKind.Json,
                             $"JSON反序列化失败！类型：{typeof(T).FullName}，错误：{ex.Message}，堆栈：{ex.StackTrace}");
                         return (null, -3);
                     }
 
+                    trace.Mark($"GetResult<T> completed, StatusCode={statusCode}");
                     return (result, statusCode);
                 }
             }
             catch (TaskCanceledException e)
             {
+                trace.CaptureException(e, -2, "GetResult<T>.TaskCanceledException");
                 WriteLog.Error(LogKind.Http,
                     $"HttpClient 请求超时或被取消: {e.Message} - {e.StackTrace}");
                 return (null, -2);
             }
             catch (HttpRequestException e)
             {
+                trace.CaptureException(e, -2, "GetResult<T>.HttpRequestException");
                 WriteLog.Error(LogKind.Http,
                     $"HttpClient 请求失败, 请检查您的网络连接或反馈工单给工作人员: {e.Message} - {e.StackTrace}");
                 return (null, -2);
             }
             catch (Exception e)
             {
+                trace.CaptureException(e, -1, "GetResult<T>.Exception");
                 WriteLog.Error(LogKind.Exception, _Exception_With_xKind("GetResult<T>()", e));
                 return (null, -1);
             }
@@ -230,9 +258,24 @@ namespace UAPI
                 IsRequestSuccessfully = false
             };
             if (Type != null)
-                return priCheck(Type, NullValue, StatusCode, _Exception, _Error_Type, Error_Code, list);
+                return UapiFailureReporter.Finalize(
+                    priCheck(Type, NullValue, StatusCode, _Exception, _Error_Type, Error_Code, list),
+                    Type,
+                    NullValue,
+                    StatusCode,
+                    _Exception,
+                    _Error_Type,
+                    Error_Code);
+
             list.FailedReason = "Type = null";
-            return list;
+            return UapiFailureReporter.Finalize(
+                list,
+                Type,
+                NullValue,
+                StatusCode,
+                _Exception,
+                _Error_Type,
+                Error_Code);
         }
 
         private static FailedList priCheck<T>(T Type, string NullValue, int StatusCode, Exception _Exception,
@@ -505,12 +548,20 @@ namespace UAPI
             {
                 StatusCode = StatusCode,
                 IsRequestSuccessfully = false,
-                Result = result.Result
+                Result = result == null ? null : result.Result,
+                Headers = result == null ? null : result.Headers
             };
-            if (result.Result != null)
-                return priCheck(list, NullValue, StatusCode, _Exception, ErrorType, Error_Code, list);
-            list.FailedReason = "result = null";
-            return list;
+            if (result is { Result: { } })
+                return UapiFailureReporter.Finalize(
+                    priCheck(list, NullValue, StatusCode, _Exception, ErrorType, Error_Code, list),
+                    list,
+                    NullValue,
+                    StatusCode,
+                    _Exception,
+                    ErrorType,
+                    Error_Code);
+            list.FailedReason = result == null ? "result object = null" : "result = null";
+            return UapiFailureReporter.Finalize(list, list, NullValue, StatusCode, _Exception, ErrorType, Error_Code);
         }
 
         internal static FailedList IsGetStringSuccessful(BodyResult<string> result, string NullValue, int StatusCode,
@@ -520,12 +571,20 @@ namespace UAPI
             {
                 StatusCode = StatusCode,
                 IsRequestSuccessfully = false,
-                Result = result.Result
+                Result = result == null ? null : result.Result,
+                Headers = result == null ? null : result.Headers
             };
-            if (result.Result != null)
-                return priCheck(list, NullValue, StatusCode, _Exception, ErrorType, Error_Code, list);
-            list.FailedReason = "result = null";
-            return list;
+            if (result is { Result: { } })
+                return UapiFailureReporter.Finalize(
+                    priCheck(list, NullValue, StatusCode, _Exception, ErrorType, Error_Code, list),
+                    list,
+                    NullValue,
+                    StatusCode,
+                    _Exception,
+                    ErrorType,
+                    Error_Code);
+            list.FailedReason = result == null ? "result object = null" : "result = null";
+            return UapiFailureReporter.Finalize(list, list, NullValue, StatusCode, _Exception, ErrorType, Error_Code);
         }
 
 
@@ -537,6 +596,7 @@ namespace UAPI
                 return _2UAPI_Request_Url + originalUrl.Substring(_UAPI_Request_Url.Length);
 
             WriteLog.Warning(LogKind.Http, $"requestUrl {originalUrl} 不包含基础前缀，无法切换到备用地址");
+            UapiRequestTrace.Current?.Mark($"requestUrl {originalUrl} 不包含基础前缀，无法切换到备用地址");
             return originalUrl;
         }
 
@@ -571,8 +631,11 @@ namespace UAPI
                 WriteLog.Warning(
                     LogKind.Http,
                     $"响应头已返回 {(int)response.StatusCode}，但读取响应 Body 失败，准备切换备用站: {ex.Message}{innerMessage}");
+                UapiRequestTrace.Current?.CaptureException(ex, (int)response.StatusCode,
+                    "ReadBodyOrRetryBackupAsync.PrimaryBodyReadFailed");
 
                 var backupUrl = SwitchToBackupUrl(requestUrl);
+                UapiRequestTrace.Current?.SetBackupUrl(backupUrl);
                 response.Dispose();
 
                 if (backupUrl == requestUrl)
@@ -586,7 +649,6 @@ namespace UAPI
                     contentType,
                     authenticationApiTokenKey,
                     TimeSpan.FromSeconds(30));
-
                 try
                 {
                     // 备用站 body 最多等 30 秒
@@ -625,7 +687,11 @@ namespace UAPI
             var completedTask = await Task.WhenAny(readTask, Task.Delay(timeout));
 
             if (completedTask != readTask)
-                throw new TimeoutException($"读取响应 Body 超时，已等待 {timeout.TotalSeconds} 秒");
+            {
+                var ex = new TimeoutException($"读取响应 Body 超时，已等待 {timeout.TotalSeconds} 秒");
+                UapiRequestTrace.Current?.CaptureException(ex, -2, "ReadResponseBodyAsync.Timeout");
+                throw ex;
+            }
 
             return await readTask;
         }
@@ -646,11 +712,13 @@ namespace UAPI
 
         private static System.Type GetRawBodyType(System.Type resultType)
         {
-            while (resultType != null && resultType != typeof(object))
+            while (resultType is null || resultType == typeof(object))
             {
-                if (resultType.IsGenericType &&
-                    resultType.GetGenericTypeDefinition() == typeof(BodyResult<>))
-                    return resultType.GetGenericArguments()[0];
+                if (resultType.IsGenericType)
+                {
+                    if (resultType.GetGenericTypeDefinition() == typeof(BodyResult<>))
+                        return resultType.GetGenericArguments()[0];
+                }
 
                 resultType = resultType.BaseType;
             }
@@ -735,6 +803,7 @@ namespace UAPI
             try
             {
                 WriteLog.Info(LogKind.Http, $"尝试主站请求: {requestUrl}");
+                UapiRequestTrace.Current?.Mark($"尝试主站请求: {requestUrl}");
 
                 return await SendApiRequestOnceAsync(
                     httpClient,
@@ -748,14 +817,20 @@ namespace UAPI
             catch (TaskCanceledException ex)
             {
                 WriteLog.Warning(LogKind.Http, $"主站请求超时，准备切换备用站: {ex.Message}");
+                UapiRequestTrace.Current?.CaptureException(ex, -2,
+                    "SendApiRequestWithFallbackAsync.PrimaryTaskCanceled");
             }
             catch (HttpRequestException ex)
             {
                 WriteLog.Warning(LogKind.Http, $"主站请求失败，准备切换备用站: {ex.Message}");
+                UapiRequestTrace.Current?.CaptureException(ex, -2,
+                    "SendApiRequestWithFallbackAsync.PrimaryHttpRequestException");
             }
             catch (WebException ex)
             {
                 WriteLog.Warning(LogKind.Http, $"主站网络异常，准备切换备用站: {ex.Message}");
+                UapiRequestTrace.Current?.CaptureException(ex, -2,
+                    "SendApiRequestWithFallbackAsync.PrimaryWebException");
             }
 
             var backupUrl = SwitchToBackupUrl(requestUrl);
@@ -763,6 +838,7 @@ namespace UAPI
             if (backupUrl == requestUrl)
                 throw new HttpRequestException($"主站请求失败，且无法切换备用站: {requestUrl}");
 
+            UapiRequestTrace.Current?.SetBackupUrl(backupUrl);
             WriteLog.Warning(LogKind.Downloader, $"切换到备用站点: {backupUrl}");
 
             return await SendApiRequestOnceAsync(
@@ -784,6 +860,7 @@ namespace UAPI
             string authenticationApiTokenKey,
             TimeSpan timeout)
         {
+            UapiRequestTrace.Current?.Mark($"SendApiRequestOnceAsync: {type} {url}, Timeout={timeout.TotalSeconds}s");
             using var cts = new CancellationTokenSource(timeout);
             using var request =
                 new HttpRequestMessage(type == SendRequestType.GET
@@ -800,19 +877,24 @@ namespace UAPI
                         .ComputeHash(Encoding.UTF8.GetBytes(authenticationApiTokenKey.Trim())))
                     .Replace("-", "").ToLower();
                 WriteLog.Info(LogKind.Http, $"Bearer SHA256: {encryptedToken}");
+                UapiRequestTrace.Current?.Mark($"Bearer SHA256: {encryptedToken}");
             }
 
             if (type != SendRequestType.POST)
+            {
+                UapiRequestTrace.Current?.Mark("HttpClient.SendAsync(GET, ResponseHeadersRead) start");
                 return await httpClient.SendAsync(
                     request,
                     HttpCompletionOption.ResponseHeadersRead,
                     cts.Token);
+            }
 
             switch (postContent)
             {
                 case HttpContent client:
                     request.Content = client;
                     WriteLog.Info("postContent is HttpContent");
+                    UapiRequestTrace.Current?.Mark("postContent is HttpContent");
                     break;
                 case string str:
                     request.Content = new StringContent(
@@ -822,6 +904,8 @@ namespace UAPI
                     );
                     WriteLog.Info(
                         $"postContent is string,auto build new StringContent,add ContentType: {contentType}");
+                    UapiRequestTrace.Current?.Mark(
+                        $"postContent is string, Length={str.Length}, ContentType={contentType}");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                     break;
                 case byte[] bytes:
@@ -829,6 +913,8 @@ namespace UAPI
                     request.Content = new ByteArrayContent(bytes);
                     WriteLog.Info(
                         $"postContent is byte[], new ByteArrayContent: {bytes.Length}, new MediaTypeHeaderValue({contentType})");
+                    UapiRequestTrace.Current?.Mark(
+                        $"postContent is byte[], Length={bytes.Length}, ContentType={contentType}");
                     if (!string.IsNullOrWhiteSpace(contentType))
                     {
                         request.Content.Headers.ContentType =
@@ -841,7 +927,9 @@ namespace UAPI
                 {
                     if (postContent != null)
                     {
-                        WriteLog.Info("postContent is null,auto serialize content");
+                        WriteLog.Info("postContent is object, auto serialize content");
+                        UapiRequestTrace.Current?.Mark(
+                            $"postContent is object, Type={postContent.GetType().FullName}, auto serialize content");
                         request.Content = new StringContent(
                             JsonConvert.SerializeObject(postContent),
                             Encoding.UTF8,
@@ -856,6 +944,7 @@ namespace UAPI
 
             // 关键：只等响应头，不先把整个 body 缓冲完。
             // 某些网络下 body 阶段卡住时，GetAsync 默认会直接超时。
+            UapiRequestTrace.Current?.Mark("HttpClient.SendAsync(POST, ResponseHeadersRead) start");
             return await httpClient.SendAsync(
                 request,
                 HttpCompletionOption.ResponseHeadersRead,
@@ -866,6 +955,7 @@ namespace UAPI
         internal static HttpClientHandler CreateOptimizedHttpClientHandler()
         {
             WriteLog.Info(LogKind.Http, "创建优化的 HttpClientHandler 实例");
+            UapiRequestTrace.Current?.Mark("创建优化的 HttpClientHandler 实例");
 
             ServicePointManager.UseNagleAlgorithm = false;
             ServicePointManager.Expect100Continue = false;

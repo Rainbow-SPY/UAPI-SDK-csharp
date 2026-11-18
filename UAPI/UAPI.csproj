@@ -69,9 +69,6 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="mscorlib"/>
-        <Reference Include="Newtonsoft.Json">
-            <HintPath>..\..\..\$Release\Rox\Newtonsoft.Json.dll</HintPath>
-        </Reference>
         <Reference Include="Rox.Runtimes">
             <HintPath>..\..\..\$Release\Rox\Rox.Runtimes.dll</HintPath>
         </Reference>
